@@ -196,7 +196,8 @@ def get_batch_student(request):
         l_dict = {}
         
         for f in l:
-            re_obj = re.search(".*_((\d{8})\d{6})_.*", f)
+            # re_obj = re.search(".*_((\d{8})\d{6})_.*", f)
+            re_obj = re.search(r".*_((\d{8})\d{6})_.*", f)
             if re_obj:
                 recorded_on = re_obj.group(1)
                 l_dict[recorded_on] = f
@@ -206,7 +207,8 @@ def get_batch_student(request):
         split_by_date = OrderedDict()
 
         for r in sorted_by_date:
-            re_obj = re.search(".*_((\d{8})\d{6})_.*", r)
+            # re_obj = re.search(".*_((\d{8})\d{6})_.*", r)
+            re_obj = re.search(r".*_((\d{8})\d{6})_.*", r)
             if re_obj:
                 recorded_on = re_obj.group(2)
                 if  recorded_on in split_by_date:

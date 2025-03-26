@@ -298,7 +298,8 @@ def get_recording(request):
     total_length = 0
     
     for f in l:
-        re_obj = re.search(".*_((\d{8})\d{6})_.*", f)
+        # re_obj = re.search(".*_((\d{8})\d{6})_.*", f)
+        re_obj = re.search(r".*_((\d{8})\d{6})_.*", f)
         if re_obj:
             recorded_on = re_obj.group(1)
             l_dict[recorded_on] = f
@@ -312,7 +313,8 @@ def get_recording(request):
 
     split_by_date = OrderedDict()
     for r in sorted_by_date:
-        re_obj = re.search(".*_((\d{8})\d{6})_.*", r)
+        # re_obj = re.search(".*_((\d{8})\d{6})_.*", r)
+        re_obj = re.search(r".*_((\d{8})\d{6})_.*", r)
         if re_obj:
             recorded_on = re_obj.group(2)
             if  recorded_on in split_by_date:
@@ -366,7 +368,8 @@ def get_recording_left_side(request):
         total_length = 0
         
         for f in l:
-            re_obj = re.search(".*_((\d{8})\d{6})_.*", f)
+            # re_obj = re.search(".*_((\d{8})\d{6})_.*", f)
+            re_obj = re.search(r".*_((\d{8})\d{6})_.*", f)
             if re_obj:
                 recorded_on = re_obj.group(1)
                 l_dict[recorded_on] = f
@@ -380,7 +383,8 @@ def get_recording_left_side(request):
         split_by_date = OrderedDict()
 
         for r in sorted_by_date:
-            re_obj = re.search(".*_((\d{8})\d{6})_.*", r)
+            # re_obj = re.search(".*_((\d{8})\d{6})_.*", r)
+            re_obj = re.search(r".*_((\d{8})\d{6})_.*", r)
             if re_obj:
                 recorded_on = re_obj.group(2)
                 if  recorded_on in split_by_date:
