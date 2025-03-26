@@ -1,0 +1,82 @@
+{% load custom_tags %}
+<div class="sidebar">
+    <div class="sidebar__category">
+        <div class="sidebar__category__loginWrap mb-0">
+            <div class="sidebar__category__loginWrap--container">
+                <div>
+                    {% if user.is_authenticated %}
+                        <p class="mb-2">Wellcome {{request.user.first_name}}</p>
+                    {% else %}
+                        <p class="mb-2">Wellcome</p>
+                    {% endif %}
+                    <div style="display: flex;">
+                        
+                        {% if user.is_authenticated %}
+                            <a class="btn btn-outline-white rounded-60 mr-2 px-4 cls_loginlogout-link mr-3" href="/classroom/logout">Logout</a>
+                            <div style="display: flex;font-size: 10px;flex-direction: column;">
+                                <p style="margin: 0;">Last Login</p>
+                                <p style="margin: 0;">{{request.user.last_login}}</p>
+                            </div>
+                        {% else %}
+                            <button class="btn btn-outline-white rounded-60 mr-2 px-4 cls_login">Login</button>
+                            <button class="btn btn-outline-white rounded-60 px-4 cls_register">Register</button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar__category--container">
+
+            <a href="/" class="side-link d-block pt-0"> <i class="icon-home mr-2"></i> Home</a>
+
+            <div class="acc">
+                <div class="acc__card">
+                    <div class="acc__title active"><i class="icon-files-empty mr-2"></i> All Courses</div>
+                    <div class="acc__panel" style="display: block;">
+                        <ul class="sub-categories all-courses">
+                        {% for i in category_all %}
+                            <li class="sidebar__category--item" id="course-{{forloop.counter}}-tab"> <a href="#sub-{{forloop.counter}}" data-target="{{i.slug}}">{{i.name}} </a></li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="acc__card">
+                    <div class="acc__title"><i class="icon-learning-path mr-2"></i>Learning Path</div>
+                    <div class="acc__panel">
+                        <ul class=" sidebar-learning-path">
+                        {% for i in learning_paths %}
+                            <li><a href="/learning-path/{{i.slug}}">{{i.heading}}</a></li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <a href="/blog/" class="side-link d-block"> <i class="icon-blog mr-2"></i> Blog</a>
+
+            <hr/>
+            <a href="/about-us/" class="side-link d-block py-2">About us</a>
+            <a href="/contact-us/" class="side-link d-block py-2">contact us</a>
+            
+        </div>
+    </div>
+    {% for i in category_all %}
+        {% get_category_course i.slug as all_course %}
+        <ul class="sidebar__sub-category" id="sub-{{i.slug}}" role="tabpanel" aria-labelledby="sub-{{forloop.counter}}-tab">
+        
+            <li class="sub-headingwrap">
+		<div class="sidebar__sub-category--heading">
+                    <span class="back-btn"></span> {{i.name}}
+                </div>
+            </li>
+            {% for j in all_course %}
+                <li><a href="/{{j.slug}}">{{j.name}}</a></li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+    
+</div>
+<div class="menu-overlay">
+    <span class="close close--blue-cta" id="close-sidebar">&#x2715;</span>
+</div>

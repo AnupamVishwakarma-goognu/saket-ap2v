@@ -1,0 +1,271 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+{% load ap2v_course_tag %}
+{% load compress %}
+{% block title %} AP2V {% endblock %}
+{% block css %}
+{% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/others.css' %}" type="text/css" /> {% endcomment %}
+  {% compress css %}
+    {% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/others.css' %}" type="text/css" /> {% endcomment %}
+    <link media="all" rel="stylesheet" href="/static/v4_home_static/css/others.css" type="text/css" />
+  {% endcompress %}
+
+  <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.ap2v.com/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Refer & Earn",
+            "item": "https://www.ap2v.com/refer-earn/"
+        }]
+        }
+    </script>
+{% endblock css %}
+{% block content %}
+<div class="main-wrap">
+  {% include 'v4_home/sub_pages/push-down.html' %}
+  {% include 'v4_home/sub_pages/navigation.html' %}
+
+  <!-- Banner -->
+  <div class="banner-inner refer-earn">
+    <div class="container">
+      <div class="row banner-inner--content flex-column">
+        {% include 'v4/breadcrumb.html' %}<!-- // breadcrumb -->
+        <div class="d-flex">
+          <div class="banner-inner--left-pan d-flex flex-column justify-content-center">
+            <h1 class="text-secondary">Refer & Earn</h1>
+            <p class="text-gray-lightest mb-0">{{configration.events_header_text}}</p>
+          </div>
+          <div class="banner-inner--right-pan d-none d-xl-block">
+            <img src="{% static 'v4_home_static/images/refer-earn.png'%}" alt="Contact us">
+          </div>
+        </div><!-- slick-slide d-flex-->
+      </div><!-- // row -->
+    </div>
+  </div><!-- // Banner -->
+
+
+  <div class="spacer mt-0"></div><!-- // Spacer -->
+  <div class="container mb-5">
+    <div class="row mt-5 position-relative">
+      <div class="hr_line d-none d-md-block"></div>
+      <div class="col-xs-12 col-sm-4 pb-5 pb-md-0">
+        <div class="steps-wrap">
+          <span class="step-1">
+            <img src="{% static 'images/refer.svg' %}">
+            <small>Step 1</small>
+          </span>
+          <h3>Refer your Friends <sup></sup></h3>
+          <p>AP2V Gurgaon giving you an offer to refer and earn the best rewards. Share with us your Friends or
+            Relatives.</p>
+          <div class="arrow-1 d-none d-md-block">
+            <img src="{% static 'images/arrow-right.svg' %}">
+          </div>
+        </div>
+      </div><!-- steps-wrap-->
+      <div class="col-xs-12 col-sm-4 pb-5 pb-md-0">
+        <div class="steps-wrap">
+          <span class="step-2">
+            <img src="{% static 'images/certificate.svg' %}">
+            <small>Step 2</small>
+          </span>
+          <h3>Your Friends Enroll<sup></sup></h3>
+          <p>When you refer a friend and invite them to join us, you will earn money or a discount.</p>
+          <div class="arrow-1 d-none d-md-block">
+            <img src="{% static 'images/arrow-right.svg' %}">
+          </div>
+        </div>
+      </div><!-- steps-wrap-->
+      <div class="col-xs-12 col-sm-4">
+        <div class="steps-wrap">
+          <span class="step-3">
+            <img src="{% static 'images/gift-card.svg' %}">
+            <small>Step 3</small>
+          </span>
+          <h3>You Earn a Gift Card<sup></sup></h3>
+          <p>Once she/he enrolls, you will get Rs. 500 cash or Rs. 1000 course discount.</p>
+        </div>
+      </div><!-- steps-wrap-->
+    </div>
+  </div>
+
+  <section class="referal bg-gray">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-lg-5">
+          <div class="refer-form">
+            <h2 class="mb-5 align-items-start">Referral Details</h2>
+            <form id="refer_and_earn_form">
+              {% csrf_token %}
+
+              <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                    aria-controls="home" aria-selected="true">Your Information</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                    aria-controls="profile" aria-selected="false">Friends Information</a>
+                </li>
+              </ul>
+
+              <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                  <div class="form-group">
+                    <div class="input-effect">
+                      <input type="text" name="c_name" id="c_name" class="form-control animation-input" placeholder=" " required>
+                      <label>Name</label>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="input-effect">
+                      <input type="number" name="c_phone" id="c_phone" class="form-control animation-input" placeholder=" " required>
+                      <label>Phone Number</label>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <p>Are you Registered Student of AP2V</p>
+                    <div class="radio">
+                      <label class="mr-3">
+                        <input type="radio" name="optionsR" id="optionsRadios1" value="yes" checked required>
+                        Yes
+                      </label>
+
+                      <label>
+                        <input type="radio" name="optionsR" id="optionsRadios2" value="no" required>
+                        No
+                      </label>
+                    </div>
+                  </div>
+
+                </div>
+
+
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                  <div class="form-group">
+                    <div class="input-effect">
+                      <input type="text" class="form-control animation-input" name="f_name"  id="f_name" placeholder=" " required>
+                      <label>Name</label>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="input-effect">
+                      <input type="number" class="form-control animation-input" name="f_phone" id="f_phone" placeholder=" " required>
+                      <label> Phone Number</label>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="input-effect">
+                      <input type="email" class="form-control animation-input" name="f_email" id="f_email" placeholder=" " required>
+                      <label>Email Address</label>
+                    </div>
+                  </div>
+
+                  {% comment %} <div class="form-group">
+                    <div class="input-effect">
+                      <input type="text" class="form-control animation-input" name="f_designation" placeholder=" "
+                        required>
+                      <label>Designation</label>
+                    </div>
+                  </div> {% endcomment %}
+
+                  <span id="success_message3r" style="color:green;">Thanks, Our counsler will connect both of you.</span>
+                  <span id="error_message3r" style="color:red;">Something went wrong </span>
+                  <div class="form-group">
+                    <button type="submit" id="referEarnSubmit" class="btn btn-lg btn-primary">Submit</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-7 pl-5">
+          <img src="{% static 'v4_home_static/images/refer-a-friends.png'%}" class="img-fluid" alt="refer_and_earn_form">
+        </div>
+      </div>
+    </div><!-- //container -->
+
+  </section><!-- // referal -->
+
+  {% comment %} {% include 'v4_home/sub_pages/modals.html' %} {% endcomment %}
+
+
+
+
+
+
+<script>
+    $("#success_message3r").hide()
+    $("#error_message3r").hide()
+
+    $( "#refer_and_earn_form" ).submit(function( event ) {
+        c_name = $("#c_name").val()
+        c_phone = $("#c_phone").val()
+        f_name = $("#f_name").val()
+        f_phone = $("#f_phone").val()
+        f_email = $("#f_email").val()
+        //reg = $("#optionsR").val()
+        reg = $('input[name="optionsR"]:checked').val();
+
+        mydata = {
+            reference: "ap2v.com",
+            name: f_name,
+            mobile:f_phone,
+            email:f_email,
+            comments: window.location.href,
+            source_ip: document.getElementById("source_ip").value,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            message : "Refer and Earn Program. Refer by:-  Referral Name: "+c_name+" ,Referral Mobile: "+c_phone+", Registered in ap2v:"+reg
+        }
+
+        $("#referEarnSubmit").prop("disabled", true);
+        // add spinner to button
+        $("#referEarnSubmit").html(
+            '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submiting...'
+        );
+
+        $.ajax({
+            url : "/create_enquiry",
+            method : "POST",
+            data : mydata,
+            success:function(data) {
+                if (data.code == 1){
+                    $("#error_message3r").hide()
+                    c_name = $("#c_name").val("")
+                    c_phone = $("#c_phone").val("")
+                    f_name = $("#f_name").val("")
+                    f_phone = $("#f_phone").val("")
+                    f_email = $("#f_email").val("")
+                    $("#success_message3r").show()
+                }
+                else{
+                    $("#error_message3r").show()
+                }           
+            },
+            error:function(data){
+                $("#error_message3r").show()
+            }
+        })
+
+        $("#referEarnSubmit").prop("disabled", false);
+        // add spinner to button
+        $("#referEarnSubmit").html(
+            '<span class="" aria-hidden="true"></span> Submit'
+        );
+
+        event.preventDefault();
+    });
+</script>
+  {% endblock content %}

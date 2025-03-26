@@ -1,0 +1,246 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  {% include 'home/header.html' %}
+  <body class="fixed-navigation">
+
+  <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NBG7NXZ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
+    <!-- main banner and menu container starts here  -->
+    <div class="container-fluid side-collapse-container">
+      <div class="row">
+        <!-- header Satrts here -->
+        <header class="rel">
+          <!-- navbar Starts here -->
+	  {% include 'home/navigation.html' %}
+          <!-- navbar Ends here -->
+
+          <!-- home banner starts here -->
+          <div class="bannerSm-wrap">
+
+          <!-- inner banner starts here -->
+          <div class="inner-banner">
+            <div class="banner-content">
+            <div class="container">
+              <div class="row">
+
+                <ol class="breadcrumb mb-5">
+                  <li><a href="/">Home</a></li>
+                  <li class="active">Refer &amp; Earn</li>
+                </ol><!-- /.breadcrumb -->
+
+                <div class="inner-banner-wrap">
+                  <div class="inner-content">
+                    <h1>Refer &amp; Earn</h1>
+                  </div>
+
+                  <div class="pull-right call-to-action hidden-xs hidden-sm">
+                    <!-- <a href="tel:+918306996216"><span class="icon-phone"></span>+918306996216</a> -->
+                    <a href="#" data-toggle="modal" data-target="#rac-call"><span class="icon-phone" ></span>{{configration.mobile}}</a>
+                    <a href="#" data-toggle="modal" data-target="#rac-down"><span class="icon-mail"></span>Enroll Now</a>
+                  </div>
+                  <div class="clearfix"></div>
+                </div><!-- /.inner-banner-content -->
+
+
+                                                                <!-- Modal for rac-call -->
+                                                                <div class="modal fade" id="rac-call" role="dialog">
+                                                                  <div class="modal-content-call">
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                    <div class="form-wrap-call">
+                                                                      <form method="post" action="{% url 'contact-popup-enquiry-call' %}" id="contact_popup_form">
+                                                                        {% csrf_token %}
+                                                                        <ul>
+                                                                          <li class="form-group">
+                                                                            <input type="number" name="mobile_number" class="form-control"  placeholder="Mobile Number*" required>
+                                                                          </li>
+
+                                                                          <li class="form-group">
+                                                                            <button type="submit" class="btn-lg btn-default">Submit</button>
+                                                                          </li>
+                                                                        </ul>
+                                                                      </form>
+                                                                    </div><!-- /. Form wrap -->
+                                                                  </div>
+                                                                </div>
+                                                              </div> <!-- /. Modal for rac-call -->
+
+
+                                        <!-- Modal for rac-down -->
+                                        <div class="modal fade" id="rac-down" role="dialog">
+                                          <div class="modal-content-call">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <div class="form-wrap-call">
+                                              <form method="post" action="{% url 'contact-popup-enquiry-down' %}" id="contact_popup_form">
+                                                {% csrf_token %}
+                                                <ul>
+                                                  <li class="form-group">
+                                                    <input type="email" name="email_address" class="form-control" placeholder="e.g. example@gmail.com*" required>
+                                                  </li>
+
+                                                  <li class="form-group">
+                                                    <input type="number" name="mobile_number" class="form-control"  placeholder="Mobile Number*" required>
+                                                  </li>
+
+                                                  <li class="form-group">
+                                                    <button type="submit" class="btn-lg btn-default">Submit</button>
+                                                  </li>
+                                                </ul>
+                                              </form>
+                                            </div><!-- /. Form wrap -->
+                                          </div>
+                                        </div>
+                                      </div> <!-- /. Modal for rac-down -->
+
+
+              </div><!-- /.row -->
+            </div><!-- /.container -->
+            </div>
+          </div><!-- inner banner ends here -->
+
+          <div class="inner-overlay">
+		  <img src="{% static 'images/event-main.jpg' %}" class="img-responsive">
+          </div><!-- inner overlay ends here -->
+
+          </div><!-- home banner ends here -->
+        </header><!-- header ends here -->
+      </div><!-- row ends here -->
+      <div class="mask"></div>
+    </div><!-- main banner and menu container ends here  -->
+
+    <section>
+      <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="how-it-work__heading text-center">
+                    <h2 class="">Refer &amp; Earn</h2>
+                </div>
+            </div>
+        </div><!-- // Row -->
+
+        <div class="row mt-50 rel">
+            <div class="hr_line hidden-xs"></div>
+            <div class="col-xs-12 col-sm-4">
+              <div class="steps-wrap">
+                <span class="step-1">
+			<img src="{% static 'images/refer.svg' %}">
+                  <small>Step 1</small>
+                </span>
+                <h3>Refer your Friends <sup></sup></h3>
+		<p>AP2V Gurgaon giving you an offer to refer and earn the best rewards. Share with us your Friends or Relatives.</p>
+                <div class="arrow-1 hidden-xs">
+			<img src="{% static 'images/arrow-right.svg' %}">
+                </div>
+              </div>
+            </div><!-- steps-wrap-->
+            <div class="col-xs-12 col-sm-4">
+              <div class="steps-wrap">
+                  <span class="step-2">
+			  <img src="{% static 'images/certificate.svg' %}">
+                    <small>Step 2</small>
+                  </span>
+                <h3>Your Friends Enroll<sup></sup></h3>
+		<p>When you refer a friend and invite them to join us, you will earn money or a discount.</p>
+                <div class="arrow-1 hidden-xs">
+			<img src="{% static 'images/arrow-right.svg' %}">
+                  </div>
+              </div>
+            </div><!-- steps-wrap-->
+            <div class="col-xs-12 col-sm-4">
+              <div class="steps-wrap">
+                  <span class="step-3">
+			  <img src="{% static 'images/gift-card.svg' %}">
+                    <small>Step 3</small>
+                  </span>
+                <h3>You Earn a Gift Card<sup></sup></h3>
+		<p>Once she/he enrolls, you will get Rs. 500 cash or Rs. 1000 course discount.</p>
+              </div>
+            </div><!-- steps-wrap-->
+        </div>
+      </div><!-- /.container -->
+    </section><!-- /.section -->
+
+
+    <section class="referal">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-7">
+            <div class="refer-form">
+              <h2>Referral Details</h2>
+	      <form id="refer_and_earn_form" method="post">
+		      {% csrf_token %}
+                <div class="row">
+                  <div class="col-xs-12 col-sm-6">
+                    <div class="refer-form-box your-info">
+                      <h3>YOUR INFORMATION</h3>
+                      <div class="form-group">
+                        <input type="text" name="c_name" class="form-control" placeholder="Name" required>
+                      </div>
+                      <div class="form-group">
+                        <input type="number" name="c_phone" class="form-control" placeholder="Phone No." required>
+                      </div>
+
+                      <div class="form-group">
+                        <p>Are you Registered Student of AP2V</p>
+                        <div class="radio">
+                          <label class="mr-10">
+                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="yes" checked required>
+                            Yes
+                          </label>
+
+                          <label>
+                            <input type="radio" name="optionsRadios" id="optionsRadios2" value="no" required>
+                            No
+                          </label>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6">
+                    <div class="refer-form-box friend-info">
+                      <h3>FRIEND INFORMATION</h3>
+
+                      <div class="form-group">
+                        <input type="text" class="form-control" name="f_name" placeholder="Name" required>
+                      </div>
+                      <div class="form-group">
+                        <input type="number" class="form-control" name="f_phone" placeholder="Phone No." required>
+                      </div>
+                      <div class="form-group">
+                        <input type="email" class="form-control" name="f_email" placeholder="Email ID" required>
+                      </div>
+                      <div class="form-group">
+                        <input type="text" class="form-control" name="f_designation" placeholder="Designation">
+                      </div>
+
+                      <div class="form-group">
+                          <button type="submit" class="btn-lg btn-default">Submit</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+
+          </div>
+
+          <div class="col-sm-5"></div>
+        </div>
+      </div><!-- //container -->
+
+    </section><!-- // referal -->
+
+    <!-- footer section starts here -->
+    {% include 'home/footer.html' %}
+    <!-- footer section Ends here -->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/common.js"></script>
+  </body>
+</html>

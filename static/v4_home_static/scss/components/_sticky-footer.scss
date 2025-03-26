@@ -1,0 +1,115 @@
+.sticky-bottom {
+    @include size(100%, 55px);
+    background-color: $white;
+    position: fixed;
+    // bottom: -60px;
+    bottom: 0;
+    left: 0;
+    transform: translateX(0);
+    border-radius:0;
+    color: $black;
+    z-index: 9;
+    // transition: all .5s ease-in;
+    // opacity: 0;
+    box-shadow: 0 0 15px rgba($black, .2);
+
+    @include media-breakpoint-up(md) {
+        @include size(500px, 55px);
+        border-radius: 4px 4px 0 0;
+        left: 50%;
+        transform: translateX(-50%);
+        overflow: hidden;
+    }
+
+    &.bottom-visible {
+        bottom: 0;
+        opacity: 1;
+    }
+
+    &__list {
+        display: flex;
+        margin: 0;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px 4px 0 0;
+        overflow: hidden;
+
+        &--item {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: $headings-font-weight;
+            color: $gray-dark;
+            font-size: $font-size-xxs;
+            flex: 1;
+            text-transform: uppercase;
+
+            @include media-breakpoint-up(md) {
+                font-size: $font-size-base;
+            }
+
+            &:hover {
+                color: $gray-darker;
+            }
+
+            &:not(:last-child) {
+                border-right: 1px solid rgba($white, .2);
+            }
+
+            i {
+                @include size(18px, 17px);
+                display: inline-block;
+                margin-right: 10px;
+                font-size: $h4-font-size;
+            }
+
+            &.enroll-now {
+                background-color: $primary;
+                color: $white;
+                border: none;
+
+                &:hover {
+                    color: rgba($white, .9);
+                }
+            }
+        }
+    }
+
+    .icon-call {
+        // background-image: url(#{$path}/sticky-sprite.svg);
+        // background-position: 0 0;
+
+        font-family: 'icomoon' !important;
+        color: $primary;
+
+        &::before {
+            content: "\e91a";
+        }
+    }
+    
+    .icon-enroll {
+        // background-image: url(#{$path}/sticky-sprite.svg);
+        // background-position: -21px 0;
+
+        font-family: 'icomoon' !important;
+        color: $white;
+
+        &::before {
+            content: "\e918";
+        }
+    }
+    
+    .icon-chat {
+        // background-image: url(#{$path}/sticky-sprite.svg);
+        // background-position: -42px 0;
+
+        font-family: 'icomoon' !important;
+        color: $primary;
+
+        &::before {
+            content: "\e919";
+        }
+    }
+}

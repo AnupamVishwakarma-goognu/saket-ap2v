@@ -1,0 +1,165 @@
+{% load static %}
+{% load ap2v_course_tag %}
+{% load custom_tags %}
+
+<div class="dashboard__leftPan">
+    <div class="accordion" id="dashboard" style="padding-top: 10px;">
+        {% for i in all_instructor_batch  %}
+            {% if i.batch_name %}
+                
+                {% check_remaning_batch_day i.end_date_time as batch_end %}
+                <div class="white-box mb-4 {% if batch_end %}last-daysleft {% endif %}">
+                    {% if batch_end %}
+                        <div class="last-daysleft--mgs" style="position: unset;width: 130px;margin-top: -26px;margin-bottom: 15px;">{{batch_end}}</div>
+                    {% endif %}
+                    <div class="card-header" id="course-{{forloop.counter}}">
+                        <div class="dashboard__leftPan--course {% if active_link %}{% if active_link == 'couCur-'|add:i.batch_name %} {% else %}collapsed{% endif %}{% else %}{% if forloop.counter == 1 %} {% else %}collapsed{% endif %}{% endif %}" data-toggle="collapse" data-target="#course{{forloop.counter}}"
+                            aria-expanded="{% if active_link %}{% if active_link == 'couCur-'|add:i.batch_name %}true{% else %}false{% endif %} {% else %}{% if forloop.counter == 1 %}true{% else %}false{% endif %}{% endif %}" aria-controls="course{{forloop.counter}}">
+                            
+                                {% get_batch_ending_details i.end_date_time as batch_visible_status %}
+
+                                {% if batch_visible_status %}
+                                {% if i.batch_status == '4' %}
+                                    {% compare_date_for_classroom_page i.start_date_time as response %}
+                                        {% if response %}
+                                           
+                                            <a href="/classroom/join-batch-test?node={{rand_uuid}}&row_gw_perc_rec={{csrf_token}}&batch_id={{i.id}}&pf_rd_r={{csrf_token}}" onclick="mark_joined('{{i.id}}')" class="live-classes" target="__BLANK__" class="live-classes">
+                                                <i class="icon-video-player"></i>
+                                                Start Live Class
+                                            </a>
+                                        {% else %}
+                                        <a href="javascript:void(0)" class="live-classes" class="live-classes">
+                                            <i class="icon-video-player"></i>
+                                            Batch Will Start on {{i.start_date_time|date:'d-M-Y' }}
+                                        </a>
+                                        {% endif %}
+                                {% endif %}
+                                {% endif %}
+                              
+<br>
+                               
+                               
+
+                            <div class="cursor-pointer">
+                                <p class="mb-0 pr-4">Course Name: <strong>
+                                 {% get_batch_courses i.id as course_name %}
+                                 {{course_name}} </strong> </p>
+                                <p class="mb-0">Batch ID: <span class="text-gray-dark">{{i.id}}</span></p>
+                                <p class="mb-0">Time: <span class="text-gray-dark">{{i.start_date_time|date:'h:i A' }} - {{i.end_date_time|date:'h:i A' }}. {% get_week_days i.days_of_week as week %} ({{week}})</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="course{{forloop.counter}}" class="dashboard__leftPan--content collapse  {% if active_link %}{% if active_link == 'couCur-'|add:i.batch_name %} show {% else %} {% endif %} {% else %} {% if forloop.counter == 1 %} show {% else %} {% endif %}{% endif %}" aria-labelledby="course-{{forloop.counter}}" data-parent="#dashboard">
+                        <ul class="border-bottom-1 font-size-xs">
+                            <li >Batch Assing on: <span>{{i.create_on}}</span></li>
+                            <li>Batch Start on: <span>{{i.start_date_time | date:'d M Y'}}</span></li>
+                            <li class="mb-2 font-weight-bold">Batch End on: <span class="font-weight-bold">{{i.end_date_time | date:'d M Y'}}</span></li>
+                            {% if not i.complete %}
+                                <li>Meeting id: <span id="meetingIdEye_{{forloop.counter}}" ><i style="font-size:18px" class="fa" onclick="showMeetingId('{{forloop.counter}}')">&#128065;</i></span> <span  id="meetingIdCode_{{forloop.counter}}" onclick="showMeetingIdEye('{{forloop.counter}}')">{{i.meeting_id}}</span></li>
+                                <li>Batch passcode : <span id="meetingIdPasscodeEye_{{forloop.counter}}" ><i style="font-size:18px" class="fa" onclick="showMeetingIdPasscode('{{forloop.counter}}')">&#128065;</i></span> <span  id="meetingIdPasscodeCode_{{forloop.counter}}" onclick="showMeetingIdPasscodeEye('{{forloop.counter}}')">{{i.moderator_passcode}}</span></li>
+                            {% endif %}
+                        
+                            {% get_batch_student_count i.id as student_count %}
+                            <li class="mt-2">Studens in batch: <span>{{student_count}}</span> <a href="javascript:void(0)" onclick="batchStudent('{{i.id}}')">Get Details</a> </li>
+                            <li class="mt-2">Student Attendance: <a href="javascript:void(0)" onclick="get_student_attemdance('{{i.id}}')">View</a> </li>
+
+                            <li class="mt-2">Mark as complete: <span> <input type="checkbox" class="" {% if i.batch_status == "5" %} checked {% endif %} {% if i.batch_status == "1" %} disabled  {% elif i.batch_status == "2" %} disabled {% elif i.batch_status == "3" %} disabled {% endif %} name="" id="" style="font-size: 12px;margin-left: 15px;" onclick="markAsComplete('{{i.id}}')"></span> <span id="wating_mark_{{i.id}}" style="margin-left: 20px;font-size: 9px;"></span></li>
+                            <p style="font-size:10px;"> **if you checked, you and stu not able to see live class link<p>
+                            
+                        </ul>
+                       
+                        
+                        <ul class="dashboard__leftPan--list">
+                            <li class="recording" id="cr_{{i.meeting_id}}">
+                                <a {% if classroom == "true" %} href="javascript:void(0)"  onclick="load_recodring('{{i.id}}')" {% else %} href="/classroom" {% endif %} >Class recording</a>
+                            </li>
+                           
+                            <li class="course-curriculum {% if active_link == 'couCur-'|add:i.batch_name %} active  {% else %} {% endif %}">
+                                <a href="/classroom/curriculum/couCur-{{i.batch_name}}?batch_filter={{batch_status}}">Course curriculum</a>
+                            </li>
+                           
+                            <li class="chat-room ">
+                                <a href="/chat/chat/{{i.chat_room_id}}">Chat Room</a>
+                                
+ 
+                            
+</li>
+                            
+                        </ul>
+                    </div>
+                </div><!-- // Course 1-->
+                {% if forloop.counter == 1 %}
+                    <script>
+                        //debugger;
+                        load_recodring('{{i.id}}','{{forloop.counter}}')
+                    </script>
+                {% endif %}                
+            {% endif %}
+        {% endfor %}
+    </div>
+</div><!-- // Left panel -->
+
+<script>
+    {% for i in all_instructor_batch  %}
+        $("#meetingIdCode_"+{{forloop.counter}}).hide();
+        $("#meetingIdPasscodeCode_"+{{forloop.counter}}).hide();
+    {% endfor %}
+
+    function showMeetingId(fcounter){
+        $("#meetingIdEye_"+fcounter).hide();
+        $("#meetingIdCode_"+fcounter).show();
+    }
+
+    function showMeetingIdEye(fcounter){
+        $("#meetingIdEye_"+fcounter).show();
+        $("#meetingIdCode_"+fcounter).hide();
+    }
+
+    function showMeetingIdPasscode(fcounter){
+        $("#meetingIdPasscodeEye_"+fcounter).hide();
+        $("#meetingIdPasscodeCode_"+fcounter).show();
+        
+    }
+
+    function showMeetingIdPasscodeEye(fcounter){
+        $("#meetingIdPasscodeEye_"+fcounter).show();
+        $("#meetingIdPasscodeCode_"+fcounter).hide();
+        
+    }
+
+    function mark_joined(batch_id){
+        //alert(batch_id)
+
+        $.ajax({
+            url: '/classroom/mark_joined',
+            data: {"batch_id":batch_id,"csrfmiddlewaretoken": "{{ csrf_token }}"},
+            type: 'POST',
+            success: function(data) {
+                //alert("success")
+            },
+            error: function() {
+                //alert("Internal Server Error!!!");
+            },
+        });
+    }
+
+    function markAsComplete(batch_id){
+
+        $("#wating_mark_"+batch_id).html("(Please Wait...)")
+        $.ajax({
+            url: '/classroom/mark-batch-as-completed-by-instructor',
+            data: {"batch_id":batch_id,"csrfmiddlewaretoken": "{{ csrf_token }}"},
+            type: 'POST',
+            success: function(data) {
+                //alert("success")
+                $("#wating_mark_"+batch_id).text(data['msg'])
+            },
+            error: function() {
+                //alert("Internal Server Error!!!");
+                $("#wating_mark_"+batch_id).text(data['msg'])
+            },
+        });
+    }
+
+</script>

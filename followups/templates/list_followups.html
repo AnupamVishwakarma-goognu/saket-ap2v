@@ -1,0 +1,256 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block content %}
+{% load custom_tag %}
+<div class="wrapper">
+    {% include 'website/sidebar.html' %}
+    {% include 'website/header.html' %}
+    <div class="main-panel">
+    
+      <div class="content">
+          <div class="container-fluid follow-up">
+              <div class="row">
+                  <div class="col-md-12">
+                    <h4 class="card-title mt-0 text-uppercase">Follow up</h4>
+                      <div class="card data-tables">
+                        <div class="card-header">
+                          <div class="row align-items-center justify-content-between">
+                            <div class="d-flex follow-up--filter mb-3 mb-md-0">
+                              
+                              <div class="col-md-4 pr-0">
+                                <select class="selectpicker" id="daysfilter" name="next_followup" onchange="make_url();">
+                                  <option value="pending" {% if request.GET.d == "pending" %} selected='true' {% endif %}>Pending</option>
+                                  <option value="overdue" {% if request.GET.d == "overdue" %} selected='true' {% endif %}>Overdue</option>
+                                  <option value="tomorrow" {% if request.GET.d == "tomorrow" %} selected='true' {% endif %}>Tomorrow</option>
+                                </select>
+                              </div>
+                              <div class="col-md-4 pr-3 pr-md-0">
+                                <select class="selectpicker" id="ownfilter" name="ownfilter" onchange="own_filter_url();">
+                                  <option value="all" {% if request.GET.o == 'all' %} selected='true' {% endif %}>All</option>
+                                  <option value="my" {% if request.GET.o == 'my' %} selected='true' {% endif %}>My Followups</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              {% include 'filters_followup.html'%}
+                            </div>
+                          </div>
+                          
+                        </div>
+                          <div class="card-body table-striped table-no-bordered table-hover dataTable dtr-inline  table-full-width">
+                              <div class="table-responsive">
+                                {%if Followups.object_list %}
+                                <table id="datatables" class="table" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Mobile</th>
+                                            <th>Email</th>
+                                            <!--<th>Reference</th>-->
+                                            {% comment %} <th>Branch</th> {% endcomment %}
+                                            {% comment %} <th>Mode</th> {% endcomment %}
+                                            <th>Course</th>
+                                            <th>Owner</th>
+                                            <th>Date</th>
+                                            <th>Comments</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                      {% for myFollowData in Followups.object_list %}
+                                        <tr>
+                                            <td onclick="window.location='/enquiries/view/{{ myFollowData.followupid.id }}'">{{ myFollowData.followupid.full_name }}</td>
+                                            <td onclick="window.location='/enquiries/view/{{ myFollowData.followupid.id }}'">{{ myFollowData.followupid.mobile }}</td>
+                                            <td onclick="window.location='/enquiries/view/{{ myFollowData.followupid.id }}'">{{ myFollowData.followupid.email }}</td>
+                                            <!--<td onclick="window.location='/enquiries/view/{{ myFollowData.followupid.id }}'">{{ myFollowData.followupid.reference }}</td>-->
+                                            {% comment %} <td onclick="window.location='/enquiries/view/{{ myFollowData.followupid.id }}'">{{ myFollowData.followupid.branch_location|title }}</td> {% endcomment %}
+                                            
+                                            {% comment %} <td onclick="window.location='/enquiries/view/{{ myFollowData.followupid.id }}'">{{ myFollowData.followupid.mode_display }}</td> {% endcomment %}
+                                            <td onclick="window.location='/enquiries/view/{{ myFollowData.followupid.id }}'" title="{{ myFollowData.followupid.nostatus_courses }}">{{ myFollowData.followupid.nostatus_courses }}</td>
+                                            <td onclick="window.location='/enquiries/view/{{ myFollowData.followupid.id }}'">{{ myFollowData.assigned_user.name }}</td>
+
+                                            <td onclick="window.location='/enquiries/view/{{ myFollowData.followupid.id }}'" title="{{ myFollowData.next_followup }}">{{ myFollowData.next_followup}}</td>
+                                            <td onclick="window.location='/enquiries/view/{{ myFollowData.followupid.id }}'">{{ myFollowData.followupid.latest_comment|safe }}</td>
+                                            
+                                            <td>
+					<div class="dropdown" >
+						<button class="" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" style="border: none !important; background: transparent !important;" aria-expanded="false">
+							<div style="width: 10px;height: 22px;background-image: radial-gradient(circle, black 2px, transparent 2px);background-size: 108% 33.33%;"></div>
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						<!--<button class="btn btn-sm btn-secondary mb-0" onclick="AccordingFunction({{ myFollowData.followupid.id }}, {{ myFollowData.id }});" style="cursor: pointer;" class="fas fa-plus fa-1x text-success ml-3" data-toggle="modal" data-target="#followupModel"><i class="fas fa-plus mr-1"></i>Add followup</button>-->
+						<a class="dropdown-item" href="#followupModel" data-toggle="modal" onclick="AccordingFunction({{ myFollowData.followupid.id }}, {{ myFollowData.id }});">Add followup</a>
+						<a class="dropdown-item" href="{% url 'enquiry_view' myFollowData.followupid.id %}">View enquiry</a>
+						<a class="dropdown-item" href="#" onclick="discard_enquiry(event, '{% url 'DiscardEnquiryView' myFollowData.followupid.id %}');">Discard enquiry</a>
+						</div>
+					</div>
+                                            </td>
+                                        </tr>
+                                      {% endfor %}
+                                    </tbody>
+                                </table>
+                                {%else%}
+                                <div class="no-data">
+                                  <img src="{% static 'assets/img/nodata.png'%}" class="img-fluid" alt="">
+                                  <p class="mb-0 mt-3 text-secondary"><strong>No data Available</strong></p>
+				  <p class="text-dark-gray font-size-base">You can redefine your search filters to get the results.</p>
+                                </div><!-- // no data -->
+                                {%endif%}
+                              </div>
+                          </div>
+                          <div class="row mr-2">
+                            <div class="col-sm-12 col-md-5">Showing {{ page_obj.start_index }} - {{ page_obj.end_index }} of {{ page_obj.paginator.count }}</div>
+                            <div class="col-sm-12 col-md-7">
+                              <div class="dataTables_paginate paging_simple_numbers" id="datatables_paginate">
+                                <ul class="pagination">
+                                  {% if Followups.has_previous %}
+                                  <li class="paginate_button page-item previous" id="datatables_previous">
+                                      <a href="?{% url_replace request 'page' Followups.previous_page_number %}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                  </li>
+                                  {% elif Followups.object_list %}
+                                  <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                                      <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                  </li>
+                                  {% endif %}
+                                 
+                                  {% for i in Followups.pages %}
+                                      {% if i %}
+                                        {% ifequal i Followups.number %}
+                                          <li class="paginate_button page-item active">
+                                            <a href="?{{ i.querystring }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                          </li>
+                                        {% else %}
+                                          <li class="paginate_button page-item">
+                                          <a href="?{{ i.querystring }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                          </li>
+                                        {% endifequal %}
+                                      {% else %}
+                                        <li class="paginate_button page-item" id="nopage">
+                                          <a href="javaScript:void(0)" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" style="pointer-events: none;">...</a>
+                                        </li>
+                                      {% endif %}
+                                  {% endfor %}
+                                  {% if Followups.has_next %}
+                                    <li class="paginate_button page-item next" id="datatables_next">
+                                        <a href="?{% url_replace request 'page' Followups.next_page_number %}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                                    </li>
+                                  {% elif Followups.object_list %}
+                                    <li class="paginate_button page-item next disabled" id="datatables_next">
+                                     <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                                    </li>
+                                  {% endif %}
+                                  </ul>
+                                </div>
+                            </div>
+                          </div>
+                      </div>
+                      
+                      <div class="modal fade" id="followupModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document" class="overflow-y: initial">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <div class="modal-title mt-0">
+                                <h4 class="mt-0 mb-0">Add Followup</h4>
+                              </div>
+                            
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="accordions" id="accordion">
+                                  <div class="card mb-0">
+                                    <div class="card-header mb-3">
+                                      <h4 class="card-title">
+                                        <a data-target="#collapseOne" href="#" data-toggle="collapse" class="collapsed" aria-expanded="false">
+                                          Create New
+                                          <b class="caret"></b>
+                                        </a>
+                                      </h4>
+                                    </div>
+                                    <div id="collapseOne" class="card-collapse collapse show">
+                                      <form id="modal_accordion_form" method="post" action="#" class="mb-0" onsubmit="return results();">
+                                        {% csrf_token %}
+					<input type="hidden" id="source_page" name="source_page" value="followup_list">
+                                        <div class="row">
+                                          <div class="col-md-6 pr-l">
+                                            <div class="form-group">
+                                              <label class="col-form-label">FollowUp Mode</label>
+                                              <select id="followupMode" class="form-control selectpicker" name="followups_mode" required>
+                                                <option value="call">Call</option>
+                                                <option value="email">Email</option>
+                                                <option value="walk-in">Walk-in</option>
+                                              </select>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-6 pr-l">
+                                            <div class="form-group">
+                                              <label class="col-form-label">Next Followup Mode</label>
+                                              <select id="response" class="form-control selectpicker" name="response" required>
+                                                <option value="call">Call</option>
+                                                <option value="email">Email</option>
+                                                <option value="visit">Visits</option>
+                                              </select>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div class="row">
+                                          <div class="col-md-6 col-sm-6">
+                                            <div class="form-group">
+                                            <label>Next_FollowUp</label>
+                                            <input id="nextFolloup" type="datetime-local" class="form-control datetime-input"  data-date-min-date="{{mindate}}"  name="next_followup" required>
+                                            </div>
+
+</div>
+<div class="col-md-6 col-sm-6">
+					    <div class="form-group">
+                                              <label>Student Response</label>
+                                              <select id="student_response" class="form-control selectpicker" name="student_response" required>
+                                                {%for student_response in student_responses %}
+                                                <option value="{{student_response.id}}">{{student_response.response}}</option>
+                                                {%endfor%}
+                                              </select>
+                                            </div>
+</div>
+
+                                          <div class="col-md-12 col-sm-12">
+                                          <div class="form-group">
+                                            <label>Comments</label>
+                                            <textarea id="comment" class="form-control" rows="3" name="comment" required></textarea>
+                                          </div>
+                                          </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn btn-info btn-fill">Add</button>
+                                      </form>
+                                    </div>
+                                  </div>
+                                  <!-- <div class="card">
+                                    <div class="card-header">
+                                      <h4 class="card-title">
+                                        <a data-target="#collapseTwo" href="#" data-toggle="collapse" class="collapsed" aria-expanded="false">
+                                          Tue, 21st  August 2019 (Call)
+                                          <b class="caret"></b>
+                                        </a>
+                                      </h4>
+                                    </div>
+                                    <div id="collapseTwo" class="card-collapse collapse">
+                                      <div class="card-body">
+                                        <p>Call back later no response</p>
+                                      </div>
+                                    </div>
+                                  </div> -->
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      {% include 'website/footer.html' %}
+  </div>
+</div>
+{% endblock content %}

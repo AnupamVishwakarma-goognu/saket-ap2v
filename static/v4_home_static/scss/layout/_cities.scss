@@ -1,0 +1,62 @@
+.cities {
+    &__header {
+        @extend %red-header;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-transform: uppercase;
+        color: $white;
+        font-size: $h3-font-size ;
+        font-weight: $headings-font-weight;
+
+        &::after {
+            content: '';
+            @include size(751px, 143px);
+            display: block;
+            background-image: url(#{$path}/cities-bg.png);
+            position: absolute;
+            right: -1px;
+            top: -4px;
+            z-index: 1;
+        }
+    }
+
+    &__box {
+        padding-top: 15px;
+        padding-bottom: 15px;
+
+        &__heading {
+            &--img {
+                @include size(45px, 45px);
+                display: block;
+                box-shadow: 0 0 10px rgba($black, .2);
+                overflow: hidden;
+
+                img {
+                    @include size(100%, 100%);
+                }
+            }
+        }
+
+        &--content {
+            font-size: $font-size-xs;
+            padding-left: 15px;
+
+            li {
+                list-style-type: disc;
+
+                &:not(:last-child) {
+                    margin-bottom: 5px;
+                }
+
+                a {
+                    color: $gray-medium;
+
+                    &:hover {
+                        color: $primary;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,115 @@
+.home-banner {
+    position: relative;
+    background-image: linear-gradient(to top, #f6f6f6, #f8f8f8, #fafafa, #fdfdfd, #ffffff);
+
+    &::after {
+        content: none;
+        @include size(623px, 610px);
+        background-image: url(#{$path}/cruve.png);
+        background-repeat: repeat;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 0;
+
+        @include media-breakpoint-up(lg) { 
+            content: '';
+        }
+    }
+
+    &--left-pan {
+        padding-right: 0;
+        padding-top: 20px;
+        padding-bottom: 20px;
+
+        @include media-breakpoint-up(lg) { 
+            padding-right: 60px;
+        }
+
+        .btn-lg {
+            font-size: $font-size-base;
+
+            @include media-breakpoint-up(lg) { 
+                font-size: 1rem;
+            }
+
+        }
+
+        h1 {
+            font-size: $h3-font-size;
+
+            @include media-breakpoint-up(lg) { 
+                font-size: $h1-font-size;
+            }
+        }
+        
+        &--subHead {
+            text-transform: uppercase;
+            color: $gray-medium;
+            font-size: 0.750rem;
+            font-weight: 700;
+
+            @include media-breakpoint-up(lg) { 
+                font-size: $h3-font-size;
+            }
+        }
+    }
+
+    &--right-pan {
+        position: relative;
+        z-index: 1;
+    }
+
+    &__list-wrap {
+        background-color: $white;
+        position: relative;
+        z-index: 1;
+        color: $gray-medium;
+        top: 0;
+        width: 100%;
+        box-shadow: 0 0 15px rgba($black, .15);
+
+
+        &--lists {
+            display: flex;
+            overflow-x: scroll;
+            padding-bottom: 5px;
+
+            @include media-breakpoint-up(lg) { 
+                padding-bottom: 0;
+                overflow: hidden;
+            }
+        }
+
+        li {
+            padding: 15px;
+            flex: 0 0 75%;
+
+            @include media-breakpoint-up(lg) { 
+                padding: 20px;
+                flex: 1;
+            }
+
+            a {
+                flex: 0 0 90px;
+            }
+
+            &:not(:last-child) {
+                border-right: 1px solid $border-light;
+            }
+        }
+
+        &--head {
+            font-size: $font-size-base;
+            color: $secondary;
+            flex: 0 0 1;
+        }
+
+        &--text {
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+}

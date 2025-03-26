@@ -1,0 +1,31 @@
+{% load custom_tags %}
+<div class="white-box call-us py-3">
+    <span class="call-us--subHead">Contact us</span>
+    {% comment %}{% filter_number number as num %}{% endcomment %}
+    <!-- <p class="call-us--head mb-0" style="font-size: 25px;">{{number}} </p> -->
+    <p class="call-us--head mb-0" style="font-size: 25px;">08306996216 </p>
+    {% comment %} <p class="call-us--head mb-0 co_number" id="co_number2" style="font-size: 25px;">{{number}} </p> {% endcomment %}
+</div><!--- // call us -->
+<!--
+<script>
+    $( document ).ready(function() {
+        function get_number(){
+            $.ajax({
+                type: "POST",
+                url: "/core_apis/v1/get_counselor_round_number",
+                data:{"csrfmiddlewaretoken": "{{ csrf_token }}"},
+                success: function (data) {
+                //alert("success")
+                //alert(data['number'])
+                var c_number = data['number']
+                $(".co_number2").text(c_number)
+                },
+                error: function (data) {
+                    //alert("Somethings Wents Wrong");
+                },
+            });
+        };
+        get_number();
+    });
+</script>
+-->

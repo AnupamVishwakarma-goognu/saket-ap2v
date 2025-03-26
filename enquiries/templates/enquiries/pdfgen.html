@@ -1,0 +1,54 @@
+<html>
+<style>
+@page {
+    size: letter landscape;
+    margin: 0.5cm;
+}
+</style>
+    <head>
+        <title>Enquiries</title>
+        <style type="text/css">
+          th{
+            background-color:lightgray;
+            border:1px solid black;
+            padding-top:3px;
+          }
+          td{
+            border:1px solid black;
+            text-align: center;
+            padding-top:3px;
+          }
+        </style>
+    </head>
+    <body>
+      <table class="table">
+          <thead >
+            <tr>
+              <th>Sr.No</th>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Mobile</th>
+
+              <th>Reference</th>
+              <th>Added By</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in enquires_queryset %}
+                <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.id}}</td>
+                <td>{{i.full_name}}</td>
+                <td>{{i.email}}</td>
+                <td>{{i.mobile}}</td>
+                <td>{{i.reference}}</td>
+                <td>{{i.assigned_by}}</td>
+                <td>{{i.added_on}}</td>
+                </tr>
+            {% endfor %}
+          </tbody>
+      </table>
+  </body>
+</html>

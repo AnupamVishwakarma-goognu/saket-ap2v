@@ -1,0 +1,96 @@
+{% extends 'home/sub_pages_base.html' %}
+{% load static %}
+{% block section_content %}
+{% load humanize %}
+    <!-- blog body starts here -->
+    <div class="container">
+      <div class="row">
+        <ol class="breadcrumb mb-0">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Articles</a></li>
+          <li class="active">Managment</li>
+        </ol><!-- /. breadcrumb -->
+        <!-- left pan starts here -->
+        <div class="pull-left left-pan blog-body">
+          <h1>{{blog_details.title}}</h1>
+
+          <div class="blog-author fs-12">
+            <span>{{blog_details.author}}, {{blog_details.published_on}}</span>
+            <div class="view-forward">
+              <figure class="icon-programe"></figure> <a href="#" >{{blog_details.categories}}</a>
+	      {% comment %}
+              <figure class="icon-comment ml-10"></figure> <a href="#" >{{count}} Comments</a>
+              <figure class="icon-view ml-10"></figure> 21
+	      {% endcomment %}
+            </div>
+          </div><!-- /.blog-author ends here -->
+
+          <div class="social-share">
+            <!-- AddToAny BEGIN -->
+            <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+            <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+            <a class="a2a_button_facebook"></a>
+            <a class="a2a_button_twitter"></a>
+            <a class="a2a_button_google_plus"></a>
+            </div>
+            <script async src="https://static.addtoany.com/menu/page.js"></script>
+            <!-- AddToAny END -->
+          </div><!-- /.social-share ends here -->
+
+          <article class="mb-50">
+            <p>{{blog_details.content|safe}}</p>
+
+	    {% comment %}
+
+            <p><img src="{%static 'images/blog_detail-img.jpg' %}" alt="..." class="img-responsive"></p>
+	    {% endcomment %}
+
+            
+          </article><!-- article ends here -->
+
+          <div class="tagging mb-50">
+            <h4>Tagged in</h4>
+            {% for tag in blog_details.tags.all %}
+            <a href="#">{{tag.name}}</a>
+            {% endfor %}
+          </div><!-- tagging ends here -->
+           <!-- comments box starts here -->
+
+          <div class="comments-wrap mb-50">
+            <div class="grey-box">
+              <span class="icon-comments"></span>{{count}} Comments
+            </div>
+            <div class="comments-box">
+            
+
+              <span class="default-user"><img src="{%static 'images/default-user.jpg' %}" alt="..."></span>
+              <div class="textarea-box">
+                <sup></sup>
+                <textarea></textarea>
+              </div><!-- /.text-box -->
+              <div class="text-right"> 
+                <button class="btn btn-default mt-15">Submit</button>
+              </div>
+            </div><!--/.comments-box -->
+            {% for comment in comments %}
+            <div class="comments-box">
+              <span class="default-user"><img src="/media/{{comment.author.image}}"></span>
+              <div class="text-box">
+                <p class="mb-5">{{comment.text}}</p>
+                <p class="fs-12 c9">{{comment.created_date|naturaltime}} by {{comment.author}}</p>
+              </div><!-- /.text-box -->
+            </div><!--/.comments-box -->
+            {% endfor %}
+          </div><!-- comments box ends here -->
+          
+        </div><!-- left pan ends here -->
+
+        {% include 'home/sub_pages_sidebar.html'%}
+          
+      </div>
+    </div><!-- blog body ends here -->
+    {% include 'home/footer.html' %}
+    {% endblock %}
+
+
+    

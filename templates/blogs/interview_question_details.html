@@ -1,0 +1,313 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% load compress %}
+
+{% block title %} AP2V {% endblock %}
+
+{% block css %}
+{% compress css %}
+<link media="all" rel="stylesheet" href="/static/v4_home_static/css/owl.carousel.min.css" type="text/css" />
+{% comment %} <link media="all" rel="stylesheet" href="/static/v4_home_static/css/owl.theme.default.min.css" type="text/css" /> {% endcomment %}
+<link media="all" rel="stylesheet" href="/static/v4_home_static/css/interview_question_details_courses_css.css"
+    type="text/css" />
+<link media="all" rel="stylesheet" href="/static/v4_home_static/css/interview_question_details_css.css"
+    type="text/css" />
+
+
+{% endcompress css %}
+
+
+{% comment %}
+<link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/blog.css' %}" type="text/css" /> {% endcomment %}
+<script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.ap2v.com/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Interview-Question-List",
+            "item": "https://www.ap2v.com/interview-questions/"
+        },{
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Interview-Question-Details",
+            "item": "https://www.ap2v.com/interview-questions/{{question_answer_title_obj.slug}}"
+        }]
+        }
+    </script>
+{% endblock css %}
+
+{% block content %}
+<div class="main-wrap">
+    <!-- push-down -->
+    {% include 'v4_home/sub_pages/push-down.html' %}
+
+    <!-- navigation -->
+    {% include 'v4_home/sub_pages/navigation.html' %}
+
+    <!-- *************************** -->
+    <div class=" page-content page-container" id="page-content">
+        <ol class="related0 breadcrumb mb-0 pb-0">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/interview-questions/">Interview Questions</a></li>
+            <li aria-current="page" class="breadcrumb-item active">{{question_answer_title_obj.title}}</li>
+        </ol>
+        <div class="main_port">
+            <h1>{{question_answer_title_obj.title}}</h1>
+            {% comment %} <h1>{{question_answer_title_obj.title}} <img src="/static/v4_home_static/images/orgpython.png"
+                    alt=""> </h1> {% endcomment %}
+            <p> {{question_answer_title_obj.content | safe }}
+            </p>
+
+            <ul>
+                <li>4.9 Rating</li>
+                <li>{{question_count}} Question(s)</li>
+                <li> 60 Mins of Read</li>
+                <li>{{question_answer_title_obj.views}} Reader(s)</li>
+            </ul>
+
+        </div>
+        <div class="padding">
+            <div class="  container   justify-content-center">
+                <div class="col-sm-12">
+                    <div class="mb-3">
+                        <ul class="nav nav-pills" id="myTab" role="tablist">
+                            {% if question_answer_obj_beginner %}
+                            <li class="nav-item"><a class="nav-link active" id="home-tab" data-toggle="tab"
+                                    href="#home2" role="tab" aria-controls="home" aria-selected="true">Beginner</a></li>
+                            {% endif %}
+
+                            {% comment %} <li class="nav-item"><a class="nav-link" id="profile-tab" data-toggle="tab"
+                                    href="#profile2" role="tab" aria-controls="profile"
+                                    aria-selected="false">Intermidiate</a></li> {% endcomment %}
+
+                            {% if question_answer_obj_advance %}
+                            <li class="nav-item"><a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact2"
+                                    role="tab" aria-controls="contact" aria-selected="false">Advance</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="tab-content mb-4">
+                        <div class="tab-pane fade show active" id="home2" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="site_wrapper">
+                                <div class="content_sec">
+                                    <section class="tab_sec" id="tab-sec">
+
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="tab_in_sec">
+                                                        <div class="panel-group" id="accordion" role="tablist"
+                                                            aria-multiselectable="true">
+                                                            {% for i in question_answer_obj_beginner %}
+                                                            <div class="panel panel-default" id="question-{{i.id}}">
+                                                                <div class="panel-heading" role="tab" id="headingOne">
+                                                                    <h4 class="panel-title button-mon">
+                                                                        <a class="text-mon" role="button"
+                                                                            data-toggle="collapse"
+                                                                            data-parent="#accordion"
+                                                                            href="#collapse_{{forloop.counter}}"
+                                                                            aria-expanded="true"
+                                                                            aria-controls="collapse_{{forloop.counter}}"
+                                                                            onclick="ga('send', 'event', 'Button', 'Click', 'Program Overview', 1);">
+                                                                            {{forloop.counter}}|{{ i.question}}
+                                                                        </a>
+                                                                    </h4>
+                                                                </div>
+                                                                <div id="collapse_{{forloop.counter}}"
+                                                                    class="panel-collapse collapse in" role="tabpanel"
+                                                                    aria-labelledby="headingOne">
+                                                                    <div class="panel-body">
+                                                                        <p>{{i.answer|safe}}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            {% if forloop.counter == 5 or forloop.counter == 10 or forloop.counter == 15 or forloop.counter == 20 or forloop.counter == 25 or forloop.counter == 30 or forloop.counter == 35 or forloop.counter == 40 %}
+                                                                <a href="/{{banner_courses.slug}}">
+                                                                    <div class="banner-add chameleonbackground" style="margin-top: 20px;">
+                                                                    
+                                                                        <div class="banner-text">
+                                                                            <h1 class="gradienta" style="font-size: 1.25rem;">{{banner_courses.name}}</h1>
+                                                                            <p>Live  Classes | 24 Hour Support | Job Placement | No Cost EMI*</p>
+                                                                            {% comment %} <h4 class="gradienta">The major difference is that a list is mutable,</h4> {% endcomment %}
+                                                                            <button>Explore Now</button>
+                                                                        </div>
+                                                                        <div class="banner-img">
+                                                                            <img src="{% static 'v4_home_static/images/interview-question-banner.png'%}" alt="{{banner_courses.name}}"  >
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            {% endif %}
+                                                            
+                                                            
+                                                            {% if forloop.last %}
+                                                                {% include 'blogs/interview_questions_courses.html' %}
+                                                            {% endif %}
+                                                            {% endfor %}
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade show active" id="contact2" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="site_wrapper">
+                                <div class="content_sec">
+                                    <section class="tab_sec" id="tab-sec">
+
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="tab_in_sec">
+                                                        <div class="panel-group" id="accordion" role="tablist"
+                                                            aria-multiselectable="true">
+                                                            {% for i in question_answer_obj_advance %}
+                                                            <div class="panel panel-default" id="question-{{i.id}}">
+                                                                <div class="panel-heading" role="tab" id="headingOne">
+                                                                    <h4 class="panel-title button-mon">
+                                                                        <a class="text-mon" role="button"
+                                                                            data-toggle="collapse"
+                                                                            data-parent="#accordion"
+                                                                            href="#collapse_{{forloop.counter}}"
+                                                                            aria-expanded="true"
+                                                                            aria-controls="collapse_{{forloop.counter}}"
+                                                                            onclick="ga('send', 'event', 'Button', 'Click', 'Program Overview', 1);">
+                                                                            {{ i.question}}
+                                                                        </a>
+                                                                    </h4>
+                                                                </div>
+                                                                <div id="collapse_{{forloop.counter}}"
+                                                                    class="panel-collapse collapse in" role="tabpanel"
+                                                                    aria-labelledby="headingOne">
+                                                                    <div class="panel-body">
+                                                                        <p>{{i.answer|safe}}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            {% if forloop.counter == 4 or forloop.counter == 10 or forloop.counter == 15 or forloop.counter == 20 or forloop.counter == 25 or forloop.counter == 30 or forloop.counter == 35 or forloop.counter == 40 %}
+                                                                <a href="/{{banner_courses.slug}}">
+                                                                    <div class="banner-add chameleonbackground" style="margin-top: 20px;">
+                                                                    
+                                                                        <div class="banner-text">
+                                                                            <h1 class="gradienta" style="font-size: 1.25rem;">{{banner_courses.name}}</h1>
+                                                                            {% comment %} <h4 class="gradienta">The major difference is that a list is mutable,</h4> {% endcomment %}
+                                                                            <button>Explore Now</button>
+                                                                        </div>
+                                                                        <div class="banner-img">
+                                                                            <img src="{% static 'v4_home_static/images/interview-question-banner.png'%}" alt="{{banner_courses.name}}" style="height: 75px;width: 75px;">
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            {% endif %}
+                                                            
+                                                            
+                                                            {% if forloop.last %}
+                                                                {% include 'blogs/interview_questions_courses.html' %}
+                                                            {% endif %}
+                                                            {% endfor %}
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        
+
+
+                        
+
+                        {% if all_interview_questions %}
+                            <script type="application/ld+json">{
+                                "@context":"https://schema.org",
+                                "@type": "FAQPage",
+                                "mainEntity":[{% for i in all_interview_questions %}{
+                                    {% remove_html_tag i.answer as aans %}
+                                        "@id":"https://www.ap2v.com/interview-questions/{{question_answer_title_obj.slug}}#question-{{i.id}}",
+                                        "@type":"Question",
+                                        "name":"{{i.question}}",
+                                        "acceptedAnswer":{
+                                            "@type":"Answer",
+                                            "text":"{{aans}}"
+                                        }
+                                    }{% if not forloop.last %},{% endif %} {% endfor %}]
+                                }
+                            </script>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    {% comment %} <div class="discrription">
+        <h1>Discription</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum,
+            nisi lorem egestas vitae scel<span id="dots">...</span><span id="more">erisque enim ligula venenatis
+                dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus vestibulum
+                augue ut aliquet. Nunc sagittis dictum nisi, sed ullamcorper ipsum dignissim ac. In at libero sed
+                nunc venenatis imperdiet sed ornare turpis. Donec vitae dui eget tellus gravida venenatis. Integer
+                fringilla congue eros non fermentum. Sed dapibus pulvinar nibh tempor porta.</span></p>
+        <div class="cencri"> <button class="content-discription " onclick="myFunction()" id="myBtn1">Read
+                More</button>
+        </div>
+    </div> {% endcomment %}
+    {% comment %} <div class="related01">
+        <h1>Main Topics</h1>
+        <a href=""><button>HTML</button></a>
+        <a href=""><button>CSS</button></a>
+        <a href=""><button>JAVASCRIPT</button></a>
+        <a href=""><button>VEW.JS</button></a>
+        <a href=""><button>PYTHON</button></a>
+    </div> {% endcomment %}
+    {% if related_question_topic %}
+        <div class="related01">
+            <h1>Related Topics</h1>
+            <div class="suitable-buttons">
+                {% for i in related_question_topic %}
+                <a href="/interview-questions/{{i.slug}}"><button>{{i.title}}</button></a>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+    <!-- *************************** -->
+
+    <script type="text/javascript" src="/static/v4_home_static/js/owl-jquery.min.js"></script>
+    <script type="text/javascript" src="/static/v4_home_static/js/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="/static/v4_home_static/js/interview_questions_courses.js"></script>
+    <script>
+        function myFunction() {
+            var dots = document.getElementById("dots");
+            var moreText = document.getElementById("more");
+            var btnText = document.getElementById("myBtn1");
+
+            if (dots.style.display === "none") {
+                dots.style.display = "inline";
+                btnText.innerHTML = "Read more";
+                moreText.style.display = "none";
+            } else {
+                dots.style.display = "none";
+                btnText.innerHTML = "Read Less";
+                moreText.style.display = "inline";
+            }
+        }
+    </script>
+    {% endblock content %}

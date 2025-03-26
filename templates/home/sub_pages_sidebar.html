@@ -1,0 +1,167 @@
+{% load static %}
+{% load custom_tags %}
+          <!-- RHS starts here -->
+          <aside class="pull-left hidden-xs hidden-sm">
+            <!-- request a call starts here -->
+            <div class="white-box">
+              <a href="tel:+918306996216" class="btn-lg btn-block btn-default" data-toggle="modal" data-target="#rac">Contact us</a>
+              <!-- <button type="text" class="btn-lg btn-block btn-default" onclick="$('#hidden_contact').css('display', 'block');">Contact us</button> -->
+             </div>
+             <!-- Modal for rac -->
+             <div class="modal fade" id="rac" role="dialog">
+               <div class="modal-content-call">
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                   <div class="form-wrap-call">
+         	    <form method="post" action="{% url 'contact-popup-enquiry' %}" id="contact_popup_form">
+         	      {% csrf_token %}
+                     <ul>
+                       <li class="form-group">
+                          <input type="text" name="firstname" class="form-control" placeholder="Name*" required>
+                          <input type="text" name="url_page_name" id="url6" value="url6" hidden>
+                          <script type="text/javascript">
+                              let aaa = window.location.href;
+                              // console.log(aaa)
+                              document.getElementById("url6").value = aaa
+
+                          </script>
+                       </li>
+
+                       <li class="form-group">
+                          <input type="email" name="email_address" class="form-control" placeholder="e.g. example@gmail.com*" required>
+                       </li>
+
+                       <li class="form-group">
+         		      <input type="number" name="mobile_number" class="form-control"  placeholder="Mobile Number*" required>
+                       </li>
+
+                       <li class="form-group">
+                          <textarea class="form-control" name="text_message" rows="3" placeholder="Type your query here*" required> </textarea>
+                       </li>
+         	      <!-- <li class="form-group">
+                               <img src="/captcha?rand={{ number }}" alt="Captcha" id="captchaimg" class="img-responsive">
+                       </li>
+                       <li class="form-group">
+                               <input type="text" name="captcha_code" id="captcha_code" class="form-control" placeholder="Captcha" required>
+                       </li> -->
+                       <!-- <li class="form-group">
+                               <a href="javascript:void(0);" onClick="refresh_captcha();">Refresh Captcha</a>
+                       </li> -->
+
+
+
+
+                       <li class="form-group">
+                          <button type="submit" class="btn-lg btn-default">Submit</button>
+                       </li>
+                     </ul>
+         	    </form>
+                   </div><!-- /. Form wrap -->
+                 </div>
+               </div><!-- /. Modal for rac-->
+
+            <div class="white-box" id="hidden_contact" style="display: None;">
+              <h2>request a call</h2>
+              <form method="post" action="{% url 'add-enquiry' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                  <input type="text" name="firstname" class="form-control" placeholder="Frist Name" required>
+
+                </div>
+                <div class="form-group">
+                  <input type="text" name="lastname" class="form-control" placeholder="Last name" required>
+                </div>
+                <div class="form-group">
+                  <input type="email" name="email_address" class="form-control" placeholder="Email" required>
+                </div>
+
+                <div class="form-group">
+                  <input type="text" name="mobile_number" class="form-control" placeholder="Mobile" required>
+                </div>
+
+                <div class="form-group">
+                  <textarea class="form-control" name="text_message" rows="3" maxlength="120" placeholder="Message" required></textarea>
+                </div>
+
+                <button type="submit" class="btn-lg btn-default">Send</button>
+              </form>
+            </div><!-- request a call ends here -->
+            <!-- Categories starts here -->
+            <div class="white-box">
+              <h2>Categories</h2>
+
+              <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+
+                  <!-- accordion item starts here -->
+                  <div class="panel panel-default">
+                      {% for category_name, courses in sidebar_categories.items %}
+                        <div class="panel-heading">
+				<a role="button" data-toggle="collapse" data-parent="#accordion" href="#{{ category_name|lower }}">
+				  {{ category_name }} ({{ courses.count }})
+                          </a>
+                        </div><!-- Heading ends here -->
+
+                        <div id="{{ category_name|lower }}" class="panel-collapse collapse in">
+                          <div class="panel-body mt-10">
+                            <ul>
+			      {% for course in courses.courses %}
+			      <li><a href="/{{ course.url }}"> {{ course.title }} </a></li>
+			      {% endfor %}
+                            </ul>
+                          </div>
+                        </div><!-- accordion content ends here -->
+			<hr>
+                    {% endfor %}
+
+                  </div><! -- accordion item ends here -->
+
+
+
+              </div><!-- end of panel group here -->
+            </div><!-- Categories ends here -->
+
+            <!-- Popular starts here -->
+            <div class="white-box popular">
+              <h2>Popular</h2>
+              <ul>
+                <li>
+                  {% for blog in blogs %}
+                  <div class="media">
+                    <div class="media-left">
+                      <a href=#>
+                        <img class="media-object" width="98" height="63" src="/media/{{blog.image}}" alt="...">
+                      </a>
+                    </div><!-- /.media left -->
+                    <div class="media-body">
+                      <a href="/blog/{{blog.slug}}">{{blog.title}}</a>
+                    </div><!-- /.media body -->
+                    </div><!-- /.media -->
+                  {% endfor %}
+                </li><!-- /.li -->
+              </ul><!-- /.ul -->
+            </div><!-- Popular ends here -->
+
+            <!-- testimonials starts here -->
+            <div class="white-box pb-40">
+              <h2>testimonials</h2>
+
+              <ul class="rhs-testimonials">
+                {% for testimonial in testimonials %}
+                <li>
+                  <span><img src="/media/{{testimonial.image}}"></span>
+                  <p>{{testimonial.content|truncatechars:"250"}}</p>
+                  <p class="testi-name fs-11"><strong class="fs-14">{{testimonial.name}}</strong>{{testimonial.company}}</p>
+                </li><!-- /. li -->
+                {% endfor %}
+
+              </ul>
+            </div><!-- testimonials ends here -->
+            <!-- Tags starts here -->
+            <div class="white-box rhs-tagging">
+              <h2>Tags</h2>
+              {% for tag, class in tags.items %}
+        	    <a href="/{{ tag }}-courses" class="{{ class }}">{{tag}}</a>
+              {% endfor %}
+            </div><!-- Tags ends here -->
+
+          </aside><!-- RHS ends here -->

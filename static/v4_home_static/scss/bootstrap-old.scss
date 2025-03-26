@@ -1,0 +1,72 @@
+/*!
+ * Bootstrap v4.5.2 (https://getbootstrap.com/)
+ * Copyright 2011-2020 The Bootstrap Authors
+ * Copyright 2011-2020 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ */
+
+
+@import "functions";
+@import "variables";
+@import "mixins";
+@import "custom";
+@import "root";
+@import "reboot";
+@import "type";
+@import "images";
+@import "code";
+@import "grid";
+@import "tables";
+@import "forms";
+@import "buttons";
+@import "transitions";
+@import "dropdown";
+@import "button-group";
+@import "input-group";
+@import "custom-forms";
+@import "nav";
+@import "navbar";
+@import "card";
+@import "breadcrumb";
+@import "pagination";
+@import "badge";
+@import "jumbotron";
+@import "alert";
+@import "progress";
+@import "media";
+@import "list-group";
+@import "close";
+@import "toasts";
+@import "modal";
+@import "tooltip";
+@import "popover";
+@import "carousel";
+@import "spinners";
+@import "utilities";
+@import "print";
+
+// Components
+@import 'components/animatio-input';
+@import 'components/banner-home';
+@import 'components/courses-tab';
+@import 'components/navbar';
+@import 'components/search-bar';
+@import 'components/login-modal';
+@import 'components/product-box';
+@import 'components/tagging';
+@import 'components/featured-certification';
+@import 'components/learning-path';
+@import 'components/testimonials';
+@import 'components/request-quote';
+@import 'components/recent-events';
+@import 'components/recent-articles';
+@import 'components/error';
+
+
+//layout
+@import 'layout/font-icons';
+@import 'layout/footer';
+
+
+//vendor
+@import 'vendor/slick';

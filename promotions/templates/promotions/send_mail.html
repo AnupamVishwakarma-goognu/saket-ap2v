@@ -1,0 +1,161 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block content %}
+<div class="wrapper">
+  {% include 'website/sidebar.html' %}
+  {% include 'website/header.html' %}
+  <div class="main-panel">
+
+    <div class="content">
+      <div class="container-fluid">
+        <div class="main-heading-wrap">
+          <h2>Send Bluk Mails | <a href="#" onclick="openCampaignModal()">view all templates</a></h2>
+        </div>
+
+        <form method="POST" action="/promotions/send-html-mails" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row" style="margin-top:30px;">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <select name="template_type" id="template_type" class="selectpicker" required>
+                                <option disabled selected value="">Select Template Type</option>
+                                <option value='onlinetraning.html'>Online Tranning Email/OTE-01</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input type="file" class="form-control" id="uploadCSV" name="file" accept=".csv" >
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-secondary btn-fill" id="send_mail_btn"></i>Send Mail</button>
+                        </div>
+                    </div>
+                
+                <div class="col-md-2">
+                    <input type="text" class="form-control" hidden id="target_user" name="target_user">
+                    <p id="show_total_div">Valid Mail Fount : <span id="mail_count"></span></p>
+                </div>
+            </div>
+        </form>
+        
+        <table class="new-table">
+          <thead>
+            <tr class="new-table--head">
+              <th scope="col">#</th>
+              <th scope="col">Date</th>
+              <th scope="col">Target User</th>
+              <th scope="col">Template</th>
+              <th scope="col">Is Complete</th>
+              <th scope="col">Download Report</th>
+            </tr>
+          </thead>
+
+        {% for i in send_obj %}
+          <tbody class="new-table--tbody">
+            <tr class="new-table--list">
+              <td>{{i.id}}</td>
+              <td>{{i.date}}</td>
+              <td>{{i.target_user}}</td>
+              <td> <a href="/promotions/view-template/{{i.template_name}}" target="__BLANK__"> {{i.template_name}} </a> </td>
+              <td> {% if i.is_complete%} <i class="fa fa-check" aria-hidden="true"></i> {% else %} <i class="fa fa-times" aria-hidden="true"></i> {% endif %}</td>
+              <td> {% if i.is_complete %} <a href="/promotions/download-report/{{i.id}}">Download</a> {% elif not i.approved %} <i class="fa fa-clock-o" aria-hidden="true"></i> Pending for Approve {% elif not i.is_complete %} <i class="fas fa-spinner fa-pulse"></i> Processing {% endif %}</td>
+            </tr>
+          </tbody>
+        {% endfor %}
+        </table>
+      </div>
+    </div>
+    {% include 'website/footer.html' %}
+  </div>
+</div>
+
+
+
+<!-- Wating Modal -->
+<div class="modal fade" id="waitingModal" tabindex="-1" aria-labelledby="waitingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content add-student">
+            {% comment %} <div class="modal-header">
+                <h5 class="modal-title" id="waitingModalLabel">Download your course curriculum</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div> {% endcomment %}
+            <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <img id="theImg" style="height: 50px;padding-left: 43%;" src={% static "assets/images/waiting-icon.jpg" %}>
+                            <p>Please wait we are validating the file and count valid emails.</p>
+                        </div>
+                    </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+    $("#show_total_div").hide()
+    $("#send_mail_btn").prop("disabled",true)
+    $("#send_mail_btn").css("background-color","gray")
+    $("#send_mail_btn").css("cursor","not-allowed")
+
+    $("#uploadCSV").on('change',function(){
+        //alert("d,n")
+        var data = new FormData();
+        data.append("file", $("input[id^='uploadCSV']")[0].files[0]);
+        data.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+        //console.log($("input[id^='uploadCSV']")[0].files[0]);
+
+        //console.log(this.files[0].type);
+        //var fileType = this.files[0].type
+        //alert(fileType)
+        //var validImageTypes = ["application/vnd.ms-excel"];
+        //if ($.inArray(fileType, validImageTypes) < 0) {
+        //    alert("Please Select CSV.");
+        //    return false;
+        //}
+
+        //alert(data)
+        //$('#waitingModal').modal('show');
+
+        $.ajax({
+            type: 'POST',
+            url: '/promotions/check_upload_csv',
+            data: data,
+            contentType: false,
+            processData: false,
+            mimeType: "multipart/form-data",
+            success: function (data) {
+                data2 = JSON.parse(data)
+                //alert(data2['total_email'])
+                $("#show_total_div").show()
+                $("#mail_count").text(data2['total_email']);
+                $("#target_user").val(data2['total_email'])
+                //$('#waitingModal').modal('hide');
+                if(parseInt(data2['total_email']) >=1){
+                    $("#send_mail_btn").prop("disabled",false)
+                    $("#send_mail_btn").css("background-color","blue")
+                    $("#send_mail_btn").css("cursor","pointer")
+                }
+                else{
+                    $("#send_mail_btn").prop("disabled",true)
+                    $("#send_mail_btn").css("background-color","gray")
+                    $("#send_mail_btn").css("cursor","not-allowed")
+                };
+
+            },
+            error: function (data) {
+                alert("Internal Server Error");
+            },
+        });
+    });
+</script>
+{% endblock extra_js %}

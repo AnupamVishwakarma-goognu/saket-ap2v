@@ -1,0 +1,367 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% load compress %}
+
+{% block title %} AP2V {% endblock %}
+
+{% block css %}
+    {% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/blog.css' %}" type="text/css" /> {% endcomment %}
+    {% compress css %}
+        <link media="all" rel="stylesheet" href="/static/v4_home_static/css/blog.css" type="text/css" />
+        
+    {% endcompress css %}
+
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.ap2v.com/"
+            },{
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blogs",
+                "item": "https://www.ap2v.com/blog/"
+            },{
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Blog Details",
+                "item": "https://www.ap2v.com/blog/{{blog_details.slug}}"
+            }]
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        #jkj ol {
+            list-style-type: auto; 
+            padding-left: 40px;
+        }
+
+        #jkj ul {
+            list-style-type: auto; 
+            padding-left: 40px;
+        }
+        .blog-detail { 
+    font-family: 'Nunito', sans-serif;
+}
+    </style>
+{% endblock css %}
+
+{% block content %}
+    <div class="main-wrap">
+        <!-- push-down -->
+        {% include 'v4_home/sub_pages/push-down.html' %}
+
+        <!-- navigation -->
+        {% include 'v4_home/sub_pages/navigation.html' %}
+
+        <!-- Banner -->
+        <div class="biscon">
+            <!-- <img src="../images/{{blog_details.author.image}}" alt="blog"> -->
+            <img class="dnsi" src={% static "v4_home_static/images/trial-nes.png"  %} width="100%"  alt="blog header" loading="lazy">
+
+            <div class="bisconpart">
+                <div class="bis-count-part">
+                <div class="bress-crums"><!-- // breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0 pb-0">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/blog/">Blogs</a></li>
+                            <li class="breadcrumb-item"><a href="#">{{blog_details.title}}</a></li>
+                        </ol>
+                    </nav><!-- // breadcrumb --> </div>
+                <div class="title-crus"> <!-- blog title  -->
+                    <h1 class="text-secondary">{{blog_details.title}}</h1>
+                   <!-- blog title  --></div>
+                <div class="bottom-crus">   <!-- bottom bottom  -->
+                    <div class="blog-post__meta">
+                       <div class="blog-post__meta__published">
+                         
+
+                           <div>
+                               <div class="d-block text-gray-lightest">Published On - <span class="text-dark">{{blog_details.published_on}}</span></div>
+                               <ul class="blog-post__meta__published--author">
+                                   <li class="mr-3">
+                                       <i class="icon-user-fill"></i>
+                                       <span>by -: </span>
+                                       <a href="#" title="ashutoshblog" class="setro">{{blog_details.author.name}}</a>
+                                   </li>
+                                   <li class="simos">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-folder2" viewBox="0 0 16 16">
+                                        <path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v7a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 12.5v-9zM2.5 3a.5.5 0 0 0-.5.5V6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3H2.5zM14 7H2v5.5a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7z"/>
+                                      </svg>
+                                       {% for tag in blog_details.tags.all %}
+                                           <a href="tags/{{tag.name}}" class="setro" title="Development"> {{tag.name}}</a>,
+                                       {% endfor %}							
+                                   </li>
+                               </ul>
+                           </div>
+                       </div>
+
+                       <div class="blog-post__meta--share">
+                           <ul>
+                               <!-- <li>
+                                   <span class="icon-share"></span>
+                               </li> -->
+
+                               <li class="facebook">
+                                   <a href="https://www.facebook.com/ap2vacademy"><i class="icon-facebook"></i></a>
+                               </li>
+                               
+                               <li class="twitter">
+                                   <a href="https://www.youtube.com/c/ap2vacademy"><i class="icon-youtube-play"></i></a>
+                                   
+                               </li>
+                               
+                               <li class="google">
+                                   <a href="https://www.instagram.com/ap2vacademy/"><i class="icon-instagram"></i></a>
+                               </li>
+                               
+                               <li class="linkedin">
+                                   <a href="https://www.linkedin.com/company/3567658"><i class="icon-linkedin"></i></a>
+                               </li>
+                           </ul>
+                       </div>
+                   </div>
+                  <!-- bottom content  --></div></div>
+            </div>
+         </div>
+                    
+                    <!-- banner  -->
+                           
+                        
+
+                        <!-- // Banner -->
+
+        <div class="container-fluid  ">
+            <div class="row">
+                <div class="container">
+                    <div class="listing montos">
+                        <div class="listing__leftPanel">
+                            <div class="blog-post" style="margin-bottom: 15px;">
+                                <h1>{{blog_details.title}}</h1>
+                                <!-- <div class="blog-post__meta">
+                                    <div class="blog-post__meta__published">
+                                        <div class="blog-post__meta__published--image">
+                                            <img src="/media/{{blog_details.author.image}}" alt="{{blog_details.title}}">
+                                        </div>
+
+                                        <div>
+                                            <div class="d-block text-gray-lightest">Published On - <span class="text-dark">{{blog_details.published_on}}</span></div>
+                                            <ul class="blog-post__meta__published--author">
+                                                <li class="mr-3">
+                                                    <i class="icon-user-fill"></i>
+                                                    <span>by</span>
+                                                    <a href="#" title="ashutoshblog">{{blog_details.author.name}}</a>
+                                                </li>
+                                                <li>
+                                                    <i class="icon-folder"></i>
+                                                    {% for tag in blog_details.tags.all %}
+                                                        <a href="/{{tag.slug}}-courses" title="Development">{{tag.name}}</a>,
+                                                    {% endfor %}							
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="blog-post__meta--share">
+                                        <ul>
+                                            <li>
+                                                <span class="icon-share"></span>
+                                            </li>
+
+                                            <li class="facebook">
+                                                <a href="https://www.facebook.com/ap2vacademy"><i class="icon-facebook"></i></a>
+                                            </li>
+                                            
+                                            <li class="twitter">
+                                                <a href="https://www.youtube.com/c/ap2vacademy"><i class="icon-youtube-play"></i></a>
+                                                
+                                            </li>
+                                            
+                                            <li class="google">
+                                                <a href="https://www.instagram.com/ap2vacademy/"><i class="icon-instagram"></i></a>
+                                            </li>
+                                            
+                                            <li class="linkedin">
+                                                <a href="https://www.linkedin.com/company/3567658"><i class="icon-linkedin"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div> -->
+                                <!-- // Meta ends here -->
+                            </div>
+
+                            <article class="blog-detail" style="word-break: break-word;" >
+                                {% comment %} <span class="blog-img" id="blog_image_article" style="margin-top:10px;"><img src="/media/{{blog_details.image}}" style="top: 0%;" class="img-fluid" alt="blog_image"></span> {% endcomment %}
+                                {% comment %} <span class="blog-img" id="blog_image_article" ></span> {% endcomment %}
+                                <span id="jkj">{{blog_details.content | safe}}</span>
+                            </article>
+
+                            
+
+                            
+                            
+                            {% if blog_qa_obj %}
+                                <div class="container" style="margin-bottom: 40px;padding-left: 0px;padding-right: 0px;">
+                                    <div class="row">
+                                        <div class="col-12 mb-3">
+                                            <h2 class="align-items-center" style="margin-top: 30px;margin-bottom: -22px;">Interview asked questions and answer</h2>
+                                        </div>
+                                        <div class="col-12 m-auto" style="margin-left: 0px!important;margin-right: 0px!important;">
+                                            <div class="accordion light-blue arrow-on-right " id="faqs1">
+                    
+                                            {% for i in blog_qa_obj %}
+                                                <div class="card mt-3" id="faq-{{i.id}}" style="border: none;padding-top: 0px;padding-bottom: 0px;">
+                                                    <div class="card-header" id="faqs_{{forloop.counter}}">
+                                                        <div class="btn btn-link btn-block text-left p-0 text-gray-dark" style="font-size: 20px;font-weight: bold;">
+                                                            <p style="color: black;">
+                                                            {{forloop.counter}}. {{i.question}}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                    
+                                                        <div class="card-body" style="margin-top: {% if forloop.counter == 1 %}-15px; {% else %} -30px; {% endif %} color: #464040;">
+                                                            <p>{{i.answer|safe}}</p>
+                                                        </div>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <div class="blog-post bottom-meta">
+                                <div class="blog-post__meta mt-0">
+                                    <div class="blog-post__meta__published">
+                                        <div class="tag">
+                                            <strong>Tags:</strong>
+                                            {% for tag in blog_details.tags.all %}
+                                                <span>{{tag.name}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                            
+                                    <div class="blog-post__meta--share">
+                                        <ul>
+                                            <li>
+                                                <span class="icon-share"></span>
+                                            </li>
+
+                                            <li class="facebook">
+                                                <a href="https://www.facebook.com/ap2vacademy"><i class="icon-facebook"></i></a>
+                                            </li>
+                                            
+                                            <li class="twitter">
+                                                <a href="https://www.youtube.com/c/ap2vacademy"><i class="icon-youtube-play"></i></a>
+                                                
+                                            </li>
+                                            
+                                            <li class="google">
+                                                <a href="https://www.instagram.com/ap2vacademy/"><i class="icon-instagram"></i></a>
+                                            </li>
+                                            
+                                            <li class="linkedin">
+                                                <a href="https://www.linkedin.com/company/3567658"><i class="icon-linkedin"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div><!-- // Meta ends here -->
+                            </div>
+
+                            <div class="blog-post__nav d-none d-md-block">
+                                <nav class="d-flex justify-content-end post-navigation" role="navigation" id="">
+                                    {% if previous_blog %}
+                                        <div class="previous pr-4">
+                                            <a href="/blog/{{previous_blog.slug}}" rel="prev">{{previous_blog.title}}
+                                            <i class="icon-arrow-point-to-right"></i>
+                                                
+                                            </a>
+                                        </div>
+                                    {% else %}
+                                        <div class="previous pr-4">
+                                            
+                                        </div>
+                                    {% endif %}
+
+                                    {% if next_blog %}
+                                        <div class="next pl-4">
+                                            <a href="/blog/{{next_blog.slug}}" rel="prev">{{next_blog.title}}
+                                                <i class="icon-arrow-point-to-right"></i> 
+                                            </a>
+                                        </div>
+                                    
+                                    {% else %}
+                                        <div class="next pl-4">
+                                            
+                                        </div>
+                                    {% endif %}
+                                </nav>
+                            </div>
+                            
+                        </div>
+                        {% include 'blogs/blog_right_part.html' %}
+                    </div>
+                </div><!-- // container -->
+                
+            </div>
+        </div>
+
+        <section class="container">
+            <h2 class="align-items-start">Related Category Courses</h2>
+            <ul class="product-list product-slider hide">
+                {% for i in related_course_list %}
+                     
+                    <div class="tc-list" style="position: relative;">
+                        
+                            <div class="course-trend">
+                                {% get_dyna_color i.slug as dynamic_color %}
+                                <div class="course-trend-upper three" style="background: linear-gradient(45deg, {{dynamic_color.0}}, {{dynamic_color.1}})">
+                                    <div class="course-trend-upper-img">
+                                        <img loading="lazy" class="d-inline-block" src= "/media/{{i.course_icon}} "   alt="{{i.name}}" width="52" height="52">
+                                    </div><span>{{i.name|truncatechars:"42"}}</span>
+                                </div>
+                                <div class="course-trend-lower">
+                                    <p><span class="yellow-tag d-inline-block max-w-90" style="margin-top: 10px;margin-bottom: -12px;">{{ i.category_name.all|join:" &bull; " }}</span></p>
+                                    <span>{{i.name|truncatechars:"42"}}</span>
+                                    <div class="trending-course-review"><i>Reviews</i>
+                                        <div class="trending-course-review-star">
+                                            <div class="star">
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <strong>{{ i.rating }}</strong>
+                                        <span class="font-size-xxs ml-1">({{ i.review_count }})</span>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="overlay1"><i>Key Features</i><span class="listlearn">What will I learn?</span>
+                                    <ul>
+                                        <li>{{i.duration}} Hours of Learning</li>
+                                        <li>2 Hours of Assignments</li>
+                                        <li>100% Job Assistance</li>
+                                    </ul>
+                                    <a  href="/{{i.slug}}"><button>View Details</button></a>
+                                </div>
+                            </div>
+                        
+                    </div>
+                    
+                    <!-- // li -->
+                {% endfor %}
+
+                
+            </ul>
+        </section><!-- // Related Category CoursesCS -->
+{% endblock content %}

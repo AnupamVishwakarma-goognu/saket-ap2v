@@ -1,0 +1,38 @@
+.courses-tab {
+ border-bottom-width: 5px;
+ width: 100%;
+ margin: 0 auto;
+ font-size: $font-size-xxs;
+ text-transform: uppercase;
+ font-weight: 700;
+
+ @include media-breakpoint-up(lg) { 
+    width: 575px;
+    font-size: $font-size-md;
+}
+
+ .nav-link {
+     border: 0 none;
+     color: $gray-lightest;
+     padding: 1rem 0.3125rem;
+
+    @include media-breakpoint-up(lg) { 
+        padding: 1rem;
+    }
+
+     &.active {
+         background-color: transparent;
+
+         &:after {
+             content: '';
+             width: 80%;
+             height: 3px;
+             background-color: $primary;
+             display: block;
+             position: relative;
+             bottom: -19px;
+             margin: 0 auto;
+         }
+     }
+ }
+}

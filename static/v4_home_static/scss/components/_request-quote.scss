@@ -1,0 +1,28 @@
+.request-quote {
+    background-color: $white;
+    box-shadow: $box-shadow-sm;
+    top: 0;
+    position: relative;
+    padding-bottom: 15px;
+    border-radius: 10px;
+
+    @include media-breakpoint-up(lg) { 
+        top: -60px;
+        padding-bottom: 0;
+    }
+
+    &--img {
+        width: 100%;
+        height: 100%;
+    }
+
+    &--form {
+        padding-left: 15px;
+        padding-right: 15px;
+
+        @include media-breakpoint-up(lg) { 
+            padding-left: 100px;
+            padding-right: 100px;
+        }
+    }
+}

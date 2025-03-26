@@ -1,0 +1,465 @@
+{% load static %}
+
+{% load ap2v_course_tag %}
+{% load custom_tags %}
+
+<style>
+    /* Styles for the modal container */
+    .modal {
+        display: none; /* Hide the modal by default */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    }
+
+    /* Styles for the modal content */
+    .modal-content {
+        background-color: #fff;
+        margin: 10% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 30%;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+    .modal-content a {
+        display: flex;
+        height: 55px;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+    }
+    
+</style>
+
+
+<div id="myModall" class="modal">
+  
+    <div class="modal-content">
+        <span id="closetwoModalBtn" style="float: right; cursor: pointer;">&times;</span>
+       
+        <label>Study Material List:</label> 
+        <div id="studynew"></div>
+       </div>
+    </div>
+
+
+
+<!-- The modal container -->
+<div id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content" style="gap: 10px;">
+        <span id="closeModalBtn" style="float: right;
+        cursor: pointer;
+        font-size: 28px;
+        display: flex;
+        justify-content: flex-end;">&times;</span>
+        <a href="tel:+91-9958583685"  class="btn btn-success mb-2" style="    background: rgba(4, 221, 32, 0.10);        color: #04DD20;"> 
+            <img src="{% static 'images/callasis.svg' %}" alt=""> CALL NOW</a>
+            
+        
+        <a href="https://www.ap2v.com/chat/chat/58ad3e7c-51d6-4a1f-882d-9e86552aecb8/" target="_blank" class="btn btn-secondary mb-2" style="border: none; color: #E9C523; background-color: rgba(233, 197, 35, 0.1);"> <img src="{%static 'images/msgiconms.svg'%}" alt="">Live Chat</a>
+        <a href="https://calendly.com/ashutaiwal" class="btn btn-info mb-2" target="_blank" style="    background: rgba(35, 170, 233, 0.1) ;
+        color: #23AAE9;
+    "><img src="{%static 'images/bookmeetingicon.svg'%}">Book a meeting</a>
+        
+        <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Lodge a Ticket</button> -->
+        <a class="btn btn-primary" target="_blank" data-toggle="modal" data-target="#exampleModaltwo" style="border: none; background-color: rgba(99, 35, 233, 0.1) ; color: #6323E9;"><img src="{% static 'images/ticketiconim.svg'%}" alt="">Raise a Ticket</a> 
+    </div>
+</div>
+
+
+
+
+
+
+<div class="dashboard__leftPan" style="padding-top: 10px;">
+    <div class="accordion" id="dashboard">
+       {%comment%}
+        {% if request.user.email == 'subhash@goognu.com' %}
+        <button id="openModalBtn" style="  margin-bottom: 20px; width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+">Live Support</button>
+ <!-- <a href="#" id="twoModalBtn" style="  margin-bottom: 20px;" data-id="1 ">Study material</a> -->
+ <!-- <a class="course-curriculum" href="#" id="twoModalBtn" style="  margin-bottom: 20px;">
+    
+    Study material
+</a> -->
+   
+  {%endif%}
+  {%endcomment%}
+
+  <div class="modal fade" id="exampleModaltwo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 999999; ">
+    <div class="modal-dialog" role="document" style="z-index: 999999; ">
+      <div class="modal-content" style="    width: 100%;
+      ">
+        <div class="modal-header">
+          <button type="button" class="close align-self-end" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        <form class="ticketdataclass">        
+            <label for="subject" class="form-control-label">Subject:</label>
+            <input type="text" class="form-control" id="subject" name="subject" required>
+            
+            <label for="description" class="form-control-label">Description:</label>
+            <textarea id="description" class="form-control" name="description" rows="4" required></textarea>
+            
+            <button onclick="sendenquirydata('ticketdataclass')">Submit</button>
+            <div class="error-message" style="color:red;display:none;"></div>
+                            <div class="success-message" id="success-message" style="color:blue; margin-top: 5px;"></div>
+        </form>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <!-- modal  -->
+
+<!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <a href="tel:+91-9958583685" style="border-radius: 11px 0 0 0;" class="btn btn-success mb-2"> 
+                <img src="{% static 'images/callnowiconn.svg' %}" alt=""> CALL NOW</a>
+                <br>
+            
+            <a href="#" class="btn btn-secondary mb-2">Chat</a><br>
+            <a href="https://calendly.com/ashutaiwal" class="btn btn-info mb-2" target="_blank">Book a meeting</a><br>
+            
+            <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Lodge a Ticket</button> -->
+            <a class="btn btn-primary" data-toggle="modal" data-target="#exampleModaltwo">Lodge a Ticket</a>        </div>
+        <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+
+
+    <div id="ticketForm" style="display: none;">
+        <a href="tel:+91-9958583685" style="border-radius: 11px 0 0 0;" class="btn btn-success mb-2"> 
+            <img src="{% static 'images/callnowiconn.svg' %}" alt=""> CALL NOW</a>
+            <br>
+        
+        <a href="#" class="btn btn-secondary mb-2">Chat</a><br>
+        <a href="https://calendly.com/ashutaiwal" class="btn btn-info mb-2" target="_blank">Book a meeting</a><br>
+        
+        <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Lodge a Ticket</button> -->
+        <a class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Lodge a Ticket</a>
+    </div>
+        {% for i in enroll_data %}
+            {% get_batch_student_dropped i.id request.user.email as is_dropped %}
+            {% if not is_dropped %}
+                {% if i.batch_name %}
+                  
+                    {% check_remaning_batch_day i.end_date_time as batch_end %}
+                    <div class="white-box mb-4 {% if batch_end %}last-daysleft {% endif %}">
+                    {% if batch_end %}
+                        <div class="last-daysleft--mgs" style="position: unset;width: 130px;margin-top: -26px;margin-bottom: 15px;">{{batch_end}}</div>
+                    {% endif %}
+                        <div class="card-header" id="course-{{forloop.counter}}">
+                            <div class="dashboard__leftPan--course {% if forloop.counter == 1 %} {% else %} collapsed{% endif %}" data-toggle="collapse" data-target="#course{{forloop.counter}}"
+                                aria-expanded="{% if forloop.counter == 1 %} true {% else %} false {% endif %}" aria-controls="course{{forloop.counter}}">
+                                {% if i.batch_status == '4' %}
+                                    
+                                    
+                                    {% compare_date_for_classroom_page i.start_date_time as response %}
+                                    {% if response %}
+                                      
+                                        <a href="/classroom/start-batch?node={{rand_uuid}}&row_gw_perc_rec={{csrf_token}}&user={{request.user.email}}&batch_id={{i.id}}&token={{csrf_token}}" onclick="mark_stu_attendance('{{i.id}}')" class="live-classes" target="__BLANK__" class="live-classes">
+                                            <i class="icon-video-player"></i>
+                                            Start Live Class
+                                        </a>
+                                        
+
+                                    {% else %}
+                                        <a href="javascript:void(0)" class="live-classes" class="live-classes">
+                                            <i class="icon-video-player"></i>
+                                            Batch Will Start on {{i.start_date_time|date:'d-M-Y' }}
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
+                                <div class="cursor-pointer">
+                                    <p class="mb-0">Course Name: <strong> 
+                                                                            {% get_batch_courses i.id as course_name %}
+                                                                            {{course_name}}</strong> </p>
+                                    <p class="mb-0">Batch ID: <span class="text-gray-dark">{{i.id}}</span></p>
+                                    <p>Time: <span class="text-gray-dark">{{i.start_date_time|date:'h:iA' }}. {% get_week_days i.days_of_week as week %} ({{week}})</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="course{{forloop.counter}}" class="dashboard__leftPan--content collapse  {% if forloop.counter == 1 %} show {% else %} {% endif %}"
+                            aria-labelledby="course-{{forloop.counter}}" data-parent="#dashboard">
+                            <ul class="dashboard__leftPan--list">
+                                <li class="recording" id="cr_{{i.meeting_id}}">
+                                    <a {% if classroom == "true" %} href="javascript:void(0)"  onclick="load_recodring('{{i.id}}')" {% else %} href="/classroom" {% endif %} >Class recording</a>
+                                </li>
+                               
+                                <li class="course-curriculum {% if active_link == 'couCur-'|add:i.batch_name %} active  {% else %} {% endif %}">
+                                    <a href="/classroom/curriculum/couCur-{{i.batch_name}}">Course curriculum</a>
+                                </li>
+                                <li class="feedback {% if active_link == 'couFed-'|add:i.batch_name %} active  {% else %} {% endif %}">
+                                    <a href="/classroom/feedback/couFed-{{i.batch_name}}">Give your feedback</a>
+                                </li>
+                                <li class="chat-room {{tab}}">
+                                    <a href="/chat/">Chat Room</a>
+
+                                </li>
+                              
+                            </ul>
+                        </div>
+                    </div>
+                    {% if forloop.counter == 1 %}
+                        <script>
+                            //debugger;
+                            load_recodring('{{i.id}}','{{forloop.counter}}')
+                        </script>
+                    {% endif %}                
+                {% endif %}
+            {% endif %}
+          
+                
+
+          
+
+        {% endfor %}
+
+        <div class="dashboard__leftPan--certificate">
+            <div class="content">
+                <p class="mb-2">You earn an industry trusted course certificate once you complete the
+                    course</p>
+                <a href="#" data-toggle="modal" data-target="#courseCertificate"
+                    class="font-weight-bold">Preview Certificate</a>
+            </div>
+            <span>
+                <img src="{% static 'v4_home_static/images/dashboard/certificate.svg' %}" alt="certificate">
+            </span>
+
+            <!-- Modal -->
+            <div class="modal fade" id="courseCertificate" tabindex="-1" aria-labelledby="courseCertificateLabel" onclick="loadCertificateModal()" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&#x2715;</span>
+                        </button>
+
+                        <div class="modal-body mt-4">
+                             
+                            <table class="table table-hover table-sm">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Course</th>
+                                        <th scope="col">Complete Date</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                
+
+                                <tbody>
+                                    {% for i in stu_certificate_obj %}
+                                        <tr>
+                                            <td>{{i.course}}</td>
+                                            <td>{{i.date | date:'d-M-Y'}}</td>
+                                            <td><a href="/classroom/certificate/{{i.uuid}}" class="btn btn-link font-size-xs font-weight-bold" target="__BLANK__"> <i class="download-icon"></i>View Certificate</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                        
+                                </tbody>
+
+                            </table>
+
+                            <p class="certificate-note mt-3 mb-0" style="font-size: 10px;">
+                               
+                                We take your personal information from My Profile page. if
+                                you wish to make any changes.
+                                In case of any query kindly Contact us
+                            </p>
+                        </div>
+                        <div class="modal-footer certificate-footer pr-0">
+                            <p>You will be able to download the certificate once the project is
+                                verified.</p>
+                          
+                        </div>
+                    </div>
+                </div>
+            </div> 
+
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+<script>
+    // Get references to the modal and buttons
+    var modal = document.getElementById('myModal');
+    var openModalBtn = document.getElementById('openModalBtn');
+    var closeModalBtn = document.getElementById('closeModalBtn');
+
+    // Event listener to open the modal
+    openModalBtn.addEventListener('click', function() {
+        modal.style.display = 'block';
+    });
+
+    // Event listener to close the modal
+    closeModalBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+
+    // Close the modal if the user clicks outside of it
+    window.addEventListener('click', function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    });
+</script>
+
+<script>
+// Get references to the modal and buttons
+var modall = document.getElementById('myModall');
+var openModalBtns = document.querySelectorAll('.twoModalBtn'); // Select by class
+var closeModalBtnn = document.getElementById('closetwoModalBtn');
+
+// Event listener to open the modal for each button
+openModalBtns.forEach(function(openModalBtn) {
+  openModalBtn.addEventListener('click', function() {
+    modall.style.display = 'block';
+  });
+});
+
+// Event listener to close the modal
+closeModalBtnn.addEventListener('click', function() {
+  modall.style.display = 'none';
+});
+
+// Close the modal if the user clicks outside of it
+window.addEventListener('click', function(event) {
+  if (event.target == modall) {
+    modall.style.display = 'none';
+  }
+});
+
+$(document).ready(function() {
+  $(".twoModalBtn").on("click", function() {
+    var batch_id = $(this).data("id");
+    console.log("batchId:", batch_id);
+
+    $.ajax({
+      type: "POST",
+      data: { 'batch_id': batch_id },
+      url: "{% url 'get_study_materials' %}",
+      success: function(data) {
+        console.log("DATA coming:", data)
+        var studyNewDiv = document.getElementById("studynew");
+        studyNewDiv.innerHTML = '';
+        data.forEach(function(item) {
+
+          var atag = document.createElement('a');
+          atag.setAttribute('href', item['url']);
+
+          atag.innerText = item['name'];
+          studyNewDiv.appendChild(atag);
+
+        });
+      },
+    });
+  });
+});
+
+
+
+</script>
+<!-- <script>
+    // Get references to the modal and buttons
+    var modall = document.getElementById('myModall');
+    var openModalBtnn = document.getElementById('twoModalBtn');
+    var closeModalBtnn = document.getElementById('closetwoModalBtn');
+
+    // Event listener to open the modal
+    openModalBtnn.addEventListener('click', function() {
+        modall.style.display = 'block';
+    });
+
+    // Event listener to close the modal
+    closeModalBtnn.addEventListener('click', function() {
+        modall.style.display = 'none';
+    });
+
+    // Close the modal if the user clicks outside of it
+    window.addEventListener('click', function(event) {
+        if (event.target == modall) {
+            modall.style.display = 'none';
+        }
+    });
+</script>
+<script>
+    $(document).ready(function() {
+      $("#twoModalBtn").on("click", function() {
+        var batch_id = $(this).data("id");
+        console.log("batchId:",batch_id)
+        
+        $.ajax({
+          type: "POST",
+          data:{'batch_id':batch_id},
+          url: "{% url 'get_study_materials' %}",
+          success: function(data) {
+            console.log("DATA coming:",data)
+            var studyNewDiv = document.getElementById("studynew");
+            data.forEach(function(item) {
+     
+            var atag = document.createElement('a');
+            atag.setAttribute('href', item['url']);
+
+            atag.innerText = item['name'];
+            studyNewDiv.appendChild(atag);
+
+            });
+                    },
+                    });
+                  });
+               });
+</script> -->
+
+<script>
+    function loadCertificateModal(){
+
+    }
+
+    function mark_stu_attendance(batch_id){
+        //alert("Hello")
+
+        $.ajax({
+            url: '/classroom/mark_stu_attendance',
+            data: {"batch_id":batch_id,"csrfmiddlewaretoken": "{{ csrf_token }}"},
+            type: 'POST',
+            success: function(data) {
+                //alert("success")
+            },
+            error: function() {
+                alert("Internal Server Error!!!");
+            },
+        });
+    }
+</script>

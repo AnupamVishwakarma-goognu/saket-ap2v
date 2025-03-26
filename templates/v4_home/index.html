@@ -1,0 +1,1235 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% load compress %}
+
+{% block title %} AP2V {% endblock %}
+
+{% block css %}
+    {% compress css %}
+        {% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/home.css' %}" type="text/css" /> {% endcomment %}
+        <link media="all" rel="stylesheet" href="/static/v4_home_static/css/home.css" type="text/css" />
+     {% endcompress %}
+
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.ap2v.com/"
+        }]
+        }
+    </script>
+{% endblock css %}
+
+
+{% block content %}
+<style>
+ </style>   
+<div class="main-wrap">
+    {% include 'v4_home/sub_pages/push-down.html' %}
+    {% include 'v4_home/sub_pages/navigation.html' %}
+
+    <div class="home-banner">
+        <!-- <button class="banner-hov-btnn" data-toggle="modal" data-target="#offer-apply-now" >Know More </button>
+        <img class="dekban" loading="lazy" src="{% static 'v4_home_static/images/ny1.jpeg' %}" style="width:100%" alt="img">
+        <img class="mobban" loading="lazy" src="{% static 'v4_home_static/images/ny3.jpeg' %}" style="width:100%" alt="img"> -->
+        <!-- **********************************demo banner***************** -->
+       <div class="owl-carousel" id="carosule13">
+           <div class="item">
+               <div class="banner-str">
+                   <div class="banner-str-left">
+                    <div class="home-banner--left-pan d-flex flex-column justify-content-center">
+                        {% comment %} <span class="home-banner--left-pan--subHead">Holi Sale Up to 50% Off*</span> {% endcomment %}
+                        <h1 class="text-secondary">Automation With DevOps & Mastering in Python Combo</h1>
+                        {% comment %} <p class="text-gray-lightest">Access to Database <span class="px-2">|</span> Analysis<span
+                                class="px-2">|</span>Software<span class="px-2">|</span>Desktop GUIs</p> {% endcomment %}
+                        <p class="text-gray-lightest"><span style="font-size: 20px;font-weight: 900;color: #f80e0e;margin-bottom: 5px;">Offer Price:-</span> <span style="font-size: 20px;font-weight: 900;color: #f80e0e;">&#8377; 13,999</span> <span><strike> &#8377; 30,000</strike> </span></p> 
+                        <a href="/offers/" style="font-weight: 800;">
+                            View All Offers >>> </a>
+                        <div class="mt-3 d-flex relmoc">
+                            <button class="avl-btn"><a href="#" data-toggle="modal" data-target="#offer-apply-now" class="banner-avail-btn banner-butn">Avail 
+                                Now</a></button> 
+                                <button class="avl-btn">  <a href="#" onclick="openVideoModal('https://youtu.be/ckflIk2D0zA')" class="banner-demo-btn banner-butn"><i
+                                    class="icon-video-player mr-2"></i>Watch Demo</a></button> 
+                        </div>
+                    </div>
+                   </div>
+
+                   <div class="banner-str-right"><img loading="lazy" src="{% static 'v4_home_static/images/banner1-1.png' %}" alt="img">
+                    {% comment %} <div class="banner-str-right"><img loading="lazy" src="{% static 'v4_home_static/images/15_aug_offer.png' %}" alt="img"> {% endcomment %}
+                   </div>
+                   
+               </div>
+               <!-- <img src="{% static 'v4_home_static/images/Page 1.jpg' %}" alt="img"style="width:1300px; height:400px ;position:relative;"> -->
+           </div>
+           <div class="item">
+               <div class="banner-str">
+                   <div class="banner-str-left">
+                    <div class="home-banner--left-pan d-flex flex-column justify-content-center">
+                        {% comment %} <span class="home-banner--left-pan--subHead">Holi Sale Up to 50% Off*</span> {% endcomment %}
+                        <h1 class="text-secondary">Automation With DevOps & AWS Solution Architect Combo</h1>
+                        {% comment %} <p class="text-gray-lightest">Access to Database <span class="px-2">|</span> Analysis<span
+                                class="px-2">|</span>Software<span class="px-2">|</span>Desktop GUIs</p> {% endcomment %}
+                        <p class="text-gray-lightest"><span style="font-size: 20px;font-weight: 900;color: #f80e0e;">Offer Price:-</span> <span style="font-size: 20px;font-weight: 900;color: #f80e0e;">&#8377; 14,999</span> <span><strike> &#8377; 30,000</strike> </span></p>
+                        <a href="/offers/" style="font-weight: 800;">
+                            View All Offers >>> </a>
+                        <div class="mt-4 d-flex relmoc">
+                            <button class="avl-btn"><a href="#" data-toggle="modal" data-target="#offer-apply-now" class="banner-avail-btn banner-butn">Avail
+                                Now </a></button>
+                                <button class="avl-btn">  <a href="#" onclick="openVideoModal('https://youtu.be/oym-O2OIbNU')" class="banner-demo-btn banner-butn"><i
+                                    class="icon-video-player mr-2"></i>Watch Demo</a></button> 
+                        </div>
+                    </div>
+                   </div>
+
+                   <div class="banner-str-right"><img loading="lazy" src="{% static 'v4_home_static/images/banner1-2.png' %}" alt="img">
+                   </div>                 
+               </div>
+               <!-- <img src="{% static 'v4_home_static/images/Page 2.jpg' %}" alt="img"style="width:1300px; height:400px ;position:relative;"> -->
+           </div>
+           <div class="item">
+               <div class="banner-str">
+                   <div class="banner-str-left">
+                    <div class="home-banner--left-pan d-flex flex-column justify-content-center">
+                        {% comment %} <span class="home-banner--left-pan--subHead">Holi Sale Up to 50% Off*</span> {% endcomment %}
+                        <h1 class="text-secondary">Terraform & Kubernetes Combo</h1>
+                        {% comment %} <p class="text-gray-lightest">Access to Database <span class="px-2">|</span> Analysis<span
+                                class="px-2">|</span>Software<span class="px-2">|</span>Desktop GUIs</p> {% endcomment %}
+                            <p class="text-gray-lightest"><span style="font-size: 20px;font-weight: 900;color: #f80e0e;">Offer Price:-</span> <span style="font-size: 20px;font-weight: 900;color: #f80e0e;">&#8377; 14,999</span> <span><strike> &#8377; 30,000</strike> </span></p>
+                            <a href="/offers/" style="font-weight: 800;">
+                                View All Offers >>> </a>
+                            <div class="mt-4 d-flex relmoc">
+                                <button class="avl-btn"><a href="#" data-toggle="modal" data-target="#offer-apply-now" class="banner-avail-btn banner-butn">Avail
+                                    Now </a></button>
+                                    <button class="avl-btn"><a href="#" onclick="openVideoModal('https://youtu.be/kSuBDx2TiwE')" class="banner-demo-btn banner-butn"><i
+                                        class="icon-video-player mr-2"></i>Watch Video</a></button> 
+                        </div>
+                    </div>
+                   </div>
+
+                   <div class="banner-str-right"><img loading="lazy" src="{% static 'v4_home_static/images/banner1-3.png' %}" alt="img">
+                   </div>                
+               </div>
+               <!-- <img src="{% static 'v4_home_static/images/Page 3.jpg' %}" alt="img"style="width:1300px; height:400px ;position:relative;"> -->
+           </div>
+           <!-- <div class="item">
+            <img src="{% static 'v4_home_static/images/Page 4.jpg' %}" alt="img"style="width:1300px; height:400px ;position:relative;">
+           </div> -->
+            
+
+       </div>       
+     </div>
+    <!-- // Banner -->
+      
+
+
+    <section class="w-100 pt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-10 m-auto text-center text-gray-light">
+                    <h2>Explore Courses</h2>
+                    <p>With the variety of courses offered by AP2V, be assured to stay ahead with the industry standards. Enhance your skills with our courses designed to suit individual and organisational needs.
+                    </p>
+                </div>
+            </div><!-- // Row -->
+
+                <div class="courses-tab-wrap">
+                    <ul class="nav nav-tabs courses-tab mt-3" id="coursesTab" role="tablist">
+                        {% for i in category_home %}
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link {% if forloop.counter == 1%}active {% endif %}" id="{{i.slug}}-tab-explore-ta" data-toggle="tab" href="#{{i.slug}}-explore" role="tab"
+                                    aria-controls="{{i.slug}}" aria-selected="true">{{i.name}}</a>
+                            </li>
+                        {% endfor %}
+                    </ul><!-- // Tabs ends -->
+                    <button type="button" onclick="slide('left')" class="courses-tab-prev"></button>
+                    <button type="button" onclick="slide('right')" class="courses-tab-next"></button>
+                </div>
+                
+
+            <div class="tab-content mt-3 mt-md-5" id="myTabContent">
+                {% for i in category_home %}
+                    <div class="tab-pane fade show {% if forloop.counter == 1%}active {% endif %}" id="{{i.slug}}-explore" role="tabpanel" aria-labelledby="{{i.slug}}-tab-explore-ta">
+                        <ul class="product-list product-slider">
+                            {% get_category_course i.slug as all_course %}
+                            {% for crs in all_course %}
+                                <div class="tc-list" style="position: relative;">
+                                         <div class="course-trend">
+                                            {% get_dyna_color i.slug as dynamic_color %}
+                                            <div class="course-trend-upper three" style="background: linear-gradient(45deg, {{dynamic_color.0}}, {{dynamic_color.1}})">
+                                                <div class="course-trend-upper-img">
+                                                    <img loading="lazy" class="d-inline-block" src= "/media/{{crs.course_icon}} "   alt="{{crs.name}}" width="52" height="52">
+                                                </div><span >{{crs.name|truncatechars:"42"}}</span>
+                                            </div>
+                                            <div class="course-trend-lower">
+                                                <p><span class="yellow-tag d-inline-block max-w-90" style="margin-top: 10px;margin-bottom: -12px;">{{ crs.category_name.all|join:" &bull; " }}</span></p>
+                                                <a href="/{{crs.slug}}" style="font-weight: 700; color: #000">{{crs.name|truncatechars:"42"}}</a>
+                                                <div class="trending-course-review"><i>Reviews</i>
+                                                    <div class="trending-course-review-star">
+                                                        <div class="star">
+                                                            <span class="icon-star-orange "> </span>
+                                                            <span class="icon-star-orange "> </span>
+                                                            <span class="icon-star-orange "> </span>
+                                                            <span class="icon-star-orange "> </span>
+                                                            <span class="icon-star-orange "> </span>
+                                                            <strong>{{ crs.rating }}</strong>
+                                                    <span class="font-size-xxs ml-1">({{ crs.review_count }})</span>
+                                                        </div> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="overlay1">
+                                                                                              
+                                                 
+                                                <span class="listlearn">What will You Get ?</span>
+                                                <ul>
+                                                    <li>{{crs.duration}} Hours of Learning</li>
+                                                    <li>2 Hours of Assignments</li>
+                                                    <li>100% Job Assistance</li>
+                                                </ul>
+                                                <a><button type="button" data-toggle="modal" data-target="#apply-now" > Apply Now</button></a>
+                                                
+                                                <a  href="/{{crs.slug}}"><button>View Details</button></a>
+                                            </div>
+                                           
+                                        </div>
+                                 </div>
+                            {% endfor %}
+                                </ul>
+                        <div class="text-center mt-30">
+                            <a href="/courses/" class="btn btn-outline-dark rounded-60 px-4">ALL COURSES</a>
+                        </div>
+                    </div><!-- tab Panel -->
+                {% endfor %}
+            </div><!-- // Tab content -->
+        </div><!-- // container -->
+    </section><!-- // Explore our Courses-->
+     
+    {% include 'v4_home/sub_pages/add_to_cart_model.html' %}
+    
+ 
+    <section class="bg-gray">
+        <div class="container">
+            <div class="col-12 col-md-10 m-auto text-center text-gray-light">
+                <div class="mb-5">
+                    <h2>Featured Courses</h2>
+                    <p>AP2V has one of the best and most trending and on-demands courses in IT Market. Take a glance
+                        at the features courses we offers.</p>
+                </div>
+            </div>
+
+            <div class="owl-carousel corensol1223" id="carosule16">
+                {% for course in courses %}
+                {% if course.featured %}
+                    <div class="tc-list" style="position: relative;">
+                         
+                            <div class="course-trend">
+                                {% get_dyna_color i.slug as dynamic_color %}
+                                <div class="course-trend-upper three" style="background: linear-gradient(45deg, {{dynamic_color.0}}, {{dynamic_color.1}})">
+                                    <div class="course-trend-upper-img">
+                                        <img loading="lazy" class="d-inline-block" src= "/media/{{course.course_icon}} "   alt="{{course.name}}" width="52" height="52">
+                                    </div><span>{{course.name|truncatechars:"42"}}</span>
+                                </div>
+                                <div class="course-trend-lower">
+                                    <p><span class="yellow-tag d-inline-block max-w-90" style="margin-top: 10px;margin-bottom: -12px;">{{ course.category_name.all|join:" &bull; " }}</span></p>
+                                    <!-- <span>{{course.name|truncatechars:"42"}}</span> -->
+                                    <a href="/{{course.slug}}" style="font-weight: 700; color: #000">{{course.name|truncatechars:"42"}}</a>
+                                    <div class="trending-course-review"><i>Reviews</i>
+                                        <div class="trending-course-review-star">
+                                            <div class="star">
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <strong>{{ course.rating }}</strong>
+                                        <span class="font-size-xxs ml-1">({{ course.review_count }})</span>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="overlay1"><span class="listlearn">What will You Get ?</span>
+                                    <ul>
+                                        <li>{{course.duration}} Hours of Learning</li>
+                                        <li>2 Hours of Assignments</li>
+                                        <li>100% Job Assistance</li>
+                                    </ul>
+                                    <!-- <a onclick="addid('{{course.id}}','{{course.id}}')" ><button type="button" id="addtooocartt{{course.id}}" > Apply Now</button></a> -->
+                                    <a ><button  type="button" data-toggle="modal" data-target="#apply-now" > Apply Now</button></a>
+                                    <a  href="/{{course.slug}}"><button>View Details</button></a>
+                                </div>
+                            </div>
+                        
+                    </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+            <div class="text-center mt-30 w-100">
+		    <a href="/courses/" class="btn btn-outline-dark rounded-60 px-4">ALL FEATURED COURSES</A>
+            </div>
+        </div><!-- // Container -->
+    </section><!-- // Featured Courses-->
+
+    <section class="featured-certification">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-5">
+                    <h2 class="align-items-start">Featured certifications</h2>
+                    <p>AP2V offer globally recognized certifications which helps candidates to stand out from the crowd.
+                        The individuals can gain credibility after getting certified and it enable organizations to
+                        identify the skilled Professionals.</p>
+                </div>
+                <div class="col-md-7">
+                    <div class="owl-carousel stick-caro" id="carosule31">
+                        {% for i in certificate_queryset %}
+                        
+                            <div class="white-box shadow-md text-center">
+                                <img loading="lazy" src="https://ik.imagekit.io/xlhbiww2hpp/media/{{i.certificate_image}}" alt="certificate" class="img-fluid">
+                                <h5 class="text-secondary my-4">{{i.certification_text}}</h5>
+                            </div>
+                        
+                    {% endfor %}
+                    </div>
+
+                    <a href="#" class="featured-certification--cities text-uppercase font-weight-bold" data-toggle="modal" data-target="#cities">Cities <i class="icon-maps"></i></a>
+                    {% include 'v4_home/sub_pages/cities.html' %}
+                </div>
+            </div>
+        </div><!-- // container -->
+
+    </section><!-- // Featured certifications  -->
+
+    <section class="bg-gray learning-path">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-5">
+                    <h2 class="align-items-start">Learning Path</h2>
+                    <p>Offering IT Courses that will get you to the top. Identify your true potential. Enrol now!</p>
+                    <p><img loading="lazy" src="{% static 'v4_home_static/images/learning-path.png' %}" class="img-fluid" alt="courses %}"></p>
+                </div>
+
+                <div class="col-md-7">
+                    <ul class="learning-path__lists">
+                        {% for i in learning_path_queryset|slice:":4" %}
+                            <li>
+                                <div class="learning-path--box white-box shadow-md">
+                                    <a href="/learning-path/{{i.slug}}"><h6 class="text-secondary">{{i.heading}}</h6></a>
+                                    <p>{{i.description | safe |striptags|truncatechars:"100"  }}</p>
+                                    <a href="/learning-path/{{i.slug}}" class="know-more">View Learning path</a>
+                                    <span class="learning-path--box--img"><img loading="lazy" src="/media/{{i.small_svg_image_for_home}}" alt="courses"></span>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    <p class="text-center"><a href="/learning-path/" class="know-more">Broswse all learning path</a></p>
+
+                </div>
+            </div>
+        </div><!-- // container -->
+    </section><!-- // Learning Path  -->
+    <section class=" placement">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-5">
+                    <h2 class="align-items-start">Placement Process</h2>   
+                </div>
+            </div>
+        </div>
+            <img loading="lazy" src="{% static 'v4_home_static/images/placement.jpg' %}" width="100%" alt="">
+    </section>
+<!-- Placement process -->
+<!-- Alumni -->
+<div class="alumnai-section">
+    <div class="almn-main">
+         <div class="main-clients">
+            <section class=" alux">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-md-5">
+                            <h2 class="align-items-start">Alumni Network</h2> 
+                        </div>
+                    </div>
+                </div>
+             </section>
+             <div class="sitol">
+                <span>              Trusted By 50,000 people  <br> World Wide        
+                </span>
+              </div>
+             <div class="parol">
+            <div class="main-client">
+                <img loading="lazy" src="{% static 'v4_home_static/images/alumn1.png' %}"  alt="img">
+                
+            </div>
+            <div class="main-client">
+                <img loading="lazy" src="{% static 'v4_home_static/images/alumn2.png' %}" alt="img" >
+                
+            </div>
+            <div class="main-client">
+                <img loading="lazy" src="{% static 'v4_home_static/images/alumn3.png' %}" alt="img" style="width: 200px;height: 50px;">
+                
+            </div>
+            <div class="main-client">
+                <img loading="lazy" src="{% static 'v4_home_static/images/alumn4.png' %}" alt="img" style="width: 200px;height: 50px;">
+                
+            </div>
+            <div class="main-client">
+                <img loading="lazy" src="{% static 'v4_home_static/images/alumn5.png' %}" alt="img" style="width: 200px;height: 50px;">
+                
+            </div>
+            <div class="main-client">
+                <img loading="lazy" src="{% static 'v4_home_static/images/alumn6.png' %}" alt="img" style="width: 200px;height: 50px;">
+                
+            </div>
+            <div class="main-client">
+                <img loading="lazy" src="{% static 'v4_home_static/images/alumn7.png' %}" alt="img" style="width: 200px;height: 50px;">
+                
+            </div>
+            <div class="main-client">
+                <img loading="lazy" src="{% static 'v4_home_static/images/alumn8.png' %}" alt="img" style="width: 200px;height: 50px;">
+                
+            </div>
+            <!-- <div class="main-client">
+                <img loading="lazy" src="{% static 'v4_home_static/images/alumn9.png' %}" alt="img" style="width: 200px;height: 50px;">
+                
+            </div> -->
+            <div class="main-client">
+                <img loading="lazy" src="{% static 'v4_home_static/images/alumn10.png' %}" alt="img" style="width: 200px;height: 50px;">
+                
+            </div>
+            <div class="main-client">
+                <img loading="lazy" src="{% static 'v4_home_static/images/alumn11.png' %}" alt="img" style="width: 200px;height: 50px;">
+                
+            </div>
+            <div class="main-client">
+                <img loading="lazy" src="{% static 'v4_home_static/images/alumn12.png' %}" alt="img" style="width: 200px;height: 50px;">
+                
+            </div>
+            <div class="main-client">
+                <img loading="lazy" src="{% static 'v4_home_static/images/alumn13.png' %}" alt="img" style="width: 200px;height: 50px;">
+                
+            </div>
+            <div class="main-client">
+                <!-- <img loading="lazy" src="{% static 'v4_home_static/images/alumn14.png' %}" alt="img" style="width: 200px;height: 50px;"> -->
+                
+            </div> 
+        </div>
+
+        </div>
+    </div>
+    <section class="featured-certification">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-5">
+                    <h2 class="align-items-start">Our Top Achievers</h2>
+                </div>
+            </div>
+        </div><!-- // container -->
+
+    </section>
+    <div class="owl-carousel" id="carosule1">
+       
+        <div class="item1">
+            <div class="img-item"><img loading="lazy" src="{% static 'v4_home_static/images/akash.jpg' %}" alt="img"></div>
+            <p class="alumni-name">Akash Sharma</p>
+            <p class="alumni-desi">Full Stack Developer</p>
+            <h5>Training: (4 - 6 months)</h5>
+            {% comment %} <a href=""><span>Linkdin profile</span></a> {% endcomment %}
+            <p>Package: <span class="package"> 14 LPA</span>
+            </p>
+        </div>
+        <div class="item1">
+            <div class="img-item"><img loading="lazy" src="{% static 'v4_home_static/images/kuldeep.jpg' %}" alt="img"></div>
+            <p class="alumni-name">Kuldeep Yadav</p>
+            <p class="alumni-desi">Linux administrator</p>
+            <h5>Training: (8 - 10 months)</h5>
+            {% comment %} <a href=""><span>Linkdin profile</span></a> {% endcomment %}
+            <p>Package: <span class="package"> 22 LPA</span></p>
+            
+        </div>
+        <div class="item1">
+            <div class="img-item"><img loading="lazy" src="{% static 'v4_home_static/images/rampal.png' %}" alt="img"></div>
+            <p class="alumni-name">Rampal Kumar</p>
+            <p class="alumni-desi">Devops Engineer</p>
+            <h5>Training: (6 - 8 months)</h5>
+            {% comment %} <a href=""><span>Linkdin profile</span></a> {% endcomment %}
+            <p>Package: <span class="package"> 16 LPA</span></p>
+            
+        </div>
+        
+     
+
+    </div>
+</div>
+<!-- Alumni -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-12 m-auto">
+                    <div class="testimonials__head">
+                        <h5 class="text-uppercase mb-0">happy clients</h5>
+                        <h2>What our clients are saying </h2>
+                    </div>
+
+                    <ul class="testimonials__slider">
+                    {% for testimonial in testimonials %}
+                        <li>
+                            <!-- <span class="testimonials__slider--image mb-3">
+                                <img loading="lazy" src="/media/{{testimonial.image}}" alt="Client Image">
+                            </span> -->
+                            <p class="testimonials__slider--content">{{testimonial.content|truncatechars:"250"|safe}}</p>
+
+                            <p class="testimonials__slider--name mb-0">- {{testimonial.name}}</p>
+                            <p>{{testimonial.company}}</p>
+                        </li><!-- // li -->
+                        {% endfor %}
+                    </ul>
+                </div><!-- // col -->
+            </div><!-- //row -->
+        </div><!-- // Containe -->
+    </section><!-- // What our clients are saying -->
+
+    <section class="container request-quote pt-0 overflow-hidden shadow-md">
+        <div class="row">
+            <div class="col-12 col-lg-6 pl-0 d-none d-lg-block">
+                <img loading="lazy" src="{% static 'v4_home_static/images/enquery-now.png' %}" alt="Enqp" class="request-quote--img">
+            </div>
+
+            <div class="col-12 col-lg-6 request-quote--form">
+                <div class="text-center py-3 mt-3">
+                    <h2>Enquire now</h2>
+                    <p>Save time and money with free quote</p>
+                </div>
+                    <ul>
+                        <li id="error_name_01" class="form-group">
+                            <div class="input-effect">
+                                <input type="text" id="name_h1" name="name" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name" required>
+                                <label>Full name</label>
+                                <p class="error--mgs">Please enter Name</p>
+                            </div>
+
+                        </li>
+                        <li id="error_email_001" class="form-group">
+                            <div class="input-effect">
+                                <input type="email" id="email_h1" name="email_address" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name" required>
+                                <label>Email Address</label>
+                                <p class="error--mgs">Please enter email</p>
+                            </div>
+                        </li>
+                        <li id="error_mobile_001" class="form-group">
+                            <div class="input-effect">
+                                <div class="phone-cc form-control">
+                                    <input type="text" id="phone5" class="form-control" style="width: 0px;border: none;padding-left: 79px;outline: none;">
+                                    <div class="input-effect phone">
+                                        <input type="tel" id="mobile_h1" name="mobile_number" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name" required maxlength="10">
+                                        <label>Mobile Number</label>
+                                        <p class="error--mgs">Please enter mobile number</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li id="error_message_01" class="form-group">
+                            <div class="input-effect flex-fill">
+                                <textarea id="message_h1" aria-label="message" name="text_message" class="form-control animation-input" id="Message" rows="3" required></textarea>
+                                <label>Message</label>
+                                <p class="error--mgs">Please enter message</p>
+                            </div>
+                        </li>
+
+                        <!-- <label style="margin: 0;font-size: 10px;margin-left: 5px;">Suitable Date Time</label>
+                        <li id="datetime1" class="form-group">
+                            <div class="input-effect">
+                                <input type="datetime-local" id="datetime1d" class="form-control animation-input border-top-left-radius-0"
+                                    placeholder aria-label="datetime" aria-describedby="name">
+                                
+                                <p class="error--mgs">Please enter email</p>
+                            </div>
+                        </li> -->
+
+                        <li class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input id="custom_check_h1" type="checkbox" class="custom-control-input" required>
+                                <label class="custom-control-label font-size-xxs" for="custom_check_h1">I have read and
+                                    agreed to the <a href="https://www.ap2v.com/terms-and-conditions/" target="__BLANK__" >Terms & Conditions</a> and  <a href="https://www.ap2v.com/privacy-policy/" target="__BLANK__">Privacy Policy</a></label>
+                            </div>
+                        </li>
+                        
+                    <!-- Java script Code to get the Page source Imformation that send in enquiry email -->
+                        <input type="text" name="url_page_name" aria-label="url_page_name1" id="url_h1" hidden>
+                            <script type="text/javascript">
+                                let a1url = window.location.href;
+                                document.getElementById("url_h1").value = a1url
+                            </script>
+                    <!-- End javascript Code here -->
+                        
+                        
+
+                        <p id="success_message"></p>
+
+                        <li>
+                            <input type="text" name="page_ms2" hidden id="page_ms2">
+                            <button onclick="submitEnquiry1()" id="subbtnIndexEnq" type="button" class="btn btn-primary rounded-60 px-4">Send Now</button>
+                        </li>
+                    </ul>
+            </div>
+        </div>
+    </section><!-- // Request A Free Quote -->
+
+    <section class="recent-event bg-gray p-0">
+        <div class="container">
+            <div class="row row-eq-height">
+                <div class="col-lg-6">
+                    <div class="recent-event__content mt-4 mt-sm-5">
+                        <h2 class="align-items-start">Recent Event</h2>
+                        <p class="mb-0 font-size-xs">Want to know when is the next batch for Linux going to start or to check the exam date. Check our event page and keep yourself updated about what is new in AP2V.</p>
+                        <ul class="recent-event__content__list mt-4">
+                        {% for event in events %}
+                            <li>
+                                <span class="icon-calendar-star text-primary mr-3"></span>
+                                <div class="recent-event__content__list--content">
+                                    <h4 class="text-gray-dark">{{event.name}}</h4>
+                                    <p class="mb-0 font-size-xs">{{event.description|striptags|truncatechars:"200"|safe}}.</p>
+                                    <p class="mb-0 font-size-xs">{{event.date}}  -  {{event.start_time}} to {{event.end_time}}  -  {{event.venue.city}}</p>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <a href="/events/" class="know-more pl-1 pb-5">View all Events</a>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 d-none d-lg-block">
+                    <div class="recent-event__image-container">
+                        <div class="recent-event__image-container--image">
+                            <img loading="lazy" src={% static "v4_home_static/images/recent-event.png" %} alt="Recent Events">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- // Recent Events -->
+
+    <!-- Recent Articles-->
+    <section class="recent-articles">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-12 col-10 m-auto text-center text-gray-light">
+                    <h2>Recent Articles</h2>
+                    <p>Welcome to our AP2V blogs hub. Here you can access all latest documentations for variety of live
+                        projects and trending technologies and topics.</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="owl-carousel" id="carosule14">
+            {% for blog in blogs %}
+                <div class="item">                    
+                    <div class="white-box">
+                        <div class="recent-articles--thumbImg">
+                            <img loading="lazy" src="https://ik.imagekit.io/xlhbiww2hpp/media/{{blog.image}}" alt="Recent Articles" class="img-fluid">
+                        </div>
+                        <div class="recent-articles--content">
+                            <div class="d-flex justify-content-between mb-3">
+                                <span>
+                                    <i class="icon-user-fill mr-1"></i>
+                                    {{blog.author}}
+                                </span>
+                                <span>
+                                    <i class="icon-date mr-1"></i>
+                                    {{blog.published_on}}
+                                </span>
+                            </div>
+                            <h3><a href="/blog/{{blog.slug}}">{{blog.title}}</a></h3>
+                            <p>{{blog.content|striptags|truncatechars:"140"|safe}}...</p>
+                            <a href="/blog/" class="know-more">View all blogs</a>
+                        </div><!-- // recent-articles -->
+                    </div><!-- // white box -->
+                </div>
+                <!-- // col -->
+                {% endfor %}</div>
+            </div><!-- // row -->
+        </div>
+    </section><!-- // Recent Articles-->
+
+    <!--Apply Now Modal -->
+    <div class="modal fade" id="previewVideoEnquiry" tabindex="-1" aria-labelledby="apreviewVideoEnquiryLabel" aria-hidden="true">
+        <div class="modal-dialog form-modal">
+            <div class="modal-content">
+                <div class="form-modal__wrapper">
+                    <span class="form-modal__wrapper--img d-none d-md-block">
+                        <img src="{% static 'v4_home_static/images/modal/video-intro.png'%}" class="img-fluid" loading="lazy" alt="model_image">
+                    </span>
+                    <div class="form-modal__wrapper--form">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Watch Intro Video</h5>
+                            <p class="font-size-xs mb-0 text-gray-medium">Join our community of 5,00,000 learners</p>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&#x2715;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <ul>
+                                <li id="error_name9" class="form-group">
+                                    <div class="input-effect">
+                                        <input type="text" id="name9" class="form-control animation-input border-top-left-radius-0"
+                                            placeholder aria-label="name" aria-describedby="name">
+                                        <label>Full Name</label>
+                                        <p class="error--mgs">Please enter name</p>
+                                    </div>
+                                </li>
+
+                                <li id="error_mobile9" class="form-group">
+                                    <div class="phone-cc form-control">
+                                        {% comment %} <select class="form-control code">
+                                            <option>+91</option>
+                                        </select> {% endcomment %}
+                                        <input type="text" id="phone1" class="form-control" style="width: 0px;border: none;padding-left: 79px;outline: none;">
+                                        <div class="input-effect phone">
+                                            <input type="text" maxlength="10" id="mobile9" class="form-control animation-input border-top-left-radius-0" placeholder
+                                                aria-label="name" aria-describedby="name">
+                                            <label>Phone Number</label>
+                                            <p class="error--mgs">Please enter number</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                
+                                <li id="error_email9" class="form-group">
+                                    <div class="input-effect">
+                                        <input type="email" id="email9" class="form-control animation-input border-top-left-radius-0"
+                                            placeholder aria-label="name" aria-describedby="name">
+                                        <label>Email Id</label>
+                                        <p class="error--mgs">Please enter email</p>
+                                    </div>
+                                </li>
+
+                                <!-- <label style="margin: 0;font-size: 10px;margin-left: 5px;">Suitable Date Time</label>
+                                <li id="datetime9" class="form-group">
+                                    <div class="input-effect">
+                                        <input type="datetime-local" id="datetime9d" class="form-control animation-input border-top-left-radius-0"
+                                            placeholder aria-label="datetime" aria-describedby="name">
+                                        
+                                        <p class="error--mgs">Please enter email</p>
+                                    </div>
+                                </li> -->
+
+                                <p id="error_message9"></p>
+                                <p id="success_message9"></p>
+
+                                <li>
+                                    <input type="text" name="page_ms2" hidden id="page_ms9">
+                                    <input type="text" id="vidPreviewLink" hidden >
+                                    <button onclick="applyNowPreview0()" id="subbtnWatchVideo" class="btn btn-lg btn-outline-primary rounded-60 px-4">Unlock Demo</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    <script>
+        $('#carosule13').owlCarousel({
+  items: 4,
+  margin: 10,
+  loop: true,
+  autoplay: true,
+  autoplayHoverPause: true,
+  responsive: {
+    0: {
+      items: 1,
+      nav: false,
+    },
+    700: {
+      items: 1,
+      nav: false,
+    },
+    1000: {
+      items: 1,
+      nav: false,
+    },
+  },
+  })
+    </script>
+   <script>
+    $('#carosule31').owlCarousel({
+items: 4,
+margin: 10,
+loop: true,
+autoplay: true,
+autoplayHoverPause: true,
+responsive: {
+0: {
+  items: 1,
+  nav: false,
+},
+700: {
+  items: 1,
+  nav: false,
+},
+1000: {
+  items: 2,
+  nav: false,
+},
+},
+})
+</script>
+    <script>
+        $('.corensol1223').owlCarousel({
+   margin: 10,
+  loop: true,
+  autoplay: true,
+  autoplayHoverPause: true,
+  responsive: {
+    0: {
+      items: 1,
+      nav: false,
+    },
+    700: {
+      items: 2,
+      nav: false,
+    },
+    1000: {
+      items: 4,
+      nav: false,
+    },
+  },
+  })
+    </script>
+    
+    <script>
+        $('#carosule14').owlCarousel({
+  items: 4,
+  margin: 10,
+  loop: true,
+  autoplay: true,
+  autoplayHoverPause: true,
+  responsive: {
+    0: {
+      items: 1,
+      nav: false,
+    },
+    700: {
+      items: 1,
+      nav: false,
+    },
+    1000: {
+      items: 3,
+      nav: false,
+    },
+  },
+  })
+    </script>
+    
+    <script>
+        $('#carosule1').owlCarousel({
+  items: 4,
+  margin: 10,
+  loop: true,
+  autoplay: true,
+  autoplayHoverPause: true,
+  responsive: {
+    0: {
+      items: 1,
+      nav: false,
+    },
+    700: {
+      items: 1,
+      nav: false,
+    },
+    1000: {
+      items: 3,
+      nav: false,
+    },
+  },
+  })
+    </script>
+    <script>
+        var input = document.querySelector("#phone1");
+        window.intlTelInput(input, {
+            separateDialCode: true,
+            excludeCountries: ["pk", "il","ba","cf","cd","pm","do","gp","st"],
+            preferredCountries: ["{{mylip}}"]
+        });
+    </script>
+
+    <script>
+        function applyNowPreview0(){
+            var name = document.getElementById("name9").value;
+            var email = document.getElementById("email9").value;
+            var mobile_number = document.getElementById("mobile9").value;
+            var page_ms9 = document.getElementById("page_ms9").value;
+            //var datetime = document.getElementById("datetime9d").value;
+            var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            var loc = window.location.href
+
+
+            try {
+                //var con_code = $(".iti__selected-flag").attr("title")
+                var con_code = $(".iti__selected-flag").attr("title")
+                var con_code = $("#error_mobile9").find('.iti__selected-flag').attr("title");
+                con_code = con_code.split(":");
+                con_code = con_code[1].trim();
+            }
+            catch(err) {
+                con_code = "N/A"
+            }
+            //alert(con_code)
+        
+            if(name.trim().length == 0){
+                $("#error_name9").addClass("error");
+                document.getElementById("name9").focus();
+                return false;
+            }
+            if(email.trim().length == 0){
+                $("#error_email9").addClass("error");
+                document.getElementById("email9").focus();
+                return false;
+            }
+            if(mobile_number.trim().length == 0){
+                $("#error_mobile9").addClass("error");
+                document.getElementById("mobile9").focus();
+                return false;
+            }
+            if(mobile_number.trim().length < 10){
+                $("#error_mobile9").addClass("error");
+                document.getElementById("mobile9").focus();
+                return false;
+            }
+    
+            if(!$.isNumeric(mobile_number)){
+                $("#error_mobile9").addClass("error");
+                document.getElementById("mobile9").focus();
+                return false;
+            }
+
+
+            if(email.match(mailformat)){
+                mydata = {
+                    reference: "ap2v.com",
+                    name: name,
+                    con_code:con_code,
+                    mobile:mobile_number,
+                    email:email,
+                    comments:window.location.href,
+                    source_ip: document.getElementById("source_ip").value,
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    page_ms2:page_ms9,
+                    //datetime:datetime
+                }
+
+                $("#subbtnWatchVideo").prop("disabled", true);
+                // add spinner to button
+                $("#subbtnWatchVideo").html(
+                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submiting...'
+                );
+
+                $.ajax({
+                    url : "/create_enquiry",
+                    method : "POST",
+                    data : mydata,
+                    success:function(data) {
+                        if (data.code == 1){
+                            document.getElementById("success_message2").innerHTML = "Your query has been submitted successfully."
+                            $("#error_name9").removeClass("error");   
+                            $("#error_email9").removeClass("error");  
+                            $("#error_mobile9").removeClass("error"); 
+
+                            document.getElementById("name9").value="";
+                            document.getElementById("email9").value="";
+                            document.getElementById("mobile9").value="";
+                            $("#error_message9").hide()
+
+                            $('#previewVideoEnquiry').modal('hide');
+                            video_link = $("#vidPreviewLink").val()
+                            
+                            window.open(video_link, '_blank');
+                            $("#subbtnWatchVideo").prop("disabled", false);
+                            $("#subbtnWatchVideo").html(
+                                '<span class="" aria-hidden="true"></span> Watch Demo'
+                            );
+                        }
+                        else{
+                            document.getElementById("error_message9").innerHTML = "Something went wrong."
+                            $("#subbtnWatchVideo").prop("disabled", false);
+                            // add spinner to button
+                            $("#subbtnWatchVideo").html(
+                                '<span class="" aria-hidden="true"></span> Watch Demo'
+                            );
+                            $("#subbtnWatchVideo").prop("disabled", false);
+                        }           
+                    },
+                    error:function(data){
+                        document.getElementById("error_message9").innerHTML = "Something went wrong."
+                        $("#subbtnWatchVideo").prop("disabled", false);
+                        // add spinner to button
+                        $("#subbtnWatchVideo").html(
+                            '<span class="" aria-hidden="true"></span> Watch Demo'
+                        );
+                        $("#subbtnWatchVideo").prop("disabled", false);
+                    }
+                })
+            }
+        }
+    </script>
+
+
+{% comment %} {% compress js %} {% endcomment %}
+    <script>
+        var input = document.querySelector("#phone5");
+        window.intlTelInput(input, {
+            separateDialCode: true,
+            excludeCountries: ["pk", "il","ba","cf","cd","pm","do","gp","st"],
+            preferredCountries: ['{{mylip}}']
+        });
+    </script>
+    <script>
+        function submitEnquiry1(){
+            var name = document.getElementById("name_h1").value;
+            var email = document.getElementById("email_h1").value;
+            var mobile_number = document.getElementById("mobile_h1").value;
+            var message = document.getElementById("message_h1").value;
+            var checked = document.getElementById("custom_check_h1").checked
+            var page_ms2 = document.getElementById("page_ms2").value;
+            //var datetime = document.getElementById("datetime1d").value;
+            var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            var ip = "0.0.0.0"
+            var loc = window.location.href
+
+            if(name.trim().length == 0){
+                $("#error_name_01").addClass("error");
+                document.getElementById("name_h1").focus();
+                return false;
+            }
+            if(email.trim().length == 0){
+                $("#error_email_001").addClass("error");
+                document.getElementById("email_h1").focus();
+                return false;
+            }
+            try {
+                var con_code = $("#error_mobile_001").find('.iti__selected-flag').attr("title");
+                con_code = con_code.split(":");
+                con_code = con_code[1].trim();
+            }
+            catch(err) {
+                var con_code = "N/A"
+            }
+                        
+            if(mobile_number.trim().length == 0){
+                $("#error_mobile_001").addClass("error");
+                document.getElementById("mobile_h1").focus();
+                return false;
+            }
+            if(message.trim().length == 0){
+                $("#error_message_01").addClass("error");
+                document.getElementById("message_h1").focus();
+                return false;
+            }
+
+            if(document.getElementById("custom_check_h1").checked == false){
+                document.getElementById("success_message").innerHTML = "Please agree T&C and Privacy Policy."
+                document.getElementById("custom_check_h1").focus();
+                return false;
+            }
+
+            if(email.match(mailformat)){
+                mydata = {
+                reference: "ap2v.com",
+                name: name,
+                con_code: con_code,
+                mobile:mobile_number,
+                email:email,
+                comments: document.getElementById("url_h1").value,
+                source_ip: document.getElementById("source_ip").value,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                message:"Student message: "+message,
+                page_ms2:page_ms2,
+                //datetime:datetime
+                }
+
+                $("#subbtnIndexEnq").prop("disabled", true);
+                // add spinner to button
+                $("#subbtnIndexEnq").html(
+                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submiting...'
+                );
+
+                $.ajax({
+                    url : "/create_enquiry",
+                    method : "POST",
+                    data : mydata,
+                    success:function(data) {
+                        if (data.code == 1){
+                            document.getElementById("success_message").innerHTML = "Your query has been submitted successfully."
+                            $("#error_name_01").removeClass("error");   
+                            $("#error_email_001").removeClass("error");  
+                            $("#error_mobile_001").removeClass("error"); 
+                            $("#error_message_01").removeClass("error");
+
+                            document.getElementById("name_h1").value="";
+                            document.getElementById("email_h1").value="";
+                            document.getElementById("mobile_h1").value="";
+                            document.getElementById("message_h1").value=""; 
+                            $('#custom_check_h1').attr('checked', false);  
+                            $("#subbtnIndexEnq").prop("disabled", false);
+                            // add spinner to button
+                            $("#subbtnIndexEnq").html(
+                                '<span class="" aria-hidden="true"></span> Apply Now'
+                            );
+                        }
+                        else{
+                            document.getElementById("success_message").innerHTML = "Something went wrong."
+                            $("#subbtnIndexEnq").prop("disabled", false);
+                            // add spinner to button
+                            $("#subbtnIndexEnq").html(
+                                '<span class="" aria-hidden="true"></span> Apply Now'
+                            );
+                        }           
+                    },
+                    error:function(data){
+                        document.getElementById("success_message").innerHTML = "Something went wrong."
+                        $("#subbtnIndexEnq").prop("disabled", false);
+                        // add spinner to button
+                        $("#subbtnIndexEnq").html(
+                            '<span class="" aria-hidden="true"></span> Apply Now'
+                        );
+                    }
+                })
+            }
+            else{
+                document.getElementById("email_c1").focus();
+            }
+        }
+
+        function openVideoModal(video_link){
+            //alert(video_link)
+            $("#vidPreviewLink").val(video_link)
+            $('#previewVideoEnquiry').modal('show');  
+        }
+    </script> 
+    <script>
+
+    
+
+        function addToCourse(course_type){
+             //alert(course_type)
+            courseid=$('.courseid').val()
+            language=$('#avlang').val()
+            //sessionStorage.setItem("course_type", course_type)
+            
+            // alert(courseid)
+            mdata = {
+                //'csrfmiddlewaretoken': '{{ csrf_token }}',
+                ecourse:courseid,
+                etype:course_type,
+                avlang:language
+            }
+    
+            $.ajax({
+                url : "/e_store_apis/v1/add_choice_to_cart",
+                method : "POST",
+                data : mdata,
+                success:function(data) {
+                    //alert(data.enroll)
+                    if (data.enroll == '1'){
+                        $(".record").button().click(function(){
+                            alert("You have already purchase this course");
+                          });
+                    }
+                    if (data.enroll == '2') 
+                        $(".live").button().click(function(){
+                        alert("You have already purchase this course");
+                      });
+                    
+                    
+                    getUserCartCount()
+                    
+                    if (data.code == 1){
+                        //uuuu
+                        
+                        
+                    } 
+                    //alert('Course added in your Cart.')
+                    $('.added').click()       
+                },
+                error:function(data){
+                    alert("internal serer error...")
+                    //getUserCartCount()
+                }
+            })
+            const done = document.querySelector(".done");
+    
+        }
+    
+        
+    </script>
+    <!-- ------------------------add -->
+    <script>
+        function addid(cid,loopcount){
+             //alert(cid)
+             //alert(loopcount)
+            $('.courseid').val(cid)
+            const addtooocartt = document.getElementById('addtooocartt'+loopcount);
+            var modal = document.getElementById("addtooocarttmodel"); 
+            var btn = document.getElementById("addtooocartt"+loopcount); 
+            var span = document.getElementsByClassName("closeadd")[0]; 
+            const fun = function() {
+            modal.style.display = "block";
+            modal.style.position = "fixed";
+            modal.style.zIndex = "99999999";
+            } 
+            span.onclick = function() {
+            modal.style.display = "none";
+            } 
+            mdata = {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                courseid:cid,
+            }
+    
+            $.ajax({
+                url : "/e_store_apis/v1/show_hide_model",
+                method : "POST",
+                data : mdata,
+                success:function(data) {
+                     //alert(data.price) 
+                    
+                    if (data.price==0)
+                        $('.left').hide(),
+                        $('.right').css('border','None')
+                    else
+                        $('.left').show()
+                    if (data.result == 1)
+                        $('.left').show(),
+                        $('.right').css('border','1')
+                            
+                    else
+                        $('.left').hide(),
+                        $('.right').css('border','None'),
+                        $('.cart-part').css('width','100%')
+                    // alert (data.language_type)
+                    if (data.language_type==1)
+                        $('#avlang').val(1)
+                        
+                    else if (data.language_type==2)
+                        $('#avlang').val(2)
+                    else
+                        $('#avlang').val(3)
+
+                    
+
+                },
+                error:function(data){
+                    // alert("internal serer error...")
+                }
+            })
+            fun()
+            
+        }
+    </script>
+    <!-- -----------------end------- -->
+{% comment %} {% endcompress js %} {% endcomment %}
+
+{% endblock content %}

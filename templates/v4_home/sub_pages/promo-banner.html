@@ -1,0 +1,10 @@
+{% load static %}
+<div class="promo-banner d-none d-md-block">
+    <img src= {% static "v4_home_static/images/promo-banner.png" %} alt="Banner image" loading="lazy" class="img-fluid">
+    <div class="promo-banner--content">
+        <h2>What are you waiting for?</h2>
+        <p class="promo-banner--content--text">{% if home_display %}Let us help you get started
+             {% else %} Let us help you get started in {{page_title}}{% endif %} </p>
+        <a href="#" class="btn btn-sm btn-white px-3 rounded-60">Register for Demo <i class="icon-right-arrow-dot position-relative"></i></a>
+    </div>
+</div>

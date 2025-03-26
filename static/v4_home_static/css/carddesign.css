@@ -1,0 +1,204 @@
+.tc-list {
+  /* margin-bottom: 20px; */
+  box-shadow: 0 0 10px 0 #e3e3e3;
+ }
+.course-trend {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+span.icon-star-fill.mx-1 {
+  margin: 0 !important;
+}
+
+.course-trend-upper {
+  display: flex;
+  height: 110px;
+  align-items: center;
+  padding: 10px;
+  position: relative;
+}
+
+.course-trend-upper-img img {
+  width: 52px !important;
+}
+
+.course-trend-upper img {
+  max-width: 80px;
+}
+
+.course-trend-upper span {
+  font-size: 15px;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: #fff;
+  margin-left: 10px;
+}
+
+.course-trend-lower {
+  padding: 10px 20px;
+  background-color: #fdfdfd;
+   height: 170px;
+}
+div.copysame {
+  position: relative;
+  display: flex !important;
+  align-items: center;
+}
+div.copysame .owl-nav.disabled {
+  display: flex;
+  font-size: 30px;
+  justify-content: space-between;
+  position: absolute;
+  width: 100%;
+}
+div.copysame .owl-nav.disabled button {
+  outline: none;
+  background-color: #cbcbcb;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  color: white;
+}
+div.copysame .owl-nav.disabled button.owl-next {
+  position: relative;
+  left: 20px;
+}
+div.copysame .owl-nav.disabled button.owl-prev {
+  position: relative;
+  right: 20px;
+}
+div#carosule33 .course-trend-lower span {
+   padding-bottom: 3px;
+}
+div#carosule33 .course-trend-lower p {
+  color: #858585;
+  margin-top: 10px;
+}
+.course-trend-lower span {
+  font-size: 15px;
+  font-weight: 600;
+  color: #000;
+}
+
+.trending-course-review {
+  margin-top: 10px;
+}
+
+.trending-course-review i {
+  font-size: 13px;
+  color: #293b3f;
+}
+
+.trending-course-review-star {
+  display: flex;
+  align-items: center;
+  width: 190px;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.yellow-tag.max-w-90 {
+   font-size: 9px;
+}
+.course-trend-upper img {
+   border-radius: 26px;
+}
+.slick-initialized .slick-slide {
+   padding: 10px;
+}
+.trending-course-review-star i {
+  color: #ffcb33;
+}
+
+.trending-course-review i {
+  font-size: 13px;
+  color: #293b3f;
+}
+
+.fa-star:before {
+  content: "\f005";
+}
+
+.fa-star-half:before {
+  content: "\f089";
+}
+
+.trending-course-review-star span {
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.tc-list .overlay1 {
+  position: absolute;
+  top: 320px;
+  padding: 20px;
+  width: -webkit-fill-available;
+  background: #000000d1;
+   transition: all 800ms ease;
+}
+.tc-list:hover .overlay1 {
+  top: 0;
+    height: 100%;
+}
+.overlay1 i {
+  padding-bottom: 7px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.listlearn {
+  font-size: 19px;
+  font-weight: 400;
+  font-style: italic;
+  color: #fff;
+  display: block;
+  width: 100%;
+}
+
+.overlay1 ul {
+  width: 100%;
+  padding: 5px 0 0;
+  list-style-position: inside;
+  list-style-type: disc;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.overlay1 ul li {
+  font-size: 12px;
+  color: #fff;
+  line-height: 1.7;
+}
+
+.overlay1 button {
+  width: 100%;
+  border-radius: 4px;
+  margin: 5px 0;
+  border: solid 1px #fff;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  padding: 9px 40px;
+  text-decoration: none;
+  cursor: pointer;
+  background: transparent;
+  text-transform: uppercase;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+@media (max-width: 768px) {
+  div.copysame .owl-nav.disabled {
+    display: none; 
+}
+
+}

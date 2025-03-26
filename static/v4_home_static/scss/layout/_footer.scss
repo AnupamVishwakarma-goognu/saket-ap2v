@@ -1,0 +1,110 @@
+.footer {
+    background-color: #252525;
+    background-image: url('../images/footer.webp');
+    background-size: cover;
+    padding-top: 30px;
+    color: rgba($white, .7);
+
+    h3 {
+        color: $white;
+        margin-bottom: 15px;
+    }
+
+    &--smo {
+        a {
+            font-size: 20px;
+            color: rgba($white, .9);
+            margin: 0 5px;
+        }
+    }
+
+    &--lists {
+        padding-left: 15px;
+
+        li {
+            list-style-type: disc;
+
+            &:not(:last-child) {
+                margin-bottom: 10px;
+            }
+
+            a {
+                color: rgba($white, .9);
+
+                &:hover {
+                    color: $primary;
+                }
+            }
+        }
+
+        &.course-list {
+            height: auto;
+
+            @include media-breakpoint-up(lg) {
+                height: 250px;
+                overflow: hidden;
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+        }
+    }
+
+    &--copyright {
+        background-color: rgba($black, .4);
+        height: 100px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        color: $white;
+        padding-top: 15px;
+        font-size: $font-size-xxs;
+
+        @include media-breakpoint-up(lg) {
+            font-size: $font-size-xs;
+        }
+    }
+
+    &--subFooter {
+        background-color: rgba($secondary, .95);
+
+        h4 {
+            color: $white;
+            font-size: 15px;
+        }
+
+        li {
+
+            &:not(:last-child) {
+                margin-bottom: 10px;
+            }
+
+            a {
+                color: rgba($white, .4);
+                font-size: 13px;
+            }
+        }
+
+        
+    }
+}
+
+.courses-list {
+    line-height: 2;
+    text-align: justify;
+    letter-spacing: -0.3px;
+
+    a {
+        color: rgba($white, .6);
+        font-size: $font-size-sm;
+
+        &:hover {
+            color: rgba($white, 1);
+        }
+
+        // &::after {
+        //     content: '|';
+        //     margin-right: 10px;
+        //     padding-left: 10px;
+        // }
+    }
+}

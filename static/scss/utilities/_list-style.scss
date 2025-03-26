@@ -1,0 +1,96 @@
+.list {
+    li {
+        position: relative;
+        padding-left: 20px;
+
+        &::before {
+            content: '';
+            font-family: 'icomoon' !important;
+            font-size: $font-size-xs;
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 0px;
+        }
+    }
+    
+    &--round {
+        li {
+            &::before {
+                content: '\e903';
+                color: $primary;
+            }
+        }
+    }
+    
+    &--tick {
+        li {
+            &::before {
+                content: '\e90a';
+                color: $gray-dark;
+            }
+        }
+    }
+}
+
+
+.red-bullet { 
+    list-style-type: none;
+
+
+    li {
+        position: relative;
+        padding-left: 15px;
+
+        &:not(:last-child) {
+            margin-bottom: 10px;
+        }
+
+        &::before {
+            /* \2022 is the CSS Code/unicode for a disc */ 
+            content: "\2022";   
+            color: $primary;  
+            display: block;  
+            font-size: $font-size-md; 
+            font-weight: bold;
+            font-size: 1rem;
+            position: absolute;
+            left: 0;
+            top: -1px;
+        }
+    }
+} 
+
+.list-normal {
+    list-style-type: disc;
+    padding-left: 15px;
+
+    li {
+        &:not(:last-child) {
+            margin-bottom: 10px;
+        }
+    }
+}
+
+
+.column-2 {
+    display: flex;
+    flex-wrap: wrap;
+
+    li {
+        max-width: 100%;
+        flex: 0 0 100%;
+        flex-wrap: nowrap;
+        padding-right: 15px;
+
+        @include media-breakpoint-up(lg) {
+            max-width: 50%;
+            flex: 0 0 50%;
+            flex-wrap: wrap;
+        }
+
+        &:not(:last-child) {
+            margin-bottom: 10px;
+        }
+    }
+}

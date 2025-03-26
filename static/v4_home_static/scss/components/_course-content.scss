@@ -1,0 +1,147 @@
+.course-content {
+    h5 {
+        font-weight: 600;
+    }
+
+    &--btn {
+        font-weight: 600;
+        position: relative;
+        padding-left: 30px;
+
+        &::before {
+            content: '\e915';
+            font-family: 'icomoon' !important;
+            position: absolute;
+            left: 0;
+            transition: all .2s ease-in-out;
+            transform: rotate(270deg);
+        }
+
+        &.collapsed {
+            &::before {
+                transform: rotate(90deg); 
+            }
+        }
+
+        &:focus {
+            outline: 0;
+            box-shadow: none;
+        }
+    }
+
+    &--time {
+        font-weight: 400;
+        font-size: $font-size-xs;
+    }
+
+    .card {
+        box-shadow: 0 0 10px rgba($black, .10);
+        background-color: $blue-light;
+        padding: 10px 20px;
+        position: relative;
+
+        &:not(:last-child) {
+            margin-bottom: 20px;
+        }
+    }
+
+    &__subContent {
+        padding: 15px 0px 15px 30px;
+        border-bottom: 1px solid $white;
+
+        font-size: $font-size-base;
+
+        ul {
+            list-style-type: none;
+            padding: 0 0 0 15px;
+            margin: 0;
+
+            li {
+                &:not(:last-child) {
+                    margin-bottom: 10px;
+                }
+            }
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        &--title {
+            display: flex;
+            justify-content: space-between;
+            color: $gray-dark;
+
+            span {
+                position: relative;
+                font-weight: 600;
+
+                &::after {
+                    content: '\e915';
+                    font-family: 'icomoon' !important;
+                    font-size: 0.65rem;
+                    transition: all .2s ease-in-out;
+                    transform: rotate(270deg);
+                    display: inline-block;
+                    margin-left: 5px;
+                }
+            }
+
+            &.collapsed {
+                span {
+                    position: relative;
+    
+                    &::after {
+                        transform: rotate(90deg);
+                    }
+                }
+            }
+        }
+
+        .db-content{
+            display: inline-block;
+
+            p {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    &__row {
+        display: flex;
+
+        &--leftPanel {
+            flex-grow: 1;
+            padding-right: 0;
+
+            @include media-breakpoint-up(lg) {
+                padding-right: 60px;
+            }
+        }
+
+        &--rightPanel {
+            flex: 0 0 345px;
+            max-width: 345px;
+        }
+    }
+}
+
+.free-course-tag {
+    @include size (95px, 18px);
+    background-image: url(#{$path}/course-detail/free-course-tag.png);
+    position: absolute;
+    left: 50px;
+    top: -6px;
+}
+
+.video-modal {
+    max-width: 850px;
+
+    &--wrap {
+        padding: 15px 30px 30px;
+
+        iframe {
+            margin: 0 auto;
+        }
+    }
+}

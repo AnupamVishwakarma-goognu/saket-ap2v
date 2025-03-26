@@ -1,0 +1,140 @@
+.offers {
+    .white-box {
+        overflow: hidden;
+        position: relative;
+        padding: 0;
+    }
+
+
+    h2 {
+        color: $gray-darker;
+        font-size: $h5-font-size;
+
+        @include media-breakpoint-up(lg) {
+            font-size: $h4-font-size;
+        }
+    }
+
+    &__list {
+        &--item {
+            border-radius: 5px;
+            border: 1px dashed $offer;
+            background-color: rgba($offer, .2);
+            padding: 15px;
+            display: flex;
+
+            &:not(:last-child) {
+                margin-bottom: 15px
+            }
+
+            .yellow-tag:not(:last-child) {
+                margin-right: 0;
+            }
+        }
+
+        &--img {
+            @include size(112px, 91px);
+            flex: 0 0 112px;
+            display: block;
+            margin-right: 15px;
+        }
+
+        .course-list,
+        .course-price {
+            font-size: $font-size-xs;
+
+            @include media-breakpoint-up(lg) {
+                font-size: $font-size-base;
+            } 
+        }
+    }
+
+    .content-box {
+        h4 {
+            font-size: $font-size-base;
+
+            @include media-breakpoint-up(lg) {
+                font-size: $h5-font-size;
+            }
+
+
+            a {
+                color: $gray-dark;
+            }
+        }
+    }
+
+    &__priceDetail {
+        &--price {
+            color: $gray-darker;
+            font-size: $h3-font-size;
+            font-weight: $headings-font-weight;
+
+            @include media-breakpoint-up(lg) {
+                font-size: $h2-font-size;
+            }
+        }
+
+        &--cutPrice {
+            text-decoration: line-through;
+            color: $gray-light;
+            font-size: $font-size-sm;
+        }
+
+        &--discount {
+            font-size: $font-size-md;
+            font-weight: $headings-font-weight;
+            color: $green;
+        }
+    }
+
+    &__tags {
+        display: flex;
+        flex-wrap: wrap;
+
+        &--tag {
+            font-size: $font-size-xxs;
+            color: $gray-dark;
+
+            &:not(:last-child) {
+                &::after {
+                    content: '|';
+                    padding-right: 5px;
+                    padding-left: 5px;
+                }
+            }
+        }
+    }
+
+    &--bottom {
+        @include gradient-y($start-color: rgba($background, .1), $end-color: rgba($gray-lightest, .2), $start-percent: 0%, $end-percent: 120%);
+        border-top: 1px solid rgba($gray-lightest, .2);
+        padding: 10px 25px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+
+        @include media-breakpoint-up(lg) {
+            flex-direction: row;
+        }
+
+        .btn-primary {
+            flex: 0 0 auto;
+
+            @include media-breakpoint-up(lg) {
+                flex: 0 0 145px;
+            }
+        }
+    }
+    
+}
+
+.offer-banner {
+    background-color: #ffd600;
+    
+    &::after {
+        content: none;
+    }
+}

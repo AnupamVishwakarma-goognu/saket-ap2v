@@ -1,0 +1,29 @@
+{% if request.user.user_type == "instructor" %}
+    <div class="classroom-filter bg-white shadow-sm py-2 filter d-none d-md-block">
+        <div class="container d-flex justify-content-between align-items-center">
+            <ul class="filter__list">
+                <li><strong>Filter By:</strong></li>
+                <li class="filter--applied">
+                    <select class="form-control" id="selectBatchFilter">
+                        <option>Please Select Batch Type</option>
+                        <option value="batch-run" selected >Ongoing Batchs</option>
+                        <option value="batch-completed" {% if filter_batch_type == "batch-completed" %} selected {% endif %}>Completed Batchs</option>
+                    </select>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endif %}
+
+
+<script>
+$( "#selectBatchFilter" ).on("change",function(){
+    var batch_type = $(this).val()
+     if(batch_type =="batch-run" ){
+         window.location.href="/classroom/?batch_filter="+batch_type;
+     }
+     if(batch_type =="batch-completed" ){
+         window.location.href="/classroom/?batch_filter="+batch_type;
+     }
+  })
+</script>

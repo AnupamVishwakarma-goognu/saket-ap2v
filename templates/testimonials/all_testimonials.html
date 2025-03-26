@@ -1,0 +1,189 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+{% load ap2v_course_tag %}
+{% load compress %}
+{% block title %} AP2V {% endblock %}
+
+{% block css %}
+  {% compress css %}
+    {% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/others.css' %}" type="text/css" /> {% endcomment %}
+    <link media="all" rel="stylesheet" href="/static/v4_home_static/css/others.css" type="text/css" />
+  {% endcompress %}
+
+  <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.ap2v.com/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Testimonials",
+            "item": "https://www.ap2v.com/testimonials/"
+        }]
+        }
+    </script>
+{% endblock css %}
+{% block content %}
+    <div class="main-wrap">
+    {% include 'v4_home/sub_pages/push-down.html' %}
+    {% include 'v4_home/sub_pages/navigation.html' %}
+
+        <!-- Banner -->
+        <div class="banner-inner">
+            <div class="container">
+                <div class="row banner-inner--content flex-column">
+		                {% include 'v4/breadcrumb.html' %}
+                    <div class="d-flex">
+                        <div class="banner-inner--left-pan d-flex flex-column justify-content-center">
+                        <h1 class="text-secondary">Testimonials</h1>
+                        <p class="text-gray-lightest mb-0">{{configration.events_header_text}}</p>
+                        </div>
+                        <div class="banner-inner--right-pan d-none d-xl-block">
+                          <img src="{% static 'v4_home_static/images/testimonials-img.png'%}" alt="Contact us">
+                        </div>
+                    </div><!-- slick-slide d-flex-->
+                </div><!-- // row -->
+            </div>
+        </div><!-- // Banner -->
+
+
+        <div class="spacer mt-0"></div><!-- // Spacer -->
+        <div class="container">
+          <div class="row">
+            <div class="col-12 col-lg-8">
+              <article class="testimonial">
+                {% for testimonial in testimonials %}
+                  <div class="testimonial--wrap">
+                      <div class="d-flex">
+                          <span class="testimonial__top--user">
+                            <img width = "75" height = "75" src="{% static '/images/review_image.jpeg'%}" alt="...">
+                          </span>
+
+                          <div class="testimonial__container">
+                            <div class="testimonial__top">
+                              <div class="testimonial__top--content">
+                                <p class="testimonial__top--name">{{testimonial.name}}</p>
+                                <div class="d-flex align-items-centerss ml-3">
+                                    <span class="icon-star-fill mr-1"></span>
+                                    <span class="icon-star-fill mr-1"></span>
+                                    <span class="icon-star-fill mr-1"></span>
+                                    <span class="icon-star-fill mr-2"></span>
+                                    <strong>{{testimonial.rating}}</strong>/5
+                                    <span class="font-size-xxs ml-1"></span>
+                                </div>
+                              </div>
+                              <p class="testimonial__top--cName">{{testimonial.date}}</p>
+                            </div><!-- // testimonial__top-->
+
+                            <p class="my-3"><span>Course:</span> <a href="/{{testimonial.course.slug}}">{{testimonial.course.name}}</a></p>
+                            <p class="mb-1">{{testimonial.content}}</p>
+                            {% comment %} <p><a href="#">Read more</a></p> {% endcomment %}
+                        </div>
+                      </div>
+                  </div>  
+                {% endfor %}     
+                {% comment %} <div class="testimonial--wrap">
+                    <div class="d-flex">
+                        <span class="testimonial__top--user">
+                          <img width = "75" height = "75" src="{% static 'images/user.jpg' %}" alt="...">
+                        </span>
+
+                        <div class="testimonial__container">
+                          <div class="testimonial__top">
+                            <div class="testimonial__top--content">
+                              <p class="testimonial__top--name">Kishore Battineni</p>
+                              <div class="d-flex align-items-centerss ml-3">
+                                  <span class="icon-star-fill mr-1"></span>
+                                  <span class="icon-star-fill mr-1"></span>
+                                  <span class="icon-star-fill mr-1"></span>
+                                  <span class="icon-star-fill mr-2"></span>
+                                  <strong>4</strong>/5
+                                  <span class="font-size-xxs ml-1"></span>
+                              </div>
+                            </div>
+                            <p class="testimonial__top--cName">14 Jul’ 21</p>
+                          </div><!-- // testimonial__top-->
+
+                          <p class="my-3"><span>Course:</span> <a href="#">DevOps Certification Training Course</a></p>
+                          <p class="mb-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+                          <p><a href="#">Read more</a></p>
+                      </div>
+                    </div>
+                </div> {% endcomment %}
+
+                {% comment %} {% for testimonial_video in testimonials_video %}
+                <div class="white-box p-15 radius-4 mb-20">
+                  <div class="user-rating mb-20">
+                    <span class="hidden-xs"><img src="{% static 'images/user.jpg' %}" class="img-responsive img-circle" alt="..."></span>
+                    <div class="inline-block">
+                      <div class="rating inline-block ml-0">
+                        <sup class="fill-star"></sup><strong>{{testimonial_video.rating}}</strong>/5
+                      </div>
+                      <p class="mb-0">{{testimonial_video.name}}</p>
+                      <p class="mb-0 c9 fs-14">{{testimonial_video.company}}   -  {{testimonial_video.date}}</p>
+                    </div>
+                  </div><!-- User rating -->
+
+                  <p class="mb-0 c6">"{{testimonial_video.short_content}}"</p>
+
+                  <h3 class="c6">Video testimonial</h3>
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="{{testimonial.video}}"></iframe>
+                    </div>
+                </div><!-- white Box ends here -->
+                {% endfor %} {% endcomment %}
+                    
+              </article><!-- end of article -->
+            </div>
+            <div class="col-12 col-lg-4 pl-4">
+              <div class="white-box py-3">
+                <h3>Latest Review</h3>
+                <ul class="latest-review mb-0">
+                {% for testimonial in side_bar_testimonials %}
+                  <li><a href="#">{{testimonial.content |truncatechars:100 }}</a></li>
+                {% endfor %}
+                  {% comment %} <li><a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a></li>
+                  <li><a href="#">Fusce pulvinar tellus at neque facilisis pulvinar.</a></li>
+                  <li><a href="#">Maecenas convallis tellus eu nunc consequat, id lobortis orci ullamcorper.</a></li>
+                  <li><a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a></li> {% endcomment %}
+                </ul>
+              </div>
+
+              <div class="white-box call-us mt-4">
+                  <span class="call-us--subHead">Contact us</span>
+                  <p class="call-us--head mb-0 co_number" id="co_number5" style="font-size: 25px;"> </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <script>
+        $( document ).ready(function() {
+            function get_number(){
+                $.ajax({
+                    type: "POST",
+                    url: "/core_apis/v1/get_counselor_round_number",
+                    data:{"csrfmiddlewaretoken": "{{ csrf_token }}"},
+                    success: function (data) {
+                    //alert("success")
+                    //alert(data['number'])
+                    var c_number = data['number']
+                    $(".co_number5").text(c_number)
+                    },
+                    error: function (data) {
+                        //alert("Somethings Wents Wrong");
+                    },
+                });
+            };
+            get_number();
+        });
+    </script>
+        
+    {% comment %} {% include 'v4_home/sub_pages/modals.html' %} {% endcomment %}
+{% endblock content %}

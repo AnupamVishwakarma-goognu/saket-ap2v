@@ -1,0 +1,266 @@
+{% extends 'website/base.html' %}
+{% load custom_tag %}
+{% load static %}
+{% block content %}
+<style>
+  .footer {
+    margin-top: 129px;
+  }
+</style>
+<div class="wrapper">
+  {% include 'website/sidebar.html' %}
+  {% include 'website/header.html' %}
+  <div class="main-panel">
+    <div class="content">
+      <div class="container-fluid">
+        <div class="main-heading-wrap">
+          <h2>ENROLLMENTS </h2>
+            <form action="/enrollments" method="GET">
+              <div class="sort-by">
+                <select name="sort_by" class="form-control" required>
+                  <option value="">Sort By</option>
+                  <option value="1">Name</option>
+                  <option value="2">Email</option>
+                </select>
+                <input name="string" type="text" aria-label="Last name" class="form-control" required>
+                <button class="search-btn" type="submit"><i class="nc-icon nc-zoom-split"></i> </button>
+              </div>
+            </form>
+            <div class=" row col-md-3">
+            {% if request.user.is_superuser%}
+              <form action="/enrollments/enrollmentsCSV" method="GET">
+                <textarea id="downloadCSVurl" hidden name="enroll_id">{{eid}}</textarea>
+                <button type="submit"class="btn btn-primary">Export to CSV</button>
+              </form>
+            {% endif %}
+              {% include 'enrolls/filters_enrolls.html'%}
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body table-striped table-no-bordered table-hover dataTable dtr-inline table-full-width">
+          <div class="table-responsive">
+            <table class="new-table">
+              <thead>
+                <tr class="new-table--head">
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Course</th>
+                  <th scope="col">Discuss Fee</th>
+                  <th scope="col">Pending Fee</th>
+                  <th width="12%" scope="col">Register On</th>
+                  <th width="12%" scope="col">Register By</th>
+                  <th scope="col">Course Type</th> 
+                  <th scope="col">In Batch</th>
+                  <th scope="col"></th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+
+              {% for enrollment in enrollments %}
+                <tbody class="new-table--tbody">
+                  <tr class="new-table--list">
+                    <td>{{enrollment.id}}</td>
+                    <td>{{ enrollment.full_name }}  {% if enrollment.enroll_type == "2" %}<span style="background-color: bisque;padding: 2px;border-radius: 8px;padding-top: 2px;padding-left: 5px;padding-right: 12px;padding-bottom: 4px;"><i class="fa fa-history" aria-hidden="true"></i> Revision </span>{% endif %} {% if enrollment.certificate_issued %} <span style="background-color: #dfff00;border-radius: 92px;color: #080808;padding-right: 11px;padding-left: 11px;padding-top: 7px;padding-bottom: 4px;font-size: 10px;margin-left: 9px;font-weight: bold;">&#x2713;</span>{% endif %} </td>
+                      {% if enrollment.enroll_courses %}
+                        {% with enrollment.enroll_courses|sp_name:"," as course_name %}
+                          <td>{% for k in course_name %}{{ k }},{% endfor %}</td>
+                        {% endwith %}
+                      {% else %}
+                        <td>{{ enrollment.course }}</td>
+                      {% endif %}
+                    <td>{{ enrollment.discussed_fee }}</td>
+                    <td>{% if enrollment.dropped %} <span style="background-color: #ff0047ba;border-radius: 15px;color: white;padding-right: 11px;padding-left: 11px;padding-top: 2px;padding-bottom: 4px;">Drop out</span> {% elif not enrollment.refund %} {{ enrollment.pending_fee }} {% else %} <span style="background-color: #ff0047ba;border-radius: 15px;color: white;padding-right: 11px;padding-left: 11px;padding-top: 2px;padding-bottom: 4px;">Refunded {{enrollment.refund_amount}}</span>  {% endif %}</td>
+                    <td title="{{ enrollment.registered_on }}">{{ enrollment.registered_on|date:"d-M-Y" }}</td>
+                    <td>{{ enrollment.registered_by }}</td>
+                     <td>{% if enrollment.course_type == '1'  %} Recorded {% else %} Live {% endif %}</td> 
+                    <td>{% if enrollment.enroll_in_batch %} 
+                      <svg xmlns="http://www.w3.org/2000/svg" style="color: #73d373" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                      </svg> 
+                    {% else %}
+                      <svg xmlns="http://www.w3.org/2000/svg" style="color: #ea0d0d" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+                      </svg> 
+                    {% endif %}</td>
+                    <td><a href="#" onclick="window.location='/enrollments/view/{{ enrollment.id }}/'">View</a></td>
+                    <td><b class="caret-dark" data-toggle="collapse" href="#tableData_{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="tableData_{{forloop.counter}}"></b></td>
+                    
+                  </tr>
+
+                  <tr class="new-table--list collapse secondary-data" id="tableData_{{forloop.counter}}">
+                    <td colspan="7" class="p-0">
+                      <table>
+                        <tr>
+                          <td>
+                            <p class="title">Register By</p>
+                            <p class="data">{{ enrollment.registered_by.first_name }} {{ enrollment.registered_by.last_name }}</p>
+                          </td>
+                          
+                          <td>
+                            <p class="title">View Enroll Batches</p>
+                            <p class="data"><a href="javaScript:void(0)" onclick="openEnrolledStudentBatch('{{enrollment.id}}')">View</a></p>
+                          </td>
+                          
+                          <td>{% if enrollment.certificate_issued %} <span style="background-color: #dfff00;border-radius: 92px;color: #080808;padding-right: 11px;padding-left: 11px;padding-top: 7px;padding-bottom: 4px;font-size: 10px;margin-left: 9px;font-weight: bold;">Certificate Issued</span>{% endif %}</td>
+                          <p>{{certificate_uuid}}</p>
+                          
+                          <td> <a href="javascript:void(0)" onclick="sendEnrollMailAgain('{{enrollment.id}}')" id="{{enrollment.id}}_sendEnrollAgainEmailText">Send Enroll Mail Again</a></td>
+
+                          
+                          
+                          {% comment %} <td>
+                            <p class="title">Completed</p>
+                            <p class="data">No</p>
+                          </td>
+                          
+                          <td>
+                            <p class="title">Created on</p>
+                            <p class="data">{{i.date}}</p>
+                          </td> {% endcomment %}
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row mx-1">
+          <div class="col-sm-12 col-md-5 font-size-base"><span class="mt-2 d-block">Showing {{ enrollments_obj.start_index }} - {{ enrollments_obj.end_index }} of {{ enrollments_obj.paginator.count }}</span></div>
+            <div class="col-sm-12 col-md-7">
+              <div class="dataTables_paginate paging_simple_numbers" id="datatables_paginate" style="margin-left: 220px;">
+                <ul class="pagination">
+                  {% if enrollments_obj.has_previous %}
+                    <li class="paginate_button page-item previous" id="datatables_previous">
+                      <a aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" href="?{{ request.GET.urlencode }}&page=1" tabindex="-1">FIRST</a>
+                    </li>
+                    <li class="paginate_button page-item previous" id="datatables_previous">
+                      <a href="?{{ request.GET.urlencode }}&page={{ enrollments_obj.previous_page_number }}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                    </li>
+                    {% else %}
+                    <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                    <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">FIRST</a>
+                    </li>
+                    <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                    <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                    </li>
+                    {% endif %}
+
+                    {% for i in enrollments_obj.paginator.page_range %}
+                        {% if enrollments_obj.number == i %}
+                            <li class="paginate_button page-item active">
+                            <a href="?{{ request.GET.urlencode }}&page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                          </li>
+                        {% elif i > enrollments_obj.number|add:'-4' and i < enrollments_obj.number|add:'4' %}
+                            <li class="paginate_button page-item">
+                            <a href="?{{ request.GET.urlencode }}&page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                          </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if enrollments_obj.has_next %}
+                      <li class="paginate_button page-item next" id="datatables_next">
+                        <a href="?{{ request.GET.urlencode }}&page={{ enrollments_obj.next_page_number }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                      </li>
+                      <li class="paginate_button page-item next" id="datatables_next">
+                        <a href="{% if enrollments_obj.has_next %} ?{{ request.GET.urlencode }}&page={{ enrollments_obj.paginator.num_pages }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link" {% endif %}>LAST</a>
+                      </li>
+                    {% else %}
+                      <li class="paginate_button page-item next disabled" id="datatables_next">
+                        <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                      </li>
+                      <li class="paginate_button page-item next disabled" id="datatables_next">
+                        <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">LAST</a>
+                      </li>
+                  {% endif %}
+                </ul>
+              </div>
+            </div>
+        </div>   
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+    {% include 'website/footer.html' %}
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="viewEnrollBatches" tabindex="-1" aria-labelledby="viewEnrollBatchesLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content add-student" style="width: 700px;">
+          <div class="modal-header">
+              <h5 class="modal-title" id="viewEnrollBatchesLabel">Enrolled Batches List</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body" id="enrolled_batch_update_partnet_section">
+              
+          </div>
+          
+      </div>
+  </div>
+</div>
+
+
+
+<script>
+  $( document ).ready(function() {
+    var loc = window.location.href
+    //$("#downloadCSVurl").val(loc)
+    //alert(loc)
+  });
+
+  function sendEnrollMailAgain(enroll_id){
+    if(enroll_id){
+        var enevt_id  = "#"+enroll_id+"_sendEnrollAgainEmailText"
+        $(enevt_id).html('<i class="fas fa-spinner fa-pulse"></i> Sending...')
+        $.ajax({
+            type: "GET",
+            url: "/enrollments/send_enroll_mail_again?enroll_id="+enroll_id, 
+            success: function(data){
+                //alert("Success")
+                $(enevt_id).html("<i class='fa fa-check-circle-o' aria-hidden='true'></i> Email Sent Successfully.")
+                $(enevt_id).removeAttr('href');
+                $(enevt_id).attr("onclick","textFunc()");
+            },
+            error: function(data){
+                alert("Internal Server Error !!!")
+                $(enevt_id).text("Error, Unable to send, Sorry...!!!")
+                $(enevt_id).removeAttr('href');
+                $(enevt_id).attr("onclick","textFunc()");
+            }
+        });
+    }
+  }
+
+  function openEnrolledStudentBatch(enroll_id){
+    $("#viewEnrollBatches").modal("show");
+    $("#enrolled_batch_update_partnet_section").empty();
+    $('#enrolled_batch_update_partnet_section').prepend('<img id="theImg" style="height: 50px;padding-left: 43%;" src={% static "assets/images/waiting-icon.jpg" %}> <br> <p style="text-align: center;margin-left: -25px;">Loading...</p>')
+    $.ajax({
+      type: "GET",
+      url: "/enrollments/check-student-enrolled-batches?enroll_id="+enroll_id, 
+      success: function(data){
+          //alert("Success")
+          
+          //alert(data)
+          $("#enrolled_batch_update_partnet_section").html(data)
+      },
+      error: function(data){
+          alert("Internal Server Error !!!")
+      }
+    });
+  }
+
+  function textFunc(){
+    //alert("text")
+    return false;
+  }
+</script>
+{% endblock content %}

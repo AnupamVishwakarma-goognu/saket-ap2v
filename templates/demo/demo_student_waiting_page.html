@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Welcome to the AP2V Waiting Page</title>
+    <style>
+        body {
+            font-family: Arial;
+        }
+
+        .top {
+            display: flex;
+            width: 100%;
+        }
+
+        img {
+            justify-content: flex-start;
+            margin-top: 3px;
+        }
+
+        h3 {
+            margin-top: 2%;
+            margin-left: 30%;
+        }
+
+        .body-1 {
+            display: flex;
+            width: 100%;
+        }
+
+        h2 {
+            margin-left: 20%;
+        }
+
+        .clock {
+            color:#E24422;
+            font-size:20px;
+            text-align:center;
+        }
+
+        .content {
+            position: absolute;
+            top: 45%;
+            left: 55%;
+            transform: translate(-50%, -50%);
+            display: block;
+        }
+        .paddle, .player_one, .player_two {
+            height: 40px;
+            width: 3px;
+            background-color: #E24422;
+            position: relative;
+        }
+        .player_one {
+            left: -180px;
+            animation: movePaddleOne 4s infinite;
+        }
+        .player_two {
+            left: 20px;
+            animation: movePaddleTwo 4s infinite;
+        }
+        .ball {
+            position: relative;
+            height: 5px;
+            width: 5px;
+            border-radius: 50%;
+            background-color: #E24422;
+            animation: moveBall 4s infinite linear;
+        }
+        @keyframes movePaddleOne {
+            0%, 100% {
+                transform: translate(0px, 100px);
+            }
+            25% {
+                transform: translate(0px, 0px);
+            }
+            50% {
+                transform: translate(0px, 0px);
+            }
+            75% {
+                transform: translate(0px, 100px);
+            }
+        }
+
+        @keyframes movePaddleTwo {
+            0%, 100% {
+                transform: translate(0px, -50px);
+            }
+            25% {
+                transform: translate(0px, 10px);
+            }
+            50% {
+                transform: translate(0px, 0px);
+            }
+            75% {
+                transform: translate(0px, 50px);
+            }
+        }
+        @keyframes moveBall {
+            0%, 100% {
+                transform: translate(-180px, 30px);
+            }
+            25% {
+                transform: translate(18px, -25px);
+            }
+            50% {
+                transform: translate(-180px, -55px);
+            }
+            75% {
+                transform: translate(18px, 15px);
+            }
+        }
+ 
+
+        h5 {
+            margin-top: 25%;
+            margin-left: 38%;
+        }
+
+        .batch-id {
+            margin-left: 48%;
+            color: #E24422;
+        }
+
+        .trying {
+            margin-left: 48%;
+        }
+    </style>
+</head>
+<body>
+    <div class = 'top'>
+        <img src = "https://www.ap2v.com/static/v4_home_static/images/ap2v-logo.png" height="60" width="180"/>
+        <h3>Your Demo Class Waiting Room</h3>
+    </div>
+    <hr color="#E24422"/>
+    <div class = "body-1">
+        
+    </div>
+    <h2 style="text-align: center;margin-left: 0;">Please wait demo will start when instructor will join.</h2>
+    {% comment %} <div class="clock">Estimated Time to Enter = <span id="timer"></span></div> {% endcomment %}
+    <div class="content">
+        <div class="player_one"></div>
+        <div class="player_two"></div>
+        <div class="ball"></div>
+    </div>
+    <h5>Don't refresh the page, the page will reload automatically.</h5>
+    <b><p class="" style="text-align: center;color: red;"> Demo : {{demo_obj.courses.name}}</p></b>
+    <p class="trying">Trying = <span id="tryid">0</span></p>
+    <p class="" style="text-align: center;color: red;" id="error"></p>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+    <script>
+        var status_code = 0;
+        var trying = 1
+        function checkMeeting(){
+            if(status_code == 0){
+                status_code = 1
+                $("#tryid").text(trying)
+                $("#error").text("Trying to get demo details...")
+                $.ajax({
+                    url: '/demo-session/student-check-for-demo-start?uuid={{uuid}}&aco_idf={{csrf_token}}{{csrf_token}}&lodhx_dstoc={{csrf_token}}',
+                    data: {},
+                    type: 'POST',
+                    success: function(data) {
+                        //alert("success")
+                        //alert(data)
+                        meeting_status_code = data['code']
+                        //alert(meeting_status_code)
+
+                        if(meeting_status_code == 1){
+                            window.location.href = data['zoom_bitly_link_student_mobile'];
+                        }else{
+                            status_code = 0
+                            $("#error").text(data['error'])
+                        }
+                    },
+                    error: function() {
+                        alert("Internal Server Error!!!");
+                        $("#error").text('Server Error...')
+                    },
+                });
+            }
+            trying = trying+1
+        }
+        var intervalId = window.setInterval(function(){
+            checkMeeting()
+        }, 5000);
+    </script>
+    <!--
+    <script>
+        document.getElementById('timer').innerHTML =
+        02 + ":" + 00;
+        startTimer();
+
+
+        function startTimer() {
+        var presentTime = document.getElementById('timer').innerHTML;
+        var timeArray = presentTime.split(/[:]+/);
+        var m = timeArray[0];
+        var s = checkSecond((timeArray[1] - 1));
+        if(s==59){m=m-1}
+        if(m<0){
+            return
+        }
+        
+        document.getElementById('timer').innerHTML =
+            m + ":" + s;
+        console.log(m)
+        setTimeout(startTimer, 1000);
+        
+        }
+
+        function checkSecond(sec) {
+        if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
+        if (sec < 0) {sec = "59"};
+        return sec;
+        }
+    </script>
+    -->
+</body>
+</html>

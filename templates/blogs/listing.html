@@ -1,0 +1,517 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% load compress %}
+
+{% block title %} AP2V {% endblock %}
+
+{% block css %}
+    {% compress css %}
+        <link media="all" rel="stylesheet" href="/static/v4_home_static/css/blog.css" type="text/css" />
+    {% endcompress css %}
+    {% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/blog.css' %}" type="text/css" /> {% endcomment %}
+
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.ap2v.com/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Blogs",
+            "item": "https://www.ap2v.com/blog/"
+        }]
+        }
+    </script>
+{% endblock css %}
+
+{% block content %}
+    <div class="main-wrap">
+        <!-- push-down -->
+        {% include 'v4_home/sub_pages/push-down.html' %}
+
+        <!-- navigation -->
+        {% include 'v4_home/sub_pages/navigation.html' %}
+
+        <!-- Banner -->
+        <div class="banner-inner">
+            <div class="container">
+                <div class="row banner-inner--content flex-column">
+                    {% include 'v4/breadcrumb.html' %}<!-- // breadcrumb -->
+                    <div class="d-flex">
+                        <div class="banner-inner--left-pan d-flex flex-column justify-content-center">
+                            <h1 class="text-secondary">Our Blog</h1>  
+                            <p>Latest articles, information, news, and trends you need to know about online courses, Linux, Python, Devops, RHCE and other learning programs.</p>
+                        </div>
+
+                        <div class="banner-inner--right-pan d-none d-xl-block">
+                            <img src="{% static 'v4_home_static/images/blog/blog.png' %}" alt="Devops Training">
+                        </div>
+                    </div><!-- slick-slide d-flex-->
+                </div><!-- // row -->
+            </div>
+        </div><!-- // Banner -->
+
+        <div class="bg-white shadow-sm py-2 filter d-none d-md-block">
+            <div class="container">
+                <div class="row">
+                
+                <ul class="col-12 col-md-9 filter__list">
+                    <li><strong>Filter By:</strong></li>
+                    <li class="filter--applied flex-20">
+                        <select class="form-control">
+                            <option>Select option</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </li>
+                    <li class="flex-20">
+                        <select class="form-control">
+                            <option>Select option</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center col-12 col-md-3">
+                    <strong class="d-inline-block w-50">Sort By:</strong>
+                    <select class="form-control">
+                        <option>Select option</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+            </div>
+            </div>
+        </div><!-- // Secondary Menu -->
+
+        <div class="container">
+            <div class="applied-filter mt-3 d-none d-md-block">
+                <div class="d-flex align-items-center">
+                    <ul class="applied-filter__lists mb-0">
+                        <li><span class="applied-filter--wrap">Human recourses <span class="icon-close text-grey-light ml-1"></span></span></li>
+                        <li><span class="applied-filter--wrap">5000 - 50,0000 <span class="icon-close text-grey-light ml-1"></span></span></li>
+                        <li><span class="applied-filter--wrap">Intermediate <span class="icon-close text-grey-light ml-1"></span></span></li>
+                        <li><span class="applied-filter--wrap">12 Months <span class="icon-close text-grey-light ml-1"></span></span></li>
+                        <li><span class="applied-filter--wrap">Classroom <span class="icon-close text-grey-light ml-1"></span></span></li>
+                    </ul>
+                    <a href="#" class="font-italic">Clear Filter</a>
+                </div>
+            </div><!-- // applied-filter -->
+
+            <div class="listing mt-0 mt-md-5">
+                <div class="listing__leftPanel">
+                    <ul >
+                        {% for i in blogs %}
+                            <li class="listing__box">
+                                <div class="listing__box--img d-none d-md-block">
+                                    <img src="/media/{{i.image}}" alt="image" class="img-fluid hovanm">
+                                </div>
+                                <div class="listing__box__content flex-fill">
+                                    <div class="tagging red-tag mb-2">
+                                        {% comment %} {% for tag in i.tags.all %} {% endcomment %}
+                                            <a href="{% url 'category' i.categories.slug %} " class="yellow-tag my-2">{{i.categories.name}}</a>
+                                        {% comment %} {% endfor %} {% endcomment %}
+                                    </div>
+                                    <h2 class="mb-0"><a href="/blog/{{i.slug}}">{{i.title}}</a></h2>
+                                    <div class="listing__box__content--metadata">
+                                        <a href="#" class="meta-link">{{i.author.name}}</a>
+                                        <span class="meta-date">{{i.published_on}}</span>
+                                    </div>
+                                    <p class="font-size-xs mb-0">{{i.content | safe |striptags|truncatechars:"300" }}</p>
+
+                                    <div class="listing__box__content--bottom">
+                                        <a href="/blog/{{i.slug}}" class="know-more">View more</a>
+                                        
+                                        <div class="trending-course-review-star sod">
+                                            <div class="star">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                                  </svg>
+                                               <span class="font-size-xxs ml-1">{{i.views}}</span>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div> 
+                            </li><!-- // Product Box -->
+                        {% endfor %}
+                    </ul>
+                    {% comment %} <div class="text-center mt-4">
+                        <a href="#" class="btn btn-sm  btn-outline-secondary rounded-60 pl-2 pr-4 py-0"> <img src="{% static 'v4_home_static/images/spinner-40.svg' %}" alt="image"> Load more</a>
+                    </div> {% endcomment %}
+                </div>
+
+                {% include 'blogs/blog_right_part.html' %}
+                
+            </div>
+            
+        </div><!-- // container -->
+
+        <section class="container">
+            <h2 class="align-items-start">Related Category Courses</h2>
+            <ul class="product-list product-slider hide">
+                {% for i in tranding_course %}
+                    <!--<li class="product-list--item">
+                        <div class="white-box">
+                            <a href="/{{ i.slug }}" class="d-block"><img src="/media/{{i.course_icon}}" alt="{{i.name}}"></a>
+                            <div class="white-box--content mt-3">
+                                {% comment %} {% for tag in i.tags.all %}
+                                    <span class="yellow-tag">{{tag.name}}</span>
+                                {% endfor %} {% endcomment %}
+
+                                <span class="yellow-tag d-inline-block max-w-90">{{ i.category_name.all|join:" &bull; " }}</span>
+                                <a href="/{{ i.slug }}"><h3 class="justify-content-start">{{i.name|truncatechars:"42"}}</h3></a>
+                                <div class="d-flex align-items-center justify-content-start mb-2">
+                                    Rating:
+                                    <span class="icon-star-fill mx-1"></span>
+                                    <strong>{{i.rating}}</strong>/5
+                                    <span class="font-size-xxs ml-1">({{i.review_count}})</span>
+                                </div>
+                                <br>
+                                <a href="/{{i.slug}}" class="btn-link know-more">Know more</a>
+                                {% comment %} <div class="tagging">
+                                    Tagging:
+                                    {% for tag in i.tags.all %}
+                                        <a href="/{{tag.slug}}-courses" class="tagging--item">{{tag.name}}</a>
+                                    {% endfor %}
+                                </div> {% endcomment %}
+                            </div>
+                        </div>
+                    </li>-->
+                    <div class="tc-list" style="position: relative;">
+                    
+                            <div class="course-trend">
+                                {% get_dyna_color i.slug as dynamic_color %}
+                                <div class="course-trend-upper three" style="background: linear-gradient(45deg, {{dynamic_color.0}}, {{dynamic_color.1}})">
+                                    <div class="course-trend-upper-img">
+                                        <img loading="lazy" class="d-inline-block" src= "/media/{{i.course_icon}} "   alt="{{i.name}}" width="52" height="52">
+                                    </div><span>{{i.name|truncatechars:"42"}}</span>
+                                </div>
+                                <div class="course-trend-lower">
+                                    <p><span class="yellow-tag d-inline-block max-w-90" style="margin-top: 10px;margin-bottom: -12px;">{{ i.category_name.all|join:" &bull; " }}</span></p>
+                                    <span>{{i.name|truncatechars:"42"}}</span>
+                                    <div class="trending-course-review"><i>Reviews</i>
+                                        <div class="trending-course-review-star">
+                                            <div class="star">
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <strong>{{ i.rating }}</strong>
+                                        <span class="font-size-xxs ml-1">({{ i.review_count }})</span>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="overlay1"><i>Key Features</i><span class="listlearn">What will I learn?</span>
+                                    <ul>
+                                        <li>{{i.duration}} Hours of Learning</li>
+                                        <li>2 Hours of Assignments</li>
+                                        <li>100% Job Assistance</li>
+                                    </ul>
+                                    <a  href="/{{i.slug}}"><button>View Details</button></a>
+                                </div>
+                            </div>
+                   
+                    </div>
+                    
+                    <!-- // li -->
+                {% endfor %}
+
+                
+            </ul>
+        </section><!-- // Related Category Courses123 -->
+<!-- Modal -->
+<div class="modal login-modal fade" id="exampleModal1" tabindex="-1"
+aria-labelledby="exampleModa1lLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <i class="icon-close text-dark"></i>
+        </button>
+        <div class="modal-body">
+            <div class="login-modal__wrap " style="height: 475px;">
+                <div class="login-modal__left-pan" style="width:100% ;">
+                    <!--  Sign in -->
+                    <div id="left-panel-sign" class="d-flex flex-column justify-content-center loginSection">
+                        <h2 class="mb-2 text-secondary">Sign in to your account</h2>
+                        <p class="font-size-xs text-gray-medium">Welcome back! Login with your data that you entered during registration.</p>
+                        {% comment %} <button class="google-login rounded d-flex align-items-center">
+                             <a href="{% url 'social:begin' 'google-oauth2' %}">Sign in with google</a> 
+                            <a href="#">Sign in with google</a>
+                        </button> {% endcomment %}
+
+                        <!-- <p class="text-gray-light mt-4">Login via Email</p> -->
+                        <!-- <div class="or" style="height: 1px;background-color: #e0e0e0;width: 100%;text-align: center;position: relative;margin: 30px 0;">
+                            <span style="background-color: #fff;padding: 0 10px;display: inline-block;position: relative;top: -10px;color: #999db3;font-size: 0.75rem;">Login via Email</span>
+                        </div> -->
+                        {% comment %} <form action="/classroom/login" method="POST" class="w-100"> {% endcomment %}
+                            {% comment %} {% csrf_token %}  {% endcomment %}
+                            <ul class="w-100 mb-0">
+                                <li class="form-group">
+                                    <div class="input-effect ">
+                                        <input type="email" name="email" id="ldemail" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name">
+                                        <label>Email</label>
+                                    </div>
+                                </li>
+                                <li class="form-group" style="margin-bottom: 0;">
+                                    <div class="input-effect ">
+                                        <input type="password" name="password" id="ldpass" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name">
+                                        <label>Password</label>
+                                    </div>
+                                </li>
+                                <span id="loginDEMessage" style="font-size: 12px; margin-bottom: 0px;margin-top: 10px;">Login Email and Password case-senstive</span>
+                                <p style="font-size: 12px; margin-top:10px;"><span>Please Note:</span> By Continuing signing in, you agree to AP2V <a href="https://www.ap2v.com/terms-and-conditions/" target="__BLANK__" >Terms & Conditions</a> and  <a href="https://www.ap2v.com/privacy-policy/" target="__BLANK__">Privacy Policy</a>.</p> 
+                                <li><button style="margin-top: 15px;" type="button" onclick="attemptLoginDesktop1()" id="loginDBtnl1" class="btn btn-primary rounded-60 w-100">Sign in</button></li>
+                                <li class="form-group my-4 font-size-xs text-center mb-0"><a href="javascript:void(0)" onclick="displayResetPasswordScreen()" class="text-gray-medium text-underline">Forget Password?</a></li>
+                                <li class="form-group my-4 font-size-xs text-center mb-0 monkul"><a href="#" class="text-gray-medium text-underline" id="sign-up1">Sign up</a></li>
+
+                            </ul>
+                        {% comment %} </form> {% endcomment %}
+                    </div><!-- // Sign in -->
+
+
+                    <script>
+                        function attemptLoginDesktop1(){
+                            var userLogin = $("#ldemail").val()
+                            var userPass = $("#ldpass").val()
+                            
+                            
+                            if(userLogin && userPass){
+                                //alert(userLogin)
+                                //alert(userPass)
+                                $("#loginDBtnl1").text("Please Wait...")
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/classroom/attemptuserLogin/",
+                                    data: {"email":userLogin,"password":userPass,"csrfmiddlewaretoken": "{{ csrf_token }}"},
+                                    success: function (data) {
+                                        //alert('success')
+                                        var type = sessionStorage.getItem("type")
+                                        //alert(type)
+                                        if(sessionStorage.getItem("type") === null){
+                                            console.log("Item does not exist in localstoarge");
+                                            if(data['status'] == 200){
+                                                $("#loginDBtnl1").text("Login Success... Redirecting")
+                                                //window.location.assign()
+                                                window.location.href="/classroom"
+                                            }
+                                            else{
+                                                $("#loginDEMessage").text(data['message'])
+                                                $("#loginDEMessage").css('color', 'red');
+                                                $("#loginDBtnl1").text("Login")
+                                                return false;
+                                            }
+                                        }
+                                        else{
+                                           console.log("Item exists in localstorage");
+                                           addToCourse(type)
+                                        
+                                            if(data['status'] == 200){
+                                                $("#loginDBtnl1").text("Login Success... Redirecting")
+                                                //window.location.assign()
+                                                window.location.href="/recording_sessions/checkout"
+                                            }
+                                            else{
+                                                $("#loginDEMessage").text(data['message'])
+                                                $("#loginDEMessage").css('color', 'red');
+                                                $("#loginDBtnl1").text("Login")
+                                                return false;
+                                            }
+                                        
+                                        }
+                                        
+                                    },
+                                    error: function (data) {
+                                        alert("Internal Server Error!!!");
+                                    },
+                                }); 
+                            }
+                        }
+                    </script>
+                    
+
+
+                    <!--  Forget password -->
+                    <div class="forget-password" id="resetSection">
+                        <h2 class="mb-2 text-secondary">Forget Passsword</h2>
+                        <p class="font-size-xs text-gray-medium">Enter email address associated with your account and we'll send you a link to reset your password</p>
+                            {% csrf_token %} 
+                            <ul class="w-100 mb-0">
+                                <li class="form-group">
+                                    <div class="input-effect ">
+                                        <input type="email" name="email" id="resetEmail" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name">
+                                        <label>Email address</label>
+                                    </div>
+                                </li>
+                                <p id="resetMessage"></p>
+                                <li id="resetButton"><button type="submit" onclick="genratePasswordToken()" class="btn btn-primary rounded-60 w-100">Reset my password</button></li>
+                                <li style="margin-left: 110px;" id="resetWaiting"><div class="spinner-grow text-success"></div></li>
+                            </ul>
+                    </div><!--  Forget password -->
+
+
+
+                    <div id="left-panel-sign-up"
+                        class="d-flex flex-column justify-content-center align-items-center text-center py-5">
+                        <h2 class="mb-3 text-secondary">Create Account</h2>
+                        {% comment %} <button class="google-login rounded d-flex align-items-center">
+                            <a href="#">Sign in with google</a>
+                        </button> {% endcomment %}
+
+                        <p class="text-gray-light mt-4">Use your email for registration:
+                        </p>
+                        {% comment %} <form action="/classroom/signup" method="POST" autocomplete="off"> {% endcomment %}
+                            {% comment %} {% csrf_token %} {% endcomment %}
+                            <ul class="w-100">
+                                <li class="form-group error">
+                                    <div class="input-effect ">
+                                        <input autocomplete="off" type="text" id="name" name="fullname" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name">
+                                        <label>Full name</label>
+                                        <p class="error--mgs" id="name1_error">Please enter name</p>
+                                    </div>
+                                </li>
+
+                                <li class="form-group error">
+                                    <div class="input-effect ">
+                                        <input autocomplete="off"  type="email" id="email" name="email" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name">
+                                        <label>Your email</label>
+                                        <p class="error--mgs" id="email1_error">Please enter email</p>
+                                    </div>
+                                </li>
+                                <li class="form-group error">
+                                    <div class="input-effect ">
+                                        <input autocomplete="off"  type="password" id="password" name="password" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name">
+                                        <label>Password</label>
+                                        <p class="error--mgs" id="password1_error">Please enter password</p>
+                                    </div>
+                                </li>
+
+                                <p class="password_policy_class" id="passwordPLength">Must be grater 6 characters as long.</p>
+                                <p class="password_policy_class" id="passwordPChar">Can contain any letters a to z or A to Z.</p>
+                                <p class="password_policy_class" id="passwordPSChar">Can contain some special characters eg(@,#,$,%,&,*,%).</p>
+                                <p class="password_policy_class" id="passwordPNumber">Can contain any numbers from 0 to 9.</p>
+                                <span id="password_policy_result" hidden></span>
+                                
+                                
+
+                                <p id="error_message"></p>
+                                <li><button class="btn btn-primary rounded-60 px-5" id="createBtnStnd" onclick="createUser()" style="margin-top: 5px;">Sign Up</button></li>
+                                <li class="spinner-grow text-danger" id="createBtnStndSpiner"></li>
+                            </ul>
+                        {% comment %} </form> {% endcomment %}
+                    </div><!-- // Sign up -->
+                </div><!-- // Left panel -->
+
+                <div id="right-panel" class="login-modal__right-pan bg-gradient-primary">
+                    <div id="sigin-up-content"
+                        class="login-modal__right-pan--content h-100 d-flex flex-column justify-content-center align-items-center text-center px-4">
+                        <h2>Hello, Friend</h2>
+                        <p>Enter your personal details and start journey with us</p>
+                        <a href="#" class="btn btn-outline-white rounded-60 px-4"
+                            id="sign-up">Sign up</a>
+                    </div>
+
+                    <div id="sigin-in-content"
+                        class="login-modal__right-pan--content h-100 d-flex flex-column justify-content-center align-items-center text-center px-4">
+                        <h2>Welcome Back</h2>
+                        <p>To keep connected with us please login with your personal info
+                        </p>
+                        <a href="#" class="btn btn-outline-white rounded-60 px-4"
+                            id="sign-in">Sign in </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- // Modal -->
+        <section class="bg-gray">
+            <div class="container">
+                <h2 class="align-items-start">Trending Courses</h2>
+                <ul class="product-list product-slider hide">
+                    {% for i in tranding_course %}
+                        <!--<li class="product-list--item">
+                            <div class="white-box">
+                                <a href="/{{ i.slug }}" class="d-block"><img src="/media/{{i.course_icon}}" alt="{{i.name}}"></a>
+                                <div class="white-box--content mt-3">
+                                    {% comment %} {% for tag in i.tags.all %}
+                                        <span class="yellow-tag">{{tag.name}}</span>
+                                    {% endfor %} {% endcomment %}
+                                    <span class="yellow-tag d-inline-block max-w-90">{{ i.category_name.all|join:" &bull; " }}</span>
+                                    <a href="/{{ i.slug }}"><h3 class="justify-content-start">{{i.name|truncatechars:"42"}}</h3></a>
+                                    <div class="d-flex align-items-center justify-content-start mb-2">
+                                        Rating:
+                                        <span class="icon-star-fill mx-1"></span>
+                                        <strong>{{i.rating}}</strong>/5
+                                        <span class="font-size-xxs ml-1">({{i.review_count}})</span>
+                                    </div>
+                                    <br>
+                                    <a href="/{{i.slug}}" class="btn-link know-more">Know more</a>
+                                    {% comment %} <div class="tagging">
+                                        Tagging:
+                                        {% for tag in i.tags.all %}
+                                            <a href="/{{tag.slug}}-courses" class="tagging--item">{{tag.name}}</a>
+                                        {% endfor %}
+                                    </div> {% endcomment %}
+                                </div>
+                            </div>
+                        </li>-->
+                        <div class="tc-list" style="position: relative;">
+                         
+                                <div class="course-trend">
+                                    {% get_dyna_color i.slug as dynamic_color %}
+                                    <div class="course-trend-upper three" style="background: linear-gradient(45deg, {{dynamic_color.0}}, {{dynamic_color.1}})">
+                                        <div class="course-trend-upper-img">
+                                            <img loading="lazy" class="d-inline-block" src= "/media/{{i.course_icon}} "   alt="{{i.name}}" width="52" height="52">
+                                        </div><span>{{i.name|truncatechars:"42"}}</span>
+                                    </div>
+                                    <div class="course-trend-lower">
+                                        <p><span class="yellow-tag d-inline-block max-w-90" style="margin-top: 10px;margin-bottom: -12px;">{{ i.category_name.all|join:" &bull; " }}</span></p>
+                                        <span>{{i.name|truncatechars:"42"}}</span>
+                                        <div class="trending-course-review"><i>Reviews</i>
+                                            <div class="trending-course-review-star">
+                                                <div class="star">
+                                                    <span class="icon-star-fill mx-1"></span>
+                                                    <span class="icon-star-fill mx-1"></span>
+                                                    <span class="icon-star-fill mx-1"></span>
+                                                    <span class="icon-star-fill mx-1"></span>
+                                                    <span class="icon-star-fill mx-1"></span>
+                                                    <strong>{{ i.rating }}</strong>
+                                            <span class="font-size-xxs ml-1">({{ i.review_count }})</span>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="overlay1"><i>Key Features</i><span class="listlearn">What will I learn?</span>
+                                        <ul>
+                                            <li>{{i.duration}} Hours of Learning</li>
+                                            <li>2 Hours of Assignments</li>
+                                            <li>100% Job Assistance</li>
+                                        </ul>
+                                        <a  href="/{{i.slug}}"><button>View Details</button></a>
+                                    </div>
+                                </div>
+                           
+                        </div>
+                        
+                        <!-- // li -->
+                    {% endfor %}
+                </ul>
+            </div><!-- // container -->
+        </section><!-- // Trending Courses -->
+{% endblock content %}

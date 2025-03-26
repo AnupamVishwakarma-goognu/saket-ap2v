@@ -1,0 +1,57 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="wrapper">
+        {% include 'website/sidebar.html' %}
+        {% include 'website/header.html' %}
+        <div class="main-panel">
+        
+          <div class="content">
+              <div class="container-fluid">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="card">
+                            <div class="card-header">
+                              <!-- <div class="float-right">
+                                <button type="button" class="btn btn-info btn-fill mb-4 mx-4" data-toggle="modal" data-target="#exampleModal">Add Fees Installments</button>
+                                <input type="text" name="search_filter" placeholder="Search...">
+                              </div> -->
+                              <h4 class="card-title text-uppercase">Enquiries List</h4>
+                            </div>
+                              <div class="card-body table-striped table-no-bordered table-hover dataTable dtr-inline table-full-width">
+                                  <div class="fresh-datatables">
+                                      <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+                                          <thead>
+                                              <tr>
+                                                  <th>#</th>
+                                                  <th>Name</th>
+                                                  <th>Email</th>
+                                                  <th>Phone</th>
+                                                  <th>Branch Location</th>
+                                                  <th>Reference</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                            {% for enquiries_filter in enquiries_filter_data %}
+                                              <tr onclick="window.location='/enquiries/view/{{ enquiries_filter.id }}'">
+                                                  <td>{{ forloop.counter }}</td>
+                                                  <td>{{ enquiries_filter.full_name }}</td>
+                                                  <td>{{ enquiries_filter.email }}</td>
+                                                  <td>{{ enquiries_filter.mobile }}</td>
+                                                  <td>{{ enquiries_filter.branch_location }}</td>
+                                                  <td>{{ enquiries_filter.reference }}</td>
+                                              </tr>
+                                            {% endfor %}
+                                          </tbody>
+                                      </table>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          {% include 'website/footer.html' %}
+      </div>
+    </div>
+{% endblock content %}

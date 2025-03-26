@@ -1,0 +1,20 @@
+
+{% load static %}
+{% load custom_tags %}
+
+<table class="table table-striped">
+    <tbody>
+        {% for room in rooms_list %}
+        {% get_chat_room_id room.id as batch_obj %}
+        {% get_chat_room_title room.id as chat_room_title %}
+            <tr>
+                <th> <input type="checkbox" name="selected_batch_forword" value={{batch_obj.id}}> </th>
+                <td>{{batch_obj.id}}</td>
+                <td style="padding:0px;"><span>{{chat_room_title}}</span></br>
+                <span style="font-size: 10px;">({{batch_obj.start_date_time |date:'d-m-Y'}}) - ({{batch_obj.end_date_time |date:'d-m-Y'}})</span></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<input hidden value="{{message_id}}" id="message_id">

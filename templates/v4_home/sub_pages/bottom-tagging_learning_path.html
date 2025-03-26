@@ -1,0 +1,41 @@
+<section class="container">
+    <div class="row">
+        <div class="col-12 col-md-8" hhh>
+            <h4>{{heading}}</h4>
+            <div class="tagging-round mt-4">
+            	{% for blk in city_block %}
+               		<a class="tagging-round--item"href="{{blk.href}}">{{blk.name}}</a>
+            	{% endfor %}
+            </div>
+        </div>
+        <div class="col-12 col-md-4 mt-3 mt-md-0">
+            <div class="white-box call-us py-3">
+                <span class="call-us--subHead">Contact us</span>
+                <p class="call-us--head mb-0 co_number" id="co_number6" style="font-size: 25px;"> </p>
+            </div>
+        </div>
+    </div>
+    <!--
+    <script>
+        $( document ).ready(function() {
+            function get_number(){
+                $.ajax({
+                    type: "POST",
+                    url: "/core_apis/v1/get_counselor_round_number",
+                    data:{"csrfmiddlewaretoken": "{{ csrf_token }}"},
+                    success: function (data) {
+                    //alert("success")
+                    //alert(data['number'])
+                    var c_number = data['number']
+                    $(".co_number6").text(c_number)
+                    },
+                    error: function (data) {
+                        //alert("Somethings Wents Wrong");
+                    },
+                });
+            };
+            get_number();
+        });
+    </script>
+    -->
+</section>

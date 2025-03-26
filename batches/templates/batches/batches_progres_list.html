@@ -1,0 +1,161 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% block content %}
+    <div class="wrapper">
+        {% include 'website/sidebar.html' %}
+        {% include 'website/header.html' %}
+        <div class="main-panel">
+            <!-- Navbar -->
+            
+            <div class="content" style="margin:0; padding-bottom:0">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                          <h4 class="card-title mt-0">Batch Progress</h4>
+                            <div class="card data-tables">
+                              <div class="card-header">
+                                <div class="row align-items-center justify-content-between">
+                                  <div class="d-flex follow-up--filter">
+                                    <div class="float-right col-md-4 pr-3 pr-md-0">
+                                    </div><!-- // col -->
+
+                                    <div class="float-right col-md-4 pr-3 pr-md-0">
+                                      {% comment %} <input type="search" class="form-control" onkeypress="search_filter(event);" id="filters_search" value="{% if request.GET.n %}{{request.GET.n}}{% endif %}" placeholder="search..."> {% endcomment %}
+                                    </div><!-- // col -->
+
+                                    <div class="col-md-1 pr-3 pr-md-0 d-flex align-items-center justify-content-center">
+                                      {% comment %} <i class="fa fa-refresh text-info" onclick="window.location.href=`${window.location.pathname}`"></i> {% endcomment %}
+                                    </div><!-- // col -->                                    
+
+                                  </div><!-- // d-flex -->
+                                </div><!-- // Row -->
+                                
+                              </div>
+                                <div class="card-body table-striped table-no-bordered table-hover dataTable dtr-inline table-full-width">
+                                    <div class="toolbar" id="table_data">
+                                      
+                                </div>
+                            </div>
+
+                            <div class="row mx-1">
+                              <div class="col-sm-12 col-md-5 font-size-base"><span class="mt-2 d-block">Showing {{ batch_obj.start_index }} - {{ batch_obj.end_index }} of {{ batch_obj.paginator.count }}</span></div>
+                              <div class="col-sm-12 col-md-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="datatables_paginate">
+                                    <ul class="pagination">
+                                      {% comment %} {% if batches.has_previous %}
+                                      <li class="paginate_button page-item previous" id="datatables_previous">
+                                      <a href="?page={{ batches.previous_page_number }}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                      </li>
+                                      {% else %}
+                                      <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                                      <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                      </li>
+                                      {% endif %}
+
+                                      {% for i in batches.paginator.page_range %}
+                                        {% if i %}
+                                          {% ifequal i batches.number %}
+                                            <li class="paginate_button page-item active">
+                                              <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                            </li>
+                                          {% else %}
+                                            <li class="paginate_button page-item">
+                                              <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                            </li>
+                                          {% endifequal %}
+                                        {% else %}
+                                          <li class="paginate_button page-item" id="nopage">
+                                            <a href="javaScript:void(0)" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" style="pointer-events: none;">...</a>
+                                          </li>
+                                        {% endif %}
+                                      {% endfor %}
+
+                                      {% if batches.has_next %}
+                                        <li class="paginate_button page-item next" id="datatables_next">
+                                        <a href="?page={{ batches.next_page_number }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                                        </li>
+                                      {% else %}
+                                        <li class="paginate_button page-item next disabled" id="datatables_next">
+                                        <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                                        </li>
+                                      {% endif %} {% endcomment %}
+
+                                      {% if batch_obj.has_previous %}
+                                        <li class="paginate_button page-item previous" id="datatables_previous">
+                                          <a aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" href="?page=1" tabindex="-1">FIRST</a>
+                                        </li>
+                                        <li class="paginate_button page-item previous" id="datatables_previous">
+                                          <a href="?page={{ batch_obj.previous_page_number }}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                        </li>
+                                        {% else %}
+                                        <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                                        <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">FIRST</a>
+                                        </li>
+                                        <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                                        <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                        </li>
+                                        {% endif %}
+
+                                        {% for i in batch_obj.paginator.page_range %}
+                                            {% if batch_obj.number == i %}
+                                                <li class="paginate_button page-item active">
+                                                <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                              </li>
+                                            {% elif i > batch_obj.number|add:'-5' and i < batch_obj.number|add:'5' %}
+                                                <li class="paginate_button page-item">
+                                                <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                              </li>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        {% if batch_obj.has_next %}
+                                          <li class="paginate_button page-item next" id="datatables_next">
+                                            <a href="?page={{ batch_obj.next_page_number }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                                          </li>
+                                          <li class="paginate_button page-item next" id="datatables_next">
+                                            <a href="{% if batch_obj.has_next %} ?page={{ batch_obj.paginator.num_pages }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link" {% endif %}>LAST</a>
+                                          </li>
+                                        {% else %}
+                                          <li class="paginate_button page-item next disabled" id="datatables_next">
+                                            <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                                          </li>
+                                          <li class="paginate_button page-item next disabled" id="datatables_next">
+                                            <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">LAST</a>
+                                          </li>
+                                      {% endif %}
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          {% include 'website/footer.html' %}
+        </div>
+      </div>
+      <script>
+        function getBatchData(){
+          $("#table_data").empty();
+          $('#table_data').prepend('<img id="theImg" style="height: 50px;padding-left: 43%;" src={% static "assets/images/waiting-icon.jpg" %}>')
+          
+          $.ajax({
+              type: "GET",
+              data : {"page":'{{page_number}}'},
+              url: "/batches/get-batch-progress-data", 
+              success: function(data){
+                  //alert("Success")
+                  //location.reload();
+                  $("#table_data").html(data)
+              },
+              error: function(data){
+                  alert("Internal Server Error !!!")
+              }
+          });
+        }
+
+        getBatchData();
+      </script>
+{% endblock content %}

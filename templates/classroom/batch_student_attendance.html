@@ -1,0 +1,24 @@
+{% load custom_tags %}
+{% if student_attendance %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i,j in student_attendance.items %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i}}</td>
+                    {% get_student_name j as name_list %}
+                    <td>{{name_list}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Batch is not started or my be no any student present in list. Please try after when some class completed.</p>
+{% endif %}

@@ -1,0 +1,335 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block content %}
+<div class="wrapper">
+  {% include 'website/sidebar.html' %}
+  {% include 'website/header.html' %}
+  <div class="main-panel">
+
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <h4 class="card-title mt-0">Payments List | <a href="javascript:void(0)" onclick="genratePaymentLinkModalOpen()" >Genrate Payment Link</a>
+            <!-- filter -->
+            
+    {% load static %}
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#myModal" style="height: 38px;margin-left:10px;">
+     <img src="{% static 'assets/img/filter.png'%}" class="logo-image" alt="">
+    </button>
+    {% comment %} <button class="btn btn-secondary btn-filter"><img src="{% static 'assets/img/filter.png'%}" class="logo-image" alt=""></button> {% endcomment %}
+
+    <!-- Modal -->
+    <form method="GET">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title mt-0" id="myModalLabel">Advanced Search</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="name">Name</label>
+                <input type="text" name="name" class="form-control" placeholder="Enter Name" value="{{request.GET.name}}">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="name">Mobile</label>
+                <input type="number" name="mobile" class="form-control" placeholder="Enter Mobile Number" value="{{request.GET.mobile}}">
+              </div>
+              <div class="form-group col-md-12">
+                <label for="name">Email</label>
+                <input type="email" name="email" class="form-control" placeholder="Enter email" value="{{request.GET.email}}">
+              </div>
+
+            
+            </div>
+           
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary btn-fill">Search</button>
+            <button type="button" class="btn btn-secondary btn-simple" ><a href="{% url 'links_list' %}">Reset</a></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+            <!-- end filter -->
+          </h4>
+            <div class="card data-tables">
+             
+              <div class="card-body table-striped table-no-bordered table-hover dataTable dtr-inline table-full-width">
+                <div class="table-responsive">
+                  <table id="datatables" class="table" cellspacing="0" width="100%"style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Date</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Amount</th>
+                        <th>Title</th>
+                        <th>Payment Status</th>
+                        <th></th>
+                      </tr>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for i in payment_obj %}
+                        <tr {% if i.razorpay_payment_id %} style="background-color: #b3ffb3;" {% else %} {% if i.received_other_source %} style="background-color: darkgrey" {% endif %}{% endif %} {% if not i.is_active %} style="text-decoration: line-through;background-color: red;" {% endif%}>
+                          <td>{{ i.id }}</td>
+                          <td>{{ i.datetime }}</td>
+                          <td>{{ i.name }}</td>
+                          <td>{{ i.email }}</td>
+                          <td>{{ i.mobile }}</td>
+                          <td>{{ i.amount }}</td>
+                          <td>{{ i.fee_title }}</td>
+                          <td> {% if i.razorpay_payment_id %}<img style="height: 15px;margin-right: 7px;" src="{% static 'assets/images/check.png'%}" class="logo-image" alt=""> Success {% else %} {% if i.received_other_source %} <span style="font-size: 10px;">Received by other source </span> {% else %} <img style="height: 15px;margin-right: 7px;" src="{% static 'assets/images/wallet.png'%}" class="logo-image" alt="">  Pending {% endif %}{% endif %}</td>
+                          <td>{% if i.razorpay_payment_id %} {% else %} {% if i.received_other_source %} {% else %} {% if i.is_active %} <a href="javascript:void(0)" onclick="copyRowLink('{{i.id}}')" >View</a> {% endif %} {% endif %}{% endif %}</td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="row mx-1">
+                <div class="col-sm-12 col-md-5 font-size-base"><span class="mt-2 d-block">Showing {{ payment_obj.start_index }} - {{ payment_obj.end_index }} of {{ payment_obj.paginator.count }}</span></div>
+                <div class="col-sm-12 col-md-7">
+                  <div class="dataTables_paginate paging_simple_numbers" id="datatables_paginate">
+                      <ul class="pagination">
+                        {% if payment_obj.has_previous %}
+                          <li class="paginate_button page-item previous" id="datatables_previous">
+                            <a aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" href="?page=1" tabindex="-1">FIRST</a>
+                          </li>
+                          <li class="paginate_button page-item previous" id="datatables_previous">
+                            <a href="?page={{ payment_obj.previous_page_number }}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                          </li>
+                          {% else %}
+                          <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                          <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">FIRST</a>
+                          </li>
+                          <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                          <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                          </li>
+                          {% endif %}
+
+                          {% for i in payment_obj.paginator.page_range %}
+                              {% if payment_obj.number == i %}
+                                  <li class="paginate_button page-item active">
+                                  <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                </li>
+                              {% elif i > payment_obj.number|add:'-4' and i < payment_obj.number|add:'4' %}
+                                  <li class="paginate_button page-item">
+                                  <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                </li>
+                              {% endif %}
+                          {% endfor %}
+
+                          {% if payment_obj.has_next %}
+                            <li class="paginate_button page-item next" id="datatables_next">
+                              <a href="?page={{ payment_obj.next_page_number }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                            </li>
+                            <li class="paginate_button page-item next" id="datatables_next">
+                              <a href="{% if payment_obj.has_next %} ?page={{ payment_obj.paginator.num_pages }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link" {% endif %}>LAST</a>
+                            </li>
+                          {% else %}
+                            <li class="paginate_button page-item next disabled" id="datatables_next">
+                              <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                            </li>
+                            <li class="paginate_button page-item next disabled" id="datatables_next">
+                              <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">LAST</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% include 'website/footer.html' %}
+  </div>
+</div>
+
+
+
+
+<!-- Modal -->
+  <div class="modal fade" id="genratePaymentLInk" tabindex="-1" role="dialog" aria-labelledby="genratePaymentLInkLabel" style="display: none;">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="width: 680px;margin-left: 45px;">
+            <div class="modal-header">
+                <h4 class="modal-title mt-0" id="myModalLabel">Genrate Payment Link</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding-top: 10px;">
+                  <div class="row" style="margin-bottom: 5px;">
+                    <div class="col-md-6">
+                      <div class="">
+                          <label style="margin-bottom: 0px;">Name*</label>
+                          <input type="text" class="form-control" id="name" name="name" placeholder="Student Name" required="true" />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="">
+                          <label style="margin-bottom: 0px;">Course/Title of Fee</label>
+                          <input type="text" class="form-control" id="fee_title" name="fee_title" placeholder="Python Django Fees" required="true" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row" style="margin-bottom: 5px;">
+                    <div class="col-md-6">
+                      <div class="">
+                          <label style="margin-bottom: 0px;">Email*</label>
+                          <input type="email" class="form-control" id="email" name="email" placeholder="Student Email" required="true" />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="">
+                          <label style="margin-bottom: 0px;">Mobile*</label>
+                          <input type="number" class="form-control" id="mobile" name="mobile" placeholder="Student Mobile" required="true" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row" style="margin-bottom: 5px;">
+                    <div class="col-md-6">
+                      <div class="">
+                          <label style="margin-bottom: 0px;">Amount/Fee*</label>
+                          <input type="number" class="form-control" id="fee" name="fee" placeholder="Fees Amount Ex: 12999" required="true" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row" style="margin-bottom: 5px;">
+                    <div class="col-md-12" id="payment_link_section">
+                      
+                    </div>
+                  </div>
+
+                  <div class="row" style="margin-top: 30px;justify-content: flex-end;" style="background-color: aquamarine;margin-top: 25px;padding-bottom: 17px;">
+                    <button type="button" id="" class="btn btn-danger" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    <button type="button" onclick="genrateLink()" id="genrateBtn" class="btn btn-info" style="background-color: #494ac8ed;margin-left: 10px;">Genrate Link</button>
+                  </div>
+            </div>
+            </form>
+        </div>
+    </div>
+  </div>
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="paymentLInkInfo" tabindex="-1" role="dialog" aria-labelledby="paymentLInkInfoLabel" style="display: none;">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="width: 680px;margin-left: 45px;">
+            <div class="modal-header">
+                <h4 class="modal-title mt-0" id="myModalLabel">Payment Info</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="row" style="margin-bottom: 5px;padding: 20px;">
+              <div class="col-md-12" id="payment_link_info_section">
+                
+              </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <script>
+    function genratePaymentLinkModalOpen(){
+      $("#genratePaymentLInk").modal("show");
+    }
+
+    function genrateLink(){
+      var name = $("#name").val();
+      var fee_title = $("#fee_title").val();
+      var email = $("#email").val();
+      var mobile = $("#mobile").val();
+      var fee = $("#fee").val();
+
+      if(name.length<=0){
+        alert("Please enter Name")
+        return false;
+      }
+
+      if(fee_title.length<=0){
+        alert("Please enter Course/Title of Fee")
+        return false;
+      }
+
+      if(email.length<=0){
+        alert("Please enter Email,")
+        return false;
+      }
+
+      if(mobile.length<=0){
+        alert("Please enter Mobile,")
+        return false;
+      }
+
+      if(fee.length<=0){
+        alert("Please enter Fee Amount,")
+        return false;
+      }
+
+      $("#genrateBtn").text("Please Wait...");
+      $.ajax({
+        type: "POST",
+        url: "/payment/genrate-payment-link",
+        data: {"name":name,"fee_title":fee_title,"email":email,"mobile":mobile,"fee":fee,"csrfmiddlewaretoken": "{{ csrf_token }}"},
+        success: function (data) {
+            $("#genrateBtn").hide();
+            $("#payment_link_section").html(data)
+            
+        },
+        error: function (data) {
+          $("#genrateBtn").text("Genrate Link");  
+          alert("Error!!!");
+            
+        },
+      });
+    }
+
+    function copyPaymentInfo(){
+      var pay_link = document.getElementById("payment_link")
+      pay_link.select();
+      document.execCommand("Copy");
+      $("#copyLinkText").text("Link copied");
+      $("#copyLinkText").css("color","green");
+    }
+
+    function copyRowLink(id){
+
+      $("#paymentLInkInfo").modal("show");
+
+      if(id){
+        $.ajax({
+          type: "GET",
+          url: "/payment/get-payment-link",
+          data: {"id":id},
+          success: function (data) {
+              $("#payment_link_info_section").html(data)
+          },
+          error: function (data) {
+            alert("Error!!!"); 
+          },
+        });
+      }
+    }
+
+  </script>
+{% endblock content %}

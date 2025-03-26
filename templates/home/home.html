@@ -1,0 +1,278 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+  {% include 'home/header.html' %}
+  <body class="fixed-navigation">
+
+  <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NBG7NXZ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
+    <!-- main banner and menu container starts here  -->
+    <div class="container-fluid side-collapse-container">
+      <div class="row">
+
+        <!-- header Satrts here -->
+        <header class="rel">
+          <!-- Site search starts here  -->
+          <div class="site-search">
+            <div class="search-wrap">
+              <h1>Find the best course for you</h1>
+              <div class="search-container">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="input-group">
+                        <div class="input-group-btn">
+                          <select>
+                              <option>Select location</option>
+                              <option selected>Gurgaon</option>
+                              <option>Noida</option>
+                          </select>
+                        </div><!-- /btn-group -->
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Enter Course, Category or keyword" onkeypress="enter_search_call(event);" name="q" id="search">
+                          <buttton class="input-group-addon sprite" onclick="search_call();">Search</buttton>
+                        </div>
+                      </div><!-- /input-group -->
+                    </div><!-- /.col-lg-6 -->
+                  </div><!-- /.row -->
+              </div><!-- search container ends here -->
+
+              <!-- Sale keyword Starts here -->
+              <ul class="htc-sale text-center mt-20 hidden-xs">
+                  <li><a href="/devops-training-in-gurgaon.html">DevOps</a></li>
+                  <li><a href="/python-training-in-gurgaon.html">Python</a></li>
+                  <li><a href="/rhce-training-in-gurgaon.html">RHCE</a></li>
+                  <li><a href="/aws-training-in-gurgaon.html">AWS (Amazon Web Services)</a></li>
+              </ul><!-- Sale keyword ends here -->
+
+            </div><!-- search wrap ends here -->
+          </div><!-- Site search ends here  -->
+
+          <!-- navbar Starts here -->
+	  {% include 'home/navigation.html' %}
+
+          <!-- home banner starts here -->
+          <div class="home-banner">
+            <div class="banner-overlay">
+              <img src="{% static 'images/banner.jpg' %}" class="img-responsive">
+            </div>
+          </div><!-- home banner ends here -->
+
+        </header><!-- header ends here -->
+      </div><!-- row ends here -->
+      <div class="mask"></div>
+    </div><!-- main banner and menu container ends here  -->
+
+    <!-- Explore our courses starts here -->
+    <section class="container white-bg text-center">
+      <div class="row">
+        <div class="text-center">
+          <h2 class="inline-block">Explore our courses</h2>
+          <p class="home-para mb-30">The verity in courses we delivers caters all requirements for skills enhancements to keep you par with industry standard.
+	  Whether you are an individual or large organization, AP2V Gurgaon's team of training experts can help determine the best guidance, roadmap, method , and budget to assist you achieve your goal.</p>
+        </div><!-- /.Text center & main heading -->
+
+        <div class="col-sm-15 col-xs-4 text-center">
+	  <a href="/category/development"><span class="icon-development"></span>
+	  <p style="color:black;">Development</p></a>
+        </div><!-- /col-15 -->
+
+        <div class="col-sm-15 col-xs-4 text-center">
+          <a href="/category/linux"><span class="icon-linux"></span>
+          <p style="color:black;">Linux</p></a>
+        </div><!-- /col-15 -->
+
+        <div class="col-sm-15 col-xs-4 text-center">
+          <a href="/category/database"><span class="icon-database"></span>
+          <p style="color:black;">Database</p></a>
+        </div><!-- /col-15 -->
+
+        <div class="col-sm-15 col-xs-6 text-center">
+          <a href="/category/cloud"><span class="icon-cloud"></span>
+          <p style="color:black;">Cloud</p></a>
+        </div><!-- /col-15 -->
+
+        <div class="col-sm-15 col-xs-6 text-center">
+          <a href="/category/bigdata"><span class="icon-bigData"></span>
+          <p style="color:black;">Big Data</p></a>
+        </div><!-- /col-15 -->
+      </div>
+    </section><!-- Explore our courses ends here -->
+
+    <!-- Featured courses Starts here -->
+    {% include 'home/home_courses.html'%}
+    <!-- Featured courses Starts here -->
+
+    <!-- Featured certifications starts here -->
+    {% include 'home/home_certifications.html'%}
+
+
+    {% include 'home/home_events.html' %}
+    <!-- Events starts here -->
+
+    <!-- SEO Keyword starts here -->
+    <section class="container-fluid white-bg">
+      <div class="row">
+        <div class="container hidden-xs">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="keywords">
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs">
+              {% for location in locations %}
+              <li {% if location.local == True %} class="active" {% endif %}><a href="#{{ location.name|lower }}" data-toggle="tab">{{ location.name }}</a></li>
+              {% endfor %}
+              </ul>
+              <!-- Tab panes -->
+              <div class="tab-content mt-30">
+              {% for location in locations %}
+              {% if location.local == True %}
+                <div class="tab-pane active" id="{{ location.name|lower }}">
+                  <div class="col-sm-6 col-md-3 col-xs-12">
+                    <ul>
+                    {% for course in courses %}
+                    <li><a href="/courses/{{ course.slug }}">{{ course.name }}</a></li>
+                    {% if forloop.counter|divisibleby:10 %}
+                    </ul></div>
+                    <div class="col-sm-6 col-md-3 col-xs-12">
+                    {% endif %}
+                    {% endfor %}
+                  </div>
+                </div><!-- /. tab-pane -->
+		          {% else %}
+                <div class="tab-pane" id="{{ location.name|lower }}">
+                  <div class="col-sm-6 col-md-3 col-xs-12">
+                    <ul>
+                    {% for remote_item in remote_items %}
+                    {% if remote_item.location.name == location.name %}
+                      <li><a href="{{ remote_item.link }}" target="_blank">{{ remote_item.title }}</a></li>
+                      {% if forloop.counter|divisibleby:10 %}
+                      </ul></div>
+                      <div class="col-sm-6 col-md-3 col-xs-12">
+                      {% endif %}
+	      	          {% endif %}
+		                {% endfor %}
+		                </div>
+                </div><!-- /. tab-pane -->
+              {% endif %}
+              {% endfor %}
+              </div><!-- /.tab-content -->
+            </div><!-- /.keywords -->
+            </div><!-- /.Col-sm-12 -->
+          </div><!-- /.Row -->
+        </div><!-- /.container -->
+        <hr class="mt-50 hidden-xs">
+
+      <!-- Testimonials starts -->
+    {% include 'home/home_testimonials.html'%}
+
+    {% include 'home/home_blogs.html'%}
+
+
+    <!-- Enquire now Starts here -->
+    <section class="container-fluid white-bg">
+      <div class="row">
+        <div class="container">
+          <div class="row">
+            <div class="text-center">
+              <h2 class="inline-block">Enquire now</h2>
+            </div><!-- /.Text center & main heading -->
+	   <form method="post" id="enquiryform" action="{% url 'add-enquiry' %}">
+	    {% csrf_token %}
+            <div class="enquire-form">
+
+              <div class="col-sm-6 col-xs-12 form-group">
+                  <input type="text" name="firstname" class="form-control" placeholder="First name" required>
+              </div><!-- /.col-sm-6 -->
+
+
+              <div class="col-sm-6 col-xs-12 form-group">
+                  <input type="text" name="lastname" class="form-control" placeholder="Last name" required>
+              </div><!-- /.col-sm-6 -->
+
+              <div class="col-sm-6 col-xs-12 form-group">
+                  <input type="email" name="email_address" class="form-control" placeholder="Email address" required>
+              </div><!-- /.col-sm-6 -->
+
+              <div class="col-sm-6 col-xs-12 form-group">
+                  <input type="number" name="mobile_number" class="form-control" placeholder="Mobile Number" required>
+              </div><!-- /.col-sm-6 -->
+
+              <div class="col-sm-12 col-xs-12">
+                <div class="form-group">
+                  <textarea class="form-control" name="text_message" rows="4" maxlength="120" placeholder="Message" required></textarea>
+                </div><!-- /.form-group -->
+
+                <div class="checkbox fs-14">
+                  <label>
+                    <input type="checkbox"> I have read and agreed to the Terms of Use, <a href="#">Terms of Sale</a> & <a href="#">Privacy Policy</a>
+                  </label>
+                </div><!-- /.checkbox -->
+                <div class="text-center mt-30">
+                  <button class="btn btn-lg btn-default">Submit</button>
+                </div>
+              </div><!-- /.col-sm-12 -->
+
+            </div><!-- /.enquire-form -->
+	   </form>
+
+          </div><!-- /. Row -->
+        </div><!-- /. container -->
+      </div><!-- /.Row -->
+    </section><!-- Blog ends here -->
+
+    <!-- About ap2v here -->
+    <section class="container-fluid grey-bg about-ap2v">
+      <div class="row">
+        <div class="container">
+          <div class="row">
+            <div class="text-center">
+              <span class="about-logo inline-block"></span>
+            </div><!-- /.Text center & main heading -->
+
+            <div class="col-sm-12 mt-30">
+              <div class="keywords">
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs">
+                <li class="active"><a href="#about" data-toggle="tab">About us</a></li>
+                <li><a href="#who" data-toggle="tab">Who we are</a></li>
+                <li><a href="#team" data-toggle="tab">Our team</a></li>
+              </ul>
+
+              <!-- Tab panes -->
+              <div class="tab-content mt-30">
+                <div class="tab-pane active text-center" id="about">
+                  <div class="text-center c3">
+			  <p>
+			  AP2V Academy is an IT Training & Placement firm which is based in Gurgaon and Noida. We are “Red Hat Authorized Training & Business Partner” and also pride ourself on having one of the most highly skilled pools of trainers across the northern part of the country. The company provides online and offline training on demanding treading courses such as Redhat, Linux, DevOps, AWS Cloud, OpenStack Cloud, Python, AI, Machine Learning, etc.
+			  </p>
+		  </div><!-- /.text center -->
+
+                </div><!-- /. tab-pane -->
+
+                <div class="tab-pane" id="who">
+                  <div class="text-center c3">
+			  <p>
+			  	AP2V Academy is IT Training & Consulting firm is based out in Gurgaon and Noida, India and we are “Red Hat Authorized Training & Business Partner” established. We are a One Stop Source for all Open Source Needs for any Organization. We provide cost-effective business ready solutions on services and subscription model using Linux and Open Source. Our solution and support based approach culminates with a detailed technology solution that enables you to realize the benefits of an effective IT strategy built around a sound business model.
+			  </p>
+		  </div><!-- /. text center -->
+                </div><!-- /. tab-pane -->
+
+                <div class="tab-pane" id="team">
+                  <div class="text-center c3">
+			  <p>We have an elite pool of technical trainers who are certified professional with over a decade of experience of working with many technologies and a passion to teach. Our team consists the largest pool of Red Hat certified Instructor (RHCI) across India who has delivered countless trainings for different corporate across Asia-pacific region.</p>
+                  </div><!-- /. text center -->
+                </div><!-- /. tab-pane -->
+
+              </div><!-- /.tab-content -->
+            </div><!-- /.keywords -->
+            </div><!-- /.Col-sm-12 -->
+          </div><!-- /. Row -->
+        </div><!-- /. container -->
+      </div><!-- /.Row -->
+    </section><!-- About ap2v ends here -->
+    <!-- footer section starts here -->
+    {% include 'home/footer.html' %}

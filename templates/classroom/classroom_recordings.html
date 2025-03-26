@@ -1,0 +1,72 @@
+{% load custom_tags %}
+<h2> 
+    {% get_batch_courses batch_obj.id as course_name %}
+    {{course_name}} </h2>
+    {% comment %} <p class="font-size-xs">{{batch_obj.instructors.full_name}} | {{recording_count}} lectures   -   {{total_minute}} Min | Batch timing: {{batch_obj.start_date_time|date:"H:m"}}</p> {% endcomment %}
+    <p class="font-size-xs">{{recording_count}} lectures   -   {{total_minute}} Min* (approx)</p>
+    <div class="dashboard__rightPan--tableWrap">
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="thead-light text-uppercase">
+                    <tr>
+                        <th scope="col">Class</th>
+                        <th scope="col">Recorded on</th>
+                        <th scope="col">Length</th>
+                        <th scope="col" class="text-center">Action</th>
+                    </tr>
+                </thead>
+                {% for i,j in recording.items %}
+                    {% with forloop.counter as outer_counter %}
+                        {% for m in j %}
+                            {% get_class_details m as batch_data %}
+                            <tbody class="classTable">
+                                {% if forloop.counter == 1 %}
+                                    <tr class="classTable--cata">
+                                        <th scope="row">Class {{outer_counter}}</th>
+                                        <td>{{batch_data.0}}</td>
+                                        {% if batch_data.1 == '0' %}
+                                            <td>Play it </td>
+                                        {% else %}
+                                            <td>{{batch_data.1}} mins</td>
+                                        {% endif %}
+                                        <td align="center" ><a href="/classroom/classplay/{{batch_data.2}}" target="__BLANK__"> <i class="icon-video-player"></i></a></td>
+                                    </tr>
+                                {% else %}
+                                    <tr class="classTable--subcata">
+                                        <td></td>
+                                        <td>{{batch_data.0}}</td>
+                                        {% if batch_data.1 == '0' %}
+                                            <td>Play it </td>
+                                        {% else %}
+                                            <td>{{batch_data.1}} mins</td>
+                                        {% endif %}
+                                        <td align="center"><a href="/classroom/classplay/{{batch_data.2}}" target="__BLANK__"> <i class="icon-video-player"></i></a></td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        {% endfor %}
+                    {% endwith %}
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <small class="mt-3 d-block"><strong>Note:</strong> Please use Chrome and firefox with latest version to play video, older version and browser may be not support</small>
+
+
+
+{% comment %} <script>
+    function play(url){
+        alert(url);
+        //window.open("");
+        $.ajax({
+            url: '/classroom/play',
+            data: {'url': url},
+            type: 'POST',
+            success: function(data) {
+            },
+            error: function() {
+                alert("Internal Server Error!!!");
+            },
+        });
+    };
+</script> {% endcomment %}

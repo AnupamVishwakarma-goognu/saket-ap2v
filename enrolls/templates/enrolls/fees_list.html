@@ -1,0 +1,141 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% load custom_tag %}
+{% block content %}
+    <div class="wrapper">
+      {% include 'website/sidebar.html' %}
+      {% include 'website/header.html' %}
+      <div class="main-panel">
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="row" style="display: flex;justify-content: space-between;">
+                    <h4 class="card-title mt-0 text-uppercase">Fees</h4> 
+                    <div>
+                      {% comment %} <a href="/enrollments/download_pdf" target="__BLANK__" class="btn btn-secondary btn-simple" style="background-color: cadetblue;"> <i class="bi bi-file-pdf"></i>Download PDF</a> {% endcomment %}
+                      <a href="/enrollments/download_excel" class="btn btn-secondary btn-simple ml-3" style="background-color: cadetblue;">Download CSV</a>
+                    </div>
+                  </div>
+                <div class="card data-tables">
+                  <div class="card-header d-flex justify-content-end">
+                    {% include 'enrolls/filters_fees.html'%} 
+                  </div>
+                  <div class="card-body table-striped table-no-bordered table-hover dataTable dtr-inline  table-full-width">
+                    <div class="table-responsive">
+                      {%if students%}
+                      <table id="datatables" class="table" cellspacing="0"
+                        width="100%">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Course</th>
+                            {% comment %} <th>Batch</th> {% endcomment %}
+                            <th>Total Amount</th>
+                            <th>Pending Fee</th>
+                            <th>Installment Amount</th>
+                            <th>Next Due Date</th>
+                            <th>Added By</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for student in students %}
+                          <tr onclick="window.location='/enrollments/view/{{ student.enrollmentid }}/'" {%if student.is_overdue%}class="table-danger"{%endif%}>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ student.name }}</td>
+                            <td>{{ student.course }}</td>
+                            {% comment %} <td>{{ student.batch }}</td> {% endcomment %}
+                            <td>{{ student.total_amount }}</td>
+                            <td>{{ student.pending_fee }}</td>
+                            <td><b>{{ student.installment }}</b></td>
+                            <td>{{ student.next_due_date }}</td>
+                            <td>{{ student.added_by }}</td>
+                          </tr>
+                          {% endfor %}
+                          
+                        </tbody>
+                      </table>
+                      
+                      {%else%}
+                      <div class="no-data">
+                        <img src="{% static 'assets/img/nodata.png'%}" class="img-fluid" alt="">
+                        <p class="mb-0 mt-3 text-secondary"><strong>No data Available</strong></p>
+                        <p class="text-dark-gray font-size-base">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                      </div><!-- // no data -->
+                      {%endif%}
+                    </div>
+                  </div>
+
+                  <div class="row mx-1">
+                    <div class="col-sm-12 col-md-5 font-size-base"><span class="mt-2 d-block">Showing {{ students.start_index }} - {{ students.end_index }} of {{ students.paginator.count }}</span></div>
+                    <div class="col-sm-12 col-md-7">
+                      <div class="dataTables_paginate paging_simple_numbers" id="datatables_paginate">
+                          <ul class="pagination">
+                            {% if students.has_previous %}
+                            <li class="paginate_button page-item previous" id="datatables_previous">
+                              <a aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" href="?page=1" tabindex="-1">FIRST</a>
+                            </li>
+                            <li class="paginate_button page-item previous" id="datatables_previous">
+                              <a href="?page={{ students.previous_page_number }}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                            </li>
+                            {% else %}
+                            <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                            <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">FIRST</a>
+                            </li>
+                            <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                            <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                            </li>
+                            {% endif %}
+
+                            {% for i in students.paginator.page_range %}
+                                {% if students.number == i %}
+                                    <li class="paginate_button page-item active">
+                                    {% comment %} <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a> {% endcomment %}
+                                    <a href="javascript:void(0)" onclick="page('{{i}}')" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                  </li>
+                                {% elif i > students.number|add:'-5' and i < students.number|add:'5' %}
+                                    <li class="paginate_button page-item">
+                                    {% comment %} <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a> {% endcomment %}
+                                    <a href="javascript:void(0)" onclick="page('{{i}}')" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                  </li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if students.has_next %}
+                              <li class="paginate_button page-item next" id="datatables_next">
+                                <a href="?page={{ students.next_page_number }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                              </li>
+                              <li class="paginate_button page-item next" id="datatables_next">
+                                <a href="{% if students.has_next %} ?page={{ students.paginator.num_pages }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link" {% endif %}>LAST</a>
+                              </li>
+                            {% else %}
+                              <li class="paginate_button page-item next disabled" id="datatables_next">
+                                <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                              </li>
+                              <li class="paginate_button page-item next disabled" id="datatables_next">
+                                <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">LAST</a>
+                              </li>
+                            {% endif %}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% include 'website/footer.html' %}
+      </div>
+    </div>
+  <script>
+    function page(page_number){
+      //alert(page_number)
+      var urlParams = new URLSearchParams(window.location.search);
+      urlParams.set('page', page_number);
+      window.location.search = urlParams;
+    }
+  </script>
+{% endblock content %}

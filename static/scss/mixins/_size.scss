@@ -1,0 +1,17 @@
+// Sizing shortcuts
+
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+  @include deprecate("`size()`", "v4.3.0", "v5");
+}
+
+@mixin box($width, $height, $display: null) {
+  @if $display != null { display: $display; }
+  height: $height;
+  width: $width;
+}
+
+@mixin square($value, $display: null) {
+  @include box($value, $value, $display);
+}

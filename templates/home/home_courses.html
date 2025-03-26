@@ -1,0 +1,48 @@
+{% load static %}
+
+<section class="container-fluid grey-bg">
+      <div class="row">
+        <div class="container">
+          <div class="row">
+            <div class="text-center">
+              <h2 class="inline-block">Featured courses</h2>
+              <p class="home-para mb-30">AP2V has one of the best and most trending and on-demands courses in IT Market. Take a glance at the features courses we offers.</p>
+            </div><!-- /.Text center & main heading -->
+
+            <!-- slider starts here -->
+        
+            <div class="certificate">
+            
+              {% for course in courses %}
+	        {% if course.featured %}
+
+                <div class="col-sm-3">
+                  <div class="white-box">
+                    <a href="/{{ course.slug }}"><img  class="img-responsive" width = "2" height= "1" src="/media/{{course.photo}}" alt="{{course.name}}"></a> 
+                    <div class="content-box">
+                      <h2 class="mb-5"><a href="/{{ course.slug }}">{{course.name}}</a></h2>
+                        <div class="rating inline-block ml-0">
+                          <sup class="fill-star"></sup><strong>{{ course.rating }}</strong>/{{ course.review_count }}
+                        </div> | {{course.category_name.all|join:" &bull; "}}
+                        <div class="tag-wrap">
+                        {% for tag in course.tags.all %}
+                          <span> {{tag.name}}</span>
+                        {% endfor %} 
+                        </div><!-- /.tag wrap -->
+			{% comment %}
+                        <p class="mb-0 price"><strong>Rs. {{course.price}}</strong><span>Rs.15000/-</span></p>
+			{% endcomment %}
+                    </div><!-- /.Content box -->
+                  </div><!-- /. White box -->
+
+                </div><!-- /.Col -->
+
+		{% endif %}
+              {% endfor %}  
+            </div><!-- slider ends here -->
+        
+            <p class="mb-0 text-center mt-30"><a href="/courses/">View all courses</a></p>
+          </div><!-- /.Row -->
+        </div><!-- /.container -->
+      </div><!-- /.Row -->
+    </section>

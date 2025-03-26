@@ -1,0 +1,42 @@
+{% load static %}
+<section class="container-fluid grey-bg blog">
+      <div class="row">
+        <div class="container">
+          <div class="row">
+            <div class="text-center">
+              <h2 class="inline-block">Blog</h2>
+              <p class="home-para mb-30">Welcome to our AP2V blogs hub. Here you can access all latest documentations for variety of live projects and trending technologies and topics.</p>
+            </div><!-- /.Text center & main heading -->
+            
+            {% for blog in blogs %}
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <div class="white-box p-15">
+                <div class="media" style="height: 21rem;">
+                  <div class="media-left hidden-xs hidden-sm">
+                    <a href="#">
+                      <img class="media-object radius-4" width ="120" height="108" src="/media/{{blog.image}}" alt="...">
+                    </a>
+                  </div><!-- /.Media Left-->
+                  <div class="media-body">
+			  <h4 class="media-heading fs-24 c3"><a href="/blog/{{blog.slug}}">{{blog.title}}</a></h4>
+                    <p class="fs-14">{{blog.content|striptags|truncatechars:"140"|safe}}</p>
+                    <div class="blog-author row fs-12">
+                      <div class="col-md-7 col-sm-8 col-xs-12">{{blog.author}}, {{blog.published_on}}</div>
+		      {% comment %}
+                      <div class="col-md-5 col-sm-4 col-xs-12 view-forward text-right">
+                        <figure class="icon-forward"></figure> 43 
+                        <figure class="icon-view ml-10"></figure> 21
+                      </div>
+		      {% endcomment %}
+                    </div><!-- /.Blog Author -->
+                  </div><!-- /.Media Body-->
+                </div><!-- /.Media -->
+              </div><!-- /.White Box -->
+            </div><!-- /. Col-sm-6 -->
+            {% endfor %}
+
+          </div><!-- /. Row -->
+          <p class="mb-0 text-center mt-30"><a href="/blog/">View all blogs</a></p>
+        </div><!-- /. container -->
+      </div><!-- /.Row -->
+    </section><!-- Blog ends here -->

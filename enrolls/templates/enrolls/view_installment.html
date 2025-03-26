@@ -1,0 +1,64 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="wrapper">
+  {% include 'website/sidebar.html' %}
+  {% include 'website/header.html' %}
+     <div class="main-panel">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                          <form id="update_installment" class="form" method="post">
+                            {% csrf_token %}
+                              <div class="card ">
+                                  <div class="card-header ">
+                                      <h4 class="card-title">INSTALLMENT VIEW</h4>
+                                  </div>
+                                  <div class="card-body ">
+                                    <!-- <input type="hidden" name="" value=""> -->
+                                       <div class="row">
+                                            <div class="col-md-6">
+                                              <div class="form-group">
+                                                  <label>Installment</label>
+                                                  <input type="number" class="form-control" value="{{ installment_data.installment }}" name="installment" placeholder="Installment amount" required="true">
+                                              </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                              <div class="form-group">
+                                                  <label>Due Date</label>
+                                                  <input type="text" id="datetimepicker" class="form-control datepicker" name="due_date" value="{{ installment_data.get_update_created_dates.due_date }}" required>
+                                              </div>
+                                            </div>
+                                       </div>
+                                       <div class="row">
+                                         <div class="col-md-6">
+                                           <div class="form-group">
+                                             <label>Created On</label>
+                                             <input type="datetime-local" name="created_on" class="form-control" value="{{ installment_data.get_update_created_dates.added_on }}" readonly>
+                                           </div>
+                                         </div>
+                                         <div class="col-md-6">
+                                           <div class="form-group">
+                                             <label>Updated On</label>
+                                             <input type="datetime-local" name="updated_on" class="form-control" value="{{ installment_data.get_update_created_dates.updated_on }}" readonly>
+                                           </div>
+                                         </div>
+                                       </div>
+                                    </div>
+                                    <div class="card-footer text-center">
+                                        <button class="btn btn-info float-right">Update</button>
+                                    </div>
+                              </div>
+                          </form>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+{% endblock content %}

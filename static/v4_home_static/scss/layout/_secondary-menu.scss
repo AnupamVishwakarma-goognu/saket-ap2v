@@ -1,0 +1,83 @@
+.secondary-menu {
+    background-color: $white;
+    height: 60px;
+    box-shadow: 3px 0 10px rgba($black, .10);
+    position: relative;
+    z-index: 1;
+    transition: all .5s ease-in;
+
+    @include media-breakpoint-up(xl) {
+        height: 70px;
+    }
+
+    &--lists {
+        margin: 0;
+        height: 60px;
+        display: flex;
+        overflow-y: hidden;
+        overflow-x: auto;
+        
+
+        @include media-breakpoint-up(xl) {
+            overflow: hidden;
+            height: 70px;
+        }
+
+        li {
+            display: inline-block;
+            font-weight: $headings-font-weight;
+            font-size: $font-size-sm;
+            flex: 10 0 auto;
+
+            @include media-breakpoint-up(xl) {
+                flex: none;
+            }
+
+            a {
+                padding: 20px 15px;
+                color: $gray-dark;
+                display: block;
+                position: relative;
+
+                @include media-breakpoint-up(xl) {
+                    flex: none;
+                }
+
+                &::after {
+                    content: '';
+                    background-color: transparent;
+                    position: absolute;
+                    height: 3px;
+                    width: 100%;
+                    bottom: 0;
+                    left: 0;
+                }
+                
+                &.active {
+                    &::after {
+                        background-color: $primary;
+                    }
+                }
+                
+
+                @include media-breakpoint-up(xl) {
+                    padding: 27px 20px 24px;
+                }
+            }
+        }
+    }
+
+    &.secondary-menu-fixed {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 9;
+    }
+}
+
+.secondary-menu-wrap {
+    #overview {
+        margin-top: 67px;
+    }
+}

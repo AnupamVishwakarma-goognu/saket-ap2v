@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /?mdrv=
+Disallow: /admin/
+Disallow: /thankyou/
+Disallow: /cart/
+Disallow: /e_store_apis/
+Disallow: /demo-class/
+Disallow: /exam/
+Disallow: /recording_sessions/

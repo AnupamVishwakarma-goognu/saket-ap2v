@@ -1,0 +1,142 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="wrapper">
+      {% include 'website/sidebar.html' %}
+      {% include 'website/header.html' %}
+         <div class="main-panel">
+          
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                              <form id="new_enroll_form" class="form" method="post">
+                                {% csrf_token %}
+                                  <div class="card ">
+                                      <div class="card-header ">
+                                          <h4 class="card-title">ADD ENROLLMENT</h4>
+                                      </div>
+                                      <div class="card-body ">
+                                          <input type="hidden" name="enquiryid" value="{{ enquiryid }}">
+                                           <div class="row">
+                                                <div class="col-md-6">
+                                                  <div class="form-group">
+                                                      <label>Discussed_fee</label>
+                                                      <input type="number" class="form-control" name="discuss_fee" placeholder="discussed fees" required="true">
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                  <div class="form-group">
+                                                      <label>Registration_amount</label>
+                                                      <input type="number" class="form-control" placeholder="Registration_amount" name="registration_amount" required="true">
+                                                  </div>
+                                                </div>
+                                           </div>
+                                           <div class="row">
+                                             <div class="col-md-6">
+                                               <div class=form-group>
+                                                 <label>Payment Method</label>
+                                                 <select class="form-control" name="payment_method" required>
+                                                   <option selected disabled>Choice Payment method..</option>
+                                                   {% for allpaymentMethod in PaymentMethod %}
+                                                      <option value="{{ allpaymentMethod.id }}">{{ allpaymentMethod.payment_method }}</option>
+                                                   {% endfor %}
+                                                 </select>
+                                               </div>
+                                             </div>
+                                           </div>
+                                        </div>
+                                        <div class="card-footer text-center">
+                                            <button class="btn btn-info float-right">Save</button>
+                                        </div>
+                                  </div>
+                              </form>
+                            </div>
+                        </div>
+                        {% comment %}
+                        <!-- Followups start --->
+                        <div class="content" style="margin:0; padding-bottom:0">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="card bootstrap-table">
+                                            <div class="card-body table-full-width">
+                                                <div class="toolbar">
+                                                    <button type="button" class="btn btn-primary btn btn-info btn-fill" data-toggle="modal" data-target="#exampleModal">Add Fees Installments</button>
+                                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="padding:0; margin:0">
+                                                      <div class="modal-dialog" role="document">
+                                                        <div class="modal-content" style="width:700px">
+                                                          <div class="modal-header">
+                                                            <h5 id="exampleModalLabel">Fees Installments</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                              <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                          </div>
+                                                          <div class="modal-body" style="width:100%">
+                                                            <form class="form" id="installment" method="post" action="{% url 'installment' %}">
+                                                             {% csrf_token %}
+                                                             <div class="row">
+                                                               <div class="col-md-6 pr-l">
+                                                                 <div class="form-group">
+                                                                     <label class="col-form-label">Installment</label>
+                                                                     <input class="form-control" type="text" name="installments" placeholder="Installment number" autofocus required />
+                                                                 </div>
+                                                               </div>
+                                                               <div class="col-md-6 pr-l">
+                                                               <div class="form-group">
+                                                                 <label class="col-form-label">Due Date</label>
+                                                                 <input class="form-control datetime-input" type="text" name="duedate" placeholder="fee date" autofocus required />
+                                                               </div>
+                                                               </div>
+                                                             </div>
+                                                             <div class="row">
+                                                               <div class="col-md-6 pr-l">
+                                                               <div class="form-group">
+                                                                 <label class="col-form-label">Enrollment id<label>
+                                                                 <input class="form-control" type="text" name="enrollmentid" id="enrollmentid"  value="" placeholder="enrollment_id" autofocus required />
+                                                               </div>
+                                                               </div>
+                                                             </div>
+                                                             <button type="submit" class="btn btn-primary btn btn-info btn-fill">Add</button>
+                                                            </form>
+                                                               </div>
+                                                             </div>
+                                                           </div>
+                                                         </div>
+                                                    </div>
+                                                <table id="bootstrap-table" class="table">
+                                                    <thead>
+                                                        <!-- <th data-field="state" data-checkbox="true"></th> -->
+                                                        <th data-field="id" class="text-center">Enroll ID</th>
+                                                        <th data-field="date" data-sortable="true">Installment</th>
+                                                        <th data-field="salary" data-sortable="true">Due Date</th>
+                                                        <th data-field="text" data-sortable="true">Installment No</th>
+                                                        <th data-field="actions" class="td-actions text-right" data-events="operateEvents" data-formatter="operateFormatter">Actions</th>
+                                                    </thead>
+                                                    <tbody>
+                                                      {% for installment in data %}
+                                                      <tr>
+                                                            <td></td>
+                                                            <td>{{ installment.enroll_id }}</td>
+                                                            <td>{{ installment.installment }}</td>
+                                                            <td>{{ installment.due_date }}</td>
+                                                            <td>{{ installment.installment_no }}</td>
+                                                            <td></td>
+                                                      </tr>
+                                                      {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                                {% endcomment %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+{% endblock content %}

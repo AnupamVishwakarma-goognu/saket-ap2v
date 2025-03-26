@@ -1,0 +1,338 @@
+{% extends "website/base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="https://cdn.tutorialjinni.com/intl-tel-input/17.0.8/css/intlTelInput.css"/>
+<script src="https://cdn.tutorialjinni.com/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+<style>
+  .error{
+    color:red !important;
+  }
+</style>
+    <div class="wrapper">
+        {% include 'website/sidebar.html' %}
+        {% include 'website/header.html' %}
+        <div class="main-panel">
+            <!-- Navbar -->
+            
+            <!-- End Navbar -->
+            <div class="content">
+                <div class="container-fluid">
+                  <div class="row">
+                      <div class="col-md-12 col-sm-12">
+                          <form class="form" id="new_enquiry_form" method="post" action="{% url 'enquiry' %}">
+                              {% csrf_token %}
+                              <h4 class="card-title mt-0 text-uppercase">Add Enquiry</h4>
+                              <div class="card">
+                                  <div class="card-body">
+                                      <div class="row">
+                                        <div class="col-md-6 mt-3">
+                                              <div class="form-group">
+                                                  <label>Mode</label>
+                                                  <select class="selectpicker" onselect="success()" name="reference" >
+                                                    <option value="">Please select</option>
+                                                    {% for i in ReferenceModeChoices %}
+                                                      <option value="{{ i.1 }}">{{ i.1 }}</option>
+                                                    {% endfor %}
+                                                  </select>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-6">
+                                              <div class="form-group mt-3">
+                                                  <label>Fullname</label>
+                                                  <input type="text" onkeyup="success()" name="fullname" class="form-control" placeholder="Username" >
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-md-6">
+                                              <div class="form-group">
+                                                  <label>Email</label>
+                                                  <input type="email" onkeyup="success()" name="email" id="email" class="form-control phone-group" placeholder="Email" >
+                                              </div>
+                                          </div>
+
+                                          <div class="col-md-1" style="top: 23px;">
+                                            <div class="form-group">
+                                              <input type="text" id="phone2" class="form-control" style="width: 0px;border: none;padding-left: 79px;outline: none;">                                            </div>
+                                        </div>
+
+                                          <div class="col-md-5" style="right: 100px;">
+                                              <div class="form-group">
+                                                  <label>Mobile</label>
+                                                  <input style="padding-left: 100px;" type="number" onkeyup="success()" onfocusout="getEnquiryDetails()" name="mobile" id="mobile" class="form-control phone-group" placeholder="Mobile">
+                                              </div>
+                                          </div>                                          
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-md-6">
+                                              <div class="form-group">
+                                                  <!-- <label><input type="checkbox" name="company_input" onclick="dyninput(this);"> Company </input> <input class="ml-2" name="college_input" onclick="dyninput(this);" type="checkbox"> College </input></label> -->
+                                                  <div class="form-check checkbox-inline">
+                                                    <label class="form-check-label mr-3" style="padding-left: 24px;">
+                                                        <input class="form-check-input" name="college_input" onkeyup="success()" onclick="dyninput(this);" type="checkbox" value="option1">
+                                                        <span class="form-check-sign"></span>I'm Student
+                                                    </label>
+                                                  </div>
+                                                  <div class="form-check checkbox-inline">
+                                                    <label class="form-check-label" style="padding-left: 24px;">
+                                                        <input class="form-check-input" name="company_input" onkeyup="success()" onclick="dyninput(this);" type="checkbox" value="option1">
+                                                        <span class="form-check-sign"></span>I'm Working
+                                                    </label>
+                                                  </div>
+                                                  <input type="text" id="inputCollegeOrCompany" onkeyup="success()" name="company" class="form-control" placeholder="Enter college or company name" >
+                                              </div>
+                                          </div>
+                                          <div class="col-md-6">
+                                              <div class="form-group mt-2">
+                                                  <label>Designation</label>
+                                                  <input type="text" onkeyup="success()" name="designation" class="form-control" placeholder="Designation" >
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-md-6">
+                                              <div class="form-group">
+                                                  <label>Course</label>
+                                                  <select name="course" id="course" onselect="success()" class="selectpicker" multiple size="7" required>
+                                                    <option value="">Please select</option>  
+                                                    {% for data in course %}
+                                                      <option value="{{ data.id }}">{{ data.name }} {% if data.typee == 1 %} (Course) {% elif data.typee == 2 %} (Exam) {% elif data.typee == 3 %} (Book)  {% else %} (**TND){% endif %}</option>
+                                                      {% endfor %}
+                                                  </select>
+                                              </div>
+                                          </div>
+                                            <div class="col-md-6">
+                                              <div class="form-group">
+                                                  <label>Batch Preference</label>
+                                                  <select name="select_days" onselect="success()" class="selectpicker" multiple="multiple" >
+                                                    <option value="">Please select</option>  
+                                                    <option value="Monday">Monday</option>
+                                                      <option value="Tuesday">Tuesday</option>
+                                                      <option value="Wednesday">Wednesday</option>
+                                                      <option value="Thursday">Thursday</option>
+                                                      <option value="Friday">Friday</option>
+                                                      <option value="Saturday">Saturday</option>
+                                                      <option value="Sunday">Sunday</option>
+                                                  </select>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-md-6">
+                                              <div class="form-group">
+                                                  <label>Batch Time Preference</label>
+                                                  <input type="text" id="datetimepicker"  onkeyup="success()" name="batch_time" class="form-control timepicker" placeholder="Time Picker Here" >
+                                              </div>
+                                          </div>
+
+                                          <div class="col-md-6">
+                                          <div class="form-group">
+                                            <label>Interested for Batch</label>
+                                            <select class="selectpicker" name="interested_batch" onkeyup="success()" >
+                                              <option value="">Please select</option>
+                                              <option value="yes">Yes</option>
+                                              <option value="no">No</option>
+                                            </select>
+                                          </div>
+                                        </div>
+                                          {% comment %} <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Branch</label>
+                                                    <select class="selectpicker" onselect="success()" name="branch_location" id="branch_location" required>
+                                                      <option value="">Please select</option>
+                                                      <option value="gurgaon">Gurgaon</option>
+                                                      <option value="noida">Noida</option>
+                                                    </select>
+                                                </div>
+                                            </div> {% endcomment %}
+                                      </div>
+                                      <div class="row">
+                                        <div class="col-md-6">
+                                          <div class="form-group">
+                                            <label>Trainig Mode</label>
+                                            <select class="selectpicker" name="training_mode" id="training_mode" onselect="success()" name="trainig_mode"  required>
+                                              <option value="">Please select</option>
+                                              {% for i in TrainingModeChoices %}
+                                                <option {% if forloop.counter == 1 %} selected {% endif %} value="{{ i.0 }}">{{ i.1 }}</option>
+                                              {% endfor %}
+                                            </select>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                          <div class="form-group">
+                                            <label>Enquiry Interest Level</label>
+                                            <select class="selectpicker" name="enquiry_level" onselect="success()" >
+                                              <option value="">Please select</option>
+                                              {% for i in EnquiryLevelChoices %}
+                                                <option value="{{ i.0 }}">{{ i.1 }}</option>
+                                              {% endfor %}
+                                            </select>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="col-md-6">
+                                          <div class="form-group">
+                                            <label>Alternative Email</label>
+                                            <input type="email" name="alternative_email" onkeyup="success()" class="form-control" placeholder="Alternative Email" value="">
+                                          </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                          <div class="form-group">
+                                            <label>Alternative Mobile</label>
+                                            <input type="number" name="alternative_mobile" onkeyup="success()" class="form-control" placeholder="Alternative Mobile" value="">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="col-md-6">
+                                          <div class="form-group">
+                                            <label>Assigned To</label>
+                                            <select class="selectpicker" name="assigned_by" onkeyup="success()" >
+                                            <option valu="">Please select</option>
+                                              {% for user in AssignedByUser %}
+                                                <option value="{{ user.id }}" {% if user.id == request.user.id %} selected {% endif %}>{{ user.username }}</option>
+                                              {% endfor %}
+                                            </select>
+                                          </div>
+                                        </div>
+                                        
+                                      </div>
+                                    <button type="submit" id="addEnquiryBtn" class="btn btn-primary">Add Enquiries</button>
+                                    <input hidden type="text" id="con_code" name="con_code">
+
+                                  </div>
+                              </div>
+                              <p><small><small>**TND = Type Not Defined, is this Course or Exam or maybe Book</small></small></p>
+                          </form>
+                      </div>
+                  </div>
+                </div>
+            </div>
+         {% include 'website/footer.html' %}
+        </div>
+    </div>
+  
+
+  <!-- Modal -->
+    <div class="modal fade" id="duplicateEnquiry" tabindex="-1" role="dialog" aria-labelledby="duplicateEnquiryLabel"
+        style="display: none;">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title mt-0" id="myModalLabel">Duplicate Enquiry Found</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="padding-top: 0px;">
+                    <div class="row">
+
+                        <div class="form-group col-md-12" id="student_details" style="overflow-y: scroll;height: 350px;">
+
+                        </div>
+                        Note : You can't add duplicate enquiry, continue to add follow-up on above. 
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extra_js %}
+  <script type="text/javascript">
+    // $('#datetimepicker').on('onkeyup onchange', function(){
+    //   console.log('lakjsdflsf');
+    //   success();
+    // });
+    $(document).ready(function(){
+      $( "#new_enquiry_form" ).validate({
+        rules: {
+            email: {
+                  required: '#mobile:blank'
+            },
+            mobile: {
+                  required: '#email:blank'
+            },
+            course:       {required: true},
+            training_mode:       {required: true},
+            branch_location:       {required: true},
+        },
+        messages: {
+            email: {
+                required: "Enter email or mobile",
+                email: "Please enter a valid email address.",
+            },
+            mobile: {
+                required: "Enter email or mobile",
+                email: "Please enter a valid email address.",
+            }
+
+        }
+      });
+    });
+    $('#datetimepicker').datetimepicker({
+        onSelect: function(){
+          console.log('lkajsdlfkjs');
+        }
+    });
+    
+  </script>
+
+  <script>
+    var input = document.querySelector("#phone2");
+    window.intlTelInput(input, {
+        separateDialCode: true,
+        excludeCountries: ["pk", "il","ba","cf","cd","pm","do","gp","st"],
+        preferredCountries: ["{{mylip}}"]
+    });
+  </script>
+
+  <script>
+    function getEnquiryDetails() {
+      var email = $("#email").val()
+      var mobile = $("#mobile").val()
+      //alert(email)
+      //alert(mobile)
+
+      try {
+        var con_code = $(".iti__selected-flag").attr("title")
+        con_code = con_code.split(":");
+        con_code = con_code[1].trim();
+      }
+      catch(err) {
+          con_code = "N/A"
+        }
+      
+        //alert(con_code)
+        $("#con_code").val(con_code)
+
+
+      if(mobile){
+        $.ajax({
+          type: "GET",
+          url: "/enquiries/get_enquirie_details",
+          data: {"email":email,"mobile":mobile},
+          success: function (data) {
+            if(data['code']==201){
+              $("#addEnquiryBtn").show()
+              $('#course').prop('disabled', false);
+            }
+            else{
+              $('#duplicateEnquiry').modal('show');  
+              $('#student_details').html(data)
+              $("#addEnquiryBtn").hide()
+              $('#course').prop('disabled', true);
+            }
+            
+          },
+          error: function (data) {
+              alert("Internal Server Error!!!");
+          }
+        });
+        return false;
+      }
+    };
+  </script>
+{% endblock extra_js %}

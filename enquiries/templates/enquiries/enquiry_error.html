@@ -1,0 +1,18 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="wrapper">
+        {% include 'website/sidebar.html' %}
+        {% include 'website/header.html' %}
+        <div class="main-panel">
+            <h1 style="text-align: center;padding-top:180px;">Sorry, The page you are looking with </h1>
+            <h1 style="text-align: center;">enquiry {{enquiry}} not found. <span style='font-size:50px;'>&#128532;</span></h1>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extra_js %}
+    <script type="text/javascript">
+    
+    </script>
+{% endblock extra_js %}

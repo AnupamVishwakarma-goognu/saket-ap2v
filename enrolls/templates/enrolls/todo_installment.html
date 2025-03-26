@@ -1,0 +1,53 @@
+{% extends "website/base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="wrapper">
+    {% include 'website/sidebar.html' %}
+    {% include 'website/header.html' %}
+    <div class="main-panel">
+    
+      <div class="content">
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-md-12">
+                    <h4 class="card-title mt-0">TODO ENSTALLMENT</h4>
+                      <div class="card">
+                          <div class="card-body table-striped table-no-bordered table-hover dataTable dtr-inline table-full-width">
+                              <div class="table-responsive">
+                                  <table id="datatables" class="table" cellspacing="0" width="100%">
+                                      <thead>
+                                          <tr>
+                                              <th>#</th>
+                                              <th>Full Name</th>
+                                              <th>Mobile</th>
+                                              <th>Email</th>
+                                              <th>Courses</th>
+                                              <th>Price</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                        {% for todo_installment in todo_installments %}
+                                        <tr onclick="window.location='/enrollments/view/{{ todo_installment.enrollmentid.id }}/'">
+                                          <td>{{ forloop.counter }}</td>
+                                          <td>{{ todo_installment.enrollmentid.enquiry_course_id.enquiry_id.full_name }}</td>
+                                          <td>{{ todo_installment.enrollmentid.enquiry_course_id.enquiry_id.mobile }}</td>
+                                          <td>{{ todo_installment.enrollmentid.enquiry_course_id.enquiry_id.email }}</td>
+                                          <td>{{ todo_installment.enrollmentid.enquiry_course_id.courses.name }}</td>
+                                          <td>{{ todo_installment.installment }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                      </tbody>
+                                  </table>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      {% include 'website/footer.html' %}
+  </div>
+</div>
+
+{% endblock content %}

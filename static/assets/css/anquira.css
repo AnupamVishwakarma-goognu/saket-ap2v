@@ -1,0 +1,15 @@
+.attended {
+  height: 14px;
+  width: 14px;
+  background-color: #27ae60;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.unattended {
+  height: 14px;
+  width: 14px;
+  background-color: #c0392b;
+  border-radius: 50%;
+  display: inline-block;
+}

@@ -1,0 +1,137 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+{% load ap2v_course_tag %}
+{% block title %} AP2V {% endblock %}
+{% block css %}
+    <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/others.css' %}" type="text/css" />
+
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.ap2v.com/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "About Us",
+            "item": "https://www.ap2v.com/about-us/"
+        }]
+        }
+    </script>
+    
+{% endblock css %}
+
+{% block content %}
+    <div class="main-wrap">
+    {% include 'v4_home/sub_pages/push-down.html' %}
+    {% include 'v4_home/sub_pages/navigation.html' %}
+        <!-- Banner -->
+        <div class="banner-inner">
+            <div class="container">
+                <div class="row banner-inner--content flex-column">
+                    {% include 'v4/breadcrumb.html' %}<!-- // breadcrumb -->
+
+                    <div class="d-flex">
+                        <div class="banner-inner--left-pan d-flex flex-column justify-content-center">
+                        <h1 class="text-secondary">About Us</h1>
+                        <p class="text-gray-lightest mb-0">Give your career the boost that it needs! Avail premium quality IT training from the expert team at AP2V.</p>
+                        </div>
+
+                        <div class="banner-inner--right-pan d-none d-xl-block">
+                            <img src="{% static 'v4_home_static/images/about-us.png'%}" alt="{{ course_details.name }}">
+                        </div>
+                    </div><!-- slick-slide d-flex-->
+                </div><!-- // row -->
+            </div>
+        </div><!-- // Banner -->
+
+
+        <div class="secondary-menu" id="mainNav">
+            <div class="container">
+                <ul class="secondary-menu--lists">
+                    <li><a href="#overview" class="page-scroll">Overview</a></li>
+                    <li><a href="#whatWeOffer" class="page-scroll">What we offer</a></li>
+                    <li><a href="#howWeDoIt" class="page-scroll">How we do it</a></li>
+                    <li><a href="#ourPromise" class="page-scroll">Our Promise</a></li>
+                </ul>
+            </div>
+        </div><!-- // Secondary Menu -->
+
+        <section id="overview" class="page-section container">
+            <div class="row">
+                <div class="col-12 overview">
+                    <h2 class="align-items-start mb-4">Overview</h2>
+                    <p>AP2V is a standard-setter in the IT Professional Training Industry. Our company is based out of the Gurgaon and Delhi region and has successfully provided top-notch online IT training to international students originating from different corners of the globe.</p>
+
+                   <p>Since its time of incorporation in early 2013, our company has collaborated with some of the best IT professionals who possess superior skills and experience within the IT domain. The primary objective of our company is to help aspiring individuals who wish to establish a career in the Information Technology industry. The company became a leading EdTech firm by the start of 2018 as we made online IT training available to the masses.</p> 
+
+                    <b> Our Primary Goal</b><br>
+                    <p>Being a “Red Hat Authorized Training & Business Partner” has helped us to rise to the very pinnacle of the IT Professional Training pool as we now aim to fulfill 100% customer satisfaction. Our primary goal is to help aspiring individuals who wish to establish a career in the IT market segment.</p> 
+
+                    <p>Our company believes in providing flexible training solutions to these individuals which makes the aspect of IT training easy and engaging. The Independent needs of every candidate can be fulfilled to perfection by availing our diverse and customizable courses. Our company also assists corporate agencies by solving the issues related to trained IT professionals. Candidates developed specific IT skills through our training module that benefits them and corporate organizations in the long run.</p> 
+
+                    <p>This makes AP2V one of the best EdTech companies in India.</p>
+                    
+                </div>
+            </div>
+
+        </section><!-- // Overview -->
+
+        <section id="whatWeOffer" class="page-section bg-gray">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <img src="{% static 'v4_home_static/images/whatWeOffer.png' %}" class="img-fluid" alt="image">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <h2 class="align-items-start mb-4">Courses offered at AP2V</h2>
+                        <p>AP2V offers diverse training programs which are complemented with regular support for popular IT courses. Our company specializes in offering online and offline training as there are more than 100 diverse courses which candidates from all over the world can avail only from AP2V.</p>
+                        <p>The training modules will help candidates to develop specialized skills that can help business organizations to improve their overall performance significantly in the long run. Our courses are designed to equip every candidate with state-of-the-art technology and skills that will help them to build a competitive advantage over other IT professionals. Stay ahead of the curb by availing the online EdTech courses of AP2V.</p>
+                    </div>
+                </div>
+            </div>
+        </section><!-- // What we offer -->
+        
+        <section id="howWeDoIt" class="page-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <h2 class="align-items-start mb-4">How we do it</h2>
+                        <p>The courses at AP2V can be availed through various mediums that span through virtual online classrooms, workshops, e-learning courses, along with blended learning. With the help of our services, several corporate agencies along with thousands of IT professionals have been able to elevate their performance and career status. Custom solutions can be availed at your doorstep as candidates can gain knowledge through our courses from remote locations.</p>
+                        <p>Our company works with GBMA [Global Blended Model Approach], which makes IT training accessible and easy for working professionals. The amalgamation of online as well as traditional classroom training makes the aspect of skillful learning more enjoyable. These aspects create a fantastic learning environment where IT professionals can grow and develop effectively.</p>
+                        <p>Get in touch with our expert team today to boost your career into the stratosphere of success. All you need to do is give our customer support team a call. Our team will guide you every step of the way and provide insightful information about our training module and teaching methodology. Join hands with AP2V today!</p>
+                    </div>
+
+                    <div class="col-12 col-md-6 d-flex align-items-center">
+                        <img src="{% static 'v4_home_static/images/whatWeDo.png' %}" class="img-fluid" alt="image">
+                    </div>
+                </div>
+            </div>
+        </section><!-- // How we do it -->
+        
+        <section id="ourPromise" class="page-section bg-gray">
+            <div class="container">
+                <h2 class="align-items-start mb-4">Our Promise</h2>
+                <div class="row">
+                    <div class="col-12 col-md-6 mb-4 mb-md-0">
+                        <div class="white-box p-5 h-100">
+                            <h3 class="text-primary">Our Aim</h3>
+                            <p>AP2V aims to close the gap between aspiring working professionals and corporate agencies by providing top-quality international-level IT training services. We believe in increasing the value and worth of IT professionals by enriching them with knowledge, experience, and effective IT skills. This is why we consider ourselves to be the leading EdTech IT training company in the country.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 col-md-6">
+                        <div class="white-box p-5 h-100">
+                            <h3 class="text-primary">Our Aspirations</h3>
+                            <p>Our company aspires to be at the very top of the IT training industry by offering quality training programs. We aspire to be the catalyst that helps to propel the careers of aspiring candidates to the very pinnacle of the corporate ladder.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- // What we offer -->
+    {% comment %} {% include 'v4_home/sub_pages/modals.html' %} {% endcomment %}
+{% endblock content %}

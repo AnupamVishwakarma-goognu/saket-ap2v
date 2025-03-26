@@ -1,0 +1,217 @@
+.login-modal {
+
+    &__wrap {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+
+        @include media-breakpoint-up(md) {
+            flex-direction: row;
+        }
+    }
+
+    .modal-dialog {
+        max-width: 740px;
+    }
+
+    .modal-body {
+        padding: 0;
+        overflow: hidden;
+
+        h2 {
+            font-weight: 400;
+        }
+    }
+
+    .close {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        z-index: 2;
+        opacity: .9;
+        font-size: 14px;
+        color: $white;
+    }
+
+    &__left-pan{
+        flex-grow: 1;
+        height: 100%;
+        padding: 0 15px;
+        height: 425px;
+        position: relative;
+        display: flex;
+        width: 464px;
+        flex: 0 0 464px;
+
+        transform: translateX(0);
+        opacity: 1;
+        transition: transform 2s .25s cubic-bezier(0,1,.3,1), opacity .2s .25s ease-out;
+
+        @include media-breakpoint-up(md) {
+            padding: 0 85px;
+            height: 452px;
+        }
+    
+        #left-panel-sign {
+            transform: translateX(0);
+            opacity: 1;
+            transition: transform 2s .25s cubic-bezier(0,1,.3,1), opacity .2s .25s ease-out;
+        }
+        
+        #left-panel-sign-up {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            transform: translateX(-400px);
+            opacity: 0;
+            transition: transform 2s .25s cubic-bezier(0,1,.3,1), opacity .2s .25s ease-out;
+
+            @include media-breakpoint-up(md) {
+                width: 80%;
+            }
+        }
+
+        &.move-right-disappear {
+            transform: translateX(220px);
+            opacity: 1;
+
+            #left-panel-sign {
+                transform: translateX(500px);
+                opacity: 0;
+                transition: transform 2s .25s cubic-bezier(0,1,.3,1), opacity .2s .25s ease-out;
+            }
+
+            #left-panel-sign-up {
+                transform: translateX(-275px);
+                opacity: 1; 
+                padding: 0 30px;
+
+                @include media-breakpoint-up(md) {
+                    transform: translateX(0);
+                }
+            }
+        }
+
+        .forget-password {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            &.hide {
+                display: none !important;
+            }
+        }
+    }
+
+    &__right-pan{
+       @include gradient-directional($primary, $primary-dark, 180deg);
+        max-width: 100%;
+        flex-basis: 100%;
+        position: relative;
+        overflow: hidden;
+        transform: translateX(0);
+        transition: transform 2s .25s cubic-bezier(0,1,.3,1), opacity .2s .25s ease-out;
+
+        @include media-breakpoint-up(md) {
+            max-width: 410px;
+            flex-basis: 410px;
+        }
+
+        &::after {
+            @include size(260px, 100%);
+            content: '';
+            background-image: url(#{$path}/sigin-bg.png);
+            background-repeat: repeat;
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        &--content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            padding: 15px 0;
+            color: $white;
+            transform: translateX(0);
+            transition: transform 2s .25s cubic-bezier(0,1,.3,1), opacity .2s .25s ease-out;
+
+            h2 {
+                font-size: $font-size-md;
+
+                @include media-breakpoint-up(md) {
+                    font-size: $h2-font-size;
+                }
+            }
+
+            p {
+                font-size: $font-size-xxs;
+
+                @include media-breakpoint-up(md) {
+                    font-size: $font-size-base;
+                }
+            }
+
+            @include media-breakpoint-up(md) {
+                width: 260px;
+                padding: 0;
+            }
+
+            &#sigin-in-content {
+                position: absolute;
+                top: 0;
+                left: -340px;
+                opacity: 0;
+                transition: left 1s .1s linear, opacity .2s .25s ease-out;
+            }
+        }
+
+        &.move-left {
+            transform: translateX(0);
+            opacity: 1;
+
+            @include media-breakpoint-up(md) {
+                transform: translateX(-478px);
+            }
+
+            #sigin-up-content {
+                transform: translateX(10px);
+                opacity: 0;
+            }
+
+            #sigin-in-content {
+                opacity: 1;
+                left: 0;
+            }
+            
+        }
+       
+    }
+}
+
+.is-visible {
+    display: block !important;
+  }
+  
+  .is-open {
+    margin-top: 15px;
+    opacity: 1;
+  }
+
+.google-login {
+    border: 0;
+    background-color: $white;
+    border: 1px solid rgba($gray-light, .3);
+    padding: 10px;
+
+    &::before {
+        content: '';
+        @include size (16px, 16px);
+        background-image: url(#{$path}/google-icon.svg);
+        background-repeat: repeat;
+        background-size: cover;
+        display: block;
+        margin-right: 10px;
+    }
+}

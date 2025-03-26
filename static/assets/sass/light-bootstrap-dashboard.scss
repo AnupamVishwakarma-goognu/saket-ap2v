@@ -1,0 +1,120 @@
+/*!
+
+ =========================================================
+ * Light Bootstrap Dashboard - v2.0.1
+ =========================================================
+
+ * Product Page: http://www.creative-tim.com/product/light-bootstrap-dashboard
+ * Copyright 2017 Creative Tim (http://www.creative-tim.com)
+ * License (http://www.creative-tim.com/license)
+
+ =========================================================
+
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+ */
+
+@import "lbd/variables";
+@import "lbd/mixins";
+@import "lbd/modals";
+
+@import "lbd/typography";
+
+// Core CSS
+@import "lbd/misc";
+@import "lbd/sidebar-and-main-panel";
+@import "lbd/fixed-plugin";
+@import "lbd/modal";
+
+@import "lbd/buttons";
+@import "lbd/social-buttons";
+@import "lbd/inputs";
+
+@import "lbd/alerts";
+@import "lbd/tables";
+
+@import "lbd/checkbox-radio-switch";
+@import "lbd/navbars";
+@import "lbd/footers";
+@import "lbd/tags";
+@import "lbd/tabs-navs-pagination";
+@import "lbd/progress-bars";
+@import "lbd/sliders";
+
+
+
+// Fancy Stuff
+@import "lbd/dropdown";
+@import "lbd/cards";
+@import "lbd/chartist";
+@import "lbd/responsive";
+@import "lbd/bootstrap-switch";
+
+// // Nucleo Icons
+@import "lbd/partial-nucleo-icons";
+
+//plugins css
+@import "lbd/plugins/animate";
+@import "lbd/plugins/sweetalert2";
+
+@import "lbd/plugins/jquery.jvectormap";
+@import "lbd/plugins/bootstrap-table";
+@import "lbd/plugins/datatables.net";
+@import "lbd/plugins/fullcalendar";
+@import "lbd/plugins/chartist";
+@import "lbd/plugins/perfect-scrollbar";
+@import "lbd/plugins/bootstrap-select";
+@import "lbd/plugins/datetime-picker";
+@import "lbd/plugins/nouislider";
+@import "lbd/plugins/promotions";
+@import "lbd/plugins/table";
+
+
+@import "lbd/font-size";
+@import "lbd/color";
+@import "lbd/page";
+
+body {
+    background-color: #dee4f1;
+}
+
+.sticky-top {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+.main-panel {
+    padding-top: 60px;
+}
+
+.no-border-select {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    position: relative;
+    top: 3px;
+
+    .dropdown-toggle {
+        border: 0;
+        padding: 0;
+        font-weight: 600;
+        color: $grey-medium;
+
+        .filter-option {
+            width: 91% !important;
+        }
+    }
+
+    .bootstrap-select {
+        min-width: auto;
+    }
+
+    &--text {
+        font-size: $font-size-base;
+        color: $dark-gray;
+        flex: 0 0 110px;
+        margin-right: 5px;
+    }
+}

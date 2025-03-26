@@ -1,0 +1,195 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load compress %}
+{% load static %}
+{% load ap2v_course_tag %}
+{% load custom_tags %}
+{% block title %} AP2V {% endblock %}
+{% block css %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add to cart</title>
+    <!--                                                                                                                                                                                                                                                                                                                          CSS only -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+   <style>
+        td.cheks {
+            text-align: center;
+        }
+
+        td.cheks a.btn.btn-success {
+            width: 80%;
+        }
+
+        .container h2 {
+            text-align: center;
+            letter-spacing: 2px;
+            padding: 30px;
+        }
+        .razorpay-payment-button{
+            margin-left: auto;
+            background-color: #008959;
+            color: #fff;
+            border: navajowhite;
+            border-radius: 3px;
+            line-height: 32px;
+        }
+        .fa-trash-o:before {
+     color: red;
+}
+        @media only screen and (max-width: 768px) {
+            /* thead {
+                        display: none;
+                 } */
+            tr.stoly td:nth-child(1) .row .col-sm-2.hidden-xs {
+                      display: none;
+                      }
+            tr.stoly td:nth-child(1) .row .col-sm-10 {
+                      padding: 0;
+                     width: 100%;
+                     }
+}
+    </style>
+{% endblock css %}
+{% block content %}
+    {% include 'v4_home/sub_pages/push-down.html' %}
+   {% include 'v4_home/sub_pages/navigation.html' %}
+<style>
+footer.footer {
+    bottom: 0;
+    width: 100%;
+    position: sticky;
+}
+</style>
+    <div class="container" >
+        &nbsp; <br>&nbsp; 
+    </div>
+    <div class="container" style="margin-bottom:44px;">
+        <h2>Your Cart</h2>
+        <table id="cart" class="table table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th >Product</th>  
+                    <th >Price</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <a href="/" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Buying</a>
+
+                {% for i in course_select %}
+                    <tr class="stoly">
+                        <td data-th="Product" >
+                            <div class="row">
+                                <div class="col-sm-2 hidden-xs"><img src="/media/{{i.course.photo}}" alt="..."
+                                        class="img-responsive" style="width: 100px"/></div>
+                                <div class="col-sm-10">
+                                    <h6 class="nomargin">{{i.course |truncatechars:25}}-{% if i.course_type == '1' %} (Recorded Course) {% else %} (live Course) {% endif %}</h6>
+                                    <div class="star">
+                                        <span class="icon-star-orange redi"></span>
+                                        <span class="icon-star-orange redi"></span>
+                                        <span class="icon-star-orange redi"></span>
+                                        <span class="icon-star-orange redi"></span>
+                                        <span class="icon-star-orange redi"></span>
+                                        <span>Rating</span><strong>{{ i.course.rating }}/5</strong>
+                                     </div> 
+                                    {% comment %} <p>{{i.course.banner_text|truncatechars:"60"}}</p> {% endcomment %}
+                                </div>
+                            </div>
+                        </td>
+                        
+                        <td data-th="Price" >{% if i.course_type == '1' %}{{i.course.recording_price}}/- {% else %} {{i.course.price}}/- {% endif %}  </td>
+                        <td>
+                            
+                            {% if i.course_type == '1' %}
+                            <label>Choose Language</label>
+                                <select name="language" id="language" onchange="mylanguage({{i.course.id}})" >
+                                    {% if i.available_lang == '1' %}                                
+                                        <option value="1">Hindi</option>
+                                    {% elif i.available_lang == '2' %}
+                                        <option  value="2">English</option>
+                                    {% else %}
+                                        <option value="2">English</option>
+                                        <option value="1">Hindi</option>
+                                    {% endif %}    
+                                </select>
+                            {% endif %}
+                        </td>
+                         <td class="actions" data-th=""  >
+                            <form action="/cart/checkout" method="POST">
+                                {% csrf_token %}
+                                <input class="name" type="text" name="courseid" id="" value="{{i.id}}" hidden>  
+                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                            </form>
+                        </td>
+                        
+                    </tr>
+                    
+                
+                {% endfor %}
+            </tbody>
+            <tfoot>
+
+                <tr>
+                    <td>
+                        <!-- Total Rs {{price}}/-  -->
+                          <form action="/recording_sessions/paymenthandler/" method="POST">
+                        <script
+                        src="https://checkout.razorpay.com/v1/checkout.js"
+                        data-button_id = "checkout_btn"
+                        data-key="{{razorpay_merchant_key}}" // Enter the Test API Key ID generated from Dashboard → Settings → API Keys
+                        data-amount="{{amount}}" // Amount is in currency subunits. Hence, 29935 refers to 29935 paise or ₹299.35.
+                        data-currency="{{order_currency}}"//You can accept international payments by changing the currency code. Contact our Support Team to enable International for your account
+                        data-order_id="{{razorpay_order_id}}"//Replace with the order_id generated by you in the backend.
+                        data-buttontext="Checkout ₹ {{price}}"
+                        data-name="AP2V"
+                        data-callback_url="{{ callback_url }}"
+                        data-theme.color="#F37254">
+                        </script>
+                    </form></td>
+                     <td class="hidden-xs text-center"><strong></strong></td>
+                     
+                    <td> </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+   
+
+    <script>
+        
+        $( document ).ready(function() {
+            if(window.location.href.search('pay')>-1){
+                $("#bottomScroll").hide();
+                $("#jcont").hide();
+            }
+        });
+    </script>
+    
+    <script>
+        function mylanguage(course_id){
+            // alert(course_type)
+            language_type=$('#language').val()
+            // alert(courseid)
+            mdata = {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                language_type:language_type,
+                course_id:course_id
+            }
+    
+            $.ajax({
+                url : "/e_store_apis/v1/language_add_batch",
+                method : "POST",
+                data : mdata,
+                success:function(data) {
+                    //alert("Success")
+                          
+                },
+                
+            })
+        }
+    
+        
+    </script>
+
+{% endblock content %}

@@ -1,0 +1,107 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+{% load ap2v_course_tag %}
+{% load compress %}
+{% load custom_tags %}
+{% block title %} AP2V {% endblock %}
+{% block css %}
+    {% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/others.css' %}" type="text/css" /> {% endcomment %}
+      {% compress css %}
+        {% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/others.css' %}" type="text/css" /> {% endcomment %}
+        <link media="all" rel="stylesheet" href="/static/v4_home_static/css/others.css" type="text/css" />
+        <link media="all" rel="stylesheet" href="/static/v4_home_static/css/listing.css" type="text/css" />
+        {% endcompress %}
+
+      <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.ap2v.com/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Offers",
+            "item": "https://www.ap2v.com/offers/"
+        }]
+        }
+    </script>
+{% endblock css %}
+{% block content %}
+    <div class="main-wrap">
+    {% include 'v4_home/sub_pages/push-down.html' %}
+    {% include 'v4_home/sub_pages/navigation.html' %}
+        <!-- Banner -->
+        {% comment %} <div class="banner-inner offer-banner">
+            <div class="container">
+                <div class="row banner-inner--content flex-column">
+                    {% include 'v4/breadcrumb.html' %}<!-- // breadcrumb -->
+                    <div class="d-flex">
+                        <div class="banner-inner--left-pan d-flex flex-column justify-content-center">
+                        <h1 class="text-secondary">Get Best Summer Offers</h1>
+                        <p class="text-gray-draker mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.</p>
+                        </div>
+                        <div class="banner-inner--right-pan d-none d-xl-block">
+                          <img src="{% static 'v4_home_static/images/offer-banner-img.jpg'%}" alt="Contact us">
+                        </div>
+                    </div><!-- slick-slide d-flex-->
+                </div><!-- // row -->
+            </div>
+        </div><!-- // Banner --> {% endcomment %}
+
+        <div class="container">
+            <div class="listing mt-0 mt-md-5">
+                <div class="listing__leftPanel">
+                    <ul><!--Product Box Start Here -->
+                        <h3 style="font-size: 18px;font-weight: bold;color: #e33535;">AP2V CERTIFICATION CENTRAL</h3>
+                        <h1 style="font-size: 28px;color: black;font-weight: bold;">Verify Your Certificate</h1>
+                        
+                        <p style="margin-top: 30px;">Get immediate verification of a person's AP2V certificate by entering the certificate number below.</p>
+                        <p style="margin-bottom: 3px;font-weight: 800;">Certification ID</p>
+                        <form action="/verify/" method="GET">
+                            <div>
+                                <input value="{{certId}}" type="text" id="" name="certId" class="" placeholder="Certificate Number" style="width: 35%;border: 1px solid lightgray;outline-color: black;border-radius: 0px;padding-left: 10px;outline: none;">
+                            </div>
+                            <div>
+                                <button type="submit" id="" class="" style="margin-top: 15px;padding: 2px 30px;color: white;background-color: #f12c2c;border: none;outline: none;font-weight: bold;">VERIFY</button>
+                            </div>
+                        </form>
+                        {% if certId %}
+                            {% if certificate_obj %}
+                                <div style="margin-top: 40px;border: 1px solid gainsboro;background-color: #c7dee02e;padding: 15px;padding-top: 10px;">
+                                    <p style="color: black;margin-bottom: 0px;"><span style="font-size: 20px;font-weight: 900;color: #ce4a4a;">{{certId}}</span> is a valid certification ID.</p>
+                                    <p style="color: black;font-weight: 800;margin-bottom:5px;">Owner: <span style="padding-left: 30px;color: darkslategray;font-weight: 100;">{{student_name}}</span></p>
+                                    <h3 style="color: black;font-weight: 700;">Current Credentials</h3>
+                                    {% for i in certificate_obj %}
+                                        <div style="background-color: white;padding: 20px;padding-top: 30px;">
+                                            <div>
+                                                <h3 style="color: black;font-size: 17px;">{{i.course}}</h3>
+                                                <div style="padding-left: 25px;border-left: 5px solid #f06b6b;">
+                                                    <p><span style="color: black;font-weight: 800;padding-right: 15px;">Issue Date:</span> {{i.date|date:"d-M-Y"}}</p>
+                                                </div>
+                                            </div> <!--Product div-->
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div style="margin-top: 40px;border: 1px solid gainsboro;background-color: #c7dee02e;padding: 15px;padding-top: 10px;">
+                                    <p style="color: black;margin-bottom: 0px;"><span style="font-size: 20px;font-weight: 900;color: #ce4a4a;">{{certId}}</span>  is a not valid certification ID.</p>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="listing__rightPanel d-none d-md-block">
+                    <div id="sidebar" style="position: sticky;">
+                        {% include 'v4_home/sub_pages/call-us.html' %}
+                        {% include 'v4_home/sub_pages/request-form.html' %}
+                    </div>
+                </div>
+            </div>
+        </div><!-- // container -->
+    <script>
+    </script>    
+{% endblock content %}

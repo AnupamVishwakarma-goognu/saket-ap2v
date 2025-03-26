@@ -1,0 +1,75 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% load compress %}
+{% load ap2v_course_tag %}
+{% block title %} AP2V {% endblock %}
+{% block css %}
+    {% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/others.css' %}" type="text/css" /> {% endcomment %}
+    {% compress css %}
+        {% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/others.css' %}" type="text/css" /> {% endcomment %}
+        <link media="all" rel="stylesheet" href="/static/v4_home_static/css/others.css" type="text/css" />
+  {% endcompress %}
+
+  <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.ap2v.com/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Sitemap",
+            "item": "https://www.ap2v.com/sitemap/"
+        }]
+        }
+    </script>
+{% endblock css %}
+{% block content %}
+    <div class="main-wrap">
+    {% include 'v4_home/sub_pages/push-down.html' %}
+    {% include 'v4_home/sub_pages/navigation.html' %}
+
+        <!-- Banner -->
+        <div class="banner-inner">
+            <div class="container">
+                <div class="row banner-inner--content flex-column">
+                    {% include 'v4/breadcrumb.html' %}<!-- // breadcrumb -->
+                    <div class="d-flex">
+                        <div class="banner-inner--left-pan d-flex flex-column justify-content-center">
+                        <h1 class="text-secondary">Ap2v Sitemap</h1>
+                        </div>
+                        <div class="banner-inner--right-pan d-none d-xl-block" style="right: 0;">
+                          <img src="{% static 'v4_home_static/images/sitemap.png'%}" loading="lazy" alt="term condition">
+                        </div>
+                    </div><!-- slick-slide d-flex-->
+                </div><!-- // row -->
+            </div>
+        </div><!-- // Banner -->
+
+
+        <div class="spacer mt-0"></div><!-- // Spacer -->
+
+        <section class="container pt-4 sitemap-content">
+            {% for i in all_category %}
+                
+                    {% get_category_course i.slug as category_course %}
+                        {% if category_course %}
+                            <div class="white-box px-4 mb-4">
+                            <h3>{{i.name}}</h3>
+                            <ul class="row">
+                                {% for j in category_course %}
+                                    <li class="col-12 col-md-4"><a href="/{{j.slug}}">{{j.name}}</a></li>
+                                {% endfor %}
+                            </ul>
+                            </div>
+                        {% endif %}
+                
+            {% endfor %}
+        </section><!-- // Overview -->
+    {% comment %} {% include 'v4_home/sub_pages/modals.html' %} {% endcomment %}
+{% endblock content %}

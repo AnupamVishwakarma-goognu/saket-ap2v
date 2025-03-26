@@ -1,0 +1,199 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+
+{% block title %} AP2V {% endblock %}
+
+{% block css %}
+    <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/dashboard.css' %}" type="text/css" />
+{% endblock css %}
+
+{% block content %}
+
+    <div class="main-wrap">
+        <!-- <?php include 'inc/push-down.php'; ?> -->
+        {% include 'v4_home/sub_pages/push-down.html' %}
+        <!-- <?php include 'inc/navigation.php'; ?> -->
+        {% include 'v4_home/sub_pages/navigation.html' %}
+
+        <div class="banner-inner dashboard-banner">
+            <div class="container">
+                <div class="row banner-inner--content flex-column">
+                    <div class="d-flex">
+                        <div class="banner-inner--right-pan d-none d-xl-block">
+                            <img src="{% static 'v4_home_static/images/dashboard/dashboard.png' %}" alt="Devops Training">
+                        </div>
+
+                        <div class="banner-inner--left-pan d-flex flex-column justify-content-center ml-5">
+                            <h1 class="text-secondary font-size-18">Welcome back!</h1>
+                            <p class="text-gray-lightest mb-0">Here’s wishing you a happy learning today!</p>
+                        </div>
+
+
+                    </div><!-- slick-slide d-flex-->
+                </div><!-- // row -->
+            </div>
+        </div><!-- // Banner -->
+
+        {% include 'classroom/batch_filter_instructore.html' %}
+
+        <div class="container mt-3">
+            <div class="dashboard">
+                {% if request.user.user_type == "student" %}
+                    {% include 'classroom/classroom_student_left_bar.html' %}
+                {% elif request.user.user_type == "instructor" %}
+                    {% include 'classroom/classroom_instructor_left_bar.html' %}
+                {% endif %}
+
+                <div class="dashboard__rightPan">
+                    <div class="dashboard-feedback">
+                        <p id="messageES" style="padding: 0;margin: 0;margin: 10px;border-radius: 18px;background-color: #f24f4fcc;color: white;padding-left: 12px;font-size: 13px;"></p>
+                        <h2>Course Feedback</h2>
+                        <p class="font-weight-medium">How likely are you to recommend Ap2v.com to your friends?</p>
+                    
+                        <ul class="dashboard-feedback--mark">
+                            <li> <span>0</span> - not at all satisfied / not satisfied in any way</li>
+                            <li> <span>1</span> - not very satisfied</li>
+                            <li> <span>10</span> - very satisfied</li>
+                        </ul>
+                    
+                        <ul class="dashboard-feedback--giveFeedback">
+                            <li class="fedNumber" id="fedNumber_0">
+                                <span></span>
+                                0
+                            </li>
+                            <li class="fedNumber" id="fedNumber_1">
+                                <span></span>
+                                1
+                            </li>
+                            <li class="fedNumber" id="fedNumber_2">
+                                <span></span>
+                                2
+                            </li>
+                            <li class="fedNumber" id="fedNumber_3">
+                                <span></span>
+                                3
+                            </li>
+                            <li class="fedNumber" id="fedNumber_4">
+                                <span></span>
+                                4
+                            </li>
+                            <li class="fedNumber" id="fedNumber_5">
+                                <span></span>
+                                5
+                            </li>
+                            <li class="fedNumber" id="fedNumber_6">
+                                <span></span>
+                                6
+                            </li>
+                            <li class="fedNumber" id="fedNumber_7">
+                                <span></span>
+                                7
+                            </li>
+                            <li class="fedNumber" id="fedNumber_8">
+                                <span></span>
+                                8
+                            </li>
+                            <li class="fedNumber" id="fedNumber_9">
+                                <span></span>
+                                9
+                            </li>
+                            <li class="fedNumber" id="fedNumber_10">
+                                <span></span>
+                                10
+                            </li>
+                        </ul>
+                    
+                        <div>
+                            <div class="form-group mt-5">
+                              <label for="give-reasons">Please tell us your reasons for giving this score</label>
+                              <textarea class="form-control w-75" id="give-reasons" rows="5"></textarea>
+                            </div>
+
+                            <p id="feedback_message" >Message</p>
+                    
+                            <div class="form-group">
+                                <button class="btn btn-primary px-3" id="submitFeedbackBtn" onclick="submitFeedback()">Submit Feedback</button>
+                            </div>
+                          </div>
+                    </div>
+                </div><!-- // Right panel -->
+
+            </div><!-- // Dashboard -->
+        </div><!-- // Container -->
+
+        <!-- <?php include 'inc/promo-banner.php' ?> -->
+        {% include 'v4_home/sub_pages/promo-banner.html' %}
+        <!-- <?php include 'inc/footer.php' ?> -->
+        {% include 'v4_home/sub_pages/footer.html' %}
+
+        <script>
+
+            $("#feedback_message").hide();
+
+
+            var selectedRating = "None"
+            $('.fedNumber').click(function(){
+                var rating = $(this).text();
+                var rating2 = rating.trim()
+                $(".fedNumber").removeClass("poor")
+                $(".fedNumber").removeClass("fair")
+                $(".fedNumber").removeClass("good")
+
+
+                if(parseInt(rating2)<=4){
+                    $("#fedNumber_"+rating2).addClass("poor")
+                    selectedRating = rating2
+                }
+                else if(parseInt(rating2)<=7){
+                    $("#fedNumber_"+rating2).addClass("fair")
+                    selectedRating = rating2
+                }
+                else{
+                    $("#fedNumber_"+rating2).addClass("good")
+                    selectedRating = rating2
+                }
+            });
+
+
+
+            function submitFeedback(){
+                //alert(selectedRating)
+                //alert("{{active_link}}")
+                var comment = $("#give-reasons").val();
+                //alert(comment)
+                if(selectedRating=="None"){
+                    //alert("Please Select Rating Point.")
+                    $("#messageES").html("Please Select Rating Point.")
+                    return false;
+                }
+                if(comment.length==0){
+                    //alert("Please Write some review about your experience")
+                    $("#messageES").html("Please Write some review about your experience.")
+                    return false;
+                }
+
+                $("#submitFeedbackBtn").html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submiting...')
+                $("#submitFeedbackBtn").prop('disabled',true)
+
+                $.ajax({
+                    type: "POST",
+                    data : {"batch_id":"{{active_link}}","rating":selectedRating,"comment":comment,"csrfmiddlewaretoken": "{{ csrf_token }}"},
+                    url: "/classroom/submitStudentFeeback/", 
+                    success: function(data){
+                        //$("#feedback_message").show();
+                        //$("#feedback_message").text("Thank-you for your valuable feedback...");
+                        $("#messageES").html("Thank-you for your valuable feedback...")
+                        $("#submitFeedbackBtn").text("Submit Feedback")
+                        $("#give-reasons").val("");
+
+                    },
+                    error: function(data){
+                        $("#submitFeedbackBtn").text("Submit Feedback")
+                        alert("Internal Server Error !!!")
+                        
+                    }
+                });
+            }
+
+        </script>
+{% endblock content %}

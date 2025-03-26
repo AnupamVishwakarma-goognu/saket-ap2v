@@ -1,0 +1,31 @@
+%red-header {
+    @include size(100%, 135px);
+    @include gradient-x($primary-dark, $primary, 0, 100%);
+    display: block;
+    position: relative;
+
+    @include media-breakpoint-up(lg) { 
+        @include size(100%, 140px);
+    }
+}
+
+
+%inner-cruve {
+    position: relative;
+    overflow: hidden;
+    
+    &::after {
+        content: none;
+        @include size(626px, 420px);
+        background-image: url(#{$path}/course-detail/inner-bg.png);
+        background-repeat: repeat;
+        position: absolute;
+        right: -90px;
+        top: 0;
+        z-index: 0;
+
+        @include media-breakpoint-up(lg) { 
+            content: '';
+        }
+    }
+}

@@ -1,0 +1,80 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="wrapper">
+        {% include 'website/sidebar.html' %}
+        {% include 'website/header.html' %}
+        <div class="main-panel">
+        <!-- Navbar -->
+        
+            <!-- End Navbar -->
+          <div class="content">
+                <div class="container-fluid">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form id="new_instructor_form" class="form-horizontal" action="{% url 'instructor' %}" method="post">
+                                    {% csrf_token %}
+                                    <h4 class="card-title mt-0">ADD INSTRUCTOR</h4>
+                                    <div class="card ">
+                                        <div class="card-body ">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                  <div class="form-group">
+                                                      <label>FullName</label>
+                                                      <input class="form-control" type="text" name="fullname" placeholder="enter your full_name" autofocus required />
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                  <div class="form-group">
+                                                      <label>Email</label>
+                                                      <input class="form-control" type="email" name="email" placeholder="enter email" required />
+                                                  </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                              <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Mobile</label>
+                                                    <input class="form-control" type="text" name="mobile" placeholder="enter your mobile number" required />
+                                                </div>
+                                              </div>
+                                              <div class="col-md-6">
+                                                <div class="form-group">
+                                                  <label>Courses</label>
+                                                  <select class="form-control selectpicker" name="course" multiple required>
+                                                  {% for data in course %}
+                                                    <option value="{{ data.id }}">{{ data.name }}</option>
+                                                  {% endfor %}
+                                                  </select>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                  <div class="form-group">
+                                                       <label>Days Of Week</label>
+                                                       <select class="selectpicker" name="weekDays" multiple required>
+                                                          {% for WeekDaysData in InstructorsWeekDays.WEEKDAYS_CHOICES %}
+                                                            <option value="{{ WeekDaysData.0 }}">{{ WeekDaysData.1 }}</option>
+                                                          {% endfor %}
+                                                        </select>
+                                                  </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+                                            <button type="submit" class="btn btn-primary" value="Reset form">Add instructors</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% include 'website/footer.html' %}
+        </div>
+    </div>
+{% endblock content %}

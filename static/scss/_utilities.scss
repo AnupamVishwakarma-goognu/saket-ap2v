@@ -1,0 +1,58 @@
+@import "utilities/align";
+@import "utilities/background";
+@import "utilities/borders";
+@import "utilities/clearfix";
+@import "utilities/display";
+@import "utilities/embed";
+@import "utilities/flex";
+@import "utilities/float";
+@import "utilities/font-size";
+@import "utilities/interactions";
+@import "utilities/overflow";
+@import "utilities/position";
+@import "utilities/screenreaders";
+@import "utilities/shadows";
+@import "utilities/sizing";
+@import "utilities/spacing";
+@import "utilities/stretched-link";
+@import "utilities/text";
+@import "utilities/visibility";
+@import "utilities/list-style";
+
+.more-less {
+    .text.collapse:not(.show) {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;  
+    }
+
+    .read-more.collapsed:after  {
+        content: '+ Read More';
+    }
+    
+    .read-more:not(.collapsed):after {
+        content: '- Read Less';
+    }
+}
+
+.white-box {
+    background-color: $white;
+    border-radius: 4px;
+    box-shadow: 0 0 10px 0 rgba($black, .1);
+    padding: 25px 15px;
+    color: $gray-light;
+
+    h3 {
+        color: $secondary;
+        font-size: $font-size-md;
+        width: 100%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

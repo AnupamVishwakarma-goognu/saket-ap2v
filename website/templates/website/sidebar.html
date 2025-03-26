@@ -1,0 +1,334 @@
+{% load static %}
+
+<div class="sidebar" data-color="blue">
+
+            <div class="sidebar-wrapper">
+
+                <div class="user">
+                    <div class="photo">
+			    <img src="https://ui-avatars.com/api/?name={{ request.user.first_name }} {{ request.user.last_name }}" class="img-fluid">
+                    </div>
+                    <div class="info">
+                        <a data-toggle="collapse" href="#collapseExample" class="collapsed">
+				<span>{{ request.user.first_name }} {{ request.user.last_name }}
+                                <b class="caret"></b>
+                            </span>
+                        </a>
+                        <div class="collapse" id="collapseExample">
+                            <ul class="nav">
+                                <!-- <li>
+                                    <a class="profile-dropdown" href="#pablo">
+                                        <span class="sidebar-mini">MP</span>
+                                        <span class="sidebar-normal">My Profile</span>
+                                    </a>
+                                </li> -->
+                                <li>
+                                    <a class="profile-dropdown" href="/edit-profile/">
+                                        <!-- <span class="sidebar-mini"><i class="far fa-edit"></i></span> -->
+                                        <span class="sidebar-normal"><i class="far fa-edit mr-2"></i>Edit Profile</span>
+                                    </a>
+                                </li>
+                                <!-- <li>
+                                    <a class="profile-dropdown" href="#pablo">
+                                        <span class="sidebar-mini">S</span>
+                                        <span class="sidebar-normal">Settings</span>
+                                    </a>
+                                </li> -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard/">
+                            {% comment %} <i class="fa fa-dashboard" aria-hidden="true"></i> {% endcomment %}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-speedometer2" viewBox="0 0 16 16">
+                                <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4zM3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.389.389 0 0 0-.029-.518z"/>
+                                <path fill-rule="evenodd" d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z"/>
+                              </svg>
+                             <p>&#160;&#160;&#160;Dashboard</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                            <a class="nav-link" href="{% url 'showFollowups' %}?d=pending&o=all">
+                                <i class="nc-icon nc-notification-70"></i>
+                                <p>Follow-Ups</p>
+                            </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'fees_list' %}">
+                          <i class="nc-icon nc-money-coins"></i>
+                            <p>Fees</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                      <a class="nav-link" href="/demo">
+                        <i class="nc-icon nc-headphones-2"></i>
+                          <p>Schedule Demo</p>
+                      </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#componentsExamples">
+                            <i class="nc-icon nc-circle-09"></i>
+                            <p>
+                                Enquiries - <span id="un_enq" style="color: yellow;font-weight: 700;margin-left: 5px;"> (--)</span>
+                                <b class="caret"></b>
+                            </p>
+                        </a>
+                        <div class="collapse" id="componentsExamples">
+                            <ul class="nav">
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="{% url 'enquiry' %}">
+                                        Add Enquiry
+                                    </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="{% url 'list_enquiry' %}">
+                                        Enquiry List 
+                                    </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="/enquiries/list/?unattended=true">
+                                        Unattended Enquiry <span id="un_enq2" style="color: yellow;font-weight: 700;margin-left: 5px;"> (--)</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'list' %}">
+                        <i class="nc-icon nc-single-copy-04"></i>
+                          <p>Enrollments</p>
+                      </a>
+                    </li>
+		    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#pagesExamples">
+                            <i class="nc-icon nc-tv-2"></i>
+                            <p>
+                                Batches
+                                <b class="caret"></b>
+                            </p>
+                        </a>
+                        <div class="collapse " id="pagesExamples">
+                            <ul class="nav">
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="{% url 'batches' %}">
+                                        <!-- <span class="sidebar-mini">LP</span> -->
+                                        Add Batches
+                                    </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="{% url 'batchlist' %}">
+                                        <!-- <span class="sidebar-mini">RP</span> -->
+                                        Batches List
+                                    </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="/batches/batch_calender">
+                                        <!-- <span class="sidebar-mini">RP</span> -->
+                                        Batches Calender
+                                    </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="/batches/batch-progress">
+                                        <!-- <span class="sidebar-mini">RP</span> -->
+                                        Batches Progress
+                                    </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="/batches/batch-public-holiday">
+                                        <!-- <span class="sidebar-mini">RP</span> -->
+                                        Public Holiday
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#mapsExamples">
+                            <i class="nc-icon nc-backpack"></i>
+                            <p>
+                                Books & Courses
+                                <b class="caret"></b>
+                            </p>
+                        </a>
+                        <div class="collapse " id="mapsExamples">
+                            <ul class="nav">
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="{% url 'courseslist' %}">
+                                        <!-- <span class="sidebar-mini">VM</span> -->
+                                        Courses
+                                    </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="/courses/books/">
+                                        Books
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+		    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#tablesExamples">
+                            <i class="nc-icon nc-single-02"></i>
+                            <p>
+                                Instructors
+                                <b class="caret"></b>
+                            </p>
+                        </a>
+                        <div class="collapse " id="tablesExamples">
+                            <ul class="nav">
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="{% url 'instructor' %}">Add Instructors</a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="{% url 'instructorlist' %}">
+                                        Instructors List
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+                    
+                    <li class="nav-item">
+                      <a class="nav-link" href="/batches/marked_recording">
+                        <i class="fas fa-star"></i>
+                          <p>Mark Recordings</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/payment/links-list">
+                            &nbsp;&nbsp;<i class="fas fa-rupee-sign"></i>
+                            <p>&nbsp;Generate Payment Link</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="{% url 'report' %}">
+                        <i class="fas fa-book"></i>
+                        <p>Reporting</p>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#promotions">
+                            <i class="nc-icon nc-spaceship"></i>
+                            <p>
+                                Promotions
+                                <b class="caret"></b>
+                            </p>
+                        </a>
+                        <div class="collapse " id="promotions">
+                            <ul class="nav">
+                                {% comment %} <li class="nav-item ">
+                                    <a class="nav-link" href="{% url 'create_promotion' %}">
+                                        <!-- <span class="sidebar-mini">LP</span> -->
+                                        Create Campaign
+                                    </a>
+                                </li> {% endcomment %}
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="{% url 'list_promotions' %}">
+                                        <!-- <span class="sidebar-mini">RP</span> -->
+                                        Campaigns
+                                    </a>
+                                </li>
+
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="{% url 'send_mails' %}">
+                                        <!-- <span class="sidebar-mini">RP</span> -->
+                                        Send Mails
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+		            <li class="nav-item">
+                      <a class="nav-link" href="{% url 'activity' %}">
+                        <i class="nc-icon nc-notes"></i>
+                          <p>Activities</p>
+                      </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/feedback/">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-square-text" viewBox="0 0 16 16">
+                                <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-2.5a2 2 0 0 0-1.6.8L8 14.333 6.1 11.8a2 2 0 0 0-1.6-.8H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+                              </svg>
+                            <p> &nbsp;&nbsp;&nbsp;&nbsp;Feedback</p>
+                        </a>
+                      </li>
+
+                    <!-- <li class="nav-item ">
+                        <a class="nav-link" href="../charts.html">
+                            <i class="nc-icon nc-chart-bar-32"></i>
+                            <p>Charts</p>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="../calendar.html">
+                            <i class="nc-icon nc-single-copy-04"></i>
+                            <p>Calendar</p>
+                        </a>
+                    </li> -->
+                    {% if request.user.is_superuser %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/instructors/target-record">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+                                    <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
+                                </svg>
+                                <p> &nbsp;&nbsp;&nbsp;&nbsp;Trainer Target</p>
+                            </a>
+                        </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="/instructors/counselor-record">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-speedometer" viewBox="0 0 16 16">
+                                <path d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2zM3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.389.389 0 0 0-.029-.518z"/>
+                                <path fill-rule="evenodd" d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.945 11.945 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0z"/>
+                              </svg>
+                            <p> &nbsp;&nbsp;&nbsp;&nbsp;Counselor Target</p>
+                        </a>
+                    </li>
+                    {% endif %}
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="/recording_sessions/recordin_session_record">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+                                <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
+                            </svg>
+                            <p> &nbsp;&nbsp;&nbsp;&nbsp;Buyed Courses</p>
+                        </a>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="/recording_sessions/recordin_session_record">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+                                <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
+                            </svg>
+                            <p> &nbsp;&nbsp;&nbsp;&nbsp;Record Recording Session</p>
+                        </a>
+                    </li> -->
+                    </li> 
+                    <li class="nav-item">
+                        <a class="nav-link" href="/demo/demoVideo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-camera-video" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2V5zm11.5 5.175 3.5 1.556V4.269l-3.5 1.556v4.35zM2 4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h7.5a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H2z"/>
+                              </svg>
+                            <p> &nbsp;&nbsp;&nbsp;&nbsp;Demo Videos on AP2V</p>
+                        </a>
+                    </li> 
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logs/url-cache-script-logs">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-spreadsheet" viewBox="0 0 16 16">
+                                <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V9H3V2a1 1 0 0 1 1-1h5.5v2zM3 12v-2h2v2H3zm0 1h2v2H4a1 1 0 0 1-1-1v-1zm3 2v-2h3v2H6zm4 0v-2h3v1a1 1 0 0 1-1 1h-2zm3-3h-3v-2h3v2zm-7 0v-2h3v2H6z"/>
+                              </svg>
+                            <p> &nbsp;&nbsp;&nbsp;&nbsp;URL Cache Logs</p>
+                        </a>
+                    </li> 
+                </ul>
+            </div>
+        </div>

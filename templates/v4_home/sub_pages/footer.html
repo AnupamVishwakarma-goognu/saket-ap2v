@@ -1,0 +1,311 @@
+{% load static%}
+{% load compress %}
+{% if not request.user.is_authenticated %}
+    <div class="footer--subFooter d-none d-md-block">
+        <div class="container py-5">
+            {% comment %} <div class="row w-100 mb-4">
+                <div class="w-100">
+                    <h4 class="mb-3">Trending Courses</h4>
+                    <div class="courses-list">
+                        {% for i in trending_course_footer %}
+                        <a href="/{{i.slug}}">{{i.name}}</a>
+                        {% if not forloop.last %} | {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div><!-- // Col -->
+            <div class="row w-100 mb-4">
+                <div class="w-100">
+                    <h4 class="mb-3">Trending Learning Paths</h4>
+                    <div class="courses-list">
+                        {% for i in learning_path_footer %}
+                            <a href="/learning-path/{{i.slug}}">{{i.heading}}</a>
+                            {% if not forloop.last %} | {% endif %}
+                        {% endfor %}
+                    </div>
+                </div><!-- // Col -->
+            </div> {% endcomment %}
+            <div class="row w-100 mb-4">
+                <div class="w-100">
+                    <h4 class="mb-3">Trainings in Other Cities</h4>
+                    <div class="courses-list">
+                        {% comment %} {% for i in tranding_course_in_other_city %}
+                            <a href="/{{i.slugs}}">{{i.name}}</a>
+                            {% if not forloop.last %} | {% endif %}
+                        {% endfor %} {% endcomment %}
+                            
+                        {% for k in city_obj_q %}
+                            <a href="/courses-in-{{k.slug}}">Courses in {{k.name}}</a>
+                            {% if not forloop.last %} | {% endif %}
+                        {% endfor %}
+                    </div>
+                </div><!-- // Col -->
+            </div>
+
+            <div class="row w-100 mb-4">
+                <div class="w-100">
+                    <h4 class="mb-3">Learning Paths in Other Cities</h4>
+                    <div class="courses-list">
+                        {% comment %} {% for i in tranding_course_in_other_city %}
+                            <a href="/{{i.slugs}}">{{i.name}}</a>
+                            {% if not forloop.last %} | {% endif %}
+                        {% endfor %} {% endcomment %}
+                            
+                        {% for m in city_obj_q_lp %}
+                            <a href="/learning-paths-in-{{m.slug}}">Learning Paths in {{m.name}}</a>
+                            {% if not forloop.last %} | {% endif %}
+                        {% endfor %}
+                    </div>
+                </div><!-- // Col -->
+            </div>
+
+            <div class="row w-100 mb-4">
+                <div class="w-100">
+                    <h4 class="mb-3">Trending Courses in Other Cities</h4>
+                    <div class="courses-list">
+                        {% for i in tranding_course_in_other_city %}
+                            <a href="/{{i.slugs}}">{{i.name}}</a>
+                            {% if not forloop.last %} | {% endif %}
+                        {% endfor %}
+                            
+                        
+                    </div>
+                </div><!-- // Col -->
+            </div>
+            <!-- -------------online course---------------- -->
+
+            <div class="row w-100 mb-4">
+                <div class="w-100">
+                    <h4 class="mb-3">Trending Online Courses</h4>
+                    <div class="courses-list">
+                        {% for i in all_course %}
+                            <a href="/{{i.slug}}">{{i.name}}</a>
+                            {% if not forloop.last %} | {% endif %}
+                        {% endfor %}
+                            
+                        
+                    </div>
+                </div><!-- // Col -->
+            </div>
+
+            <!-- ------------------end---------------- -->
+
+            <div class="row w-100 mb-4">
+                <div class="w-100">
+                    <h4 class="mb-3">Trending Learning Paths in Other Cities</h4>
+                    <div class="courses-list">
+                        {% for i in tranding_learning_path_in_other_city %}
+                            <a href="/learning-path/{{i.slug}}">{{i.heading}}</a>
+                            {% if not forloop.last %} | {% endif %}
+                        {% endfor %}
+                    </div>
+                </div><!-- // Col -->
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if not request.user.is_authenticated %}
+    <footer class="footer pt-md-5 pt-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 d-none d-md-block">
+                    <h3>About AP2V Academy</h3>
+            <p>AP2V is a standard-setter in the IT Professional Training Industry.</p>
+            <p>Our company is based out of the Gurgaon and Delhi region and has successfully provided top-notch online IT training to international students originating from different corners of the globe.</p>
+                    <div class="footer--smo">
+                        <a href="https://www.facebook.com/ap2vacademy" class="icon-facebook"></a>
+                        {% comment %} <a href="#" class="icon-twitter"></a> {% endcomment %}
+                        <a href="https://www.linkedin.com/company/3567658" class="icon-linkedin"></a>
+                        {% comment %} <a href="https://www.ap2v.com/" class="icon-google"></a> {% endcomment %}
+                        <a href="https://www.youtube.com/c/ap2vacademy" class="icon-youtube-play"></a>
+                        <a href="https://www.instagram.com/ap2vacademy/" class="icon-instagram"></a>
+                    </div>
+                </div><!-- // About Ap2v -->
+
+                <div class="col-6 col-lg-2">
+                    <h3>Company</h3>
+                    <ul class="footer--lists">
+                        <li><a href="/about-us/">About us</a></li>
+                        <li><a href="/why-ap2v/">Why AP2V</a></li>
+                        <li><a href="/testimonials/">Testimonials</a></li>
+                        <li><a href="/events/">Events</a></li>
+                        <li><a href="/blog/">Blogs</a></li>
+                        <li><a href="/gallery/">Gallery</a></li>
+                        <li><a href="/contact-us/">Contact us</a></li>
+                        <li><a href="/verify/">Verify Certificate</a></li>
+                        <li><a href="/interview-questions/">Interview Questions</a></li>
+                    </ul>
+                </div><!-- // Company -->
+
+                <div class="col-6 col-lg-2">
+                    <h3>Other Links</h3>
+                    <ul class="footer--lists">
+                        <li><a href="/refer-earn/">Refer & Earn</a></li>
+                        <li><a href="/offers/">Offers</a></li>
+                        <li><a href="/sitemap/">Sitemaps</a></li>
+                        <li><a href="/city-sitemap/">City sitemaps</a></li>
+                        <li><a href="/trending-courses/">Treading Courses</a></li>
+                        <li><a href="/featured-courses/">Featured Courses</a></li>
+                        <li><a href="/terms-and-conditions/">Terms & Conditions</a></li>
+                        <li><a href="/privacy-policy/">Legal & Privacy</a></li>
+                    </ul>
+                </div><!-- //Other Links -->
+
+                <div class="col-12 col-lg-5">
+                    <h3>Our Courses</h3>
+                    <ul class="footer--lists course-list">
+                        {% for course in trending_course_footer %}
+                            <li><a href="/{{ course.slug }}">{{ course.name }}</a></li>
+                    {% endfor %}
+                    </ul>
+                </div><!-- // Our ourses -->
+
+                <!-- <div class="col">
+                    <h3>Contact Us </h3>
+                    <p>
+                        <strong class="d-block">AP2V Academy</strong>
+                        M44, 2nd Floor, Old DLF Colony, Sector 14, Gurugram, Haryana 122001
+                    </p>
+                    <p class="mb-1">Phone: +91 124 4364210 </p>
+                    <p>Email: info@ap2v.com</p>
+                </div> -->
+            </div>
+        </div><!-- // container -->
+        <div class="footer--copyright">
+            Copyright © 2013-<span class="f_year"> </span> &#160;AP2V Solutions Private Limited. All Rights Reserved.
+        </div>
+    </footer>
+{% else %}
+    <footer class="footer" style="padding-top:0px;">
+        <div class="footer--copyright">
+            Copyright © 2013-<span class="f_year"> </span> &#160;AP2V Solutions Private Limited. All Rights Reserved.
+        </div>
+    </footer>
+{% endif %}
+
+{% if not user.is_authenticated %}
+<div class="sticky-bottom" id="bottomScroll">
+    <div class="sticky-bottom__list">
+        <div class="sticky-bottom__list--item d-block d-sm-none">
+            <a href="tel:+918306996216" class="sticky-bottom__list--item">
+                <i class="icon-call"></i>
+                Call Now?
+            </a>
+        </div>
+            
+        <div class="sticky-bottom__list--item d-none d-sm-block" data-toggle="modal" data-target="#call-now">
+            <a href="#" class="sticky-bottom__list--item">
+                <i class="icon-call"></i>
+                Call Now?
+            </a>
+        </div>
+            
+            <button type="button" class="sticky-bottom__list--item enroll-now" data-toggle="modal" data-target="#apply-now">
+                <i class="icon-enroll"></i>
+                Query Now
+            </button>
+            
+            <a href="#" onclick="jivo_api.open();return false;" class="sticky-bottom__list--item d-block d-sm-none shiss">
+                <span class="sticky-bottom__list--item">
+                    <i class="icon-chat"></i>Chat
+                </span>
+            </a>
+        </div>
+</div>
+{% endif %}
+
+<!--Apply Now Modal -->
+<div class="modal fade" id="call-now" tabindex="-1" aria-labelledby="call-nowLabel" aria-hidden="true">
+    <div class="modal-dialog callNow-modal">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&#x2715;</span>
+            </button>
+
+            <div class="modal-body">
+                <span class="callNow-modal--img d-none d-md-block">
+                    <img src="{% static 'v4_home_static/images/lp/call-now.png'%}" class="img-fluid" loading="lazy" alt="modal">
+                </span>
+                <p class="callNow-modal--phone">Call Now to 24x7 Career Consultant</p>
+                <p class="callNow-modal--heading co_number"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div><!-- // main wrap-->
+{% load static %}
+{% include 'v4_home/sub_pages/search.html' %}
+{% include 'v4_home/sub_pages/modals.html' %}
+
+{% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> {% endcomment %}
+
+{% compress js %}
+    <script src="{% static 'v4_home_static/js/bootstrap.js' %}"></script>
+    <script src="{% static 'v4_home_static/js/vendor/slick.js' %}"></script>
+{% endcompress js %}
+{% comment %} <script src="{% static 'v4_home_static/js/main.js' %}"></script> {% endcomment %}
+
+{% comment %} {% compress js %} {% endcomment %}
+<script>
+    $( document ).ready(function() {
+        function get_number(){
+            $.ajax({
+                type: "POST",
+                url: "/core_apis/v1/get_counselor_round_number",
+                data:{"csrfmiddlewaretoken": "{{ csrf_token }}"},
+                success: function (data) {
+                //alert("success")
+                //alert(data['number'])
+                var c_number = data['number']
+                //c_number = c_number.replace(/\s+/g, '');
+                $(".co_number").text(c_number);
+                $(".co_number2").text(c_number);
+                $(".co_number6").text(c_number);
+                $(".co_numberH1").text(c_number);
+                text_d = "https://wa.me/"+c_number+"/?text=Hey, I need some assistance. ";
+                $(".whatsapp").prop("href", text_d);
+                },
+                error: function (data) {
+                    //alert("Somethings Wents Wrong");
+                },
+            });
+        };
+        get_number();
+    });
+
+    $(".f_year").text(new Date().getFullYear());
+
+    function getUserCartCount(){
+        //alert("calling")
+        mydata = {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+        }
+
+        $.ajax({
+            url : "/e_store_apis/v1/get_user_cart_count",
+            method : "POST",
+            data : mydata,
+            success:function(data) {
+                //alert("Success")
+                if (data.code == 1){
+                    var count = data.count
+                    $("#cart_icon_number").text(count)
+                    $("#cart_icon_number1").text(count)
+                }else{
+                    $("#cart_icon_number").text('0')
+                    $("#cart_icon_number1").text('0')
+                }       
+            },
+            error:function(data){
+                
+            }
+        })
+    }
+
+    getUserCartCount()
+</script>
+{% comment %} {% endcompress js %} {% endcomment %}
+</body>
+</html>

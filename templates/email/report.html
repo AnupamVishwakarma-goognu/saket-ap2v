@@ -1,0 +1,18 @@
+<h1>Daily Report of Anquira</h1>
+<ul>
+    {% for i in data %}
+        <br>---------- {{i.name}} Report -------
+        <li>Total no. of followups done today: {{i.today_folloups}}</li>
+        <li>No. of overdue done today: {{i.today_overdue}}</li>
+        <li>How many new Inquiries were received: {{i.today_enquires}}</li>
+        <li>How many duplicate inquiries were added today: {{i.today_duplicate_enquires}}</li>
+        <li>How many Enrollments were done: {{i.today_enrollment}}</li>
+        <li>How much Exam amount was received today: --</li>
+        <li>How much Training amount was received today: {{i.today_amount_received}}</li>
+        <li>How much overdue Training amount remaining as of today?: {{i.today_pending_amount}}</li>
+        <li>Is there any pending follow-up : {{i.pending_followup}}
+        <li>Dropped Student : {{i.dropped_enrollment}}
+        <br>
+        <br>
+    {% endfor %}
+</ul>    

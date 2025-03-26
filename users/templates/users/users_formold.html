@@ -1,0 +1,92 @@
+{% extends 'website/base.html' %}
+{% block title %}Anquira Login Form{% endblock %}
+{% load static %}
+{% block login %}
+    <div class="wrapper wrapper-full-page">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute">
+            <div class="container">
+                <div class="navbar-wrapper">
+                    <a class="navbar-brand" href="/">
+                        <img style="display: inline; height: 35px; margin-top: 20px;" src="{% static 'assets/img/anquiralogo.png' %}" alt="">
+                    </a>
+                    <!-- <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                    </button> -->
+                </div>
+                <div class="collapse navbar-collapse justify-content-end" id="navbar">
+                    <ul class="navbar-nav">
+                        <!--
+                        <li class="nav-item ">
+                            <a href="register.html" class="nav-link">
+                                <i class="nc-icon nc-badge"></i> Register
+                            </a>
+                        </li> -->
+                        <!-- <li class="nav-item">
+                          <a href="{% url 'enquiry' %}" class="nav-link">
+                              <i class="nc-icon nc-chart-pie-35"></i> Dashboard
+                          </a>
+                        </li>
+                        <li class="nav-item  active ">
+                            <a href="." class="nav-link">
+                                <i class="nc-icon nc-mobile"></i> Login
+                            </a>
+                        </li> -->
+                        <!-- <li class="nav-item ">
+                            <a href="lock.html" class="nav-link">
+                                <i class="nc-icon nc-key-25"></i> Lock
+                            </a>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- End Navbar -->
+        <div class="";>
+            <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
+            <div class="content">
+                <div class="container card-login">
+                    <div class="row">
+                        <div class="col-5">
+                            <form class="form" method="post" action="{% url 'user' %}">
+                                {% csrf_token %}
+                                      <div class="card-header ">
+                                          <h3 class="header text-center">Login</h3>
+                                      </div>
+                                      <div class="card-body ">
+                                          <div class="card-body">
+                                              <div class="form-group">
+                                                  <label>Email address</label>
+                                                  <input type="email" name="email" placeholder="Enter email" class="form-control">
+                                              </div>
+                                              <div class="form-group">
+                                                  <label>Password</label>
+                                                  <input type="password" name="password" placeholder="Password" class="form-control">
+                                              </div>
+                                              <!-- <div class="form-group">
+                                                  <div class="form-check">
+                                                      <label class="form-check-label">
+                                                          <input class="form-check-input" type="checkbox" value="" checked>
+                                                          <span class="form-check-sign"></span>
+                                                          Subscribe to newsletter
+                                                      </label>
+                                                  </div>
+                                              </div> -->
+                                          </div>
+                                      </div>
+                                      <div class="card-footer ml-auto mr-auto">
+                                          <input type="hidden" name="next" value="{{ request.GET.next }}">
+                                          <button type="submit" class="btn btn-warning btn-wd">Login</button>
+                                      </div>
+                              </form>
+                        </div>
+                        <div class="col-7">
+                            <img src="{% static 'assets/img/login-image.jpg' %}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock login %}

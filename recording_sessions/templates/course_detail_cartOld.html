@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /** grid **/
+
+    body,
+    main {
+      display: grid;
+      grid-gap: 1rem;
+    }
+
+    main {
+      grid-template:
+        "content"
+        "summary"
+        "actions"
+        "help"
+        "promo";
+    }
+
+    @media (min-width: 50rem) {
+      main {
+        grid-template:
+          "promo promo"
+          "content summary"
+          "content actions"
+          "content help";
+        grid-template-columns: auto 20rem;
+      }
+    }
+
+    .summary {
+      grid-area: summary;
+    }
+
+    .promo {
+      grid-area: promo;
+    }
+
+    .actions {
+      grid-area: actions;
+    }
+
+    .cart {
+      grid-area: content;
+    }
+
+    .help {
+      grid-area: help;
+    }
+
+
+
+
+    /** styling **/
+
+    @media (min-width: 50rem) {
+
+      body,
+      main {
+        max-width: 60rem;
+      }
+
+      body {
+        margin: auto;
+      }
+    }
+
+    .summary {
+      display: flex;
+      justify-content: space-between;
+      font-size: 18px;
+      background: hsla(255, 20, 40, 1);
+    }
+
+    .total {
+      font-family: monospace;
+      text-align: right;
+    }
+
+
+
+    .item {
+      display: flex;
+      justify-content: space-between;
+      font-family: monospace;
+      font-size: 18px;
+    }
+
+    :not(:last-child) {
+      margin-bottom: 0.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px dotted hsla(225, 25, 50, 1);
+    }
+
+    .name {
+      font-size: 18px;
+      font-weight: 400;
+      margin: 0;
+      border: none;
+    }
+
+    .price {
+      font-family: monospace;
+      margin: 0;
+    }
+
+    @media (min-width: 50rem) {
+      .cart {
+        padding: 2rem 1rem;
+      }
+
+      .cart .name,
+      .cart .price {
+        font-size: 24px;
+      }
+
+      .cart .item:not(:last-child) {
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+      }
+    }
+
+    .actions {
+      background: hsla(165, 20, 40, 1);
+      text-align: right;
+    }
+
+    button {
+      background: hsla(165, 70, 50, 1);
+      box-shadow: 0 2px 4px hsla(165, 35, 10, 1);
+      border: none;
+      border-radius: 3px;
+      padding: 0.5rem 1rem;
+    }
+
+
+    .promo {
+      color: hsla(65, 20, 20, 1);
+      background: hsla(65, 20, 40, 1);
+      font-weight: 800;
+    }
+
+    @media (min-width: 50rem) {
+      .promo {
+        min-height: 0;
+        text-align: center;
+      }
+    }
+
+    .help {
+      color: hsla(15, 30, 70, 1);
+      background: hsla(15, 20, 40, 1);
+    }
+
+    header,
+    footer,
+    section {
+      background: hsla(225, 15, 30, 1);
+      box-shadow: 0 4px 4px 2px hsla(225, 15, 10, 0.2);
+      border-radius: 3px;
+      padding: 1rem;
+    }
+
+    section {
+      min-height: 3rem;
+    }
+
+    header,
+    footer {
+      box-shadow: none;
+      color: hsla(225, 15, 35, 1);
+      background: hsla(225, 15, 21, 1);
+      border: 1px dashed hsla(225, 15, 30, 1);
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.2rem;
+      word-spacing: 1rem;
+      font-weight: 800;
+    }
+
+    body {
+      /* color: white; */
+      background: hsl(222, 14, 23);
+      padding: 20px;
+      font-family: "Heebo", sans-serif;
+      font-weight: 300;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <body id=cart>
+
+    <header>
+      {{user_name}}
+    </header>
+
+    <main>
+
+
+
+
+
+      <section class="cart">
+        {% for i in course_select %}
+        <ul>
+          <form action="/cart/checkout" method="POST">
+            {% csrf_token %}
+            <li class="item">
+              <input class="name" type="text" name="courseid" id="" value="{{i.id}}" hidden>
+              <input class="name" type="text" name="course" id="" value="{{i.course}}" readonly>
+              <p class="price" name="price">{{i.course.course.price}}</p>
+              <!-- <input type="text" name="courseid" id="" value="{{i.course}}">   -->
+              <button type="submit">Delete</button>
+
+            </li>
+            
+          </form>
+
+        </ul>
+        {% endfor%}
+        <input class="name" type="text" id="" value="🛒{{item}} items" readonly>
+        <input class="name" type="text" name="course" id="price" value="Total {{price}}💲" readonly>
+        <!-- <div class="items"> </div>
+            <div class="total"> </div> -->
+      </section>
+      
+    </main>
+          <form action="/recording_sessions/paymenthandler/" method="POST">
+            <script
+              src="https://checkout.razorpay.com/v1/checkout.js"
+              data-key="{{razorpay_merchant_key}}" // Enter the Test API Key ID generated from Dashboard → Settings → API Keys
+              data-amount="{{amount}}" // Amount is in currency subunits. Hence, 29935 refers to 29935 paise or ₹299.35.
+              data-currency="{{order_currency}}"//You can accept international payments by changing the currency code. Contact our Support Team to enable International for your account
+              data-order_id="{{razorpay_order_id}}"//Replace with the order_id generated by you in the backend.
+              data-buttontext="Checkout ₹ {{price}}"
+              data-name="AP2V"
+              data-callback_url="{{ callback_url }}"
+              data-theme.color="#F37254">
+            </script>
+          </form>
+
+  
+  </body>
+  <script>
+        
+    $( document ).ready(function() {
+        if(window.location.href.search('pay')>-1){
+            $("#bottomScroll").hide();
+            $("#jcont").hide();
+        }
+    });
+</script>
+
+</html>

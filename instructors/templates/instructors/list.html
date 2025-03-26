@@ -1,0 +1,305 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% load custom_tag %}
+{% block content %}
+<div class="wrapper">
+  {% include 'website/sidebar.html' %}
+  {% include 'website/header.html' %}
+  <div class="main-panel">
+    <!-- Navbar -->
+
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <h4 class="card-title mt-0">INSTRUCTORS</h4>
+            <div class="card data-tables">
+              <div class="card-header">
+                <div class="row align-items-center justify-content-between">
+                  <div class="d-flex follow-up--filter">
+                    <div class="float-right col-md-4 pr-3 pr-md-0">
+                      <select class="selectpicker" id="filters" name="filters">
+                        <option value="name" {% if request.GET.type == 'name' %} selected='true' {% endif %}>Name
+                        </option>
+                        <option value="email" {% if request.GET.type == 'email' %} selected='true' {% endif %}>Email
+                        </option>
+                        <option value="number" {% if request.GET.type == 'number' %} selected='true' {% endif %}>Number
+                        </option>
+                      </select>
+                    </div><!-- // col -->
+
+                    <div class="float-right col-md-4 pr-3 pr-md-0">
+                      <input type="search" class="form-control" onkeypress="search_filter(event);" id="filters_search"
+                        value="{% if request.GET.n %}{{request.GET.n}}{% endif %}" placeholder="search...">
+                    </div><!-- // col -->
+
+                    <div class="col-md-1 pr-3 pr-md-0 d-flex align-items-center justify-content-center">
+                      <i class="fa fa-refresh text-info"
+                        onclick="window.location.href=`${window.location.pathname}`"></i>
+                        
+                    </div><!-- // col -->
+                    {% if inactive %}
+                      <a href="/instructors/list">Active Instructor</a>
+                    {% else %}
+                      <a href="/instructors/list/inactive">Inactive Instructor</a>
+                    {% endif %}
+
+                  </div><!-- // d-flex -->
+                  <div class="col-md-3">
+                    {% include 'instructors/filters_instructors.html'%}
+                  </div>
+                </div><!-- // Row -->
+              </div><!-- // card header -->
+              <div class="card-body table-striped table-no-bordered table-hover dataTable dtr-inline table-full-width">
+                <div class="toolbar">
+                  <!--        Here you can write extra buttons/actions for the toolbar              -->
+                </div>
+                <div class="table-responsive">
+                  <table id="datatables" class="table" cellspacing="0" width="100%">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Course</th>
+                        <th>Days Of Week</th>
+                        <th>Added_on</th>
+                        <th>Action</th>
+                        {% comment %} <th>Zoom Email</th> {% endcomment %}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for instructors in instructor %}
+                      <tr>
+                        <td onclick="window.location='/instructors/view/{{ instructors.id }}/'">{{ instructors.id }}
+                        </td>
+                        <td onclick="window.location='/instructors/view/{{ instructors.id }}/'">
+                          {{ instructors.full_name }}</td>
+                        <td onclick="window.location='/instructors/view/{{ instructors.id }}/'"
+                          style="word-break: break-all;">{{ instructors.email }}</td>
+                        <td onclick="window.location='/instructors/view/{{ instructors.id }}/'">{{ instructors.mobile }}
+                        </td>
+                        <td style="word-break: break-all;"><a href="javascript:void(0)" onclick="getInstructorCourse('{{instructors.id}}')">{{ instructors.courses.count }}</a> </td>
+                        <td onclick="window.location='/instructors/view/{{ instructors.id }}/'"
+                          style="word-break: break-all;">{{ instructors.days_of_week|days_of_week_instructor_short }}
+                        </td>
+                        <td onclick="window.location='/instructors/view/{{ instructors.id }}/'">
+                          {{ instructors.added_on }}</td>
+                        <td align="center">
+                          <a href="javascript:void(0);" id="delete_instructor"
+                            onclick="delete_instructor_function(event, `{% url 'InstructorsDeleteView' instructors.id %}`);">
+                            <i class="fa fa-trash text-secondary font-size-medium"></i>
+                          </a>
+                        </td>
+                        {% comment %} <td onclick="window.location='/instructors/view/{{ instructors.id }}/'">{{ instructors.zoom_email }} {% endcomment %}
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="row mx-1">
+                <div class="col-sm-12 col-md-5 font-size-base"><span class="mt-2 d-block">Showing {{ instructor.start_index }} - {{ instructor.end_index }} of {{ instructor.paginator.count }}</span></div>
+                <div class="col-sm-12 col-md-7">
+                  <div class="dataTables_paginate paging_simple_numbers" id="datatables_paginate">
+                      <ul class="pagination">
+                        {% comment %} {% if instructor.has_previous %}
+                        <li class="paginate_button page-item previous" id="datatables_previous">
+                        <a href="?page={{ instructor.previous_page_number }}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                        </li>
+                        {% else %}
+                        <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                        <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                        </li>
+                        {% endif %}
+
+                        {% for i in instructor.paginator.page_range %}
+                          {% if i %}
+                            {% ifequal i instructor.number %}
+                              <li class="paginate_button page-item active">
+                                <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                              </li>
+                            {% else %}
+                              <li class="paginate_button page-item">
+                                <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                              </li>
+                            {% endifequal %}
+                          {% else %}
+                            <li class="paginate_button page-item" id="nopage">
+                              <a href="javaScript:void(0)" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" style="pointer-events: none;">...</a>
+                            </li>
+                          {% endif %}
+                        {% endfor %}
+
+                        {% if instructor.has_next %}
+                          <li class="paginate_button page-item next" id="datatables_next">
+                          <a href="?page={{ instructor.next_page_number }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                          </li>
+                        {% else %}
+                          <li class="paginate_button page-item next disabled" id="datatables_next">
+                          <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                          </li>
+                        {% endif %} {% endcomment %}
+
+                        {% if instructor.has_previous %}
+                          <li class="paginate_button page-item previous" id="datatables_previous">
+                            <a aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" href="?page=1" tabindex="-1">FIRST</a>
+                          </li>
+                          <li class="paginate_button page-item previous" id="datatables_previous">
+                            <a href="?page={{ instructor.previous_page_number }}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                          </li>
+                          {% else %}
+                          <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                          <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">FIRST</a>
+                          </li>
+                          <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                          <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                          </li>
+                          {% endif %}
+
+                          {% for i in instructor.paginator.page_range %}
+                              {% if instructor.number == i %}
+                                  <li class="paginate_button page-item active">
+                                  <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                </li>
+                              {% elif i > instructor.number|add:'-5' and i < instructor.number|add:'5' %}
+                                  <li class="paginate_button page-item">
+                                  <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                </li>
+                              {% endif %}
+                          {% endfor %}
+
+                          {% if instructor.has_next %}
+                            <li class="paginate_button page-item next" id="datatables_next">
+                              <a href="?page={{ instructor.next_page_number }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                            </li>
+                            <li class="paginate_button page-item next" id="datatables_next">
+                              <a href="{% if instructor.has_next %} ?page={{ instructor.paginator.num_pages }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link" {% endif %}>LAST</a>
+                            </li>
+                          {% else %}
+                            <li class="paginate_button page-item next disabled" id="datatables_next">
+                              <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                            </li>
+                            <li class="paginate_button page-item next disabled" id="datatables_next">
+                              <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">LAST</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% include 'website/footer.html' %}
+  </div>
+</div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="instructorCourseModal" tabindex="-1" role="dialog" aria-labelledby="instructorCourseModalLabel"
+        style="display: none;">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="width: 680px;margin-left: 45px;">
+                <div class="modal-header">
+                    <h4 class="modal-title mt-0" id="myModalLabel">Instructor Course Details</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="padding-top: 0px;">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            
+                        </div>
+
+                        <div class="form-group col-md-12" id="instructor_course_details">
+
+                        </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+<script>
+  function getInstructorCourse(id){
+    //alert(id)
+    $('#instructorCourseModal').modal('show'); 
+    $("#instructor_course_details").empty();
+    $('#instructor_course_details').prepend('<img id="theImg" style="height: 50px;padding-left: 43%;" src={% static "assets/images/waiting-icon.jpg" %}>')
+    $.ajax({
+        type: "GET",
+        url: "/instructors/get_instructors_course?id="+id,
+        data: {},
+        success: function (data) {
+            $("#instructor_course_details").empty();
+            $('#instructor_course_details').html(data)
+        },
+        error: function (data) {
+            alert("Internal Server Error!!!");
+        },
+    });
+  };
+</script>
+{% endblock content %}
+
+<!-- </body>
+          <script src="{% static 'assets/js/core/jquery.3.2.1.min.js' %}" type="text/javascript"></script>
+          <script src="{% static 'assets/js/core/popper.min.js' %}" type="text/javascript"></script>
+          <script src="{% static 'assets/js/core/bootstrap.min.js' %}" type="text/javascript"></script>
+          <script src="{% static 'assets/js/plugins/bootstrap-table.js' %}"></script>
+          <script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+          <script src="{% static 'assets/js/light-bootstrap-dashboard.js' %}" type="text/javascript"></script>
+
+          <script type="text/javascript">
+              $(document).ready(function() {
+                  $('#datatables').DataTable({
+                      "pagingType": "full_numbers",
+                      "lengthMenu": [
+                          [10, 25, 50, -1],
+                          [10, 25, 50, "All"]
+                      ],
+                      responsive: true,
+                      language: {
+                          search: "_INPUT_",
+                          searchPlaceholder: "Search records",
+                      }
+
+                  });
+
+
+                  var table = $('#datatables').DataTable();
+
+                  // Edit record
+                  table.on('click', '.edit', function() {
+                      $tr = $(this).closest('tr');
+
+                      if ($tr.hasClass('child')) {
+                          $tr = $tr.prev('.parent');
+                      }
+
+                      var data = table.row($tr).data();
+                      alert('You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.');
+                  });
+
+                  // Delete a record
+                  table.on('click', '.remove', function(e) {
+                      $tr = $(this).closest('tr');
+                      table.row($tr).remove().draw();
+                      e.preventDefault();
+                  });
+
+                  //Like record
+                  table.on('click', '.like', function() {
+                      alert('You clicked on Like button');
+                  });
+              });
+          </script>
+</html> -->

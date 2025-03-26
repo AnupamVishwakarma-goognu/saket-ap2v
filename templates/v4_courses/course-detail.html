@@ -1,0 +1,2670 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load compress %}
+{% load static %}
+{% load ap2v_course_tag %}
+{% load custom_tags %}
+{% block title %} AP2V {% endblock %}
+{% block css %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/course.css' %}" type="text/css" /> {% endcomment %}
+     {% compress css %} 
+     <link media="all" rel="stylesheet" href="/static/v4_home_static/css/course.css" type="text/css" />
+     
+     {% endcompress %}
+    {% compress js %}
+      {% endcompress %}
+
+    {% comment %} <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.ap2v.com/"
+            },{
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{% if city_specific %}{{city_specific_course.name}}{% else %}{{course_details.name}}{% endif %}",
+                "item": "https://www.ap2v.com/{% if city_specific %}{{city_specific_course.slugs}}{% else %}{{course_details.slug}}{% endif %}"
+            }]
+        }
+    </script> {% endcomment %}
+
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{% for i in breadcrumb %}{
+            "@type": "ListItem",
+            "position": {{ forloop.counter }},
+            "name": "{{i.name}}",
+            "item": "https://www.ap2v.com{{i.path}}"
+            }{% if not forloop.last %},{% endif %}
+        {% endfor %}]
+        }
+    </script>
+{% endblock css %}
+{% block content %}
+    <div class="main-wrap">
+    {% include 'v4_home/sub_pages/push-down.html' %}
+    {% include 'v4_home/sub_pages/navigation.html' %}
+
+        <!-- Banner -->
+        <div class="banner-inner">
+            <div class="container">
+                <div class="row banner-inner--content flex-column">
+		            {% include 'v4/breadcrumb.html' %}
+                    <div class="d-flex sdvdf">
+                        <div class="banner-inner--left-pan d-flex flex-column justify-content-center">
+    <!--             <h1 class="text-secondary">{{course_details.name}} {% if city_specific %} in {{city_specific_course.city}} {% endif %}</h1>-->
+                    <h1 class="text-secondary">{% if city_specific %}{{city_specific_course.name}}{% else %}{{course_details.name}}{% endif %}</h1>
+                    <div class="star-rating mb-3">
+                                    <span class="icon-star-fill text-yellow"></span>
+                                    <span class="icon-star-fill text-yellow"></span>
+                                    <span class="icon-star-fill text-yellow"></span>
+                                    <span class="icon-star-fill text-yellow"></span>
+                                    <span class="icon-star-fill text-gray-lightest"></span>
+                                    <span class="font-size-xs text-grey-light">
+                                        <span class="ml-1 ratting icon-rating ">{{course_details.rating}} Ratings</span>
+                                        <span class="px-1  ">  </span>
+                                        {% make_formated_number course_details.review_count as lnum%}
+                                        <span class="icon-people ratting">{{ lnum }} Learners</span>
+                                    </span>
+                                </div>
+                            <p class="text-gray-lightest mb-0">{% if city_specific %}{{city_specific_course.banner_text|safe}}{% else %}{{course_details.banner_text|safe }}{% endif %}</p>
+                                
+                            {% course_review_inc_dec course_details.review_count as review_list %}    
+                            <div class="banner-sticky"> <span class="review-sticky" style="border-left:0 none;" href="#review-1"
+                                data-section="review-1"> <i class="f-layout-icons icon-google lazyloaded"></i> <span> {{course_details.rating}}/5.0 ({{ review_list.0 }}) </span>
+                            </span> <span class="review-sticky" style="border-left:0 none;" href="#review-1" data-section="review-1"> <i
+                                    class="f-layout-icons icon-facebook lazyloaded"></i> <span> {{course_details.rating}}/5.0 ({{ review_list.1 }}) </span> </span> <a
+                                class="review-sticky scroll" style="border-left:0 none;" href="#review-1" data-section="review-1"> <i
+                                    class="f-layout-icons icon-star-orange lazyloaded"></i> <span> {{course_details.rating}}/5.0 ({{ review_list.2 }}) </span> </a> <a
+                                class="phone-sticky" href="tel:{{number}}" rel="nofollow"> <i
+                                    class="f-layout-icons icon-phone lazyloaded" style="padding-right:6px ;"></i>  {{number}} </a> </div>
+                            
+                                
+                            {% get_course_sell_option_status course_details.id as status%}
+                            <div class="bogss">
+                            <div class=" d-flex monto">
+                                <!-- <a href="#" class="btn btn-lg btn-primary btn-gr-primary rounded-60 mr-2 px-3" id="BDN01" onclick="openModal('BDN1')">Book a Free Class</a> -->
+                                
+                                        <!-- <a href="#" onclick="openVideoModal('{{course_details.introduction_video}}')" class="btn btn-lg btn-outline-primary rounded-60 mr-2 px-3"><i class="icon-video-player mr-2"></i>Watch Video</a> -->
+                                    
+                                <a href="#" onclick="openInterQuestionModal()" class="btn btn-lg btn-outline moiedc jdwfwik qjsk">Interview Question</a>
+                                  
+                            {% comment %} </div> {% endcomment %}
+                            </div>
+                             <div class=" d-flex monto">
+                                {% comment %}{% if status %}{% endcomment %}
+                                </div>
+                                    {% comment %} <a class="btn btn-lg btn-outline moiedc" {% if not request.user.is_authenticated %} data-target="#exampleModal1" data-toggle="modal"{% else %}  href="/classroom/recording_buy?pcid={{course_details.id}}&ctoken={{csrf_token}}" >{% endif %}<i class="fa-solid fa-books"></i></i> Apply Now</a> {% endcomment %}
+                                    
+                                    <!-- <a  onclick="addid('{{course_details.id}}','{{course_details.id}}4')" ><button class="btn btn-lg btn-outline moiedc"  type="button" id="addtooocartt{{course_details.id}}4" > Apply Now</button></a> -->
+
+                                    <a ><button class="btn btn-lg btn-outline moiedc"  type="button" data-toggle="modal" data-target="#apply-now" > Apply Now</button></a>
+
+                                    <!-- <button type="button" class="btn btn-lg btn-outline moiedc" data-toggle="modal" data-target="#apply-now">
+                                        <i class="icon-enroll"></i>
+                                        Query Now
+                                    </button> -->
+                                    {% comment %}{% endif %} {% endcomment %}
+                                </div> 
+                         </div>
+ 
+                        <div class="banner-inner--right-pan  d-xl-block ejvdc">
+                            <img src="/media/{{ course_details.photo }}" style="width: 100%; height: 100%;" alt="{% if city_specific %}{{city_specific_course.name}}{% else %}{{course_details.name}}{% endif %}" loading="lazy">
+                            {% comment %}{% get_demo_course_id course_details.id as demo_result %}{% endcomment %}
+                                    {% if course_details.introduction_video %}
+                                        <div class="vidicon" id="vidicon" onclick="openVideoModal('{{course_details.introduction_video}}')">
+                                            <span class="icon-people"></span>
+                                        </div>
+                                    {% endif %}
+                        </div>
+                        
+                    </div><!-- slick-slide d-flex-->
+                    <!-- ****************************** -->
+<div class="speciality">
+    <div class="speciality-heading">
+        <h2>Speciality</h2>
+    </div>
+    <div class="speciality-list">
+         <div class="speciality-items"  >
+            <div class="speciality-items-img"><img src="{% static 'v4_home_static/svg/Batch-every.svg' %}" 
+                    alt="batch image" width="36" height="auto" loading="lazy" ></div>
+                    <div class="speciality-items-desc"><p>20000 +</p><span>Professionals Trained</span></div>
+        </div>
+        <div class="speciality-items"  >
+            <div class="speciality-items-img">
+                <img src="{% static 'v4_home_static/svg/Prof_Trained.svg' %}" height="auto" width="36"
+                    alt="prof trained" loading="lazy">
+            </div>
+            <div class="speciality-items-desc"><p>35 +</p><span>Batches every month</span></div>
+        </div>
+        <div class="speciality-items"  >
+            <div class="speciality-items-img"><img src="{% static 'v4_home_static/svg/Country.svg' %}" 
+                    alt="country image" width="36" height="auto" loading="lazy"></div>
+                    <div class="speciality-items-desc"><p>20+</p><span>Countries &amp; Counting</span></div>
+        </div>
+        <div class="speciality-items"   >
+            <div class="speciality-items-img"><img src="{% static 'v4_home_static/svg/Corporate.svg' %}" 
+                    alt="corporate" width="36" height="auto" loading="lazy"></div>
+                    <div class="speciality-items-desc"><p>1000+</p><span>Corporate Served</span></div>
+        </div>
+    </div>
+</div>
+<!-- ****************************** -->
+                </div><!-- // row -->
+            </div>
+        </div><!-- // Banner -->
+
+        <div class="secondary-menu" id="mainNav">
+            <div class="container">
+                <ul class="secondary-menu--lists">
+                    <li><a href="#overview" class="page-scroll">Overview</a></li>
+                    <li><a href="#upcoming" class="page-scroll">Upcoming Batches</a></li>
+                    <li><a href="#training" class="page-scroll">Training Options</a></li>
+                    <li><a href="#course" class="page-scroll">Course Curriculum</a></li>
+                    <li><a href="#exam" class="page-scroll">Exam & Certification</a></li>
+                    <li><a href="#review" class="page-scroll">Reviews</a></li>
+                    <li><a href="#faqs" class="page-scroll">FAQs</a></li>
+                </ul>
+            </div>
+        </div><!-- // Secondary Menu -->
+
+        <section id="overview" class="page-section container pt-5">
+            <div class="pongle">
+            {% comment %} <div class="skill-coverd mb-4">
+                <h3>Skills Covered</h3>
+                    <div class="tagging-round">
+                    {% for tag in course_details.tags.all %}
+                       <a href="#" class="tagging-round--item"> {{tag.name}}</a>
+                    {% endfor %}
+                    </div>
+            </div> {% endcomment %}
+
+            {% if city_specific %}
+                <div class="skill-coverd mb-4">
+                    <h3>Skills Covered</h3>
+                        <div class="tagging-round">
+                        {% for tag in course_details.tags.all %}
+                        <a href="/{{tag.slug}}-courses-in-{{city_specific_course.city.slug}}" class="tagging-round--item"> {{tag.name}}</a>
+                        {% endfor %}
+                        </div>
+                </div>
+            {% else %}
+                <div class="skill-coverd mb-4">
+                    <h3>Skills Covered</h3>
+                        <div class="tagging-round">
+                        {% for tag in course_details.tags.all %}
+                        <a href="/{{tag.slug}}-courses" class="tagging-round--item"> {{tag.name}}</a>
+                        {% endfor %}
+                        </div>
+                </div> 
+            {% endif %}
+            
+
+            <div class="overview">
+                <h2 class="align-items-start">Overview</h2>
+                {% if city_specific %}
+                    {{city_specific_course.description | safe}}
+                {% else %}
+                    {{course_details.description | safe}} 
+                {% endif %}
+            </div>
+         
+      
+            
+            <div class="row">
+                <div class="col mt-3 mt-md-0 overview">
+                    <p><h2 style="align-items: start;">Benefits of {% if city_specific %}{{city_specific_course.name}}{% else %}{{course_details.name}}{% endif %}</h2></p>
+                    {% if city_specific %}
+                        <p class="mb-0">{{city_specific_course.benefits|safe}}</p>
+                    {% else %}
+                        <p class="mb-0">{{course_details.benefits|safe}}</p>
+                    {% endif %}
+                </div>
+            </div> 
+        <div class="baklink">
+            {% if online_related %}
+            <h3>Other related courses : </h3>
+            {% endif %}
+            {% for rel_course in online_related %}
+                    {% for c in rel_course.content_related_online_courses.all %}
+                    <a href="/{{c.slug}}"><p>{{c}}</p></a>
+                    {% endfor %}
+                    {% for c in rel_course.content_related_city_courses.all %}
+                    <a href="/{{c.slugs}}"><p>{{c}}</p></a>
+                    {% endfor %}
+                
+            {% endfor %}
+            
+            <!-- <a href=""><p>Lorem ipsum dolor sit amet.</p></a>
+            <a href=""><p>Lorem ipsum dolor sit amet.</p></a>
+            <a href=""><p>Lorem ipsum dolor sit amet.</p></a>
+            <a href=""><p>Lorem ipsum dolor sit amet.</p></a>
+            <a href=""><p>Lorem ipsum dolor sit amet.</p></a> -->
+        </div> 
+        </div>
+   <!-- ************************ -->
+            <div class="listing__rightPanel d-none d-md-block">
+                <div id="sidebar" style="position: sticky;">
+
+                    {% include 'v4_home/sub_pages/call-us.html' %}
+                    {% include 'v4_home/sub_pages/request-form.html' %}
+                </div>
+            </div>
+            <!-- ************************ -->
+        </section><!-- // Overview -->
+
+        <section id="upcoming" class="page-section bg-gray batches">
+            <div class="container">
+                <h2 class="align-items-start">Upcoming Batches</h2>
+                {% get_upcoming_batch 1 as date_list %}
+                <div class="row white-box mt-4">
+                    <div class="col-12 col-md-12 col-xl-8 px-0 px-md-3">
+                        <ul class="batches__box__lists mb-0">
+                            {% comment %} <li class="disable">
+                                <span class="batches__box__lists--date">Aug 08</span>
+                                <span class="batches__box__lists--days">SAT & SUN (6 WEEKS)
+                                    <small>Weekend Batch</small>
+                                </span>
+                                <div class="batches__box__lists--time">
+                                    <span class="sold-out">Sold Out</span>
+                                    <p class="mb-0">Timings - 08:30 PM to 11:30 PM</p>
+                                </div>
+                            </li><!-- // li --> {% endcomment %}
+
+                            <li>
+                                <span class="batches__box__lists--date">{{date_list.0|date:'M d'}}</span>
+                                <span class="batches__box__lists--days">SAT & SUN 
+                                    <small>Weekend Batch</small>
+                                </span>
+                                <div class="batches__box__lists--time">
+                                    <small class="filling-fast">Filling Fast</small>
+                                    <p class="mb-0">Timings - 09:00 AM to 11:00 AM</p>
+                                </div>
+                            </li><!-- // li -->
+
+                            <li>
+                                <span class="batches__box__lists--date">{{date_list.1|date:'M d'}}</span>
+                                <span class="batches__box__lists--days">SAT & SUN (6 WEEKS)
+                                    <small>Weekend Batch</small>
+                                </span>
+                                <div class="batches__box__lists--time">
+                                    <p class="mb-0">Timings - 01:00 PM to 03:00 PM</p>
+                                </div>
+                            </li><!-- // li -->
+
+                            <li>
+                                <span class="batches__box__lists--date">{{date_list.2|date:'M d'}}</span>
+                                <span class="batches__box__lists--days">MON TO THU (6 WEEKS)</span>
+                                <div class="batches__box__lists--time">
+                                    <small class="filling-fast">Filling Fast</small>
+                                    <p class="mb-0">Timings - 09:30 AM to 10:30 AM</p>
+                                </div>
+                            </li><!-- // li -->
+
+                            <li>
+                                <span class="batches__box__lists--date">{{date_list.3|date:'M d'}}</span>
+                                <span class="batches__box__lists--days">MON TO THU (6 WEEKS)</span>
+                                <div class="batches__box__lists--time">
+                                    <p class="mb-0">Timings - 05:00 PM to 06:00 PM</p>
+                                </div>
+                            </li><!-- // li -->
+                        </ul>
+                    </div>
+
+                    {% if city_specific %}
+                        {% comment %} {{city_specific_course.banner_text|safe}} {% endcomment %}
+                        {% remove_html_tag city_specific_course.banner_text as events_desciption_string %}
+                    {% else %}
+                        {% comment %} {{course_details.banner_text|safe }} {% endcomment %}
+                        {% remove_html_tag course_details.banner_text as events_desciption_string %}
+                    {% endif %}
+
+                    <script type="application/ld+json">
+                        {
+                        "@context": "https://schema.org",
+                        "@type": "EducationEvent",
+                        "name": {% if city_specific %}"{{city_specific_course.name}}"{% else %}"{{course_details.name}}"{% endif %},
+                        "startDate": "{{date_list.0|date:'Y-m-d'}}",
+                        "endDate": "{{date_list.4|date:'Y-m-d'}}",
+                        "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+                        "eventStatus": "https://schema.org/EventScheduled",
+                        "location": {
+                            "@type": "Place",
+                            "name": "Online",
+                            "address": {
+                            "@type": "PostalAddress",
+                            "streetAddress": "Live Virtual Training (INDIA)",
+                            "addressLocality": "Online",
+                            "postalCode": "",
+                            "addressRegion": "N",
+                            "addressCountry": "IN"
+                            }
+                        },
+                        "image": [
+                            "https://www.ap2v.com//media/{{ course_details.photo }}"
+                        ],
+                        "description": "{{events_desciption_string}}",
+                        "offers": {
+                            "@type": "Offer",
+                            "url": "www.ap2v.com",
+                            "price": "9999",
+                            "priceCurrency": "INR",
+                            "availability": "https://schema.org/InStock",
+                            "validFrom": "{{date_list.0|date:'Y-m-d'}}"
+                        },
+                        "performer": {
+                            "@type": "Person",
+                            "name": "Certified Instructor"
+                        },
+                        "organizer": {
+                            "@type": "Organization",
+                            "name": "AP2V",
+                            "url": "www.ap2v.com"
+                        }
+                        }
+                    </script>
+
+                    <script type="application/ld+json">
+                        {
+                        "@context": "https://schema.org",
+                        "@type": "EducationEvent",
+                        "name": {% if city_specific %}"{{city_specific_course.name}}"{% else %}"{{course_details.name}}"{% endif %},
+                        "startDate": "{{date_list.1|date:'Y-m-d'}}",
+                        "endDate": "{{date_list.5|date:'Y-m-d'}}",
+                        "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+                        "eventStatus": "https://schema.org/EventScheduled",
+                        "location": {
+                            "@type": "Place",
+                            "name": "Online",
+                            "address": {
+                            "@type": "PostalAddress",
+                            "streetAddress": "Live Virtual Training (INDIA)",
+                            "addressLocality": "Online",
+                            "postalCode": "",
+                            "addressRegion": "N",
+                            "addressCountry": "IN"
+                            }
+                        },
+                        "image": [
+                            "https://www.ap2v.com//media/{{ course_details.photo }}"
+                        ],
+                        "description": "{{events_desciption_string}}",
+                        "offers": {
+                            "@type": "Offer",
+                            "url": "www.ap2v.com",
+                            "price": "9999",
+                            "priceCurrency": "INR",
+                            "availability": "https://schema.org/InStock",
+                            "validFrom": "{{date_list.1|date:'Y-m-d'}}"
+                        },
+                        "performer": {
+                            "@type": "Person",
+                            "name": "Certified Instructor"
+                        },
+                        "organizer": {
+                            "@type": "Organization",
+                            "name": "AP2V",
+                            "url": "www.ap2v.com"
+                        }
+                        }
+                    </script>
+
+                    <script type="application/ld+json">
+                        {
+                        "@context": "https://schema.org",
+                        "@type": "EducationEvent",
+                        "name": {% if city_specific %}"{{city_specific_course.name}}"{% else %}"{{course_details.name}}"{% endif %},
+                        "startDate": "{{date_list.2|date:'Y-m-d'}}",
+                        "endDate": "{{date_list.6|date:'Y-m-d'}}",
+                        "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+                        "eventStatus": "https://schema.org/EventScheduled",
+                        "location": {
+                            "@type": "Place",
+                            "name": "Online",
+                            "address": {
+                            "@type": "PostalAddress",
+                            "streetAddress": "Live Virtual Training (INDIA)",
+                            "addressLocality": "Online",
+                            "postalCode": "",
+                            "addressRegion": "N",
+                            "addressCountry": "IN"
+                            }
+                        },
+                        "image": [
+                            "https://www.ap2v.com//media/{{ course_details.photo }}"
+                        ],
+                        "description": "{{events_desciption_string}}",
+                        "offers": {
+                            "@type": "Offer",
+                            "url": "www.ap2v.com",
+                            "price": "9999",
+                            "priceCurrency": "INR",
+                            "availability": "https://schema.org/InStock",
+                            "validFrom": "{{date_list.2|date:'Y-m-d'}}"
+                        },
+                        "performer": {
+                            "@type": "Person",
+                            "name": "Certified Instructor"
+                        },
+                        "organizer": {
+                            "@type": "Organization",
+                            "name": "AP2V",
+                            "url": "www.ap2v.com"
+                        }
+                        }
+                    </script>
+
+                    <script type="application/ld+json">
+                        {
+                        "@context": "https://schema.org",
+                        "@type": "EducationEvent",
+                        "name": {% if city_specific %}"{{city_specific_course.name}}"{% else %}"{{course_details.name}}"{% endif %},
+                        "startDate": "{{date_list.3|date:'Y-m-d'}}",
+                        "endDate": "{{date_list.7|date:'Y-m-d'}}",
+                        "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+                        "eventStatus": "https://schema.org/EventScheduled",
+                        "location": {
+                            "@type": "Place",
+                            "name": "Online",
+                            "address": {
+                            "@type": "PostalAddress",
+                            "streetAddress": "Live Virtual Training (INDIA)",
+                            "addressLocality": "Online",
+                            "postalCode": "",
+                            "addressRegion": "N",
+                            "addressCountry": "IN"
+                            }
+                        },
+                        "image": [
+                            "https://www.ap2v.com//media/{{ course_details.photo }}"
+                        ],
+                        "description": "{{events_desciption_string}}",
+                        "offers": {
+                            "@type": "Offer",
+                            "url": "www.ap2v.com",
+                            "price": "9999",
+                            "priceCurrency": "INR",
+                            "availability": "https://schema.org/InStock",
+                            "validFrom": "{{date_list.3|date:'Y-m-d'}}"
+                        },
+                        "performer": {
+                            "@type": "Person",
+                            "name": "Certified Instructor"
+                        },
+                        "organizer": {
+                            "@type": "Organization",
+                            "name": "AP2V",
+                            "url": "www.ap2v.com"
+                        }
+                        }
+                    </script>
+
+                    <div class="col-12 col-md-12 col-xl-4" style="display: flex;flex-direction: column;justify-content: center;">
+                        {% if course_details.id == 16 or course_details.id == 14  %}
+                            <h3 style="text-align: center;">For the best deal call now </h3>
+                            <h2><a class="" href="tel:{{number}}" rel="nofollow">{{number}}</a></h2>
+                        {% else %}
+                            <div class="batches__course-price">
+                                <div class="text-center mr-0 mr-lg-5 mr-xl-0">
+                                    {% comment %} <p class="batches__course-price--head">Course Price at</p> {% endcomment %}
+                                    <div class="batches__course-price--price">
+                                        {% if city_specific %}
+                                            {% comment %} {% if city_specific_course.course.id == 31 or city_specific_course.course.id == 20 or city_specific_course.course.id == 3 or city_specific_course.course.id == 23 or city_specific_course.course.id == 1 or city_specific_course.course.id == 13 %}
+                                                &#8377; 6999
+                                            {% elif city_specific_course.course.id == 14 or city_specific_course.course.id == 16 %}
+                                                &#8377; 7499
+                                            {% else %}
+                                                &#8377; 9999
+                                            {% endif %} {% endcomment %}
+                                            &#8377;{{city_specific_course.course.anquira_course.price}}/-
+                                        {% else %}
+                                            {% comment %} {% if course_details.id == 31 or course_details.id == 20 or course_details.id == 3 or course_details.id == 23 or course_details.id == 1 or course_details.id == 13 %}
+                                                &#8377; 6999
+                                            {% elif course_details.id == 14 or course_details.id == 16 %}
+                                                &#8377; 7499
+                                            {% else %}
+                                                &#8377; 9999
+                                            {% endif %} {% endcomment %}
+                                            &#8377; {{course_details.anquira_course.price}}/-
+                                        {% endif %}
+                                        
+                                        {% count_persentage course_details.anquira_course.price course_details.anquira_course.original_price as persentage %}
+                                        <span>&#8377;{{course_details.anquira_course.original_price}}/-</span>
+                                    </div>
+                                    <p class="batches__course-price--off py-3 mb-0">{{persentage}}% OFF Expire in <span id="cday"></span>D <span id="chour"></span>H <span id="cminute"></span>M <span id="csecond"></span>S </p>
+                                </div>
+
+                                <div class="text-center">
+                                    <a href="javascript:void(0)" onclick="openModal('EN1')" class="btn btn-lg btn-primary btn-gr-primary rounded-60 py-3 px-5">Enquire Now</a>
+                                    <p class="batches__course-price--emi mt-1"> No interest EMI start from Rs.999/-</p>
+                                </div>
+
+
+                            </div><!-- // Course Price  -->
+                        {% endif %}
+                    </div>
+                </div><!-- // batche box -->
+
+                <div class="request-batch mt-4 d-none d-md-block">
+                    <div class="d-flex align-items-center justify-content-between h-100">
+                        <div>
+                            <img src={% static "v4_home_static/images/course-detail/clander.jpg" %}  alt="calender" loading="lazy" height="50px" width="50px">
+                            <span class="ml-3">Can’t find a <strong>batch you were looking for?</strong> Contact AP2V Learner Support</span>
+                        </div>
+
+                        <div class="request-batch--ctaWrap">
+                            <a href="#" class="btn btn-white rounded-60 px-4" data-toggle="modal" data-target="#request-batch">Request a Batch</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- // Upcoming batches -->
+
+        <section id="training" class="page-section training-options container">
+            <h2 class="align-items-start">Training Options</h2>
+
+            <div class="owl-carousel" id="carosule15">
+                <div class="item">
+                    <div class="white-box   overflow-hidden">
+                        <span class="training-options--recommended">
+                            <img src={% static "v4_home_static/images/course-detail/recommended.png" %} height="108" width="108" alt="recommended" loading="lazy">
+                        </span>
+                        <div class="w-100 text-center training-options__head">
+                            <h4>BLENDED LEARNING</h4>
+                           <p class="training-options__head"> Starting EMI from - <span class="price"> {% if city_specific %}
+                                        {% if city_specific_course.course.id == 31 or city_specific_course.course.id == 20 or city_specific_course.course.id == 3 or city_specific_course.course.id == 23 or city_specific_course.course.id == 1 or city_specific_course.course.id == 13 %}
+                                            &#8377; 999
+                                        {% elif city_specific_course.course.id == 14 or city_specific_course.course.id == 16 %}
+                                            &#8377; 999
+                                        {% else %}
+                                            &#8377; 999
+                                        {% endif %}
+                                    {% else %}
+                                        {% if course_details.id == 31 or course_details.id == 20 or course_details.id == 3 or course_details.id == 23 or course_details.id == 1 or course_details.id == 13 %}
+                                            &#8377; 999
+                                        {% elif course_details.id == 14 or course_details.id == 16 %}
+                                            &#8377; 999
+                                        {% else %}
+                                            &#8377; 999
+                                        {% endif %}
+                                    {% endif %}</span></p>
+                        </div>
+
+                        <ul class="training-options__lists list list--tick mb-4">
+                            <li>Lifetime access to high-quality self-paced elearning content curated by industry experts</li>
+                            <li>30 hands-on projects to perfect the skills learnt</li>
+                            <li>3 simulation test papers for self-assessment</li>
+                            <li>Lab access to practice live during sessions</li>
+                            <li>24x7 learner assistance and support</li>
+                            {% comment %} <li>Projects Right Mix of Theoretical and Practical Training for Real World Industry Problems</li> {% endcomment %}
+
+                        </ul>
+                        <div class="text-center">
+                            <a href="javascript:void(0)" onclick="openModal('EN2')" class="btn btn-primary btn-gr-primary rounded-60 px-4">Enquire Now</a>
+                        </div>
+                    </div>
+                </div><!-- // col -->
+
+                <div class="item">
+                    <div class="white-box ">
+                        <div class="w-100 text-center training-options__head">
+                            <h4>CORPORATE TRAINING</h4>
+                            <p class="font-weight-bold text-gray-medium">Customize course Tailored Courses</p>
+                        </div>
+
+                        <ul class="training-options__lists list list--tick mb-4">
+                            <li>Certified & Industry Experts Trainers Certified Experts with Experience</li>
+                            <li>Accredited Training Partner Certified Training Partner</li>
+                            <li>24x7 Support by In-House Subject-Matter Experts</li>
+                            <li>Recognized Certification to Add Value to Your Workforce</li>
+                            <li>Projects Right Mix of Theoretical and Practical Training for Real World Industry Problems</li>
+                        </ul>
+                        <div class="text-center">
+                            <a href="javascript:void(0)" onclick="openModal('EN3')" class="btn btn-primary btn-gr-primary rounded-60 px-4">Enquire Now</a>
+                        </div>
+                    </div>
+                </div><!-- // col -->
+                <div class="item">
+                    <div class="white-box  ">
+                        <div class="w-100 text-center training-options__head">
+                            <h4>SELF PACED LEARNING:</h4>
+                            {% comment %} <p class="font-weight-bold text-gray-medium">Customize course Tailored Courses</p> {% endcomment %}
+                        </div>
+
+                        <ul class="training-options__lists list list--tick mb-4">
+                            <li>Detailed, Pre-Recorded Tutorials</li>
+                            <li>Immediate Availability of Course Materials</li>
+                            <li>Flexible Course Timing, Location and Pace</li>
+                            <li>Cheaper than Virtual Instructor-led Training</li>
+                            <li>Doubt Clearing Sessions</li>
+                            <li>24*7 Support</li>
+                            <li>EMI Option Available</li>
+                            <li>Quicker Certification</li>
+                        </ul>
+                        <div class="text-center">
+                            <a href="javascript:void(0)" onclick="openModal('EN3')" class="btn btn-primary btn-gr-primary rounded-60 px-4">Enquire Now</a>
+                        </div>
+                    </div>
+                </div><!-- // col -->
+            </div><!-- Row -->
+        </section>
+        
+        <script>
+            $('#carosule15').owlCarousel({
+       margin: 10,
+      loop: true,
+      autoplayHoverPause: true,
+      autoplay: false,
+      responsive: {
+        0: {
+          items: 1,
+          nav: false,
+          autoplay: true,
+        },
+        700: {
+          items: 1,
+          nav: false,
+        },
+        1000: {
+          items: 3,
+          nav: false,
+        },
+      },
+      })
+        </script>
+        <!-- // Training Options-->
+
+        <section class="d-none d-md-block" style="padding-bottom: 0;">
+            <div class="enroll-form">
+                <div class="container">
+                    <h3 class="text-gray-dark">Loved reviews? Enquire Now</h3>
+                    <p>Structure your learning and get a certificate to prove it</p>
+
+                    <ul class="form-row col-8 pl-0">
+                        <li id="error_name_cou1" class="col">
+                            <div class="input-effect ">
+                                <input type="text" id="name_cou1" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name"
+                                    aria-describedby="name">
+                                <label>Full name</label>
+                                <p class="error--mgs">Please enter name</p>
+                            </div>
+                        </li>
+
+                        <li id="error_mobile_cou1" class="col">
+                            <div class="phone-cc form-control">
+                                <input type="text" id="phone10" class="form-control" style="width: 0px;border: none;padding-left: 79px;outline: none;">
+                                <div class="input-effect phone">
+                                    <input type="text" maxlength="10" id="mobile_cou1" name="mobile" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name"
+                                    aria-describedby="name">
+                                    <label>Phone No.</label>
+                                    <p class="error--mgs">Please enter number</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <p id="success_message"></p>
+
+                    <div>
+                        <input type="text" name="page_ms2" hidden id="page_ms6">
+                        <button onclick="enrollnowCou()" id="subbtnEnq" class="btn btn-outline-primary rounded-60 px-4">Enquire Now</button>
+                    </div>
+                </div>
+                <div class="sidel-img">
+                    <img src="{% static 'v4_home_static/images/course-detail/enroll-form.png' %}" alt="loved reviews" loading="lazy" style="width: 100%; height: 100%;" >
+                 </div>
+            </div>
+        </section><!-- // Enroll Now-->
+        <section id="review" class="course-review bg-gray">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                    <h2 class="align-items-start"> {% if city_specific %}{{city_specific_course.name}}{% else %}{{course_details.name}}{% endif %} Reviews</h2>
+                    
+                     
+                    <div class="container-fluid">
+                        <div class="d-none d-sm-block">
+                            <div class="row custom-cards">
+                                <div class="col-md-12">
+                                     <div class="testimonial-slider">
+                                        {% for comments in testimonials %}
+                                            <div class="testimonial custom-thumb" style="display: none;">
+                                                <div class="media">
+                                                    <div class="media-left">
+                                                        <div class="testi-color testi-bg-1"> <span class="testi-fname"> {{ comments.name|truncatechars:2|slice:"-1" }} </span> </div>
+                                                    </div>
+                                                    <div class="media-body"> <span class="testimonial-name">{{comments.name}}</span> <span
+                                                            class="testimonial-role">{{comments.designation}}</span>
+                                                        <div class="testimonial-rating"> 
+                                                            <i class="icon-star-orange greeen-col" ></i>
+                                                            <i class="icon-star-orange greeen-col" ></i>
+                                                            <i class="icon-star-orange greeen-col" ></i>
+                                                            <i class="icon-star-orange greeen-col" ></i>
+                                                            <i class="icon-star-orange greeen-col" ></i>
+                                                            <span class="rating">5</span> </div>
+                                                        <div class="testimonial-para">
+                                                            <span>{{comments.content}}</span>
+                                                        </div>
+                                                        {% comment %} <p class="testimonial-sub-para"> Attended Back-End Development Bootcamp workshop in
+                                                            July 2021 </p> {% endcomment %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                        {% comment %} <div class="testimonial custom-thumb" style="display: none;">
+                                            <div class="media">
+                                                <div class="media-left">
+                                                    <div class="testi-color testi-bg-2"> <span class="testi-fname"> M </span> </div>
+                                                </div>
+                                                <div class="media-body"> <span class="testimonial-name">Mirelle Takata</span> <span
+                                                        class="testimonial-role">Network Systems Administrator</span>
+                                                    <div class="testimonial-rating"> 
+                                                        <i class="icon-star-orange greeen-col" ></i>
+                                                        <i class="icon-star-orange greeen-col" ></i>
+                                                        <i class="icon-star-orange greeen-col" ></i>
+                                                        <i class="icon-star-orange greeen-col" ></i>
+                                                        <i class="icon-star-orange greeen-col" ></i>
+                                                        <span class="rating">5</span> </div>
+                                                    <div class="testimonial-para">
+                                                        <span>My special thanks to the trainer for his dedication and patience. I learned
+                                                            many things from him. I would also thank the support team for their help. It
+                                                            was well-organised, great work Knowledgehut team!</span>
+                                                    </div>
+                                                    <p class="testimonial-sub-para"> Attended Certified ScrumMaster (CSM)® workshop in
+                                                        July 2020 </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="testimonial custom-thumb" style="display: none;">
+                                            <div class="media">
+                                                <div class="media-left">
+                                                    <div class="testi-color testi-bg-3"> <span class="testi-fname"> V </span> </div>
+                                                </div>
+                                                <div class="media-body"> <span class="testimonial-name">Vito Dapice</span> <span
+                                                        class="testimonial-role">Data Quality Manager</span>
+                                                    <div class="testimonial-rating">
+                                                        <i class="icon-star-orange greeen-col" ></i>
+                                                        <i class="icon-star-orange greeen-col" ></i>
+                                                        <i class="icon-star-orange greeen-col" ></i>
+                                                        <i class="icon-star-orange greeen-col" ></i>
+                                                        <i class="icon-star-orange greeen-col" ></i>
+                                                        <span class="rating">5</span> </div>
+                                                    <div class="testimonial-para">
+                                                        <span>The trainer was really helpful and completed the syllabus on time and also
+                                                            provided live examples which helped me to remember the concepts. Now, I am
+                                                            in the process of completing the certification. Overall good experience.</span>
+                                                    </div>
+                                                    <p class="testimonial-sub-para"> Attended PMP® Certification workshop in April 2020
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="testimonial custom-thumb" style="display: none;">
+                                            <div class="media">
+                                                <div class="media-left">
+                                                    <div class="testi-color testi-bg-1"> <span class="testi-fname"> A </span> </div>
+                                                </div>
+                                                <div class="media-body"> <span class="testimonial-name">Astrid Corduas</span> <span
+                                                        class="testimonial-role">Telecommunications Specialist</span>
+                                                    <div class="testimonial-rating"> 
+                                                        <i class="icon-star-orange greeen-col" ></i>
+                                                        <i class="icon-star-orange greeen-col" ></i>
+                                                        <i class="icon-star-orange greeen-col" ></i>
+                                                        <i class="icon-star-orange greeen-col" ></i>
+                                                        <i class="icon-star-orange greeen-col" ></i>
+                                                        <span class="rating">5</span> </div>
+                                                    <div class="testimonial-para">
+                                                        <span>The instructor was very knowledgeable, the course was structured very well. I
+                                                            would like to sincerely thank the customer support team for extending their
+                                                            support at every step. They were always ready to help and smoothed out the
+                                                            whole process.</span>
+                                                    </div>
+                                                    <p class="testimonial-sub-para"> Attended Agile and Scrum workshop in June 2020 </p>
+                                                </div>
+                                            </div>
+                                        </div> {% endcomment %}
+                                         
+                                    </div>
+                                    <div class="more-div clearfix"><a id="bluet" onclick="myFunction()">View More</a> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    {% if city_specific %}
+                        {% comment %} {{city_specific_course.banner_text|safe}} {% endcomment %}
+                        {% remove_html_tag city_specific_course.banner_text as desciption_string %}
+                    {% else %}
+                        {% comment %} {{course_details.banner_text|safe }} {% endcomment %}
+                        {% remove_html_tag course_details.banner_text as desciption_string %}
+                    {% endif %}
+                    {% comment %} {% compress js %} {% endcomment %}
+                        {% comment %} <script type="application/ld+json">{
+                            "@context":"https://schema.org",
+                            "@type": "Product",
+                            {% if city_specific %}"url":"https://www.ap2v.com/{{city_specific_course.slug}}",{% else %}"url":"https://www.ap2v.com/{{course_details.slug}}",{% endif %}
+                            "sameAs":{% if city_specific %}"[https://www.ap2v.com/{{city_specific_course.slug}}]",{% else %}"[https://www.ap2v.com/{{course_details.slug}}]",{% endif %}
+                            "brand":"AP2V",
+                            "aggregateRating":{
+                                "@type": "aggregateRating",
+                                "ratingValue": "{{course_details.rating}}",
+                                "reviewCount" : "{{course_details.review_count}}"
+                            },   
+                            "description": "{{desciption_string}}",
+                            "name":{% if city_specific %}"{{city_specific_course.name}}"{% else %}"{{course_details.name}}"{% endif %},
+                            "image":"https://www.ap2v.com/media/{{ course_details.photo }}",
+                            "review":[{% for comments in testimonials %}{
+                                    "@type": "Review",
+                                    "author": "{{comments.name}}",
+                                    "reviewBody": "{{comments.content}}",
+                                    "reviewRating": {
+                                    "@type": "Rating",
+                                    "ratingValue": "{{comments.rating}}"
+                                }
+                            }{% if not forloop.last %},{% endif %} {% endfor %}]
+                            }
+                        </script> {% endcomment %}
+                    {% comment %} {% endcompress js %} {% endcomment %}
+
+                
+                    <script type="application/ld+json">
+                        {
+                        "@context": "https://schema.org/", 
+                        "@type": "Product", 
+                        "name": {% if city_specific %}"{{city_specific_course.name}}"{% else %}"{{course_details.name}}"{% endif %},
+                        "image": "https://www.ap2v.com/media/{{ course_details.photo }}",
+                        "description": "{{desciption_string}}",
+                        "brand": {
+                            "@type": "Brand",
+                            "name": "AP2V Academy"
+                        },
+                        "sku": "216",
+                        "mpn": "216",
+                        "offers": {
+                            "@type": "Offer",
+                            "url": "https://www.ap2v.com/devops-training-in-noida",
+                            "priceCurrency": "INR",
+                            "price": "9999",
+                            "priceValidUntil": "{{date_list.3|date:'Y-m-d'}}",
+                            "availability": "https://schema.org/InStock",
+                            "itemCondition": "https://schema.org/NewCondition"
+                          },
+                        "aggregateRating": {
+                            "@type": "AggregateRating",
+                            "ratingValue": "{{course_details.rating}}",
+                            "bestRating": "5",
+                            "worstRating": "1",
+                            "ratingCount": "{{course_details.review_count}}",
+                            "reviewCount": "{{course_details.review_count}}"
+                        },
+                        {% if testimonials %}
+                            "review": [{% for comments in testimonials %}{
+                                "@type": "Review",
+                                "name": "{{comments.name}}",
+                                "reviewBody": "{{comments.content}}",
+                                "reviewRating": {
+                                "@type": "Rating",
+                                "ratingValue": "{{comments.rating}}",
+                                "bestRating": "5",
+                                "worstRating": "1"
+                                },
+                                "datePublished": "{{comments.date|date:'Y-m-d'}}",
+                                "author": {"@type": "Person", "name": "{{comments.name}}"},
+                                "publisher": {"@type": "Organization", "name": "AP2V Academy"}
+                            }{% if not forloop.last %},{% endif %} {% endfor %}]
+                            }
+                        {% else %}
+                            "review": [{
+                            "@type": "Review",
+                            "name": "Rajiv Khanna",
+                            "reviewBody": "I have enrolled in multiple courses. They provide Best Instructors with 100% job Assistance.",
+                            "reviewRating": {
+                            "@type": "Rating",
+                            "ratingValue": "5.0",
+                            "bestRating": "5",
+                            "worstRating": "1"
+                            },
+                            "datePublished": "2021-09-18",
+                            "author": {"@type": "Person", "name": "Rajiv Khanna"},
+                            "publisher": {"@type": "Organization", "name": "AP2V Academy"}
+                        }]
+                        }
+                        {% endif %}
+                    </script>
+                
+                </div>
+            </div>
+        </section><!-- // Online Course Reviews -->
+
+        <section id="course" class="container course-content">
+            <h2 class="align-items-start mb-4">{% if city_specific %}{{city_specific_course.name}}{% else %}{{course_details.name}}{% endif %} Curriculum</h2>
+
+            <div class="course-content__row">
+                <div class="course-content__row--leftPanel">
+                    {% comment %} <h5>Requirements</h5>
+                    {% if city_specific == 'yes' %}
+                    {% for req in lessons|slice:":1" %}
+                        <p>{{city_specific_course.city_specific_requirments}} </p>
+                    {% endfor %}
+
+                    {% else %}
+                    {% for req in lessons|slice:":1" %}
+                        <p>{{req.requirments}}</p>
+                    {% endfor %}
+                    {% endif %}
+
+                    <h5>Pre Requirements</h5>
+                    <p>{{course_details.pre_requirements}}</p> {% endcomment %}
+
+                    <h5>Course Content</h5>
+                    <div class="accordion" id="course-curriculum">
+                        {% if lessons %}
+                            {% for chapter in lessons %}
+                                <div class="card ">
+                                    <!-- <span class="free-course-tag"></span> -->
+                                    <div class="card-header" id="courseHeading_{{forloop.counter}}">
+                                        <div class="mb-0">
+                                        <button class="course-content--btn btn btn-block text-left collapsed d-flex justify-content-between pr-0" type="button" data-toggle="collapse" data-target="#course_{{forloop.counter}}" aria-expanded="false" aria-controls="course_{{forloop.counter}}">
+                                            {{chapter.name}}
+
+                                            <!-- <div class="course-content--time">
+                                                <span>4 lectures</span>
+                                                <span class="px-2">-</span>
+                                                <span>03:30:45</span>
+                                            </div> -->
+                                        </button>
+                                        </div>
+                                    </div>
+
+                                <div id="course_{{forloop.counter}}" class="collapse" aria-labelledby="courseHeading_{{forloop.counter}}" data-parent="#course-curriculum">
+                                    <div class="card-body">
+                                        <div class="course-content__subContent">
+                                        <!-- <div class="d-flex justify-content-between">
+                                            {% if chapter.preview_link %}
+                                                <span class="course-content--time"> 
+                                                    <a href="#" onclick="openVideoModal('{{chapter.preview_link}}')" class="mr-2">Preview</a>{{chapter.duration}} min
+                                                </span>
+                                            {% endif %}
+                                        </div> -->
+                                        {{chapter.description | safe}}
+                                        </div>
+
+                                        
+                                    </div><!-- // Course content -1 -->
+                                </div>
+
+                                </div><!-- // card -->
+                            {% endfor %}
+                        {% else %}
+                            No Course Content Found Please Fill Form for Course Content.
+                        {% endif %}
+
+                    
+                    </div><!-- // accordion -->
+
+                    <p class="text-center py-5">
+                        {% comment %} <button class="btn btn-outline-primary" data-toggle="modal" data-target="#apply-now-course-content">Load more chapters</button> {% endcomment %}
+                        <button class="btn btn-outline-primary" id="loadMoreBTN" onclick="apply_now_course_content_modal()">Load more chapters</button>
+                    </p>
+
+                    <div class="modal fade" id="priviewVideo" tabindex="-1" aria-labelledby="priviewVideoLabel" aria-hidden="true">
+                        <div class="modal-dialog video-modal">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+				                    <h5 class="modal-title pl-2">{{course_details.name}}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&#x2715;</span>
+                                    </button>
+                                </div>
+                    
+                                <div class="video-modal--wrap">
+                                    {% comment %} <p class="text-gray-medium">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.</p> {% endcomment %}
+
+                                    <div class="embed-responsive embed-responsive-16by9">
+                                        <iframe id="ifreameVideo" class="embed-responsive-item" title="{{course_details.introduction_video}}"  src="" allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                    
+                                <div class="form-modal__wrapper">
+                                    <span class="form-modal__wrapper--img d-none d-md-block">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- Left Panel  -->
+
+
+                <div class="course-content__row--rightPanel d-none d-md-block">
+<div class="sticc">
+                    {% include 'v4_home/sub_pages/call-us.html' %}
+                    {% include 'v4_home/sub_pages/request-form.html' %}
+
+                </div>
+                </div><!-- Right Panel -->
+            </div>
+        </section><!-- // Course Curriculum -->
+
+        <section class="enroll-form syllabus">
+            <div class="container">
+                <div class="col-12 col-md-8">
+                    <h3 class="text-gray-dark">Syllabus</h3>
+                    <p>Experience 250+ hours of best-in-class content developed by leading faculty & industry leaders in the form of videos, case studies & projects</p>
+                    <div>
+                        <button class="btn btn-lg btn-primary rounded-60 mt-4" data-toggle="modal" data-target="#syllabus">Download Syllabus</button>
+                    </div>
+                </div>
+            </div>
+            <div class="sidel-img">
+                <img src="{% static 'v4_home_static/images/course-detail/enroll-form.png' %}" alt="loved reviews" loading="lazy"  style="width: 100%; height: 100%;">
+             </div>
+        </section><!-- // Enroll Now-->
+
+        <section class="container industry-projects">
+            <h2 class="align-items-start mb-4">Industry Project</h2>
+
+            <ul class="industry-projects--lists slide_3">
+            <!-- Project Card Start From Here -->
+            {% for i in projects %}
+                <li>
+                    <div class="white-box p-0 overflow-hidden">
+                        <div class="industry-projects--top">
+                            <span class="text-uppercase text-gray-light font-weight-bold">Project {{forloop.counter}}</span>
+                            <h5 class="text-secondary mb-0">{{i.heading}}</h5>
+                        </div>
+
+                        <div class="industry-projects--bottom">
+                            <p class="mb-0">{{i.description}}</p>
+                        </div>
+                    </div>
+                </li><!-- // li -->
+                {% endfor %}
+            <!-- Project Card End Here -->
+
+            </ul>
+        </section><!-- // Industry Project -->
+
+        <section id="exam" class="bg-gray certification">
+            <div class="container">
+                <div class="certification__wrap">
+                    <div class="certification__wrap__leftPanel">
+                        <h2 class="align-items-start mb-4">{% if city_specific %}{{city_specific_course.name}}{% else %}{{course_details.name}}{% endif %} Exam & Certification</h2>
+                        <p class="font-size-md font-weight-bolds"><i>Live your dream to be hired by top IT Companies with us, offering an array of professional courses with 100% Job Assistance</i></p>
+                        <div class="certification--logo">
+                            <span> <img src="{% static 'v4_home_static/images/ibm.jpg'%}" alt="ibm" loading="lazy"></span>
+                            <span> <img src="{% static 'v4_home_static/images/rackspace.jpg'%}" alt="rackspace" loading="lazy"></span>
+                            <span> <img src="{% static 'v4_home_static/images/tcs.jpg'%}" alt="tcs" loading="lazy"></span>
+                            <span> <img src="{% static 'v4_home_static/images/hcl.jpg'%}" alt="hcl" loading="lazy"></span>
+                        </div>
+
+                        <div class="mt-5">
+                            <button class="btn btn-lg btn-primary rounded-60 mr-2 mr-md-3" onclick="openModal('GIT1')"> Get in touch</button>
+                            
+                            <button class="btn btn-lg btn-outline-primary rounded-60" onclick="openModal('GSC1')"> Get a sample certificate</button>
+                        </div>
+
+
+                        <div class="accordion arrow-on-right light-blue" id="certification" style="display: none;">
+                            {% for i in fqa %}
+                                <div class="card {% if forloop.counter != 1%} mt-3 {% endif %}">
+                                    <div class="card-header" id="certificate_{{forloop.counter}}">
+                                        <button class="btn btn-link btn-block text-left p-0 text-gray-dark" type="button" data-toggle="collapse" data-target="#ec_{{forloop.counter}}" aria-expanded="false" aria-controls="ec_{{forloop.counter}}">
+                                            {{i.frequently_question}}
+                                        </button>
+                                    </div>
+
+                                    <div id="ec_{{forloop.counter}}" class="collapse mt-2" aria-labelledby="certificate_{{forloop.counter}}" data-parent="#certification">
+                                        <div class="card-body">
+                                            <p>{{i.answer}}</p>
+                                        </div>
+                                    </div>
+                                </div><!-- // card -->
+                            {% endfor %}
+
+                            {% comment %} <div class="card mt-3">
+                                <div class="card-header" id="certificate_2">
+                                    <button class="btn btn-link btn-block text-left p-0 text-gray-dark" type="button" data-toggle="collapse" data-target="#ec_2" aria-expanded="true" aria-controls="ec_2">
+                                        How do I become a DevOps Engineer?
+                                    </button>
+                                </div>
+
+                                <div id="ec_2" class="collapse mt-2" aria-labelledby="certificate_2" data-parent="#certification">
+                                    <div class="card-body">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                    </div>
+                                </div>
+                            </div><!-- // card --> {% endcomment %}
+
+                            {% comment %}<div class="card  mt-3">
+                                <div class="card-header" id="certificate_3">
+                                    <button class="btn btn-link btn-block text-left p-0 text-gray-dark" type="button" data-toggle="collapse"
+                                        data-target="#ec_3" aria-expanded="true" aria-controls="ec_3">
+                                        Who provides the DevOps certification and how long is it valid for?
+                                    </button>
+                                </div>
+
+                                <div id="ec_3" class="collapse mt-2" aria-labelledby="certificate_3" data-parent="#certification">
+                                    <div class="card-body">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                    </div>
+                                </div>
+                            </div><!-- // card -->
+
+                            <div class="card mt-3">
+                                <div class="card-header" id="certificate_4">
+                                    <button class="btn btn-link btn-block text-left p-0 text-gray-dark" type="button" data-toggle="collapse"
+                                        data-target="#ec_4" aria-expanded="true" aria-controls="ec_4">
+                                        If I need to cancel my enrollment to this DevOps course, can I get a refund?
+                                    </button>
+                                </div>
+
+                                <div id="ec_4" class="collapse mt-2" aria-labelledby="certificate_4" data-parent="#certification">
+                                    <div class="card-body">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                    </div>
+                                </div>
+                            </div><!-- // card -->
+
+                            <div class="card mt-3">
+                                <div class="card-header" id="certificate_5">
+                                    <button class="btn btn-link btn-block text-left p-0 text-gray-dark" type="button" data-toggle="collapse"
+                                        data-target="#ec_5" aria-expanded="true" aria-controls="ec_5">
+                                        Do you provide any practice tests as a part of this DevOps course in Noida?
+                                    </button>
+                                </div>
+
+                                <div id="ec_5" class="collapse mt-2" aria-labelledby="certificate_5" data-parent="#certification">
+                                    <div class="card-body">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                    </div>
+                                </div>
+                            </div><!-- // card --> {% endcomment %}
+                        </div>
+                    </div>
+                    <div class="certification__wrap--rightPanel">
+                        <img src="{% static 'v4_home_static/images/course-detail/certificate.jpg' %}" class="img-fluid" alt="certificate" loading="lazy">
+                        {% comment %} <img loading="lazy" src="https://ik.imagekit.io/xlhbiww2hpp/media{% static 'v4_home_static/images/course-detail/certificate.jpg' %}" alt="certificate" class="img-fluid"> {% endcomment %}
+                        <p class="text-center mt-3 font-weight-bold d-none d-md-block"><a href="#" data-toggle="modal" data-target="#certificate">Click to Zoom</a></p>
+                    </div>
+                </div>
+            </div>
+        </section><!-- // Certification -->
+
+       
+        <section id="faqs" class="bg-gray">
+            <!-- <div class="container">
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <h2 class="align-items-center">Frequently asked questions</h2>
+                    </div>
+                    <div class="col-10 m-auto">
+                        <div class="accordion light-blue arrow-on-right " id="faqs1">
+
+                        {% for i in fqa %}
+                            <div class="card mt-3" id="faq-{{i.id}}">
+                                <div class="card-header" id="faqs_{{forloop.counter}}">
+                                    <button class="btn btn-link btn-block text-left p-0 text-gray-dark" type="button" data-toggle="collapse" data-target="#faq-item-{{forloop.counter}}" aria-expanded="true" aria-controls="faq-item-{{forloop.counter}}">
+                                        {{i.frequently_question}}
+                                    </button>
+                                </div>
+
+                                <div id="faq-item-{{forloop.counter}}" class="collapse mt-3" aria-labelledby="faqs_{{forloop.counter}}" data-parent="#faqs">
+                                    <div class="card-body">
+                                        <p>{{i.answer}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>-->
+            {% comment %} {% compress js %} {% endcomment %}
+                {% if fqa%}
+                    <script type="application/ld+json">{
+                        "@context":"https://schema.org",
+                        "@type": "FAQPage",
+                        "mainEntity":[{% for i in fqa %}{
+                                "@id":"{% if city_specific %} https://www.ap2v.com/{{city_specific_course.slugs}}{% else %}https://www.ap2v.com/{{course_details.slug}}{% endif %}#faq-{{i.id}}",
+                                "@type":"Question",
+                                "name":"{{i.frequently_question}}",
+                                "acceptedAnswer":{
+                                    "@type":"Answer",
+                                    "text":"{{i.answer}}"   
+                                }
+                            }{% if not forloop.last %},{% endif %} {% endfor %}]
+                        }
+                    </script>
+                {% endif %}
+            {% comment %} {% endcompress js %} {% endcomment %} 
+           <div class="container1"> 
+            <h2 class="align-items-start">Frequently Asked Questions</h2>
+    <div class="accordion1  ">
+        {% for i in fqa %}
+            <div class="accordion1-item" id="faq-{{i.id}}">
+                <button id="accordion1-button-{{forloop.counter}}" aria-expanded="false"><span class="accordion1-title">{{i.frequently_question}}</span><span class="icon" aria-hidden="true"></span></button>
+                <div class="accordion1-content">
+                    <p>{{i.answer}}</p>
+                </div>
+            </div>
+        {% endfor %}
+        {% comment %} <div class="accordion1-item">
+            <button id="accordion1-button-1" aria-expanded="false"><span class="accordion1-title">Why is the moon
+                    sometimes out during the day?</span><span class="icon" aria-hidden="true"></span></button>
+            <div class="accordion1-content">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Elementum sagittis vitae et leo duis ut. Ut tortor pretium viverra
+                    suspendisse potenti.</p>
+            </div>
+        </div>
+        <div class="accordion1-item">
+            <button id="accordion1-button-1" aria-expanded="false"><span class="accordion1-title">Why is the moon
+                    sometimes out during the day?</span><span class="icon" aria-hidden="true"></span></button>
+            <div class="accordion1-content">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Elementum sagittis vitae et leo duis ut. Ut tortor pretium viverra
+                    suspendisse potenti.</p>
+            </div>
+        </div>
+        <div class="accordion1-item">
+            <button id="accordion1-button-1" aria-expanded="false"><span class="accordion1-title">Why is the moon
+                    sometimes out during the day?</span><span class="icon" aria-hidden="true"></span></button>
+            <div class="accordion1-content">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Elementum sagittis vitae et leo duis ut. Ut tortor pretium viverra
+                    suspendisse potenti.</p>
+            </div>
+        </div> {% endcomment %}
+    </div>
+</div>
+        </section><!-- // Frequently asked questions -->
+        <!-- ***********************************support section************************************** -->
+        {% comment %} <section class="support">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="support-learner">
+                            <p>FOR QUERIES, FEEDBACK OR ASSISTANCE</p>
+                            <h4>Contact <span>AP2V </span> Support </h4>
+                            <p>Best of support with us</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="support-number-india"><span>For Voice Call</span>
+                            <p><i class="fa fa-phone" style="color:#052B36;font-size:20px;" aria-hidden="true"></i> <a
+                                    href="tel:{{number}}" target="_blank">{{number}}</a></p>
+                        </div>
+                        <div class="support-number-international"><span>For Whatsapp Call &amp; Chat</span>
+                            <p><i class="fa fa-whatsapp" style="color:#25D366;font-size:20px;" aria-hidden="true"></i><a
+                                    href="https://api.whatsapp.com/send?phone={{number|cut:' '|cut:'+'}}" target="_blank">
+                                    {{number}}</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> {% endcomment %}
+        <!-- ***********************************support section************************************** -->
+    {% if city_specific %}
+        <section class="container">
+            <h2 class="align-items-start">Related Category Courses</h2>
+            <div class="owl-carousel carosule177 " id="carosule26">
+                <!-- Product Box start here -->
+            {% for rel_course in related_course_list %}
+                
+                <div class="tc-list" style="position: relative;">
+                
+                        <div class="course-trend">
+                            {% get_dyna_color i.slug as dynamic_color %}
+                            <div class="course-trend-upper three" style="background: linear-gradient(45deg, {{dynamic_color.0}}, {{dynamic_color.1}})">
+                                <div class="course-trend-upper-img">
+                                    <img loading="lazy" class="d-inline-block" src= "/media/{{rel_course.course.course_icon}} "   alt="{{rel_course.name}}" width="52" height="52">
+                                </div><span>{{rel_course.name|truncatechars:"42"}}</span>
+                            </div>
+                            <div class="course-trend-lower">
+                                <p><span class="yellow-tag d-inline-block max-w-90" style="margin-top: 10px;margin-bottom: -12px;">{{ rel_course.course.category_name.all|join:" &bull; " }}</span></p>
+                                <!-- <span>{{rel_course.name|truncatechars:"42"}}</span> -->
+                                <a href="/{{rel_course.slugs}}" style="font-weight: 700; color: #000">{{rel_course.name|truncatechars:"42"}}</a>
+                                <div class="trending-course-review"><i>Reviews</i>
+                                    <div class="trending-course-review-star">
+                                        <div class="star">
+                                            <span class="icon-star-fill mx-1"></span>
+                                            <span class="icon-star-fill mx-1"></span>
+                                            <span class="icon-star-fill mx-1"></span>
+                                            <span class="icon-star-fill mx-1"></span>
+                                            <span class="icon-star-fill mx-1"></span>
+                                            <strong>{{ rel_course.course.rating }}</strong>
+                                    <span class="font-size-xxs ml-1">({{ rel_course.course.review_count }})</span>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="overlay1"><span class="listlearn">What will You Get ?</span>
+                                <ul>
+                                    <li>{{rel_course.duration}} Hours of Learning</li>
+                                    <li>2 Hours of Assignments</li>
+                                    <li>100% Job Assistance</li>
+                                </ul>
+                                <!-- <a onclick="addid('{{rel_course.id}}','{{rel_course.id}}{{ forloop.counter }}3')" ><button type="button" id="addtooocartt{{rel_course.id}}{{ forloop.counter }}" > Apply Now</button></a> -->
+                                <button   type="button" data-toggle="modal" data-target="#apply-now" > Apply Now</button>
+                                <a  href="/{{rel_course.slugs}}"><button>View Details</button></a>
+                            </div>
+                        </div>
+                 
+                </div>
+                <!-- Product Box End here of Related Course -->
+            {% endfor %}
+            </div>
+        </section><!-- // Related Category Courses -->
+    {% else %}
+        <section class="container">
+            <h2 class="align-items-start">Related Category Courses</h2>
+            <div class="owl-carousel carosule177 " id="carosule17">
+                <!-- Product Box start here -->
+            {% for rel_course in related_course_list %}
+                
+                <div class="tc-list"   style="position: relative;">
+                         <div class="course-trend">
+                            {% get_dyna_color i.slug as dynamic_color %}
+                            <div class="course-trend-upper three" style="background: linear-gradient(45deg, {{dynamic_color.0}}, {{dynamic_color.1}})">
+                                <div class="course-trend-upper-img">
+                                    <img loading="lazy" class="d-inline-block" src= "/media/{{rel_course.course_icon}} "   alt="{{rel_course.name}}" width="52" height="52">
+                                </div><span>{{rel_course.name|truncatechars:"42"}}</span>
+                            </div>
+                            <div class="course-trend-lower">
+                                <p><span class="yellow-tag d-inline-block max-w-90" style="margin-top: 10px;margin-bottom: -12px;">{{ rel_course.category_name.all|join:" &bull; " }}</span></p>
+                                <!-- <span>{{rel_course.name|truncatechars:"42"}}</span> -->
+                                <a href="/{{rel_course.slug}}" style="font-weight: 700; color: #000">{{rel_course.name|truncatechars:"42"}}</a>
+                                <div class="trending-course-review"><i>Reviews</i>
+                                    <div class="trending-course-review-star">
+                                        <div class="star">
+                                            <span class="icon-star-fill mx-1"></span>
+                                            <span class="icon-star-fill mx-1"></span>
+                                            <span class="icon-star-fill mx-1"></span>
+                                            <span class="icon-star-fill mx-1"></span>
+                                            <span class="icon-star-fill mx-1"></span>
+                                            <strong>{{ rel_course.rating }}</strong>
+                                    <span class="font-size-xxs ml-1">({{ rel_course.review_count }})</span>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="overlay1"><span class="listlearn">What will You Get ?</span>
+                                <ul>
+                                    <li>{{rel_course.duration}} Hours of Learning</li>
+                                    <li>2 Hours of Assignments</li>
+                                    <li>100% Job Assistance</li>
+                                </ul>
+                                <!-- <a onclick="addid('{{rel_course.id}}','{{rel_course.id}}{{forloop.counter}}1')" ><button type="button" id="addtooocartt{{rel_course.id}}{{forloop.counter}}1" > Apply Now</button></a> -->
+                                <a ><button  type="button" data-toggle="modal" data-target="#apply-now" > Apply Now</button></a>
+                                <a  href="/{{rel_course.slug}}"><button>View Details</button></a>
+                            </div>
+                        </div>
+                 </div>
+                
+                <!-- Product Box End here of Related Course -->
+            {% endfor %}
+            </div>
+        </section><!-- // Related Category Courses456 -->
+    {% endif %}
+
+    {% if city_specific %}
+        <section class="bg-gray">
+            <div class="container">
+                <h2 class="align-items-start">Trending Courses in Cities</h2>
+                <div class="owl-carousel carosule177 " id="carosule23">
+                    {% for tco in trending_courses %}                   
+                        <div class="tc-list" style="position: relative;">
+                                 <div class="course-trend">
+                                    {% get_dyna_color i.slug as dynamic_color %}
+                                    <div class="course-trend-upper three" style="background: linear-gradient(45deg, {{dynamic_color.0}}, {{dynamic_color.1}})">
+                                        <div class="course-trend-upper-img">
+                                            <img loading="lazy" class="d-inline-block" src= "/media/{{tco.course.course_icon}} "   alt="{{tco.name}}" width="52" height="52">
+                                        </div><span>{{tco.name|truncatechars:"42"}}</span>
+                                    </div>
+                                    <div class="course-trend-lower">
+                                        <p><span class="yellow-tag d-inline-block max-w-90" style="margin-top: 10px;margin-bottom: -12px;">{{ tco.course.category_name.all|join:" &bull; " }}</span></p>
+                                        <!-- <span>{{tco.name|truncatechars:"42"}}</span> -->
+                                        <a href="/{{tco.slugs}}" style="font-weight: 700; color: #000">{{tco.name|truncatechars:"42"}}</a>
+                                        <div class="trending-course-review"><i>Reviews</i>
+                                            <div class="trending-course-review-star">
+                                                <div class="star">
+                                                    <span class="icon-star-fill mx-1"></span>
+                                                    <span class="icon-star-fill mx-1"></span>
+                                                    <span class="icon-star-fill mx-1"></span>
+                                                    <span class="icon-star-fill mx-1"></span>
+                                                    <span class="icon-star-fill mx-1"></span>
+                                                    <strong>{{ tco.course.rating }}</strong>
+                                            <span class="font-size-xxs ml-1">({{ tco.course.review_count }})</span>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="overlay1"><span class="listlearn">What will You Get ?</span>
+                                        <ul>
+                                            <li>{{tco.course.duration}} Hours of Learning</li>
+                                            <li>2 Hours of Assignments</li>
+                                            <li>100% Job Assistance</li>
+                                        </ul>
+                                        <!-- <a onclick="addid('{{tco.id}}','{{tco.id}}{{ forloop.counter }}2')" ><button type="button" id="addtooocartt{{tco.id}}{{ forloop.counter }}2" > Apply Now</button></a> -->
+                                        <a ><button  type="button" data-toggle="modal" data-target="#apply-now" > Apply Now</button></a>
+                                        <a  href="/{{tco.slugs}}"><button>View Details</button></a>
+                                    </div>
+                                </div>
+                        
+                        </div>
+                    {% endfor %}
+                </div>
+                </div>
+                </section>
+    {% else %}
+        <section class="bg-gray">
+            <div class="container">
+                <h2 class="align-items-start">Trending Courses </h2>
+                <div class="owl-carousel carosule177 " id="carosule18">
+                    {% for i in trending_courses %}
+                        <div class="tc-list" style="position: relative;">
+                        
+                                <div class="course-trend">
+                                    {% get_dyna_color i.slug as dynamic_color %}
+                                    <div class="course-trend-upper three" style="background: linear-gradient(45deg, {{dynamic_color.0}}, {{dynamic_color.1}})">
+                                        <div class="course-trend-upper-img">
+                                            <img loading="lazy" class="d-inline-block" src= "/media/{{i.course_icon}} "   alt="{{i.name}}" width="52" height="52">
+                                        </div>
+                                        <span>{{i.name|truncatechars:"42"}}</span>
+                                    </div>
+                                    <div class="course-trend-lower">
+                                        <p><span class="yellow-tag d-inline-block max-w-90" style="margin-top: 10px;margin-bottom: -12px;">{{ i.category_name.all|join:" &bull; " }}</span></p>
+                                        <!-- <span>{{i.name|truncatechars:"42"}}</span> -->
+                                        <a href="/{{i.slug}}" style="font-weight: 700; color: #000">{{i.name|truncatechars:"42"}}</a>
+                                        
+                                        <div class="trending-course-review"><i>Reviews</i>
+                                            <div class="trending-course-review-star">
+                                                <div class="star">
+                                                    <span class="icon-star-fill mx-1"></span>
+                                                    <span class="icon-star-fill mx-1"></span>
+                                                    <span class="icon-star-fill mx-1"></span>
+                                                    <span class="icon-star-fill mx-1"></span>
+                                                    <span class="icon-star-fill mx-1"></span>
+                                                    <strong>{{ i.rating }}</strong>
+                                            <span class="font-size-xxs ml-1">({{ i.review_count }})</span>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="overlay1"><span class="listlearn">What will You Get ?</span>
+                                        <ul>
+                                            <li>{{i.duration}} Hours of Learning</li>
+                                            <li>2 Hours of Assignments</li>
+                                            <li>100% Job Assistance</li>
+                                        </ul>
+                                        <!-- <a onclick="addid('{{i.id}}','{{i.id}}{{ forloop.counter }}2')" ><button type="button" id="addtooocartt{{i.id}}{{ forloop.counter }}2" > Apply Now</button></a> -->
+                                        <a ><button type="button" data-toggle="modal" data-target="#apply-now" > Apply Now</button></a>
+                                        <a  href="/{{i.slug}}"><button>View Details</button></a>
+                                    </div>
+                                </div>
+                        
+                        </div>
+                 {% endfor %}
+                    </div>
+            </div><!-- // container -->
+        </section> 
+    {% endif %}
+
+    {% include 'v4_home/sub_pages/add_to_cart_model.html' %}
+        
+    {% include 'v4_home/sub_pages/bottom-tagging.html' %}
+
+
+<!--Apply Now Modal -->
+    <div class="modal fade specciil" id="previewVideoEnquiry" tabindex="-1" aria-labelledby="apreviewVideoEnquiryLabel" aria-hidden="true">
+        <div class="modal-dialog form-modal">
+            <div class="modal-content">
+                <div class="form-modal__wrapper">
+                    <span class="form-modal__wrapper--img d-none d-md-block mastii" >
+                        <iframe width="100%" id="demovideo" height="auto" src="" title="{{course_details.name}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </span>
+                    <div class="form-modal__wrapper--form">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Connect With Expert</h5>
+                            <p class="font-size-xs mb-0 text-gray-medium">Join our community of 5,00,000 learners</p>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&#x2715;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <ul>
+                                <li id="error_name9" class="form-group">
+                                    <div class="input-effect">
+                                        <input type="text" id="name9" class="form-control animation-input border-top-left-radius-0"
+                                            placeholder aria-label="name" aria-describedby="name">
+                                        <label>Full Name</label>
+                                        <p class="error--mgs">Please enter name</p>
+                                    </div>
+                                </li>
+
+                                <li id="error_mobile9" class="form-group">
+                                    <div class="phone-cc form-control">
+                                        {% comment %} <select class="form-control code">
+                                            <option>+91</option>
+                                        </select> {% endcomment %}
+                                        <input type="text" id="phone9" class="form-control" style="width: 0px;border: none;padding-left: 79px;outline: none;">
+                                        <div class="input-effect phone">
+                                            <input type="text" maxlength="10" id="mobile9" class="form-control animation-input border-top-left-radius-0" placeholder
+                                                aria-label="name" aria-describedby="name">
+                                            <label>Phone Number</label>
+                                            <p class="error--mgs">Please enter number</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                
+                                <li id="error_email9" class="form-group">
+                                    <div class="input-effect">
+                                        <input type="email" id="email9" class="form-control animation-input border-top-left-radius-0"
+                                            placeholder aria-label="name" aria-describedby="name">
+                                        <label>Email Id</label>
+                                        <p class="error--mgs">Please enter email</p>
+                                    </div>
+                                </li>
+
+                                <!-- <label style="margin: 0;font-size: 10px;margin-left: 5px;">Suitable Date Time</label>
+                                <li id="datetime9" class="form-group">
+                                    <div class="input-effect">
+                                        <input type="datetime-local" id="datetime9d" class="form-control animation-input border-top-left-radius-0"
+                                            placeholder aria-label="datetime" aria-describedby="name">
+                                        
+                                        <p class="error--mgs">Please enter email</p>
+                                    </div>
+                                </li> -->
+
+                                <p id="error_message9"></p>
+                                <p id="success_message9"></p>
+
+                                <li>
+                                    <input type="text" name="page_ms2" hidden id="page_ms9">
+                                    <input type="text" id="vidPreviewLink" hidden>
+                                    <button onclick="applyNowPreview0()" id="subbtnWatchVideo" class="btn btn-lg btn-outline-primary rounded-60 px-4">Submit</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- End Modal -->
+{% comment %} {% compress js %} {% endcomment %}
+<script>
+    const items = document.querySelectorAll(".accordion1 button");
+
+function toggleAccordion() {
+  const itemToggle = this.getAttribute('aria-expanded');
+  
+  for (i = 0; i < items.length; i++) {
+    items[i].setAttribute('aria-expanded', 'false');
+  }
+  
+  if (itemToggle == 'false') {
+    this.setAttribute('aria-expanded', 'true');
+  }
+}
+
+items.forEach(item => item.addEventListener('click', toggleAccordion));
+</script>
+<script>
+    function myFunction() {
+      var x = document.querySelectorAll(".testimonial.custom-thumb");
+       x.forEach(i=>{
+      console.log(i)
+      if (i.style.display === "none") {
+        i.style.display = "block";
+        document.getElementById("bluet").innerHTML = "View Less";
+      } else {
+        i.style.display = "none";
+        document.getElementById("bluet").innerHTML = "View More";
+      }
+      })
+    }
+    </script>
+    <script>
+        $('.carosule177').owlCarousel({
+   margin: 10,
+  loop: true,
+  autoplay: true,
+  autoplayHoverPause: true,
+  responsive: {
+    0: {
+      items: 1,
+      nav: false,
+    },
+    700: {
+      items: 2,
+      nav: false,
+    },
+    1000: {
+      items: 4,
+      nav: false,
+    },
+  },
+  })
+    </script>
+      
+    
+    <script>
+        var input = document.querySelector("#phone9");
+        window.intlTelInput(input, {
+            separateDialCode: true,
+            excludeCountries: ["pk", "il","ba","cf","cd","pm","do","gp","st"],
+            preferredCountries: ["{{mylip}}"]
+        });
+    </script>
+    <script>
+        function applyNowPreview0(){
+            var name = document.getElementById("name9").value;
+            var email = document.getElementById("email9").value;
+            var mobile_number = document.getElementById("mobile9").value;
+            var page_ms9 = document.getElementById("page_ms9").value;
+            //var datetime = document.getElementById("datetime9d").value;
+            var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            var loc = window.location.href
+        
+            if(name.trim().length == 0){
+                $("#error_name9").addClass("error");
+                document.getElementById("name9").focus();
+                return false;
+            }
+            if(email.trim().length == 0){
+                $("#error_email9").addClass("error");
+                document.getElementById("email9").focus();
+                return false;
+            }
+            try {
+                var con_code = $("#error_mobile9").find('.iti__selected-flag').attr("title");	
+                con_code = con_code.split(":");
+                con_code = con_code[1].trim();
+            }
+            catch(err) {
+                con_code = "N/A"
+            }
+            if(mobile_number.trim().length == 0){
+                $("#error_mobile9").addClass("error");
+                document.getElementById("mobile9").focus();
+                return false;
+            }
+            if(mobile_number.trim().length < 10){
+                $("#error_mobile9").addClass("error");
+                document.getElementById("mobile9").focus();
+                return false;
+            }
+    
+            if(!$.isNumeric(mobile_number)){
+                $("#error_mobile9").addClass("error");
+                document.getElementById("mobile9").focus();
+                return false;
+            }
+
+
+            if(email.match(mailformat)){
+                mydata = {
+                    reference: "ap2v.com",
+                    name: name,
+                    con_code:con_code,
+                    mobile:mobile_number,
+                    email:email,
+                    comments:window.location.href,
+                    source_ip: document.getElementById("source_ip").value,
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    page_ms2:page_ms9,
+                    //datetime:datetime
+                }
+
+                $("#subbtnWatchVideo").prop("disabled", true);
+                // add spinner to button
+                $("#subbtnWatchVideo").html(
+                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submiting...'
+                );
+
+                $.ajax({
+                    url : "/create_enquiry",
+                    method : "POST",
+                    data : mydata,
+                    success:function(data) {
+                        if (data.code == 1){
+                            document.getElementById("success_message2").innerHTML = "Your query has been submitted successfully."
+                            $("#error_name9").removeClass("error");   
+                            $("#error_email9").removeClass("error");  
+                            $("#error_mobile9").removeClass("error"); 
+
+                            document.getElementById("name9").value="";
+                            document.getElementById("email9").value="";
+                            document.getElementById("mobile9").value="";
+                            $("#error_message9").hide()
+
+                            // $('#previewVideoEnquiry').modal('hide');
+                            // video_link = $("#vidPreviewLink").val()
+                            // $('#ifreameVideo').attr('src', video_link);
+
+                            // //$('#ifreameVideo').modal('show'); 
+                            // $('#priviewVideo').modal('show');  
+                            //window.open('http://127.0.0.1:8001/demo-class/play-back?cid={{course_details.id}}')
+                            window.open('{{base_url}}/demo-class/play-back?cid={{course_details.id}}')
+
+                            $("#subbtnWatchVideo").prop("disabled", false);
+                            // add spinner to button
+                            $("#subbtnWatchVideo").html(
+                                '<span class="" aria-hidden="true"></span> Watch Video'
+                            );
+                        }
+                        else{
+                            document.getElementById("error_message9").innerHTML = "Something went wrong."
+                            $("#subbtnWatchVideo").prop("disabled", false);
+                            // add spinner to button
+                            $("#subbtnWatchVideo").html(
+                                '<span class="" aria-hidden="true"></span> Watch Video'
+                            );
+                        }           
+                    },
+                    error:function(data){
+                        document.getElementById("error_message9").innerHTML = "Something went wrong."
+                        $("#subbtnWatchVideo").prop("disabled", false);
+                        // add spinner to button
+                        $("#subbtnWatchVideo").html(
+                            '<span class="" aria-hidden="true"></span> Watch Video'
+                        );
+                    }
+                })
+            }
+        }
+    </script>
+{% comment %} {% endcompress js %} {% endcomment %}
+{% comment %} {% compress js %} {% endcomment %}
+
+
+    <!--Apply Interview Question Now Modal -->
+        <div class="modal fade" id="InterviewQuestionModal" tabindex="-1" aria-labelledby="aInterviewQuestionModalLabel" aria-hidden="true">
+            <div class="modal-dialog form-modal">
+                <div class="modal-content">
+                    <div class="form-modal__wrapper">
+                        <span class="form-modal__wrapper--img d-none d-md-block">
+                            <img src="{% static 'v4_home_static/images/modal/interview-ques.png'%}" class="img-fluid" loading="lazy" alt="model_image">
+                        </span>
+                        <div class="form-modal__wrapper--form">
+                            <div class="modal-header">
+                                <h5 class="modal-title"></h5>
+                                <p class="font-size-xs mb-0 text-gray-medium">Join our community of 5,00,000 learners</p>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&#x2715;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <ul>
+                                    <li id="error_name9IQ" class="form-group">
+                                        <div class="input-effect">
+                                            <input type="text" id="name9IQ" class="form-control animation-input border-top-left-radius-0"
+                                                placeholder aria-label="name" aria-describedby="name">
+                                            <label>Full Name</label>
+                                            <p class="error--mgs">Please enter name</p>
+                                        </div>
+                                    </li>
+
+                                    <li id="error_mobile9IQ" class="form-group">
+                                        <div class="phone-cc form-control">
+                                            {% comment %} <select class="form-control code">
+                                                <option>+91</option>
+                                            </select> {% endcomment %}
+                                            <input type="text" id="phone9IQ" class="form-control" style="width: 0px;border: none;padding-left: 79px;outline: none;">
+                                            <div class="input-effect phone">
+                                                <input type="text" maxlength="10" id="mobile9IQ" class="form-control animation-input border-top-left-radius-0" placeholder
+                                                    aria-label="name" aria-describedby="name">
+                                                <label>Phone Numver</label>
+                                                <p class="error--mgs">Please enter number</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    
+                                    <li id="error_email9IQ" class="form-group">
+                                        <div class="input-effect">
+                                            <input type="email" id="email9IQ" class="form-control animation-input border-top-left-radius-0"
+                                                placeholder aria-label="name" aria-describedby="name">
+                                            <label>Email Id</label>
+                                            <p class="error--mgs">Please enter email</p>
+                                        </div>
+                                    </li>
+
+                                    <!-- <label style="margin: 0;font-size: 10px;margin-left: 5px;">Suitable Date Time</label>
+                                    <li id="datetime9IQ" class="form-group">
+                                        <div class="input-effect">
+                                            <input type="datetime-local" id="datetime9dIQ" class="form-control animation-input border-top-left-radius-0"
+                                                placeholder aria-label="datetime" aria-describedby="name">
+                                            
+                                            <p class="error--mgs">Please enter email</p>
+                                        </div>
+                                    </li> -->
+
+                                    <p id="error_message9IQ"></p>
+                                    <p id="success_message9IQ"></p>
+
+                                    <li>
+                                        <input type="text" name="page_ms2" hidden id="page_ms9IQ">
+                                        <input type="text" id="interviewQuestionLink" hidden>
+                                        <button onclick="applyNowInterviewQuestion()" id="subbtnInterviewQuesion" class="btn btn-lg btn-outline-primary rounded-60 px-4">Interview Questions</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- End Modal -->
+
+    <script>
+        var input = document.querySelector("#phone9IQ");
+        window.intlTelInput(input, {
+            separateDialCode: true,
+            excludeCountries: ["pk", "il","ba","cf","cd","pm","do","gp","st"],
+            preferredCountries: ["{{mylip}}"]
+        });
+    </script>
+    <script>
+        function applyNowInterviewQuestion(){
+            var name = document.getElementById("name9IQ").value;
+            var email = document.getElementById("email9IQ").value;
+            var mobile_number = document.getElementById("mobile9IQ").value;
+            var page_ms9 = document.getElementById("page_ms9IQ").value;
+            //var datetime = document.getElementById("datetime9dIQ").value;
+            var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            var loc = window.location.href
+        
+            if(name.trim().length == 0){
+                $("#error_name9").addClass("error");
+                document.getElementById("name9IQ").focus();
+                return false;
+            }
+            if(email.trim().length == 0){
+                $("#error_email9").addClass("error");
+                document.getElementById("email9IQ").focus();
+                return false;
+            }
+            try {
+                var con_code = $("#error_mobile9").find('.iti__selected-flag').attr("title");	
+                con_code = con_code.split(":");
+                con_code = con_code[1].trim();
+            }
+            catch(err) {
+                con_code = "N/A"
+            }
+            if(mobile_number.trim().length == 0){
+                $("#error_mobile9").addClass("error");
+                document.getElementById("mobile9IQ").focus();
+                return false;
+            }
+            if(mobile_number.trim().length < 10){
+                $("#error_mobile9").addClass("error");
+                document.getElementById("mobile9IQ").focus();
+                return false;
+            }
+    
+            if(!$.isNumeric(mobile_number)){
+                $("#error_mobile9").addClass("error");
+                document.getElementById("mobile9IQ").focus();
+                return false;
+            }
+
+
+            if(email.match(mailformat)){
+                mydata = {
+                    reference: "ap2v.com",
+                    name: name,
+                    con_code:con_code,
+                    mobile:mobile_number,
+                    email:email,
+                    comments:window.location.href,
+                    source_ip: document.getElementById("source_ip").value,
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    page_ms2:page_ms9,
+                    //datetime:datetime
+                }
+
+                $("#subbtnInterviewQuesion").prop("disabled", true);
+                // add spinner to button
+                $("#subbtnInterviewQuesion").html(
+                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submiting...'
+                );
+
+                $.ajax({
+                    url : "/create_enquiry",
+                    method : "POST",
+                    data : mydata,
+                    success:function(data) {
+                        if (data.code == 1){
+                            document.getElementById("success_message9IQ").innerHTML = "Your query has been submitted successfully."
+                            $("#error_name9IQ").removeClass("error");   
+                            $("#error_email9IQ").removeClass("error");  
+                            $("#error_mobile9IQ").removeClass("error"); 
+
+                            document.getElementById("name9IQ").value="";
+                            document.getElementById("email9IQ").value="";
+                            document.getElementById("mobile9IQ").value="";
+                            $("#error_message9IQ").hide()
+                            window.location = "/interview-questions/";
+
+                            
+                        }
+                        else{
+                            document.getElementById("error_message9IQ").innerHTML = "Something went wrong."
+                            $("#subbtnInterviewQuesion").prop("disabled", false);
+                            // add spinner to button
+                            $("#subbtnInterviewQuesion").html(
+                                '<span class="" aria-hidden="true"></span> Interview Question'
+                            );
+                        }           
+                    },
+                    error:function(data){
+                        document.getElementById("error_message9").innerHTML = "Something went wrong."
+                        $("#subbtnInterviewQuesion").prop("disabled", false);
+                        // add spinner to button
+                        $("#subbtnInterviewQuesion").html(
+                            '<span class="" aria-hidden="true"></span> Interview Question'
+                        );
+                    }
+                })
+            }
+        }
+    </script>
+
+    <script>
+        var input = document.querySelector("#phone10");
+        window.intlTelInput(input, {
+            separateDialCode: true,
+            excludeCountries: ["pk", "il","ba","cf","cd","pm","do","gp","st"],
+            preferredCountries: ["{{mylip}}"]
+        });
+    </script>
+    <script>
+        function enrollnowCou(){
+            var name = document.getElementById("name_cou1").value;
+            var mobile_number = document.getElementById("mobile_cou1").value;
+            var page_ms6 = document.getElementById("page_ms6").value;
+
+            if(name.trim().length == 0){
+                $("#error_name_cou1").addClass("error");
+                document.getElementById("name_cou1").focus();
+                return false;
+            }
+            try {
+                var con_code = $("#error_mobile_cou1").find('.iti__selected-flag').attr("title");	
+                con_code = con_code.split(":");
+                con_code = con_code[1].trim();
+            }
+            catch(err) {
+                con_code = "N/A"
+            }
+            if(mobile_number.trim().length == 0){
+                $("#error_mobile_cou1").addClass("error");
+                document.getElementById("mobile_cou1").focus();
+                return false;
+            }
+            if(mobile_number.trim().length < 10){
+                $("#error_mobile_cou1").addClass("error");
+                document.getElementById("mobile_cou1").focus();
+                return false;
+            }
+    
+            if(!$.isNumeric(mobile_number)){
+                $("#error_mobile_cou1").addClass("error");
+                document.getElementById("mobile_cou1").focus();
+                return false;
+            }
+
+            mydata = {
+                reference: "ap2v.com",
+                name: name,
+                con_code:con_code,
+                mobile:mobile_number,
+                email:"",
+                comments: window.location.href,
+                source_ip: document.getElementById("source_ip").value,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                page_ms2:page_ms6
+            }
+
+            $("#subbtnEnq").prop("disabled", true);
+            // add spinner to button
+            $("#subbtnEnq").html(
+                '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submiting...'
+            );
+
+            $.ajax({
+                url : "/create_enquiry",
+                method : "POST",
+                data : mydata,
+                success:function(data) {
+                    if (data.code == 1){
+                        document.getElementById("success_message").innerHTML = "Your query has been submitted successfully."
+                        $("#error_name_cou1").removeClass("error");   
+                        $("#error_mobile_cou1").removeClass("error"); 
+
+                        document.getElementById("name_cou1").value="";
+                        document.getElementById("mobile_cou1").value="";
+                        $("#subbtnEnq").prop("disabled", false);
+                        // add spinner to button
+                        $("#subbtnEnq").html(
+                            '<span class="" aria-hidden="true"></span> Enquiry Now'
+                        );
+                    }
+                    else{
+                        document.getElementById("success_message").innerHTML = "Something went wrong."
+                        $("#subbtnEnq").prop("disabled", false);
+                        // add spinner to button
+                        $("#subbtnEnq").html(
+                            '<span class="" aria-hidden="true"></span> Enquiry Now'
+                        );
+                    }           
+                },
+                error:function(data){
+                    document.getElementById("success_message").innerHTML = "Something went wrong."
+                    $("#subbtnEnq").prop("disabled", false);
+                    // add spinner to button
+                    $("#subbtnEnq").html(
+                        '<span class="" aria-hidden="true"></span> Enquiry Now'
+                    );
+                }
+            })
+        }
+
+        function openVideoModal(video_link){
+            //alert(video_link)
+            $("#vidPreviewLink").val(video_link)
+            $('#previewVideoEnquiry').modal('show'); 
+            document.getElementById('demovideo').src = video_link;
+        
+            
+        }
+
+        function openInterQuestionModal(video_link){
+            //alert(video_link)
+            //$("#vidPreviewLink").val(video_link)
+            $('#InterviewQuestionModal').modal('show');  
+        }
+
+        function loadCourseContent(){
+            //alert("{{ccslug}}")
+            //alert("000000000000000000000000")
+            mydata = {
+                slug : '{{ccslug}}',
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+            }
+            $.ajax({
+                url : "/lp_enq/load-course-content/",
+                method : "POST",
+                data : mydata,
+                success:function(data) {
+                    $("#course-curriculum").html(data)
+                },
+                error:function(data){
+                    $("#course-curriculum").html(data)
+                }
+            })   
+        }
+
+        //loadCourseContent();
+
+        function loadCourseContentFull(){
+            //alert("0000000000001111111111111111111111111111111000000000000")
+            mydata = {
+                slug : '{{ccslug}}',
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+            }
+            $.ajax({
+                url : "/lp_enq/load-course-content-full/",
+                method : "POST",
+                data : mydata,
+                success:function(data) {
+                    $('#apply_now_course_content').modal('hide');
+                    $("#course-curriculum").html(data)
+                    $('#loadMoreBTN').hide();
+                },
+                error:function(data){
+                    $('#apply_now_course_content').modal('hide');
+                    $("#course-curriculum").html(data)
+                    $('#loadMoreBTN').hide();
+                }
+            })   
+        }
+
+        //loadCourseContentFull();
+    </script>
+{% comment %} {% endcompress js %} {% endcomment %}
+
+<script>
+    function apply_now_course_content_modal(){
+        //alert("55555555555555")
+        $('#apply_now_course_content').modal('show');
+    };
+</script>
+
+
+<!--Apply Now Modal course Content -->
+<div class="modal fade" id="apply_now_course_content" tabindex="-1" aria-labelledby="apply-now-course-contentLabel" aria-hidden="true">
+    <div class="modal-dialog form-modal">
+        <div class="modal-content">
+            <div class="form-modal__wrapper">
+                <span class="form-modal__wrapper--img d-none d-md-block">
+                    <img src="{% static 'v4_home_static/images/modal/modal-1.png'%}" loading="lazy" class="img-fluid" alt="apply_now">
+                </span>
+                <div class="form-modal__wrapper--form">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Load more Chapters</h5>
+                        <p class="font-size-xs mb-0 text-gray-medium">Enter your details to start learning</p>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&#x2715;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <ul>
+                            <!-- <li class="form-group has-content">
+                                <div class="input-effect ">
+                                    <input type="date" class="form-control animation-input border-top-left-radius-0"
+                                        placeholder aria-label="name" aria-describedby="name">
+                                    <label>Preferred Batch Start Date</label>
+                                </div>
+                            </li> -->
+
+                            <li id="error_name2cc" class="form-group">
+                                <div class="input-effect">
+                                    <input type="text" id="name2cc" class="form-control animation-input border-top-left-radius-0"
+                                        placeholder aria-label="name" aria-describedby="name">
+                                    <label>Full Name</label>
+                                    <p class="error--mgs">Please enter name</p>
+                                </div>
+                            </li>
+
+                            <li id="error_mobile2cc" class="form-group">
+                                <div class="phone-cc form-control">
+                                    {% comment %} <select class="form-control code">
+                                        <option>+91</option>
+                                    </select> {% endcomment %}
+                                    <input type="text" id="phone11" class="form-control" style="width: 0px;border: none;padding-left: 79px;outline: none;">
+                                    <div class="input-effect phone">
+                                        <input type="text" maxlength="10" id="mobile2cc" class="form-control animation-input border-top-left-radius-0" placeholder
+                                            aria-label="name" aria-describedby="name">
+                                        <label>Phone Number</label>
+                                        <p class="error--mgs">Please enter number</p>
+                                    </div>
+                                </div>
+                            </li>
+                            
+                            <li id="error_email2cc" class="form-group">
+                                <div class="input-effect">
+                                    <input type="email" id="email2cc" class="form-control animation-input border-top-left-radius-0"
+                                        placeholder aria-label="name" aria-describedby="name">
+                                    <label>Email Id</label>
+                                    <p class="error--mgs">Please enter email</p>
+                                </div>
+                            </li>
+
+                            {% if not course %}
+                                <li class="form-group">
+                                    <select class="form-control" aria-label="Select Course" id="selectCoursecc">
+                                        <option value="">Select course</option>
+                                        {% for i in all_course %}
+                                            <option value="{{i.name}}">{{i.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </li>
+                            {% endif %}
+
+                            <p id="error_message2cc"></p>
+                            <p id="success_message2cc"></p>
+
+                            <li>
+                                <input type="text" name="page_ms2" hidden id="page_ms5cc">
+                                <button onclick="applyNowcc()" id="subbtncc" class="btn btn-lg btn-outline-primary rounded-60 px-4">Download Brochure</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="addtooocarttmodel" class="modaladd">
+
+        <div class="modal-contentadd">
+         <span class="closeadd">&times;</span>
+        </div>
+      <div class="cartParts">
+          <div class="cart-part left">
+              <h2>Course Video </h2>
+              <ol type="A">
+                <li>Lorem ipsum dolor sit.</li>
+                <li>Lorem ipsum dolor sit amet, consectetur adipisicing.</li>
+                <li>Lorem ipsum dolor sit.</li>
+                <li>Lorem, ipsum dolor.</li>
+                <li>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusamus facilis cupiditate ducimus!</li>
+              </ol>
+              <input type="text" class="courseid">
+              <input type="text" id="rec_type" value="1">
+              <button onclick="addToCourse(1)" >Select</button>
+          </div>
+          <div class="cart-part right">
+            <h2>Online Course</h2>
+            <ol type="A">
+               <li>Lorem ipsum dolor sit amet consectetur.</li>
+               <li>Lorem, ipsum dolor.</li>
+               <li>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam aliquid nulla cumque dolore vel?</li>
+               <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum, reprehenderit.</li>
+               <li>Lorem ipsum dolor sit amet.</li>
+              </ol>
+              <input type="text" class="courseid">
+              <input type="text" id="online_type" value="2">
+              <button onclick="addToCourse(2)">Select</button>
+          </div>
+      </div>
+     </div>
+{% comment %} {% compress js %} {% endcomment %}
+<script>
+    var input = document.querySelector("#phone11");
+    window.intlTelInput(input, {
+        separateDialCode: true,
+        excludeCountries: ["pk", "il","ba","cf","cd","pm","do","gp","st"],
+        preferredCountries: ["{{mylip}}"]
+    });
+</script>
+<script>
+    function applyNowcc(){
+        var name = document.getElementById("name2cc").value;
+        var email = document.getElementById("email2cc").value;
+        var mobile_number = document.getElementById("mobile2cc").value;
+        var page_ms5 = document.getElementById("page_ms5cc").value;
+        var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        var loc = window.location.href
+        if("{{course}}"=="True"){
+            var course = "{{anquira_course}}"
+            var message = "Enquiry for course: "+$('#selectCoursecc option:selected').val();
+        }
+        else{
+            var message = "Enquiry for course: "+$('#selectCoursecc option:selected').val();
+            course = 139;
+            console.log("no");
+        }
+
+        if(name.trim().length == 0){
+            $("#error_name2cc").addClass("error");
+            document.getElementById("name2").focus();
+            return false;
+        }
+        if(email.trim().length == 0){
+            $("#error_email2cc").addClass("error");
+            document.getElementById("email2").focus();
+            return false;
+        }
+        try {
+            var con_code = $("#error_mobile2cc").find('.iti__selected-flag').attr("title");	
+            con_code = con_code.split(":");
+            con_code = con_code[1].trim();
+        }
+        catch(err) {
+            con_code = "N/A"
+        }
+        if(mobile_number.trim().length == 0){
+            $("#error_mobile2cc").addClass("error");
+            document.getElementById("mobile2cc").focus();
+            return false;
+        }
+        if(mobile_number.trim().length < 10){
+            $("#error_mobile2cc").addClass("error");
+            document.getElementById("mobile2cc").focus();
+            return false;
+        }
+
+        if(!$.isNumeric(mobile_number)){
+            $("#error_mobile2cc").addClass("error");
+            document.getElementById("mobile2cc").focus();
+            return false;
+        }
+
+
+        if(email.match(mailformat)){
+            mydata = {
+                reference: "ap2v.com",
+                name: name,
+                con_code:con_code,
+                mobile:mobile_number,
+                email:email,
+                comments:window.location.href,
+                source_ip: document.getElementById("source_ip").value,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                course:course,
+                message:message,
+                page_ms2:page_ms5
+            }
+
+            $("#subbtncc").prop("disabled", true);
+            // add spinner to button
+            $("#subbtncc").html(
+                '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submiting...'
+            );
+            $.ajax({
+                url : "/create_enquiry",
+                method : "POST",
+                data : mydata,
+                success:function(data) {
+                    if (data.code == 1){
+                        document.getElementById("success_message2").innerHTML = "Your query has been submitted successfully."
+                        $("#error_name2cc").removeClass("error");   
+                        $("#error_email2cc").removeClass("error");  
+                        $("#error_mobile2cc").removeClass("error"); 
+
+                        document.getElementById("name2cc").value="";
+                        document.getElementById("email2cc").value="";
+                        document.getElementById("mobile2cc").value="";
+                        $("#error_message2cc").hide()
+
+                        $("#subbtncc").prop("disabled", false);
+                        // add spinner to button
+                        $("#subbtncc").html(
+                            '<span class="" aria-hidden="true"></span> Apply Now'
+                        );
+
+                        loadCourseContentFull();
+                    }
+                    else{
+                        document.getElementById("error_message2cc").innerHTML = "Something went wrong."
+                        $("#subbtncc").prop("disabled", false);
+                        // add spinner to button
+                        $("#subbtncc").html(
+                            '<span class="" aria-hidden="true"></span> Apply Now'
+                        );
+                    }           
+                },
+                error:function(data){
+                    document.getElementById("error_message2").innerHTML = "Something went wrong."
+                    $("#subbtncc").prop("disabled", false);
+                    // add spinner to button
+                    $("#subbtncc").html(
+                        '<span class="" aria-hidden="true"></span> Apply Now'
+                    );
+                }
+            })
+        }
+    }
+</script>
+<script> 
+    //var date = new Date();
+    //var cdeadline = new Date(date.myDate.getDate()+1).getTime(); 
+    //var cdeadline = new Date.today().addDays(1).toString("yyy-mm-dd");
+    //var cmyDate=new Date();
+    //cmyDate.setDate(cmyDate.getDate()+1);
+    // format a date
+    //var cdeadline = cmyDate.getFullYear() + '-' + ("0" + (cmyDate.getMonth() + 1)).slice(-2) + '-' + cmyDate.getDate();
+    //console.log(cdeadline);
+    var cdeadline = new Date("{{next_date}}").getTime();
+      
+    var xxy = setInterval(function() {   
+        var cnow = new Date().getTime(); 
+        var ct = cdeadline - cnow; 
+        var cdays = Math.floor(ct / (1000*60*60*24)); 
+        var chours = Math.floor((ct%(1000*60*60*24))/(1000 * 60 * 60)); 
+        var cminutes = Math.floor((ct%(1000*60*60)) / (1000 * 60)); 
+        var cseconds = Math.floor((ct%(1000*60)) / 1000); 
+        document.getElementById("cday").innerHTML =cdays ; 
+        document.getElementById("chour").innerHTML =chours; 
+        document.getElementById("cminute").innerHTML = cminutes;  
+        document.getElementById("csecond").innerHTML =cseconds;  
+        if (ct < 0) { 
+                clearInterval(xxy); 
+                //document.getElementById("cdemo").innerHTML = "TIME UP"; 
+                document.getElementById("cday").innerHTML ='0'; 
+                document.getElementById("chour").innerHTML ='0'; 
+                document.getElementById("cminute").innerHTML ='0' ;  
+                document.getElementById("csecond").innerHTML = '0'; } 
+    }, 1000); 
+</script>
+
+
+
+<!--
+    Comment Note : Comment code for showing random views and last enroll students in 24Hr beacuse it not visible in new design....  
+<script>
+    var d = new Date();
+    var sD = d.getDate();
+    //alert(sD)
+
+    function randomIntFromInterval(min, max) { // min and max included 
+        return Math.floor(Math.random() * (max - min + 1) + min)
+    }
+
+    //let yxm = Math.floor((Math.random() * 100) + 1);
+    
+    document.getElementById("peopleWatching").innerHTML = randomIntFromInterval(500, 800);
+    //alert("dbj")
+
+    var y = setInterval(function() {   
+        //let yx = Math.floor((Math.random() * 31) + 1);
+        document.getElementById("peopleWatching").innerHTML = randomIntFromInterval(500, 800);
+    }, 5000);
+
+
+    var gtle = window.localStorage.getItem("le8602{% if city_specific %}C{{city_specific_course.id}}{% else %}P{{course_details.id}}{% endif %}")
+    var Tgtle = window.localStorage.getItem("Tle8602{% if city_specific %}C{{city_specific_course.id}}{% else %}P{{course_details.id}}{% endif %}")
+    //alert(gtle)
+    if(gtle){
+        document.getElementById("peopleEnrolled").innerHTML = gtle;
+        document.getElementById("peopleEnrolledT").innerHTML = Tgtle;
+    }else{
+        let le = randomIntFromInterval(50, 80);
+        window.sessionStorage.setItem("le8602{% if city_specific %}C{{city_specific_course.id}}{% else %}P{{course_details.id}}{% endif %}",le)
+        document.getElementById("peopleEnrolled").innerHTML = le;
+
+        let Tle = Math.floor((Math.random() * 22) + 1);
+        window.sessionStorage.setItem("Tle8602{% if city_specific %}C{{city_specific_course.id}}{% else %}P{{course_details.id}}{% endif %}",Tle)
+        document.getElementById("peopleEnrolledT").innerHTML = Tle;
+    }
+</script>
+-->
+
+<script>
+    $(function()
+        {
+        function runFadeOutFadeIn(){
+            $("#eye").fadeTo(
+                "fast", 0, function(){
+                    $("#eye").fadeTo(
+                        "slow", 1, function(){});
+                });
+        }
+        
+        var m = setInterval(function() {   
+            runFadeOutFadeIn();
+        }, 1000);
+        
+    });
+
+    $(function()
+        {
+        function runFadeOutFadeIn1(){
+            $("#enrol").fadeTo(
+                "slow", 0, function(){
+                    $("#enrol").fadeTo(
+                        "fast", 1, function(){});
+                });
+        }
+        
+        var mn = setInterval(function() {   
+            runFadeOutFadeIn1();
+        }, 1000);
+        
+    });
+</script>
+
+<script>
+    
+
+    function addCourseToCart(course_id){
+        //alert(course_id)
+
+        mydata = {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            ecourse:course_id
+        }
+
+        $.ajax({
+            url : "/e_store_apis/v1/add_course_to_cart",
+            method : "POST",
+            data : mydata,
+            success:function(data) {
+                alert("Success")
+                if (data.code == 1){
+                    //uuuu
+                    
+                }        
+            },
+            error:function(data){
+                getUserCartCount()
+            }
+        })
+        const done = document.querySelector(".done");
+
+    }
+
+    
+</script>
+<script>
+    const cartButtons = document.querySelectorAll('.cart-button');
+
+cartButtons.forEach(button => {
+	button.addEventListener('click', cartClick);
+});
+
+function cartClick() {
+	let button = this;
+	button.classList.add('clicked');
+}
+</script>
+<script>
+
+    
+
+    function addToCourse(course_type){
+         //alert(course_type)
+        courseid=$('.courseid').val()
+        language=$('#avlang').val()
+        
+        // alert(courseid)
+        mdata = {
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+            ecourse:courseid,
+            etype:course_type,
+            avlang:language
+        }
+
+        $.ajax({
+            url : "/e_store_apis/v1/add_choice_to_cart",
+            method : "POST",
+            data : mdata,
+            success:function(data) {
+                // alert("Success")
+                if (data.enroll == '1'){
+                    $(".record").button().click(function(){
+                        alert("You have already purchase this course");
+                      });
+                }
+                if (data.enroll == '2') 
+                    $(".live").button().click(function(){
+                    alert("You have already purchase this course");
+                  });
+                
+                
+                getUserCartCount()
+                //alert('Course added in your Cart.')
+                if (data.code == 1){
+                    //uuuu
+                    
+                }
+                $('.added').click()        
+            },
+            error:function(data){
+                alert("internal serer error...")
+                //getUserCartCount()
+            }
+        })
+        const done = document.querySelector(".done");
+
+    }
+
+    
+</script>
+<!-- ------------------------add -->
+<script>
+    function addid(cid,loopcount){
+         //alert(cid)
+         //alert(loopcount)
+        $('.courseid').val(cid)
+        const addtooocartt = document.getElementById('addtooocartt'+loopcount);
+        var modal = document.getElementById("addtooocarttmodel"); 
+        var btn = document.getElementById("addtooocartt"+loopcount); 
+        var span = document.getElementsByClassName("closeadd")[0]; 
+        const fun = function() {
+        modal.style.display = "block";
+        modal.style.position = "fixed";
+        modal.style.zIndex = "99999999";
+        } 
+        span.onclick = function() {
+        modal.style.display = "none";
+        } 
+        mdata = {
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+            courseid:cid,
+        }
+
+        $.ajax({
+            url : "/e_store_apis/v1/show_hide_model",
+            method : "POST",
+            data : mdata,
+            success:function(data) {
+                 //alert(data.price) 
+                
+                if (data.price==0)
+                    $('.left').hide(),
+                    $('.right').css('border','None')
+                else
+                    $('.left').show()
+                if (data.result == 1)
+                    $('.left').show(),
+                    $('.right').css('border','1')
+                        
+                else
+                    $('.left').hide(),
+                    $('.right').css('border','None'),
+                    $('.cart-part').css('width','100%')
+                // alert (data.language_type)
+                if (data.language_type==1)
+                    $('#avlang').val(1)
+                    
+                else if (data.language_type==2)
+                    $('#avlang').val(2)
+                else
+                    $('#avlang').val(3)
+
+                
+
+            },
+            error:function(data){
+                // alert("internal serer error...")
+            }
+        })
+        fun()
+    }
+</script>
+{% endblock content %}

@@ -1,0 +1,78 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% load ap2v_course_tag %}
+{% block title %} AP2V {% endblock %}
+{% block css %}
+    <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/others.css' %}" type="text/css" />
+    <style>
+        .city-map-link{
+            color:blue;
+        }
+    </style>
+
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.ap2v.com/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Ap2v City Sitemap",
+            "item": "https://www.ap2v.com/city-sitemap/"
+        }]
+        }
+    </script>
+    
+{% endblock css %}
+
+{% block content %}
+    <div class="main-wrap">
+    {% include 'v4_home/sub_pages/push-down.html' %}
+    {% include 'v4_home/sub_pages/navigation.html' %}
+
+        <!-- Banner -->
+        <div class="banner-inner">
+            <div class="container">
+                <div class="row banner-inner--content flex-column">
+                    {% include 'v4/breadcrumb.html' %}<!-- // breadcrumb -->
+                    <div class="d-flex">
+                        <div class="banner-inner--left-pan d-flex flex-column justify-content-center">
+                        <h1 class="text-secondary">Ap2v City Sitemap</h1>
+                        </div>
+                        <div class="banner-inner--right-pan d-none d-xl-block" style="right: 0;">
+                          <img src="{% static 'v4_home_static/images/sitemap.png'%}" loading="lazy" alt="term condition">
+                        </div>
+                    </div><!-- slick-slide d-flex-->
+                </div><!-- // row -->
+            </div>
+        </div><!-- // Banner -->
+
+
+        <div class="spacer mt-0"></div><!-- // Spacer -->
+
+        <section class="container pt-4 sitemap-content">
+            {% for city in all_city %}
+                
+                    {% get_city_course city.id as city_course %}
+                        {% if city_course %}
+                            <div class="white-box px-4 mb-4">
+                                {% comment %} <h3> {{city.name}}</h3> {% endcomment %}
+                                <h3> <a href="/city-sitemap/{{city.slug}}" style="color:#7a0006;">{{city.name}}</a></h3>
+                                <ul class="row">
+                                    {% for j in city_course %}
+                                        <li class="col-12 col-md-4"><a href="/{{j.slugs}}" style="color:#e92347" onMouseOver="this.style.color='#9236c2'" onMouseOut="this.style.color='#e92347'">{{j.name}}</a></li>
+                                    {% endfor %}
+                                </ul>
+                                </div>
+                        {% endif %}
+                
+            {% endfor %}
+        </section><!-- // Overview -->
+    {% comment %} {% include 'v4_home/sub_pages/modals.html' %} {% endcomment %}
+{% endblock content %}

@@ -1,0 +1,11 @@
+<p style="margin-bottom: 0px; font-size: 13px;margin-top: 20px;"> Link genrate Successfully.</p>
+<input style="width: 218px;border: transparent;width: 100%;border: transparent;font-size: 12px;color: darkgreen;" id="payment_link" readonly type="text" value="{{payment_link}}">
+<p style="margin-bottom: 0px; font-size: 13px;width: 100%;text-align: start;margin-top: 10px;color:#00a86f;" onclick="copyPaymentInfo()" id="copyLinkText"> <i style="font-size:15px;font-size: 15px;width: 100%;text-align: start;" class="fa">&#xf0c5; Copy Link info</i></p>
+
+{% if payment_list_obj %}
+    <div style="display: flex;flex-direction: inherit;justify-content: space-between; margin-top:30px;">
+        <a href="/payment/disabled-payment-link/{{payment_list_obj.id}}" > Disbabled this link <i class="fa fa-trash" aria-hidden="true"></i></a>
+        <p style="padding-top: 0px;margin-bottom: 0px;"><a href="/payment/mark-payment-other-source/{{payment_list_obj.id}}">Mark as Recived this Payment By Other Source</a></p>
+    </div>
+    <p style="margin-bottom: 0px;margin-top: 10px;font-size: 11px;color: red;font-weight: 700;">NOTE : **Candidate can't use this link to make payment</p>
+{% endif %}

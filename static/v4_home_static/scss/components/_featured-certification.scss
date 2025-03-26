@@ -1,0 +1,50 @@
+.featured-certification {
+    .white-box {
+        padding: 5px;
+    }
+
+    &__lists {
+        // display: flex;
+        // align-items: center;
+        // justify-content: center;
+
+        li {
+            padding: 12px;
+        }
+    }
+
+    &--cities {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $secondary;
+
+        @include media-breakpoint-up(md) {
+            position: absolute;
+            right: 23px;
+            bottom: -15px;
+            width: auto;
+        }
+    
+        &:hover {
+            color: $gray-medium;
+        }
+    }
+
+    .modal {
+        padding-right: 0 !important;
+    }
+
+    .modal-dialog {
+        max-width: 100%;
+        margin: 0;
+    }
+    
+    .modal-content {
+        border-radius: 0;
+    }
+}

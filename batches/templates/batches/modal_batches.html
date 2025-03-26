@@ -1,0 +1,149 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary float-right btn-fill" onclick="myFunction()" data-toggle="modal" data-target="#openModal">
+    Add Student
+</button>
+
+<!-- Modal -->
+{% comment %} <form method="GET"> {% endcomment %}
+    <div class="modal fade" id="openModal" tabindex="-1" role="dialog" aria-labelledby="openModalLabel"
+        style="display: none;">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title mt-0" id="myModalLabel">Search Student</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            {% comment %} <label for="description">Description</label> {% endcomment %}
+                            <div style="margin-bottom: 0px;cursor: pointer;display: flex;justify-content: space-between;">
+                                <div>
+                                    <input type="checkbox" onclick="findByEnrollment()" id="search_by_enrollment" style="cursor: pointer;" value="checked" > <label for="search_by_enrollment" style="font-size: 13px;margin-left: 8px;color: darkslategray; cursor: pointer;">Search By Enrollment Number</label>
+                                </div>
+                                <p id="findByEnrollmentInfo" style="border-radius: 15px;font-size: 13px;margin: 0px;background-color: #5e53d3;padding-top: 4px;padding-left: 15px;padding-right: 17px;color: white;"> <i class="fa fa-info-circle" aria-hidden="true"></i> Filter by enrollment is enabled.</p>
+                            </div>
+                            <p id="info2" style="font-size: 9px;color: #a2a206;margin-top: -6px;">Type Enrollment Number to find candidate.</p>
+                            <input type="text" id="searh-student" class="form-control multi_select_fastselect">
+                        </div>
+                        <p id="student_list_s" style="padding-left: 13px;"> </p>
+
+                    </div>
+                    <div id="add_student_email">
+                            
+                        </div>
+                    
+                    <p id="errormsg"> </p>
+
+                </div>
+                
+
+                <div class="modal-footer">
+                    <button type="button" id="submit" onclick="add_student()" class="btn btn-primary btn-fill px-4" data-dismiss="modal">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% comment %} </form> {% endcomment %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script>
+$("#findByEnrollmentInfo").hide()
+$("#info2").hide()
+var stu_email = [];
+$(document).ready(function(){
+    $('#searh-student').keyup(function(){
+        var search_string = $("#searh-student").val();
+        var course = $('#selectcourse :selected').val();
+        //alert(course)
+		$("#add_student_email").empty();
+		//alert(search_string)
+
+        if ($("#search_by_enrollment").is(":checked")) {
+            var enroll_find = 1
+        }else{
+            var enroll_find = 0
+        }
+		data = {'search_string':search_string,'enroll_find':enroll_find}
+		$.ajax({
+			type: "GET",
+			url: "/batches/get_filter_student?course="+course,
+			data: data,
+			success: function (data) {
+				 //$('#add_student_email').html(data)
+                 //alert("success")
+                 //alert(data)
+                 //data1 = JSON.stringify(data)
+                 //alert(data1)
+                 $('#add_student_email').html(data)
+			},
+			error: function (data) {
+				alert("Please Select Course");
+			},
+		}); 
+    });
+});
+
+function myFunction() {
+    //var search_string = $("#searh-student").val();
+    var course = $('#selectcourse').val();
+    //alert(course)
+    //alert(typeof(course))
+    $("#add_student_email").empty();
+    //alert(search_string)
+    //data = {'search_string':search_string}
+    if (course){
+        $.ajax({
+            type: "GET",
+            url: "/batches/get_course_student?course="+course,
+            success: function (data) {
+                $('#add_student_email').html(data)
+            },
+            error: function (data) {
+                alert("Please Select Course First");
+            },
+        }); 
+    }
+    else{
+        //$('#errormsg').html('Please Select Course First.')
+    }
+    
+};
+
+function add_student(){
+    console.log('Student_list: '+stu_email)
+    $('#candidateSearchlist2').val("")
+    $("#student_list_read_only").empty();
+    $.each(stu_email, function(index, value){
+        //$('#candidateSearch').val($('#candidateSearch').val() + value+",");
+        $.ajax({
+            type: "GET",
+            url: "/batches/get_student_name?id="+value,
+            success: function (data) {
+                var stu_nam = data['student_name']
+                $('#student_list_read_only').append('<span id="add_here" style="border: 1px solid;padding: 10px;padding-top: 3px;padding-bottom: 3;border-radius: 20px;background-color: aquamarine; margin-left: 7px; border-color: burlywood"> '+stu_nam+ '</span>');
+                $('#candidateSearchlist2').val($('#candidateSearchlist2').val() + value+",");
+            },
+            error: function (data) {
+                alert("Somethings Wents Wrong");
+            },
+        });
+    //$('#openModal').modal().hide();
+    
+    });
+}
+
+function findByEnrollment() {    
+    if ($("#search_by_enrollment").is(":checked")) {
+        $("#findByEnrollmentInfo").show()
+        $("#info2").show()
+        $("#searh-student").val("")
+    }else{
+        $("#findByEnrollmentInfo").hide()
+        $("#info2").hide()
+        $("#searh-student").val("")
+    }
+};
+</script>

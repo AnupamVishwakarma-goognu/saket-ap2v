@@ -1,0 +1,195 @@
+{% load static %}
+{% load custom_tags %}
+<link media="all" rel="stylesheet" href="/static/v4_home_static/css/owl.carousel.min.css" type="text/css" />
+
+<nav class="navbar navbar-expand-lg navbar-light" id="main-navigation">
+    <div class="container">
+        <div class="d-flex justify-content-between w-100 align-items-center">
+            <div class="overlay"></div>
+            <div class="navbar-wrap">
+                <div class="d-block d-sm-none" id="bar-menu">
+                    <span class="hmmenu">
+                        <sup></sup>
+                    </span>
+                </div>
+                <a class="navbar-brand" href="/"></a>
+            </div>
+            <style>
+                @media only screen and (max-width: 768px) {
+                    .monjoal {
+                        font-size: 9px !important;
+                        position: absolute;
+                        line-height: 10px;
+                        top: -10px;
+                        left: 6px;
+                    }
+.llinks{
+    position: relative;
+}
+                  }
+                  
+            </style>
+            <style>
+                .courses-dropdown .nav-tabs {
+                    height: 300px;
+                }
+                .courses-tabs .menu-tab-content>.menu-tab-pane {
+                    height: fit-content;
+                }
+            </style>
+            <button class="btn font-size-md p-0 d-block d-sm-none cls_search-btn">
+                <i class="icon-search-thin text-primary"></i>
+            </button>
+           <a href="#" class="btn-link login-mobile d-block d-sm-none cls_login " onclick="showLogin()">
+                {% if user.is_authenticated %}
+                    
+                    <!-- <a class="logout-link mr-3" href="/classroom/logout" id="logbtn">Logout</a> -->
+                    <a class="logout-link llinks mr-3"  href="/cart/checkout?t={{csrf_token}}"  id="logbtn"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                        </svg><span class="monjoal" style="border: 1px solid;border-radius: 10px;padding: 0px 2px 0px 2px;font-size: 10px;" id="cart_icon_number1">-</span></a>
+                    <a class="logout-link mr-3" href="/classroom/" id="logbtn">Class</a>
+                {% else %}
+                    {% comment %} <img src="{% static 'v4_home_static/images/login-user.png'%}" class="img-fluid" alt="user login" id="logbtn"> {% endcomment %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                      </svg>
+                      
+                {% endif %}
+           </a>
+            
+            
+
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav">
+                    <li class="dropdown courses-dropdown">
+                        <a class="nav-link  course-btn" href="/courses/" role="button">
+                            <span class="dropdown-toggle">All Courses</span>
+                        </a>
+
+                        <div class="dropdown-menu courses-tabs" style="height:fit-content ;">
+                            <ul class="nav nav-tabs" id="myTab1" role="tablist">
+                                {% for i in category_all %}
+                                {% get_category_course i.slug as all_course %}
+                                {% for j in all_course %}
+                                    {% if forloop.counter == 1 %}
+                                        {% if j %}
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="course-{{i.slug}}-tab" data-toggle="tab" href="#course-{{i.slug}}"
+                                                    role="tab" aria-selected="true">{{i.name}}</a>
+                                            </li>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% endfor %}
+                                
+                            </ul><!-- list style -->
+
+                            <div class="menu-tab-content" style="height:fit-content ;">
+                                {% for i in category_all %}
+                                    {% get_category_course i.slug as all_course %}
+                                    <div class="menu-tab-pane" id="course-{{i.slug}}" role="tabpanel" aria-labelledby="course-{{i.slug}}-tab">
+                                        <h2>{{i.name}}</h2>
+                                        <div class="submenu-wrap" style="overflow-y: auto;">
+                                            <ul>
+                                                {% for j in all_course %}
+                                                    <li><a href="/{{j.slug}}">{{j.name}}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div><!-- /. tab contant ends here -->
+                                {% endfor %}
+
+                            </div><!-- /. tab container ends here -->
+
+                        </div>
+                    </li>
+                    
+                    <li class="dropdown courses-dropdown">
+                        <a class="nav-link course-btn" href="/learning-path/" role="button">
+                            <span class="dropdown-toggle">Learning Paths</span>
+                        </a>
+
+                        <div class="dropdown-menu courses-tabs learning-path">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist" style="height:515px ;">
+				                {% for i in learning_paths %}
+                                <li class="nav-item"><a class="nav-link" href="/learning-path/{{i.slug}}">{{i.heading}}</a></li>
+				                {% endfor %}
+                            </ul><!-- list style -->
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="navbar-nav navbar-right ml-auto">
+                    <div class="input-group search-bar">
+                        <input type="text" class="form-control cls_search-btn" placeholder="Enter Course, Category or keyword"
+                            aria-label="Recipient's username" aria-describedby="basic-addon2" onclick="focusQboxString()">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon2">
+                                <i class="icon-search-thin"></i>
+                            </span>
+                        </div>
+                    </div><!-- // Search Bar-->
+
+                    <div class="" style="margin: 15px;">
+                            <p style="margin: 0;">{% if user.is_authenticated %}<a  href="/cart/checkout?t={{csrf_token}}" style="position: relative;" ><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                                </svg><span style="border: 1px solid;border-radius: 10px;padding: 2px 4px;font-size: 10px;line-height: 10px;position: absolute;top: -11px;width: 16px;" id="cart_icon_number">-</span></a>
+                                {% else %}
+                                <a href="#" data-toggle="modal" data-target="#exampleModal1"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                                    
+                                    <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                                    </svg><span style="border: 1px solid;border-radius: 10px;padding: 2px 4px;font-size: 10px;line-height: 10px;position: absolute;top: 4px;width: 16px;" id="cart_icon_number">-</span></a>
+                                {% endif %}
+                            </p>
+                    </div>
+
+                    {% if user.is_authenticated %}
+                        <li class="dropdown courses-dropdown logout">
+                            <a class="nav-link course-btn logout--text" href="#" role="button">
+                                <span class="dropdown-toggle font-size-xs">Logout</span>
+                            </a>
+    
+                            <div class="dropdown-menu">
+                                <ul class="logout__dropdown">
+                                    <li class="logout__dropdown--content">
+                                        <span class="logout__dropdown--user"></span>
+                                        <div>
+                                        <p class="mb-0 font-size-sm">{{request.user.first_name}} {{request.user.last_name}}</p>
+                                        <p class="mb-0 font-size-xs">{{request.user.email}}</p>
+                                        </div>
+                                    </li>
+
+                                    {% comment %} <li><a class="logout-link" href="#">Preference</a></li> {% endcomment %}
+
+                                    <li><a class="logout-link" href="/classroom/"><i class="icon-classroom"></i> Classroom</a></li>
+
+                                    {% if request.user.user_type == "instructor" %}
+                                        <li><a class="logout-link" href="/classroom/calender" target="__BLANK__"><i class="icon-batch"></i> Batch Calender <sup class="text-primary">[BETA]</sup></a></li>
+                                    {% endif %}
+
+                                    <li><a class="logout-link" href="/classroom/logout"><i class="icon-logout"></i> Logout</a></li>
+                                </ul><!-- list style -->
+                            </div>
+                        </li>
+
+                        
+                    {% else %}
+                        <a href="#" class="ml-3 mt-2 text-uppercase font-weight-bold font-size-xs text-gray-dark" data-toggle="modal" data-target="#exampleModal1">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div><!-- // Row -->
+    </div><!-- // container -->
+</nav><!-- // Navigation and Logon modal-->
+
+<script type="text/javascript" src="/static/v4_home_static/js/owl-jquery.min.js"></script>
+<script type="text/javascript" src="/static/v4_home_static/js/owl.carousel.min.js"></script>
+<script>
+    function focusQboxString(){
+        $("#search-keyword").focus();
+        setTimeout(function() { $('#search-keyword').focus() }, 300);
+        //alert("vhjkl")
+    }
+</script>
+{% include 'v4_home/sub_pages/mobile-navigation.html' %}

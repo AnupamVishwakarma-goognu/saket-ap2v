@@ -1,0 +1,69 @@
+.mobile-modal {
+    @include size(100%, 100vh);
+    background-color: $white;
+    z-index: -1;
+    position: fixed;
+    top: 0;
+    right: -10%;
+    opacity: 0;
+    transition: all .3s ease-in;
+
+    &.slideXright {
+        opacity: 1;
+        z-index: 10;
+        right: 0;
+    }
+
+    &__header {
+        // @include gradient-x($primary-light, $primary-dark);
+        background: linear-gradient(95deg, rgb(233, 35, 71) 20%, rgb(255, 113, 139) 80%);
+        padding: 10px 15px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+
+        h2 {
+            color: $white;
+            font-size: $font-size-base;
+            margin: 0;
+        }
+
+        .btn-back {
+            @include size(30px, 30px);
+            display: flex;
+            align-items: center;
+            color: $white;
+
+            i {
+                transform: rotate(180deg);
+                display: block;
+            }
+        }
+    }
+
+    &__content {
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .or {
+            height: 1px;
+            background-color: #e0e0e0;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            margin: 40px 0;
+
+            span {
+                background-color: $white;
+                padding: 0 10px;
+                display: inline-block;
+                position: relative;
+                top: -10px;
+                color: $gray-lightest;
+                font-size: $font-size-xs;
+            }
+        }
+    }
+}

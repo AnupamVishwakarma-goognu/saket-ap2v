@@ -1,0 +1,39 @@
+{% load static %}
+{% load custom_tags %}
+<table id="datatables" class="table" cellspacing="0" width="100%">
+  <thead>
+      <th>#</th>
+      <th>Batch</th>
+      <th>Batch Days</th>
+      <th>Instructor</th>
+      <th>Start Date/Time</th>
+      <th>End Date/Time</th>
+      <th>Total Class</th>
+      <th>Attended Class</th>
+      <th>%</th>
+      <th></th>
+  </thead>
+  <tbody>
+    {% for i in batch_pro_data %}
+      {% comment %} {% get_batch_obj_for_recording i.batch_demo_id i.type as batch_obj %} {% endcomment %}
+      <tr>
+        <td>{{ i.id }}</td>
+        <td>
+          {% get_batch_courses i.id as course_name %}
+          {{course_name}}
+        </td>
+        <td>{{i.days_of_week}}</td>
+        <td>{{i.instructors_name}}</td>
+        <td>{{i.start_date_time}}</td>
+        <td>{{i.end_date_time}}</td>
+        <td>{{i.total_class}}</td>
+        <td>{{i.attended}}</td>
+        <td>{{i.persentage}}%</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+
+

@@ -1,0 +1,31 @@
+{% extends 'v4_home/sub_pages/chat-base.html' %}
+{% load static %}
+
+{% block title %} AP2V {% endblock %}
+
+{% block css %}
+
+    <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/chat.css' %}" type="text/css" />
+{% endblock css %}
+
+{% block content %}
+<div class="chat-header">
+    <a href="/classroom/" class="back-to-class"> <i class="icon-arrow-point-to-right"></i> Back to Classroom</a>
+    <a class="navbar-brand" href="/"></a>
+</div>
+
+<div class="chatroom conversations">
+    <div class="conversations__leftPan">
+        {% include 'django_chatter/chatroom-list.html' %}
+    </div><!-- // Left panel -->
+
+    <div class="conversations__rightPan">
+        
+    <div class="chatroom__rightPan--tableWrap">
+        {% block chat_content %}
+        {% endblock %}
+    </div>
+    </div><!-- // Right panel -->
+
+</div><!-- // chat-room -->
+{% endblock content %}

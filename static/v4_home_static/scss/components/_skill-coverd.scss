@@ -1,0 +1,43 @@
+.skill-coverd {
+    position: relative;
+    font-size: $font-size-sm;
+    border: 1px solid $background;
+    border-radius: 5px;
+    width: 90%;
+    padding: 20px;
+
+    h3 {
+        position: absolute;
+        background-color: $white;
+        padding: 2px 5px;
+        font-size: $font-size-base;
+        top: -11px;
+    }
+
+    // &::after {
+    //     content: '';
+    //     @include size(154px, 220px);
+    //     display: block;
+    //     position: absolute;
+    //     bottom: -20px;
+    //     right: -60px;
+    //     background-image: url(#{$path}/course-detail/skill-coverd.png);
+    // }
+
+    // .text.collapse:not(.show) {
+    //     height: 140px !important; 
+    // }
+
+    // .text.collapsing {
+    //     min-height: 140px !important;
+    // }
+
+    &__lists {
+        display: flex;
+        align-items: center;
+
+        &--item {
+            border-radius: 50px;
+        }
+    }
+}

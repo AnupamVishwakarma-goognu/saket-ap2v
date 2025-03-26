@@ -1,0 +1,31 @@
+
+{% load static %}
+{% load custom_tags %}
+{% if batch_obj %}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Batch id</th>
+                <th>Name</th>
+                <th>Instructure</th>
+                <th>View</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in batch_obj %}
+                {% get_batch_courses i.id as course_name %}
+                <tr>
+                    <td>{{i.id}}</td>
+                    <td>{{course_name}}</td>
+                    <td>{{i.instructors.full_name}}</td>
+                    <td><a href="/batches/view/{{i.id}}" target="__BLANK__">View</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <div style="text-align: center;">
+        <i class="far fa-times-circle"></i>
+        <p>No Enrolled Batch Found for this student/enrollment.</p>
+    </div>
+{% endif %}

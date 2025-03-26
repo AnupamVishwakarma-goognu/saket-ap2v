@@ -1,0 +1,22 @@
+&__rightPan {
+    flex-grow: 1;
+    margin-left: 30px;
+
+    &--tableWrap {
+        background-color: $white;
+        border-radius: 4px;
+        box-shadow: 0 0 10px 0 rgba($black, .1);
+        color: $gray-light;
+        overflow: hidden;
+
+        .table-responsive {
+            height: 500px;
+        }
+
+        .table .thead-light th {
+            position: sticky;
+            top: -1px;
+            z-index: 1;
+        }
+    }
+}

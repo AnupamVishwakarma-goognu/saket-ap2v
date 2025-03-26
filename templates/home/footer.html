@@ -1,0 +1,216 @@
+{% load static %}
+
+    <!-- footer section starts here -->
+    <footer class="container-fluid">
+     <div id="cover-spin">
+     </div>
+      <div class="row hidden-xs hidden-sm">
+        <div class="col-sm-2">
+          <p class="mt-30"><strong>Company & Policy Info</strong></p>
+          <ul>
+            <li><a href="/about-us/">About us</a></li>
+            <li><a href="{% url 'whyap2v' %}">Why AP2V</a></li>
+            <li><a href="/testimonials/">Testimonials</a></li>
+            <li><a href="{% url 'events' %}">Events</a></li>
+            {% comment %} <li><a href="{% url 'blogs-list' %}">Blogs</a></li> {% endcomment %}
+            <li><a href="/gallery/">Gallery</a></li>
+	          {% comment %}
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Use</a></li>
+	          {% endcomment %}
+            <li><a href="/contact/">Contact us</a></li>
+          </ul>
+        </div><!-- /.Col sm 3 -->
+
+        <div class="col-sm-3">
+          <p class="mt-30"><strong>Certifications</strong></p>
+          <ul>
+            {% for certificate in certifications|slice:":10" %}
+		            {% if certificate.On_Footer == True %}
+            		<li><a href="/certifications/{{ certificate.slug }}">{{certificate.name}}</a></li>
+		            {% endif %}
+            {% endfor %}
+          </ul>
+        </div><!-- /.Col sm 3 -->
+
+        <div class="col-sm-3">
+          <p class="mt-30"><strong>Courses</strong></p>
+          <ul>
+	        {% for course in courses|slice:":10" %}
+		        {% if course.On_Footer == True %}
+           	<li><a href="/{{ course.slug }}">{{ course.name }}</a></li>
+		        {% endif %}
+	        {% endfor %}
+          </ul>
+        </div><!-- /.Col sm 3 -->
+
+        <div class="col-sm-4 address">
+
+          <div class="select-loc mb-30">
+            <div class="input-group mt-30">
+              <span class="input-group-addon"><sup class="icon-location"></sup></span>
+              <select>
+                <option>Select Location</option>
+                <option selected>Gurugram</option>
+                <option>Delhi</option>
+                <option>Noida</option>
+              </select>
+            </div><!-- /.input-group -->
+          </div><!-- /.select-loc -->
+
+	  <p>M44, 2nd Floor, Old DLF Colony, Sector 14, Gurugram, Haryana 122001</p>
+	  <p> <strong class="block">Phone:</strong>+91 8306996216</p>
+          <p><strong class="block">Email:</strong>info@ap2v.com</p>
+          <ul class="smo">
+            <li><a href="https://www.facebook.com/ap2vacademy/" class="icon-fb">Facebook</a></li>
+            <li><a href="https://twitter.com/ap2vap2vacademy/" class="icon-twitter">Twitter</a></li>
+            <li><a href="https://in.linkedin.com/company/ap2vacademy" class="icon-linked">Linkedin</a></li>
+
+          </ul>
+        </div><!-- /.Col sm 3 -->
+      </div><!-- /.Row -->
+
+      <div class="row botton-footer">
+          <div class="col-sm-8 col-xs-12 dlmc">
+            <a href="/about-us/">About Us</a>
+            <a href="/why-ap2v/">Why AP2V</a>
+            <a href="/testimonials/">Testimonials</a>
+            <a href="/gallery/">Gallery</a>
+	    {% comment %}
+            <a href="privacy-policy.html">Privacy Policy</a>
+            <a href="tnc.html">Terms &amp; Condition</a>
+	    {% endcomment %}
+            <a href="/contact/">Contact us</a>
+          </div>
+          <div class="col-sm-4 col-xs-12 drmc">© 2019 AP2V Solutions Private Limited. All rights Reserved.</div><!-- /.copyright -->
+      </div><!-- /.bottom footer -->
+    </footer><!-- footer section Ends here -->
+
+    <!-- Refer & Earn Button -->
+    <div class="sticky-action-earn">
+	    <a href="{% url 'refer_and_earn' %}" class="btn-lg btn-default">Refer & Earn</a>
+    </div>
+    <!-- End Refer & Earn Button -->
+
+      <!-- Sticky Bottom -->
+    <div class="sticky-action">
+      <a href="tel:+918306996216" class="btn-lg btn-default" data-toggle="modal" data-target="#rac-call">Talk to Expert</a>
+      <a href="#" class="btn-lg btn-default" data-toggle="modal" data-target="#rac">Drop us your enquiry</a>
+    </div>
+    <!-- /. Sticky Bottom -->
+    <!-- Sticky Bottom -->
+    <div class="sticky-action-mobile">
+      <a href="tel:+918306996216" class="btn-lg btn-default" data-toggle="modal" data-target="#rac-call">Talk to Expert</a>
+    </div>
+    
+    <!-- /. Sticky Bottom -->
+    <!-- Modal for rac -->
+    <div class="modal fade" id="rac" role="dialog">
+      <div class="modal-content-call">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <div class="form-wrap-call">
+      <form method="post" action="{% url 'contact-popup-enquiry' %}" id="contact_popup_form">
+        {% csrf_token %}
+            <ul>
+              <li class="form-group">
+                 <input type="text" name="firstname" class="form-control" placeholder="Name*" required>
+              </li>
+
+              <li class="form-group">
+                 <input type="email" name="email_address" class="form-control" placeholder="e.g. example@gmail.com*" required>
+              </li>
+
+              <li class="form-group">
+          <input type="number" name="mobile_number" class="form-control"  placeholder="Mobile Number*" required>
+              </li>
+
+              <li class="form-group">
+                 <textarea class="form-control" name="text_message" rows="3" placeholder="Type your query here*" required> </textarea>
+              </li>
+        <!-- <li class="form-group">
+                      <img src="/captcha?rand={{ number }}" alt="Captcha" id="captchaimg" class="img-responsive">
+              </li>
+              <li class="form-group">
+                      <input type="text" name="captcha_code" id="captcha_code" class="form-control" placeholder="Captcha" required>
+              </li> -->
+              <!-- <li class="form-group">
+                      <a href="javascript:void(0);" onClick="refresh_captcha();">Refresh Captcha</a>
+              </li> -->
+
+              <input type="text" name="url_page_name" id="url1" hidden>
+              <script type="text/javascript">
+                  let a = window.location.href;
+                  console.log(a)
+                  document.getElementById("url1").value = a
+              </script>
+
+              <li class="form-group">
+                 <button type="submit" class="btn-lg btn-default">Submit</button>
+              </li>
+            </ul>
+      </form>
+          </div><!-- /. Form wrap -->
+        </div>
+      </div>
+    </div><!-- /. Modal for rac-->
+
+    <!-- Modal for rac-call -->
+    <div class="modal fade" id="rac-call" role="dialog">
+      <div class="modal-content-call">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div class="form-wrap-call">
+          <form method="post" action="{% url 'contact-popup-enquiry-call' %}" id="contact_popup_form">
+            {% csrf_token %}
+            <ul>
+              <li class="form-group">
+                <input type="number" name="mobile_number" class="form-control"  placeholder="Mobile Number*" required>
+              </li>
+
+              <input type="text" name="url_page_name" id="url2" hidden>
+              <script type="text/javascript">
+                  let b = window.location.href;
+                  console.log(b)
+                  document.getElementById("url2").value = b
+              </script>
+
+              <li class="form-group">
+                <button type="submit" class="btn-lg btn-default">Submit</button>
+              </li>
+            </ul>
+          </form>
+        </div><!-- /. Form wrap -->
+      </div>
+    </div>
+  </div> <!-- /. Modal for rac-call -->
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static "js/common.js" %}"></script>
+    
+
+
+    <!-- <script type="text/javascript">
+        let a = window.location.href;
+        console.log(a)
+        document.getElementById("url1").value = a
+        document.getElementById("url2").value = a
+    </script> -->
+
+
+
+    <script>
+    function search_call(){
+	    var search_value = $('#search').val().replace(/\s+/g, '-');
+	    window.location.href = `{% url 'SearchFilterTemplateView' %}?q=${search_value}`;
+    }
+
+    function enter_search_call(attr_input){
+	    if(attr_input.keyCode == 13){
+		    var search_value = $('#search').val().replace(/\s+/g, '-');
+		    window.location.href = `{% url 'SearchFilterTemplateView' %}?q=${search_value}`;
+	    }
+    }
+    </script>

@@ -1,0 +1,567 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="wrapper">
+        {% include 'website/sidebar.html' %}
+        {% include 'website/header.html' %}
+        <div class="main-panel">
+            <!-- Navbar -->
+            
+            <div class="content" style="margin:0; padding-bottom:0">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                          <h4 class="card-title mt-0">Schedule Demo | <a href="#" onclick="openModel()">Schedule Demo</a></h4>
+                            <div class="card data-tables">
+                              <div class="card-header">
+                                <div class="row align-items-center justify-content-between">
+                                  <div class="d-flex follow-up--filter">
+                                    <div class="float-right col-md-4 pr-3 pr-md-0">
+                                      <select class="selectpicker" id="filters" name="filters">
+                                        <option value="name" {% if request.GET.type == 'name' %} selected='true' {% endif %}>Name</option>
+                                        <option value="session_duration" {% if request.GET.type == 'session_duration' %} selected='true' {% endif %}>Session Duration</option>
+                                        <option value="duration" {% if request.GET.type == 'duration' %} selected='true' {% endif %}>Duration</option>
+                                        <option value="course" {% if request.GET.type == 'course' %} selected='true' {% endif %}>Course</option>
+                                        <option value="instructor" {% if request.GET.type == 'instructor' %} selected='true' {% endif %}>Instructor</option>
+                                      </select>
+                                    </div><!-- // col -->
+
+                                    <div class="float-right col-md-4 pr-3 pr-md-0">
+                                      <input type="search" class="form-control" onkeypress="search_filter(event);" id="filters_search" value="{% if request.GET.n %}{{request.GET.n}}{% endif %}" placeholder="search...">
+                                    </div><!-- // col -->
+
+                                    <div class="col-md-1 pr-3 pr-md-0 d-flex align-items-center justify-content-center">
+                                      <i class="fa fa-refresh text-info" onclick="window.location.href=`${window.location.pathname}`"></i>
+                                    </div><!-- // col -->
+
+                                  </div><!-- // d-flex -->
+                                  <div class="col-md-3">
+                                    {% include 'batches/filters_batches.html'%}
+                                  </div>
+                                </div><!-- // Row -->
+                                
+                              </div>
+                                <div class="card-body table-striped table-no-bordered table-hover dataTable dtr-inline table-full-width">
+                                    <div class="toolbar">
+                                      <table id="datatables" class="table" cellspacing="0" width="100%">
+                                        <thead>
+                                            <th>#</th>
+                                            <th>Course</th>
+                                            <th>Start Date</th>
+                                            <th>End Time</th>
+                                            <th>Instructors</th>
+                                            <th>Action</th>
+                                            <th>Created By</th>
+                                            <th></th>
+                                            <th></th>
+                                        </thead>
+                                        <tbody>
+                                          {% for batch in demo_batch %}
+                                            <tr>
+                                                <td>{{ batch.id }}</td>
+                                                <td>{{ batch.courses }}</td>
+                                                <td>{{ batch.start_date_time | date:"d/M/Y - g:i A" }}</td>
+                                                <td>{{ batch.end_date_time | date:"d/M/Y - g:i A" }}</td>
+                                                <td>{{ batch.instructors }}</td>
+                                                <td> <a href="#" onclick="openBatchDetailsModel('{{batch.id}}')">View</a></td>
+                                                <td> {% if batch.created_by %}{{batch.created_by.first_name}} {% else %} -- {% endif %} </td>
+                                                <td> <a href="#" onclick="openDeleteModal('{{batch.id}}')"><i class="fa fa-trash"></a></td>
+                                                <td><a href="#" onclick="addMoreStudent('{{batch.id}}')">Add More Student</a></td>
+
+                                            </tr>
+                                          {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row mx-1">
+                              <div class="col-sm-12 col-md-5 font-size-base"><span class="mt-2 d-block">Showing {{ demo_batch.start_index }} - {{ demo_batch.end_index }} of {{ demo_batch.paginator.count }}</span></div>
+                              <div class="col-sm-12 col-md-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="datatables_paginate">
+                                    <ul class="pagination">
+                                      {% if demo_batch.has_previous %}
+                                        <li class="paginate_button page-item previous" id="datatables_previous">
+                                          <a aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" href="?page=1" tabindex="-1">FIRST</a>
+                                        </li>
+                                        <li class="paginate_button page-item previous" id="datatables_previous">
+                                          <a href="?page={{ demo_batch.previous_page_number }}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                        </li>
+                                        {% else %}
+                                        <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                                        <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">FIRST</a>
+                                        </li>
+                                        <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                                        <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                        </li>
+                                        {% endif %}
+
+                                        {% for i in demo_batch.paginator.page_range %}
+                                            {% if demo_batch.number == i %}
+                                                <li class="paginate_button page-item active">
+                                                <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                              </li>
+                                            {% elif i > demo_batch.number|add:'-5' and i < demo_batch.number|add:'5' %}
+                                                <li class="paginate_button page-item">
+                                                <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                              </li>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        {% if demo_batch.has_next %}
+                                          <li class="paginate_button page-item next" id="datatables_next">
+                                            <a href="?page={{ demo_batch.next_page_number }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                                          </li>
+                                          <li class="paginate_button page-item next" id="datatables_next">
+                                            <a href="{% if demo_batch.has_next %} ?page={{ demo_batch.paginator.num_pages }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link" {% endif %}>LAST</a>
+                                          </li>
+                                        {% else %}
+                                          <li class="paginate_button page-item next disabled" id="datatables_next">
+                                            <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                                          </li>
+                                          <li class="paginate_button page-item next disabled" id="datatables_next">
+                                            <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">LAST</a>
+                                          </li>
+                                      {% endif %}
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          {% include 'website/footer.html' %}
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="createBatchModal" tabindex="-1" role="dialog" aria-labelledby="createBatchModalLabel" style="display: none;">
+        <div class="modal-dialog modal-lg" role="document" style="width: 550px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title mt-0" id="myModalLabel">Schedule Demo</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/demo/create_demo_batch" method="POST">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <select id="selectcourse" name="course" class="selectpicker" required>
+                            <option value="">Select Batch</option>
+                                {% for data in course %}
+                                    <option value="{{ data.id }}">{{ data.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <select name="instructors" class="selectpicker" required>
+                                <option value="">Select Instuctor Name</option>
+                                {% for trainer in instructor %}
+                                    <option value="{{ trainer.id }}">{{ trainer.full_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <input type="date" class="form-control datetimepicker" name="date" placeholder="Batch Date" required="true" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Start Time</label>
+                                <input type="time" class="form-control datetimepicker" name="start_time" placeholder="Batch start time" required="true" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>End Time</label>
+                                <input type="time" class="form-control datetimepicker" name="end_time" placeholder="Batch start time" required="true" />
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <div class="accordion" id="accordionExample">
+                            
+                            <div class="card" style="border-color: #f7dadaf2;">
+                                <div class="card-header" id="headingTwo">
+                                <h2 class="mb-0" style="margin-top: 0;display: flex;justify-content: space-between;">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" style="margin-left: -15px;margin-top: -12px;margin-bottom: -12px;">
+                                    Select Students
+                                    </button>
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                                    </svg>
+                                </h2>
+                                </div>
+                                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="form-group col-md-12">
+                                            <input type="text" id="searh-student" placeholder="Search Student" class="form-control multi_select_fastselect">
+                                        </div>
+                                        <p id="student_list_s" style="padding-left: 13px;"> </p>
+
+                                        <div id="add_student_email">
+                                        </div>
+                                        <button type="button" id="submit" onclick="add_student()" class="btn btn-secoundry btn-fill px-4 float-right" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Add Student</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% comment %} <div class="row">
+                                <div class="form-group col-md-12">
+                                    <select name="template_name" class="selectpicker" id="smsTemplate" required>
+                                        <option value="">Select SMS Template</option>
+                                        {% for i in smstemplate %}
+                                            <option value="{{ i.id }}">{{ i.template_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div> {% endcomment %}
+
+                            {% comment %} <div id="template_message_div" class="col-md-12 mt-2" style="box-shadow: 0 30px 40px rgba(0,0,0,.1);padding-top: 15px;padding-bottom: 5px;border: burlywood;background-color: azure;">
+                                SMS Template: <p style="color:#bba0a0;" id="template_message"></p>
+                            </div> {% endcomment %}
+
+                            <input type="text" hidden id="candidateSearchlist2" name="candidate2" required>
+
+                            <div class="modal-footer">
+                                <button type="submit" id="sub_button" onclick="createBatch()" class="btn btn-primary btn-fill px-4" style="border: transparent;">Create Batch</button>
+                            </div>
+                            
+                            </div>
+                        </div>     
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="batchDetailsModal" tabindex="-1" role="dialog" aria-labelledby="batchDetailsModalLabel"
+        style="display: none;">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="width: 680px;margin-left: 45px;">
+                <div class="modal-header">
+                    <h4 class="modal-title mt-0" id="myModalLabel">Batch Details</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="padding-top: 0px;">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            
+                        </div>
+
+                        <div class="form-group col-md-12" id="batch_student_details">
+
+                        </div>
+                    </div>
+                </div>
+                {% comment %} </form> {% endcomment %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="batchDeleteModal" tabindex="-1" role="dialog" aria-labelledby="batchDeleteModalLabel"
+        style="display: none;">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="width: 352;margin-left: 220px;">
+                <div class="modal-header">
+                    <h4 class="modal-title mt-0" id="myModalLabel">Delete Batch</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="padding-top: 0px;">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <p>Are you sure to delete this demo batch.</p>
+                            <input type="text" hidden id="deleteBatchId" name="">
+                        </div>
+                        <div class="form-group col-md-12" style="display: flex;justify-content: flex-end;">
+                            {% comment %} <button type="button" style="margin-right: 10px;" class="btn btn-primary btn-fill px-4" style="border: transparent;">Cancel</button> {% endcomment %}
+                            <button type="button" onclick="yesDelete()" class="btn btn-primary btn-fill px-4" style="border: transparent;">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Student Modal -->
+    <div class="modal fade" id="addMoreStudent" tabindex="-1" role="dialog" aria-labelledby="addMoreStudentLabel"
+        style="display: none;">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="width: 700;margin-left: 50px;">
+                <div class="modal-header">
+                    <h4 class="modal-title mt-0" id="myModalLabel">Add More Student in Demo Batch</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="padding-top: 0px;">
+                    <div class="row">
+                        <form action="/demo/add_more_student" method="POST">
+                        {% csrf_token %}
+                            <div class="form-group col-md-12">
+                                <div class="accordion" id="accordionExample">
+                                
+                                <div class="card" style="border-color: #f7dadaf2;width: 500px;margin-left: 67px;">
+                                    <div class="card-header" id="headingTwo">
+                                    <h2 class="mb-0" style="margin-top: 0;display: flex;justify-content: space-between;">
+                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" style="margin-left: -15px;margin-top: -12px;margin-bottom: -12px;">
+                                        Select Students
+                                        </button>
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                            <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                                        </svg>
+                                    </h2>
+                                    </div>
+                                    <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <div class="form-group col-md-12">
+                                                <input type="text" id="searh-student2" placeholder="Search Student" class="form-control multi_select_fastselect">
+                                            </div>
+                                            
+
+                                            <div id="add_student_email2">
+                                            </div>
+                                            <button type="button" id="submit2" onclick="add_student2()" class="btn btn-secoundry btn-fill px-4 float-right" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">Add Student</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p id="student_list_s2" style="padding-left: 13px;"> </p>
+
+                                <input hidden type="text" id="candidateSearchlist23" name="candidate23" required>
+                                <input hidden type="text" id="add_more_student_batch_id" name="add_more_student_batch_id" required>
+
+                                <div class="modal-footer">
+                                    <button type="submit" id="sub_button2" onclick="createBatch2()" class="btn btn-primary btn-fill px-4" style="border: transparent;">Create Batch</button>
+                                </div>
+                                
+                                </div>
+                            </div> 
+                        </form>    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wating Modal -->
+    <div class="modal fade" id="waitingModal" tabindex="-1" aria-labelledby="waitingModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content add-student">
+                {% comment %} <div class="modal-header">
+                    <h5 class="modal-title" id="waitingModalLabel">Download your course curriculum</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div> {% endcomment %}
+                <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <img id="theImg" style="height: 50px;padding-left: 43%;" src={% static "assets/images/waiting-icon.jpg" %}>
+                                <p>Please wait we are adding the student, this process may take some time.</p>
+                                <p>Students is auto recieve the demo invite mail and sms.</p>
+                                <p>After complations the process page will auto reload.</p>
+                                <p>If nothing is happen after some time,Please refresh page and check wather student is added or not.</p>
+                            </div>
+                        </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $("#template_message_div").hide()
+        $('#sub_button').prop('disabled', true);
+        $('#sub_button2').prop('disabled', true);
+
+        function openModel(){
+            $('#createBatchModal').modal('show');  
+        };
+
+        function openBatchDetailsModel(batch_id){
+            //alert(batch_id)
+            $('#batchDetailsModal').modal('show'); 
+            $("#batch_student_details").empty();
+            $('#batch_student_details').prepend('<img id="theImg" style="height: 50px;padding-left: 43%;" src={% static "assets/images/waiting-icon.jpg" %}>')
+            $.ajax({
+                type: "GET",
+                url: "/demo/get_batch_student?batch_id="+batch_id,
+                data: {},
+                success: function (data) {
+                    $("#batch_student_details").empty();
+                    $('#batch_student_details').html(data)
+                },
+                error: function (data) {
+                    alert("Internal Server Error!!!");
+                },
+            });
+        };
+
+        jQuery("#smsTemplate").change(function() {
+            var value = jQuery(this).children(":selected").attr("value");
+
+            if(value=="" || value==" "){
+                $("#template_message_div").hide();
+                $("#template_message").text("");
+                
+            }
+
+            $.ajax({
+                url: '/demo/get_smsTemplate?template_id='+value,
+                data: {},
+                type: 'GET',
+                success: function(data) {
+                    //alert("success");
+                    //alert(data['template_text'])
+                    //alert(data['variable_count'])
+                    $("#template_message_div").show()
+                    $("#template_message").text(data['template_text'])
+                },
+                error: function() {
+                    alert("Internal Server Error!!!");
+                },
+            });
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script>
+        var stu_email = [];
+        $(document).ready(function(){
+            $('#searh-student').on("input propertychange", function(){
+                var search_string = $("#searh-student").val();
+                $("#add_student_email").empty();
+                data = {'search_string':search_string}
+                if(search_string.length != 0){
+                    $.ajax({
+                        type: "GET",
+                        url: "/demo/get_enquiry_student",
+                        data: data,
+                        success: function (data) {
+                            $('#add_student_email').html(data)
+                        },
+                        error: function (data) {
+                            alert("Internal Server Error!!!");
+                        },
+                    }); 
+                };
+            });
+        });
+
+        $(document).ready(function(){
+            $('#searh-student2').on("input propertychange", function(){
+                var search_string = $("#searh-student2").val();
+                $("#add_student_email2").empty();
+                data = {'search_string':search_string}
+                if(search_string.length != 0){
+                    $.ajax({
+                        type: "GET",
+                        url: "/demo/get_enquiry_student",
+                        data: data,
+                        success: function (data) {
+                            $('#add_student_email2').html(data)
+                        },
+                        error: function (data) {
+                            alert("Internal Server Error!!!");
+                        },
+                    }); 
+                };
+            });
+        });
+
+        
+
+        function add_student(){
+            console.log('Student_list: '+stu_email)
+            $('#candidateSearchlist2').val("")
+            $.each(stu_email, function(index, value){
+            $('#candidateSearchlist2').val($('#candidateSearchlist2').val() + value+",");  
+            $('#sub_button').prop('disabled', false);    
+            });             
+        };
+
+        function add_student2(){
+            console.log('Student_list: '+stu_email)
+            $('#candidateSearchlist23').val("")
+            $.each(stu_email, function(index, value){
+            $('#candidateSearchlist23').val($('#candidateSearchlist23').val() + value+",");  
+            $('#sub_button2').prop('disabled', false);    
+            });             
+        };
+
+        function createBatch(){
+            $("#sub_button").text('Creating...');
+            $('#waitingModal').modal('show');
+            $('#waitingModal').modal({backdrop: 'static', keyboard: false})
+
+            //window.setInterval(function() {
+                //$("#sub_button").text('Please Wait...');
+            //}, 4000);
+        }
+        function createBatch2(){
+            $("#sub_button2").text('Adding...');
+            $('#waitingModal').modal('show');
+            $('#waitingModal').modal({backdrop: 'static', keyboard: false})
+
+            //window.setInterval(function() {
+                //$("#sub_button").text('Please Wait...');
+            //}, 4000);
+        }
+
+        function openDeleteModal(id){
+            $('#batchDeleteModal').modal('show');  
+            $("#deleteBatchId").val(id);
+        }
+
+        function yesDelete(){
+            batch_id = $("#deleteBatchId").val();
+            if(batch_id){
+                $.ajax({
+                    type: "GET",
+                    url: "/demo/delete_batch?id="+batch_id,
+                    data: {},
+                    success: function (data) {
+                        location.reload();
+                    },
+                    error: function (data) {
+                        alert("Internal Server Error!!!");
+                    },
+                });
+            } 
+        }
+
+        function addMoreStudent(id){
+            $("#add_more_student_batch_id").val(id)
+            $('#addMoreStudent').modal('show');
+        }
+        
+    </script>
+    
+    
+
+{% endblock content %}

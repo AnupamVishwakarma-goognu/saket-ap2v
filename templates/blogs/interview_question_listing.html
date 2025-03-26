@@ -1,0 +1,176 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% load compress %}
+
+{% block title %} AP2V {% endblock %}
+
+{% block css %}
+{% comment %}
+<link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/blog.css' %}" type="text/css" /> {% endcomment %}
+{% compress css %}
+<link media="all" rel="stylesheet" href="/static/v4_home_static/css/blog.css" type="text/css" />
+<link media="all" rel="stylesheet" href="/static/v4_home_static/css/interview_question.css" type="text/css" />
+{% endcompress css %}
+
+<script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.ap2v.com/"
+            },{
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Interview-Question-List",
+                "item": "https://www.ap2v.com/interview-questions/"
+            }]
+        }
+    </script>
+<style>
+    #jkj ol {
+        list-style-type: auto;
+        padding-left: 40px;
+    }
+
+    #jkj ul {
+        list-style-type: auto;
+        padding-left: 40px;
+    }
+    #page-content{
+        max-width: 1140px;
+        width: 90%;
+        margin: 0 auto;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="main-wrap">
+    <!-- push-down -->
+    {% include 'v4_home/sub_pages/push-down.html' %}
+
+    <!-- navigation -->
+    {% include 'v4_home/sub_pages/navigation.html' %}
+
+
+
+
+    <!-- **************************************** Details *******************************-->
+    <div class="main-part-question">
+        <div class=" page-content page-container" id="page-content">
+            <ol class="related0 breadcrumb mb-0 pb-0">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li aria-current="page" class="breadcrumb-item active">Interview Questions</li>
+            </ol>
+        </div>
+        <div class="interview-inspection">
+            <img src="/static/v4_home_static/images/interview-banner1.png" alt="" class="corner-img">
+            <div class="interview-heading">
+                {% comment %} <h2>Interview Question</h2> {% endcomment %}
+                <h1>Interview Questions.</h1>
+                {% comment %} <p>With interviews getting harder, it's important to have the right interview questions and answers. You'll need these skills in order to stand out from other candidates and receive the best responses. Start preparing today with our proven interview tips! </p> {% endcomment %}
+                <p>With interviews getting harder, it's time for you to get smarter with new interview skills. Start preparing today! With the right questions and answers, you can easily land a great job interview. </p>
+            </div>
+            <div class="top-interview-question">
+
+            </div>
+
+        </div>
+        <section class="container">
+            <h2 class="align-items-start">Top Interview Questions</h2>
+            <div class="mycards">
+                {% for i in question_answer_title_obj %}
+                    <a href="/interview-questions/{{i.slug}}">
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <h3>{{i.title}}</h3>
+                                    {% comment %} <p>ANode js Interview Questions</p> {% endcomment %}
+                                    <div class="d-flex align-items-center justify-content-between w-100 mb-1">
+                                        <div class="listing__box__content--headWrap">
+                                            {% comment %} <h2 class="mb-0"><a href="/{{crs.slugs}}">{{crs.name}}</a></h2> {% endcomment %}
+                                            <span class="yellow-tag my-2">{{i.categories.name}}</span>
+                                        </div>
+                                    </div>
+                                    <span>{{i.content |truncatechars_html:80|safe}}</span>
+                                </div>
+                        
+                                <div class="flip-card-back">
+                                    <h5><i>Key Points</i></h5>
+                                    <ul>
+                                        <li>4.9 Rating</li>
+                                        <li>{{i.get_total_question}} Question(s)</li>
+                                        <li>60 Mins of Read</li>
+                                        <li>{{i.views}} Reader(s)</li>
+                                    </ul>
+                                    <button>Read More</button>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </section>
+        {% comment %} <section class="container">
+            <h2 class="align-items-start">Related Categories</h2>
+            <div class="catog">
+                <div class="catog-box">
+                    <h3>Lorem ipsum dolor sit.</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, dolore?</p>
+                </div>
+                <div class="catog-box">
+                    <h3>Lorem ipsum dolor sit.</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, dolore?</p>
+                </div>
+                <div class="catog-box">
+                    <h3>Lorem ipsum dolor sit.</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, dolore?</p>
+                </div>
+                <div class="catog-box">
+                    <h3>Lorem ipsum dolor sit.</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, dolore?</p>
+                </div>
+                <div class="catog-box">
+                    <h3>Lorem ipsum dolor sit.</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, dolore?</p>
+                </div>
+                <div class="catog-box">
+                    <h3>Lorem ipsum dolor sit.</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, dolore?</p>
+                </div>
+
+            </div>
+        </section> {% endcomment %}
+        <section class="container" style="padding-bottom: 20px;">
+            <h2 class="align-items-start">Interview Questions</h2>
+        </section>
+        <div class="container coschum" style="margin-bottom: 40px;">
+            <div class="row">
+                {% for i in category_all %}
+                    {% get_category_interview_question i.id as category_questions %}
+                        {% if category_questions %}
+                            <div class="col-md-4 col-sm-4">
+                                <h3 class="section-heading">{{i.name}}</h3>
+                                <div class="courses">
+                                    {% for j in category_questions %}
+                                        <a href="/interview-questions/{{j.slug}}" class="courses-content"> <span> {{j.title}}</span> </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+<!-- **************************************** Details *******************************-->
+
+
+{% comment %} {% for i in question_answer_title_obj %}
+<a href="/interview-questions/{{i.slug}}"> {{i.title}} </a> <br>
+{% endfor %} {% endcomment %}
+{% endblock content %}

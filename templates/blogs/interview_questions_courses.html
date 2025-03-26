@@ -1,0 +1,340 @@
+{% load custom_tags %}
+<div class="carousel-wrap carousel-bingo">
+    <div class="owl-carousel">
+        {% for crs in category_courses %}
+        <!--<div class="item">
+                <div class="white-box">
+                    <a class="d-block" href="/{{crs.slug}}" tabindex="0">
+                        <img alt="{{crs.name}}" class="" style="width:108px; height:108px" loading="lazy" src="/media/{{crs.course_icon}}">
+                    </a>
+                    <div class="white-box--content mt-3">
+                        {% comment %} <span class="yellow-tag d-inline-block max-w-90">{{crs.name}}</span>  {% endcomment %}
+                        <a href="/{{crs.slug}}" tabindex="0">
+                            <h3 class="justify-content-start">{{crs.name}}</h3>
+                        </a>
+                        <div class="d-flex align-items-center justify-content-start mb-2">
+                            Rating: <span class="icon-star-fill mx-1"></span> <strong>{{crs.rating}}</strong>/5 <span class="font-size-xxs ml-1">({{crs.review_count}})</span>
+                        </div>
+                        <br>
+                        <a class="btn-link know-more" href="/{{crs.slug}}" tabindex="0">Know more</a>
+                    </div>
+                </div>
+            </div>-->
+
+        <div class="tc-list" style="position: relative;">
+            
+                <div class="course-trend">
+                    {% get_dyna_color i.slug as dynamic_color %}
+                    <div class="course-trend-upper three"
+                        style="background: linear-gradient(45deg, {{dynamic_color.0}}, {{dynamic_color.1}})">
+                        <div class="course-trend-upper-img">
+                            <img loading="lazy" class="d-inline-block" src="/media/{{crs.course_icon}} "
+                                alt="{{crs.name}}" width="52" height="52">
+                        </div><span>{{crs.name|truncatechars:"42"}}</span>
+                    </div>
+                    <div class="course-trend-lower">
+                        <p><span class="yellow-tag d-inline-block max-w-90"
+                                style="margin-top: 10px;margin-bottom: -12px;">{{ crs.category_name.all|join:" &bull; "
+                                }}</span></p>
+                        <span>{{crs.name|truncatechars:"42"}}</span>
+                        <div class="trending-course-review"><i>Reviews</i>
+                            <div class="trending-course-review-star">
+                                <div class="star">
+                                    <span class="icon-star-fill mx-1"></span>
+                                    <span class="icon-star-fill mx-1"></span>
+                                    <span class="icon-star-fill mx-1"></span>
+                                    <span class="icon-star-fill mx-1"></span>
+                                    <span class="icon-star-fill mx-1"></span>
+                                    <strong>{{ crs.rating }}</strong>
+                                    <span class="font-size-xxs ml-1">({{ crs.review_count }})</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overlay1"><span class="listlearn">What will You Get ?</span>
+                        <ul>
+                            <li>{{crs.duration}} Hours of Learning</li>
+                            <li>2 Hours of Assignments</li>
+                            <li>100% Job Assistance</li>
+                        </ul>
+                        <a onclick="addid('{{crs.id}}','{{forloop.counter}}')"><button type="button"
+                                id="addtooocartt{{forloop.counter}}"> Add To Cart</button></a>
+                        <a href="/{{crs.slug}}"><button>View Details</button></a>
+                    </div>
+                </div>
+            
+        </div>
+        {% endfor %}
+
+        {% comment %} <div class="item">
+            <div class="white-box"><a class="d-block" href="/artificial-intelligence-training-course-online"
+                    tabindex="0"><img alt="Artificial Intelligence Training Course Online" class="" loading="lazy"
+                        src="/media/images/courses/artificial-intelligence-training-course-online_usrMHsh.jpg"></a>
+                <div class="white-box--content mt-3"><span class="yellow-tag d-inline-block max-w-90">Artificial
+                        Intelligence</span> <a href="/artificial-intelligence-training-course-online" tabindex="0">
+                        <h3 class="justify-content-start">Artificial Intelligence Training Course O…</h3>
+                    </a>
+                    <div class="d-flex align-items-center justify-content-start mb-2">Rating: <span
+                            class="icon-star-fill mx-1"></span> <strong>4.95</strong>/5 <span
+                            class="font-size-xxs ml-1">(32769)</span></div><br> <a class="btn-link know-more"
+                        href="/artificial-intelligence-training-course-online" tabindex="0">Know more</a>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="white-box"><a class="d-block" href="/artificial-intelligence-training-course-online"
+                    tabindex="0"><img alt="Artificial Intelligence Training Course Online" class="" loading="lazy"
+                        src="/media/images/courses/artificial-intelligence-training-course-online_usrMHsh.jpg"></a>
+                <div class="white-box--content mt-3"><span class="yellow-tag d-inline-block max-w-90">Artificial
+                        Intelligence</span> <a href="/artificial-intelligence-training-course-online" tabindex="0">
+                        <h3 class="justify-content-start">Artificial Intelligence Training Course O…</h3>
+                    </a>
+                    <div class="d-flex align-items-center justify-content-start mb-2">Rating: <span
+                            class="icon-star-fill mx-1"></span> <strong>4.95</strong>/5 <span
+                            class="font-size-xxs ml-1">(32769)</span></div><br> <a class="btn-link know-more"
+                        href="/artificial-intelligence-training-course-online" tabindex="0">Know more</a>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="white-box"><a class="d-block" href="/artificial-intelligence-training-course-online"
+                    tabindex="0"><img alt="Artificial Intelligence Training Course Online" class="" loading="lazy"
+                        src="/media/images/courses/artificial-intelligence-training-course-online_usrMHsh.jpg"></a>
+                <div class="white-box--content mt-3"><span class="yellow-tag d-inline-block max-w-90">Artificial
+                        Intelligence</span> <a href="/artificial-intelligence-training-course-online" tabindex="0">
+                        <h3 class="justify-content-start">Artificial Intelligence Training Course O…</h3>
+                    </a>
+                    <div class="d-flex align-items-center justify-content-start mb-2">Rating: <span
+                            class="icon-star-fill mx-1"></span> <strong>4.95</strong>/5 <span
+                            class="font-size-xxs ml-1">(32769)</span></div><br> <a class="btn-link know-more"
+                        href="/artificial-intelligence-training-course-online" tabindex="0">Know more</a>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="white-box"><a class="d-block" href="/artificial-intelligence-training-course-online"
+                    tabindex="0"><img alt="Artificial Intelligence Training Course Online" class="" loading="lazy"
+                        src="/media/images/courses/artificial-intelligence-training-course-online_usrMHsh.jpg"></a>
+                <div class="white-box--content mt-3"><span class="yellow-tag d-inline-block max-w-90">Artificial
+                        Intelligence</span> <a href="/artificial-intelligence-training-course-online" tabindex="0">
+                        <h3 class="justify-content-start">Artificial Intelligence Training Course O…</h3>
+                    </a>
+                    <div class="d-flex align-items-center justify-content-start mb-2">Rating: <span
+                            class="icon-star-fill mx-1"></span> <strong>4.95</strong>/5 <span
+                            class="font-size-xxs ml-1">(32769)</span></div><br> <a class="btn-link know-more"
+                        href="/artificial-intelligence-training-course-online" tabindex="0">Know more</a>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="white-box"><a class="d-block" href="/artificial-intelligence-training-course-online"
+                    tabindex="0"><img alt="Artificial Intelligence Training Course Online" class="" loading="lazy"
+                        src="/media/images/courses/artificial-intelligence-training-course-online_usrMHsh.jpg"></a>
+                <div class="white-box--content mt-3"><span class="yellow-tag d-inline-block max-w-90">Artificial
+                        Intelligence</span> <a href="/artificial-intelligence-training-course-online" tabindex="0">
+                        <h3 class="justify-content-start">Artificial Intelligence Training Course O…</h3>
+                    </a>
+                    <div class="d-flex align-items-center justify-content-start mb-2">Rating: <span
+                            class="icon-star-fill mx-1"></span> <strong>4.95</strong>/5 <span
+                            class="font-size-xxs ml-1">(32769)</span></div><br> <a class="btn-link know-more"
+                        href="/artificial-intelligence-training-course-online" tabindex="0">Know more</a>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="white-box"><a class="d-block" href="/artificial-intelligence-training-course-online"
+                    tabindex="0"><img alt="Artificial Intelligence Training Course Online" class="" loading="lazy"
+                        src="/media/images/courses/artificial-intelligence-training-course-online_usrMHsh.jpg"></a>
+                <div class="white-box--content mt-3"><span class="yellow-tag d-inline-block max-w-90">Artificial
+                        Intelligence</span> <a href="/artificial-intelligence-training-course-online" tabindex="0">
+                        <h3 class="justify-content-start">Artificial Intelligence Training Course O…</h3>
+                    </a>
+                    <div class="d-flex align-items-center justify-content-start mb-2">Rating: <span
+                            class="icon-star-fill mx-1"></span> <strong>4.95</strong>/5 <span
+                            class="font-size-xxs ml-1">(32769)</span></div><br> <a class="btn-link know-more"
+                        href="/artificial-intelligence-training-course-online" tabindex="0">Know more</a>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="white-box"><a class="d-block" href="/artificial-intelligence-training-course-online"
+                    tabindex="0"><img alt="Artificial Intelligence Training Course Online" class="" loading="lazy"
+                        src="/media/images/courses/artificial-intelligence-training-course-online_usrMHsh.jpg"></a>
+                <div class="white-box--content mt-3"><span class="yellow-tag d-inline-block max-w-90">Artificial
+                        Intelligence</span> <a href="/artificial-intelligence-training-course-online" tabindex="0">
+                        <h3 class="justify-content-start">Artificial Intelligence Training Course O…</h3>
+                    </a>
+                    <div class="d-flex align-items-center justify-content-start mb-2">Rating: <span
+                            class="icon-star-fill mx-1"></span> <strong>4.95</strong>/5 <span
+                            class="font-size-xxs ml-1">(32769)</span></div><br> <a class="btn-link know-more"
+                        href="/artificial-intelligence-training-course-online" tabindex="0">Know more</a>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="white-box"><a class="d-block" href="/artificial-intelligence-training-course-online"
+                    tabindex="0"><img alt="Artificial Intelligence Training Course Online" class="" loading="lazy"
+                        src="/media/images/courses/artificial-intelligence-training-course-online_usrMHsh.jpg"></a>
+                <div class="white-box--content mt-3"><span class="yellow-tag d-inline-block max-w-90">Artificial
+                        Intelligence</span> <a href="/artificial-intelligence-training-course-online" tabindex="0">
+                        <h3 class="justify-content-start">Artificial Intelligence Training Course O…</h3>
+                    </a>
+                    <div class="d-flex align-items-center justify-content-start mb-2">Rating: <span
+                            class="icon-star-fill mx-1"></span> <strong>4.95</strong>/5 <span
+                            class="font-size-xxs ml-1">(32769)</span></div><br> <a class="btn-link know-more"
+                        href="/artificial-intelligence-training-course-online" tabindex="0">Know more</a>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="white-box"><a class="d-block" href="/artificial-intelligence-training-course-online"
+                    tabindex="0"><img alt="Artificial Intelligence Training Course Online" class="" loading="lazy"
+                        src="/media/images/courses/artificial-intelligence-training-course-online_usrMHsh.jpg"></a>
+                <div class="white-box--content mt-3"><span class="yellow-tag d-inline-block max-w-90">Artificial
+                        Intelligence</span> <a href="/artificial-intelligence-training-course-online" tabindex="0">
+                        <h3 class="justify-content-start">Artificial Intelligence Training Course O…</h3>
+                    </a>
+                    <div class="d-flex align-items-center justify-content-start mb-2">Rating: <span
+                            class="icon-star-fill mx-1"></span> <strong>4.95</strong>/5 <span
+                            class="font-size-xxs ml-1">(32769)</span></div><br> <a class="btn-link know-more"
+                        href="/artificial-intelligence-training-course-online" tabindex="0">Know more</a>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="white-box"><a class="d-block" href="/artificial-intelligence-training-course-online"
+                    tabindex="0"><img alt="Artificial Intelligence Training Course Online" class="" loading="lazy"
+                        src="/media/images/courses/artificial-intelligence-training-course-online_usrMHsh.jpg"></a>
+                <div class="white-box--content mt-3"><span class="yellow-tag d-inline-block max-w-90">Artificial
+                        Intelligence</span> <a href="/artificial-intelligence-training-course-online" tabindex="0">
+                        <h3 class="justify-content-start">Artificial Intelligence Training Course O…</h3>
+                    </a>
+                    <div class="d-flex align-items-center justify-content-start mb-2">Rating: <span
+                            class="icon-star-fill mx-1"></span> <strong>4.95</strong>/5 <span
+                            class="font-size-xxs ml-1">(32769)</span></div><br> <a class="btn-link know-more"
+                        href="/artificial-intelligence-training-course-online" tabindex="0">Know more</a>
+                </div>
+            </div>
+        </div> {% endcomment %}
+
+
+    </div>
+</div>
+{% include 'v4_home/sub_pages/add_to_cart_model.html' %}
+
+<script>
+
+    
+
+    function addToCourse(course_type){
+         //alert(course_type)
+        courseid=$('.courseid').val()
+        language=$('#avlang').val()
+        
+        // alert(courseid)
+        mdata = {
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+            ecourse:courseid,
+            etype:course_type,
+            avlang:language
+        }
+
+        $.ajax({
+            url : "/e_store_apis/v1/add_choice_to_cart",
+            method : "POST",
+            data : mdata,
+            success:function(data) {
+                // alert("Success")
+                if (data.enroll == '1'){
+                    $(".record").button().click(function(){
+                        alert("You have already purchase this course");
+                      });
+                }
+                if (data.enroll == '2') 
+                    $(".live").button().click(function(){
+                    alert("You have already purchase this course");
+                  });
+                
+                
+                getUserCartCount()
+                //alert('Course added in your Cart.')
+                if (data.code == 1){
+                    //uuuu
+                    
+                }  
+                $('.added').click()         
+            },
+            error:function(data){
+                alert("internal serer error...")
+                //getUserCartCount()
+            }
+        })
+        const done = document.querySelector(".done");
+
+    }
+
+    
+</script>
+<!-- ------------------------add -->
+<script>
+    function addid(cid,loopcount){
+         //alert(cid)
+         //alert(loopcount)
+        $('.courseid').val(cid)
+        const addtooocartt = document.getElementById('addtooocartt'+loopcount);
+        var modal = document.getElementById("addtooocarttmodel"); 
+        var btn = document.getElementById("addtooocartt"+loopcount); 
+        var span = document.getElementsByClassName("closeadd")[0]; 
+        const fun = function() {
+        modal.style.display = "block";
+        modal.style.position = "fixed";
+        modal.style.zIndex = "99999999";
+        } 
+        span.onclick = function() {
+        modal.style.display = "none";
+        } 
+        mdata = {
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+            courseid:cid,
+        }
+
+        $.ajax({
+            url : "/e_store_apis/v1/show_hide_model",
+            method : "POST",
+            data : mdata,
+            success:function(data) {
+                 //alert(data.price) 
+                
+                if (data.price==0)
+                    $('.left').hide(),
+                    $('.right').css('border','None')
+                else
+                    $('.left').show()
+                if (data.result == 1)
+                    $('.left').show(),
+                    $('.right').css('border','1')
+                        
+                else
+                    $('.left').hide(),
+                    $('.right').css('border','None'),
+                    $('.cart-part').css('width','100%')
+                // alert (data.language_type)
+                if (data.language_type==1)
+                    $('#avlang').val(1)
+                    
+                else if (data.language_type==2)
+                    $('#avlang').val(2)
+                else
+                    $('#avlang').val(3)
+
+                
+
+            },
+            error:function(data){
+                // alert("internal serer error...")
+            }
+        })
+        fun()
+        
+    }
+</script>

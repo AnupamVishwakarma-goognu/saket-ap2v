@@ -1,0 +1,40 @@
+{% if lessons %}
+    {% for chapter in lessons %}
+        <div class="card ">
+            <!-- <span class="free-course-tag"></span> -->
+            <div class="card-header" id="courseHeading_{{forloop.counter}}">
+                <div class="mb-0">
+                <button class="course-content--btn btn btn-block text-left collapsed d-flex justify-content-between pr-0" type="button" data-toggle="collapse" data-target="#course_{{forloop.counter}}" aria-expanded="false" aria-controls="course_{{forloop.counter}}">
+                    {{chapter.name}}
+
+                    <!-- <div class="course-content--time">
+                        <span>4 lectures</span>
+                        <span class="px-2">-</span>
+                        <span>03:30:45</span>
+                    </div> -->
+                </button>
+                </div>
+            </div>
+
+        <div id="course_{{forloop.counter}}" class="collapse" aria-labelledby="courseHeading_{{forloop.counter}}" data-parent="#course-curriculum">
+            <div class="card-body">
+                <div class="course-content__subContent">
+                <!-- <div class="d-flex justify-content-between">
+                    {% if chapter.preview_link %}
+                        <span class="course-content--time"> 
+                            <a href="#" onclick="openVideoModal('{{chapter.preview_link}}')" class="mr-2">Preview</a>{{chapter.duration}} min
+                        </span>
+                    {% endif %}
+                </div> -->
+                {{chapter.description | safe}}
+                </div>
+
+                
+            </div><!-- // Course content -1 -->
+        </div>
+
+        </div><!-- // card -->
+    {% endfor %}
+{% else %}
+    No Course Content Found Please Fill Form for Course Content.
+{% endif %}

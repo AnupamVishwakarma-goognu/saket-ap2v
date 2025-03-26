@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load custom_tags %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+h3{
+    text-align: center;
+    background: antiquewhite;
+    line-height: 35px;
+}
+h4{
+    background-color: aliceblue;
+    padding-left: 20px;
+    line-height: 35px;
+}
+span{
+    color: crimson;
+}
+    </style>
+</head>
+<body>
+    <div>
+        <h3>Counselor Report</h3>
+        <h4>Counselor Name:- <span>{{counselor_id.name}}</span></h4>
+        <h4>Start Date: <span>{{start}}</span>   to End Date: <span>{{end}}</span></h4>
+        <h4>Total Amount: <span>{{target}}</span></h4>
+        <h4>Ap2v Final Amount: <span>{{final_amount}}</span></h4>
+        <h4>Current Recive Amount: <span>{{current_recive_ap2v}}</span></h4>
+    </div>
+    
+
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Course</th>
+            <th>Discuss Fee</th>
+            <th>Current Recive</th>
+            <th>Exam Share </th>
+            <th>Book Share</th>
+            <th>Vandorh Share</th>
+            <th>Current Recive Ap2v Share</th>
+            <th>Final Ap2v Share</th>
+            <th>Register on</th>
+        </tr>
+        {% for i in allenroll %}
+            {% if allenroll %}
+            <tr>
+            
+                <td>{{i}}</td>
+                <td>{{i.enquiry_course_id.courses}}</td>
+                <td>{{i.discussed_fee}}</td>
+                <td>{{i.current_recived_amount}}</td>
+                <td>{{i.exam_share}}</td>
+                <td>{{i.book_share}}</td>
+                <td>{{i.vandor_share}}</td>
+                <td>{{i.ap2v_share_recived}}</td>
+                <td>{{i.ap2v_share}}</td>
+                <td>{{i.registered_on}}</td>
+                
+            
+            </tr>
+            {% else %}
+            <p>NO DATA Found</p>
+            {% endif %}
+        {% endfor %}
+    </table>
+</body>
+</html>

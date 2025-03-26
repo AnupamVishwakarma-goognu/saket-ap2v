@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  {% include 'home/header.html' %}
+  <body class="fixed-navigation">
+
+  <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NBG7NXZ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- main banner and menu container starts here  -->
+    <div class="container-fluid side-collapse-container">
+      <div class="row">
+        <!-- header Satrts here -->
+        <header class="rel">
+          <!-- navbar Starts here -->
+	  {% include 'home/navigation.html' %}
+          <!-- navbar Ends here -->
+
+          <!-- home banner starts here -->
+          <div class="bannerSm-wrap" style="height: 90px;">
+          <!-- <div class="inner-overlay">
+            <img src="images/search-bg.jpg" class="img-responsive">
+	  </div> --><!-- inner overlay ends here -->
+          </div><!-- home banner ends here -->
+
+        </header><!-- header ends here -->
+
+      </div><!-- row ends here -->
+    </div><!-- main banner and menu container ends here  -->
+
+    <section class="white-bg pt-25">
+      <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="case-wrap">
+			<p><img src="{% static "images/404.jpg" %}" alt="404" class="img-responsive"></p>
+                    <p class="text-center mt-30">
+                        <strong>We’ve noticed your lost your way, not yo worry though</strong><br>we can’t seem to find the page you’re looking for
+                    </p>
+                    <a href="/" class="btn-lg btn-round btn-redGr mt-20">Go to home</a>
+                </div>
+            </div>
+
+        </div>
+      </div><!-- /.container -->
+    </section><!-- /.section -->
+    {% include 'home/footer.html' %}
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/common.js"></script>
+  </body>
+</html>

@@ -1,0 +1,200 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% block content %}
+    <div class="wrapper">
+        {% include 'website/sidebar.html' %}
+        {% include 'website/header.html' %}
+        <div class="main-panel">
+            <!-- Navbar -->
+            
+            <div class="content" style="margin:0; padding-bottom:0">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                          <h4 class="card-title mt-0">BATCHES</h4>
+                            <div class="card data-tables">
+                              <div class="card-header">
+                                <div class="row align-items-center justify-content-between">
+                                  <div class="d-flex follow-up--filter">
+                                    <div class="float-right col-md-4 pr-3 pr-md-0">
+                                      <select class="selectpicker" id="filters" name="filters">
+                                        <option value="name" {% if request.GET.type == 'name' %} selected='true' {% endif %}>Name</option>
+                                        <option value="session_duration" {% if request.GET.type == 'session_duration' %} selected='true' {% endif %}>Session Duration</option>
+                                        <option value="duration" {% if request.GET.type == 'duration' %} selected='true' {% endif %}>Duration</option>
+                                        <option value="course" {% if request.GET.type == 'course' %} selected='true' {% endif %}>Course</option>
+                                        <option value="instructor" {% if request.GET.type == 'instructor' %} selected='true' {% endif %}>Instructor</option>
+                                      </select>
+                                    </div><!-- // col -->
+
+                                    <div class="float-right col-md-4 pr-3 pr-md-0">
+                                      <input type="search" class="form-control" onkeypress="search_filter(event);" id="filters_search" value="{% if request.GET.n %}{{request.GET.n}}{% endif %}" placeholder="search...">
+                                    </div><!-- // col -->
+
+                                    <div class="col-md-1 pr-3 pr-md-0 d-flex align-items-center justify-content-center">
+                                      <i class="fa fa-refresh text-info" onclick="window.location.href=`${window.location.pathname}`"></i>
+                                    </div><!-- // col -->
+
+                                    {% comment %} <button type="submit" class="btn btn-primary btn-fill">Search</button> {% endcomment %}
+                                    {% if active == 1 %}
+                                      <a href="/batches/list/" style="padding-top: 9px;">Show Active Batches</a>
+                                    {% else %}
+                                      <a href="/batches/list/?complete_batch=True" style="padding-top: 9px;">Show Completed Batches</a>
+                                    {% endif %}
+
+                                  </div><!-- // d-flex -->
+                                  <div class="col-md-3">
+                                    {% include 'batches/filters_batches.html'%}
+                                  </div>
+                                </div><!-- // Row -->
+                                
+                              </div>
+                                <div class="card-body table-striped table-no-bordered table-hover dataTable dtr-inline table-full-width">
+                                    <div class="toolbar">
+                                      <table id="datatables" class="table" cellspacing="0" width="100%">
+                                        <thead>
+                                            <th>#</th>
+                                            <th>Course</th>
+                                            <th>Days</th>
+                                            <th>Start - End Date</th>
+                                            <th>Start - End Time</th>
+                                            <th>Instructors</th>
+                                            <th>Batch Status</th>
+                                        </thead>
+                                        <tbody>
+                                          {% for batch in batches %}
+                                          <tr onclick="window.location='/batches/view/{{ batch.id }}/'">
+                                            <td>{{ batch.id }}</td>
+                                            <td> 
+                                              {% comment %} {% get_batch_courses j.id as course_name %} {% endcomment %}
+                                              {% get_batch_courses batch.id as course_name %}
+                                              {{course_name}}
+                                            </td>
+                                            <td>{{ batch.days_of_week }}</td>
+                                            <td>{{ batch.start_date_time | date:"d/M/Y"}} - {{ batch.end_date_time | date:"d/M/Y"}}</td>
+                                            <td>{{ batch.start_date_time | date:"g:i A"}} - {{ batch.end_date_time | date:"g:i A"}}</td>
+                                            <td>{{ batch.instructors }}</td>
+                                            {% comment %} {% if batch.complete == True %}
+                                              <td>YES</td>
+                                            {% else %}
+                                              <td>NO</td>
+                                            {% endif %} {% endcomment %}
+                                            <td>{% if batch.batch_status == '1' %} Complete {% elif batch.batch_status == '2'%} Merge {% elif batch.batch_status == '3'%} Discontinue {% elif batch.batch_status == '4'%} Running {% endif %}</td>
+                                          </tr>
+                                          {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row mx-1">
+                              <div class="col-sm-12 col-md-5 font-size-base"><span class="mt-2 d-block">Showing {{ batches.start_index }} - {{ batches.end_index }} of {{ batches.paginator.count }}</span></div>
+                              <div class="col-sm-12 col-md-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="datatables_paginate">
+                                    <ul class="pagination">
+                                      {% comment %} {% if batches.has_previous %}
+                                      <li class="paginate_button page-item previous" id="datatables_previous">
+                                      <a href="?page={{ batches.previous_page_number }}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                      </li>
+                                      {% else %}
+                                      <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                                      <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                      </li>
+                                      {% endif %}
+
+                                      {% for i in batches.paginator.page_range %}
+                                        {% if i %}
+                                          {% ifequal i batches.number %}
+                                            <li class="paginate_button page-item active">
+                                              <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                            </li>
+                                          {% else %}
+                                            <li class="paginate_button page-item">
+                                              <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                            </li>
+                                          {% endifequal %}
+                                        {% else %}
+                                          <li class="paginate_button page-item" id="nopage">
+                                            <a href="javaScript:void(0)" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" style="pointer-events: none;">...</a>
+                                          </li>
+                                        {% endif %}
+                                      {% endfor %}
+
+                                      {% if batches.has_next %}
+                                        <li class="paginate_button page-item next" id="datatables_next">
+                                        <a href="?page={{ batches.next_page_number }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                                        </li>
+                                      {% else %}
+                                        <li class="paginate_button page-item next disabled" id="datatables_next">
+                                        <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                                        </li>
+                                      {% endif %} {% endcomment %}
+                                      
+                                      {% with params=request.GET.urlencode %}
+                                      {% if batches.has_previous %}
+                                        <li class="paginate_button page-item previous" id="datatables_previous">
+                                          {% comment %} <a aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" href="?page=1" tabindex="-1">FIRST</a> {% endcomment %}
+                                          <a aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" href="{% relative_url  1 'page' params %}" tabindex="-1">FIRST</a>
+                                        </li>
+                                        <li class="paginate_button page-item previous" id="datatables_previous">
+                                          {% comment %} <a href="?page={{ batches.previous_page_number }}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a> {% endcomment %}
+                                          <a href="{% relative_url  batches.previous_page_number 'page' params %}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                        </li>
+                                      {% else %}
+                                        <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                                        <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">FIRST</a>
+                                        </li>
+                                        <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                                        <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                        </li>
+                                      {% endif %}
+                                        
+                                        
+                                        {% for i in batches.paginator.page_range %}
+                                            {% if batches.number == i %}
+                                                <li class="paginate_button page-item active">
+                                                {% comment %} <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a> {% endcomment %}
+                                                <a href="{% relative_url  i 'page' params %}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                              </li>
+                                            {% elif i > batches.number|add:'-5' and i < batches.number|add:'5' %}
+                                                <li class="paginate_button page-item">
+                                                {% comment %} <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a> {% endcomment %}
+                                                <a href="{% relative_url  i 'page' params %}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                              </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        
+
+                                        {% if batches.has_next %}
+                                          <li class="paginate_button page-item next" id="datatables_next">
+                                            {% comment %} <a href="?page={{ batches.next_page_number }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a> {% endcomment %}
+                                            <a href="{% relative_url  batches.next_page_number 'page' params %}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                                          </li>
+                                          <li class="paginate_button page-item next" id="datatables_next">
+                                            {% comment %} <a href="{% if batches.has_next %} ?page={{ batches.paginator.num_pages }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link" {% endif %}>LAST</a> {% endcomment %}
+                                            <a href="{% if batches.has_next %} {% relative_url  batches.paginator.num_pages 'page' params %}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link" {% endif %}>LAST</a>
+                                          </li>
+                                        {% else %}
+                                          <li class="paginate_button page-item next disabled" id="datatables_next">
+                                            {% comment %} <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a> {% endcomment %}
+                                            <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                                          </li>
+                                          <li class="paginate_button page-item next disabled" id="datatables_next">
+                                            {% comment %} <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">LAST</a> {% endcomment %}
+                                            <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">LAST</a>
+                                          </li>
+                                      {% endif %}
+                                      {% endwith %}
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          {% include 'website/footer.html' %}
+        </div>
+      </div>
+{% endblock content %}

@@ -1,0 +1,86 @@
+
+// Image paths
+$path: '../images';
+$blog-sprite: '../images/blog/blog-sprite.svg';
+
+
+$primary              : #e92347;
+$primary-dark         : #ab1530;
+$primary-light        : #ff6473;
+$primary-lightest     : #fff7f8;
+$secondary            : #252525;
+
+$gray-darker        : $secondary;
+$gray-dark          : #535b62;
+$gray-medium        : #666e75;
+$gray-light         : #777777;
+$gray-lightest      : #999;
+$yellow             : #ffc107;
+$yellow-light       :#ffd900;
+$gray-f6            :#f6f6f6;
+$error              : #ff859b;
+$green              : #177800;
+$blue               : #1179ef;
+$blue-light         : #f4f8fc;
+$background         : #F1F3F6;
+$offer              :#FFE7DF;
+$header-bg          :#f7f7f7;
+$dashboard          :#f3f4f4;
+
+
+$body-color: $gray-dark;
+
+$link-color         :   $primary;
+$link-hover-color   :   darken($link-color, 15%);
+$navbar-dark-color  :   rgba($white, 1);
+
+$theme-colors: (
+  "secondary" :   $secondary,
+  "dark"      :   $gray-darker,
+  // "red"    :   $primary-dark,
+  "primary"    :    $primary,
+  "white"     :     $white,
+  "yellow"     :    $yellow,
+);
+
+// Font size
+$font-size-xxs    : 0.6875rem;          // 11px 
+$font-size-xs     : 0.750rem;           // 12px 
+$font-size-sm     : 0.8125rem;          // 13px 
+$font-size-base   : 0.875rem;           // 14px 
+$font-size-md     : 1rem;               // 16px 
+$h5-font-size     : $font-size-md;      // 16px 
+$h4-font-size     : 1.125rem;           // 18px 
+$h3-font-size     : 1.25rem;            // 20px 
+$h2-font-size     : 1.5rem;             // 24px 
+$h1-font-size     : 2.25rem;            // 36px 
+
+
+
+$font-family-sans-serif: 'Montserrat', sans-serif;
+$navbar-light-active-color: $white;
+
+
+$font-weight-medium     : 500;
+$headings-font-weight:        600;
+
+
+// Gray Shades
+$black-3 : rgba($black, .3);
+$black-5 : rgba($black, .5);
+$black-8 : rgba($black, .8);
+
+
+$border-radius-lg:            .4rem;
+$border: #ababab;
+$border-light: #f2f2f2;
+$border-lightest: #eee;
+$border-learning: #e2e2e2;
+
+
+$link-hover-decoration:                   none;
+
+$bold: 700;
+$semi-bold: 600;
+
+$form-group-margin-bottom: 1rem;

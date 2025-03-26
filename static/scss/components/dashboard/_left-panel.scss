@@ -1,0 +1,157 @@
+&__leftPan {
+    max-width: 345px;
+    flex: 0 0 345px;
+    position: relative;
+
+    &--content {
+        border-top: 1px solid $border-light;
+        padding-top: 15px;
+    }
+
+    &--list {
+        margin-bottom: 0;
+
+        li {
+            position: relative;
+            display: flex;
+            align-items: center;
+
+            a {
+                color: $gray-light;
+
+                &:hover {
+                    color: $gray-darker; 
+                }
+            }
+
+            &:not(:last-child) {
+                margin-bottom: 15px;
+            }
+
+            &.active {
+                font-weight: $headings-font-weight;
+                
+                a {
+                    color: $gray-darker;
+                }
+            }
+
+            &::before {
+                content: '';
+                @include size(16px, 16px);
+                display: block;
+                background-repeat: no-repeat;
+                margin-right: 10px;
+            }
+
+            &.recording {
+                &::before {
+                    content: '';
+                    background-image: url(#{$path}/dashboard/recording.svg);
+                }
+            }
+            
+            &.courses-material {
+                &::before {
+                    content: '';
+                    background-image: url(#{$path}/dashboard/course-material.svg);
+                }
+            }
+            
+            &.course-curriculum {
+                &::before {
+                    content: '';
+                    background-image: url(#{$path}/dashboard/course-curriculum.svg);
+                }
+            }
+            
+            &.feedback {
+                &::before {
+                    content: '';
+                    background-image: url(#{$path}/dashboard/feedback.svg);
+                }
+            }
+        }
+    }
+    
+    .live-classes {
+        font-size: $font-size-xxs;
+        font-weight: $headings-font-weight;
+        color: $green;
+    }
+
+    &--course {
+        position: relative;
+
+        &::after {
+            content: '\e915';
+            font-family: 'icomoon' !important;
+            position: absolute;
+            right: 15px;
+            top: 5px;
+            transform: rotate(270deg);
+            transition: all 0.3s ease-in-out;
+        }
+    }
+
+    .collapsed {
+        &::after {
+            transform: rotate(90deg);
+        }
+    }
+
+    &--certificate {
+        background-color: $dashboard;
+        border-radius: 4px;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+
+        .content {
+            flex-grow: 1;
+            margin-right: 15px;
+            font-size: $font-size-sm;
+        }
+
+        span {
+            width: 85px;
+            flex: 0 0 85px;
+            display: block;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: -20px;
+            z-index: 1;
+            font-size: $h4-font-size;
+        }
+
+        .certificate-note {
+            position: relative;
+            padding-left: 25px;
+            font-size: $font-size-sm;
+            color: $gray-medium;
+
+            i {
+                @include size(19px, 22px);
+                display: block;
+                position: absolute;
+                left: 0;
+            }
+        }
+
+        .certificate-footer {
+            background-color: #f1f1f1;
+            padding: 10px 15px;
+            padding: 0px 15px;
+            justify-content: space-between;
+            font-size: $font-size-xs;
+
+            .download-icon {
+                @include size(12px, 12px);
+                display: inline-block;
+            }
+        }
+    }
+}

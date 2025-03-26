@@ -1,0 +1,283 @@
+.navbar {
+    padding: 0 1rem;
+}
+
+.nav-link {
+    padding: 1rem 1rem;
+}
+
+.navbar-light {
+    background-color: $white;
+    box-shadow: 0 0 10px 0 rgba($black, .1);
+}
+
+.navbar-brand {
+    @include size (117px, 40px);
+    background-image: url(#{$path}/ap2v-logo.png);
+    text-indent: -999999px;
+}
+
+.navbar-nav {
+    .dropdown.show{
+      position: static;
+
+      .dropdown-menu {
+        display: flex;
+        flex-direction: row;
+        border-radius: 0px;
+        left: auto;
+        right: auto;
+        margin: 0;
+        li {
+          font-size: $font-size-xs;
+          color: $gray-dark;
+        }
+
+        // &::before {
+        //   content: '';
+        //   background-image: url(#{$path}/top-bg.jpg);
+        //   background-repeat: repeat;
+        //   position: absolute;
+        //   width: 100%;
+        //   height: 16px;
+        //   z-index: 1;
+        //   top: 0;
+        // }
+
+        .menuWrap {
+          padding-top: 30px;
+          padding-bottom: 50px;
+
+          &--white {
+            background-color: $white;
+          }
+
+          &--grey {
+            background-color: $gray-300;
+          }
+        }
+      }
+    }
+
+
+    .main-menu {
+      text-align: left;
+      font-weight: $font-weight-bold;
+
+      li{
+        &:not(:last-child) {
+          margin-bottom: 10px;
+        }
+      }
+
+      .dropdown-toggle.collapsed {
+        color: $black-8;
+      }
+
+      a {
+        color: $black-8;
+        cursor: pointer;
+      }
+
+      .sub-menu {
+        color: $black-8;
+        font-size: $font-size-sm;
+        font-weight: $font-weight-normal;
+        padding-left: 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+
+        li{
+          &:not(:last-child) {
+            margin-bottom: 5px;
+          }
+        }
+
+        a {
+          color: $black-5;
+          cursor: pointer;
+        }
+      }
+
+    }
+}
+
+
+.courses-dropdown {
+
+  .dropdown-menu {
+    border: 0 none;
+    background-color: transparent;
+    padding: 1px 0 0;
+    z-index: 1;
+    position: relative;
+  }
+
+  .nav-tabs {
+    min-width: 255px;
+    display: flex;
+    flex-direction: column;
+    background-color: $white;
+    box-shadow: 0px 15px 10px rgba($black, .1);
+    border-radius: 4px;
+    
+  }
+}
+
+.courses-tabs {
+  border: 0 none;
+  font-size: $gray-dark;
+
+  .nav-tabs {
+    border-bottom: 0 none;
+
+    .nav-item {
+      margin-right: 0 !important;
+      position: relative;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid $gray-300;
+      }
+
+      &::after {
+        content: '\e915';
+        font-family: 'icomoon' !important;
+        display: inline-block;
+        position: absolute;
+        top: 11px;
+        right: 15px;
+        font-size: 12px;
+        color: rgba($gray-light, .5);
+      }
+
+      &:hover {
+        &::after {
+          color: rgba($gray-light, .7);
+        }
+      }
+
+      .nav-link {
+        border-radius: 0;
+        border: 0 none;
+        padding: 10px 15px;
+        color: $black-5;
+        border-left: 3px solid transparent;
+
+        &:hover {
+          color: $primary;
+          background-color: $gray-300;
+          border-left-color: rgba($primary, .5);
+        }
+      }
+    }
+  }
+
+  .menu-tab-content {
+    flex: 1;
+    background-color: $white;
+    box-shadow: 0px 15px 10px rgba($black, .1);
+    min-width: auto;
+    position: relative;
+    border-radius: 0 4px 4px 0;
+    overflow: hidden;
+    left: -4px;
+
+    > .menu-tab-pane {
+      padding: 15px 30px;
+      max-width: 22rem;
+      background-color: $white;
+      height: 441px;
+    }
+
+    h2 {
+      color: $black-5;
+      font-weight: $font-weight-normal;
+      font-size: $font-size-md;
+      margin-bottom: 15px;
+    }
+
+    .submenu-wrap {
+      display: flex;
+      height: 93.3%;
+
+      ul{
+        padding-left: 0;
+
+        &:not(:last-child) {
+          margin-right: 20px;
+          padding-right: 20px;
+          border-right: 1px solid #ccc;
+        }
+
+        li {
+          margin-bottom: 12px !important;
+          list-style-type: none;
+
+          a {
+            color: $gray-medium;
+  
+            &:hover {
+              color: $primary;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.show {
+  > .nav-link {
+    border-bottom-color: $primary;
+  }
+}
+
+.overlay {
+  content: '';
+  position: fixed;
+  top: 65px;
+  left: 0;
+  background-color: rgba($black, .7);
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  display: none;
+
+  &.show {
+    display: block;
+  }
+}
+
+
+.menu-tab-content > .menu-tab-pane {
+  display: none;
+}
+
+.menu-tab-content > .active {
+  display: block;
+}
+
+.course-btn {
+  border-bottom: 0 none !important;
+
+  span {
+    padding: 5px 20px !important;
+    border-radius: 30px;
+    border: 1px solid $primary;
+    color: $primary !important;
+    position: relative;
+    top: 2px;
+    display: block;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: 700;
+
+    &::after {
+      font-size: $font-size-xs;
+      position: relative;
+      top: 3px;
+      margin-left:5px;
+    }
+    
+  }
+}

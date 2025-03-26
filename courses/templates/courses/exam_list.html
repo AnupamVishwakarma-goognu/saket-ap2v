@@ -1,0 +1,164 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block content %}
+<div class="wrapper">
+  {% include 'website/sidebar.html' %}
+  {% include 'website/header.html' %}
+  <div class="main-panel">
+
+    <div class="content" style="margin:0; padding-bottom:0">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12 col-sm-12">
+            <h4 class="card-title mt-0">EXAMS</h4>
+
+            <div class="card data-tables">
+              <div class="card-header">
+
+                {% comment %} <div class="row align-items-center justify-content-between">
+                  <div class="d-flex follow-up--filter mb-3 mb-md-0">
+                    <div class="float-right col-md-3 pr-3 pr-md-0">
+                      <select class="selectpicker" id="filters" name="filters">
+                        <option value="name" {% if request.GET.type == 'name' %} selected='true' {% endif %}>Name
+                        </option>
+                        <option value="price" {% if request.GET.type == 'price' %} selected='true' {% endif %}>Price
+                        </option>
+                        <option value="url" {% if request.GET.type == 'url' %} selected='true' {% endif %}>URL</option>
+                      </select>
+                    </div>
+
+                    <div class="float-right col-md-4 pr-3 pr-md-0">
+                      <input type="search" class="form-control" onkeypress="search_filter(event);" id="filters_search"
+                        value="{% if request.GET.n %}{{request.GET.n}}{% endif %}" placeholder="search...">
+                    </div>
+
+                    <div class="float-right col-md-1 d-flex align-items-center justify-content-center">
+                      <i class="fa fa-refresh text-info"
+                        onclick="window.location.href=`${window.location.pathname}`"></i>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    {% include 'courses/filters_courses.html'%}
+                  </div>
+                </div> {% endcomment %}
+              </div>
+
+              <div class="card-body table-striped table-no-bordered table-hover dataTable dtr-inline table-full-width">
+                <table id="datatables" class="table" cellspacing="0">
+                  <thead>
+                    <th>Sr No</th>
+                    <th style="margin-left: 1rem;">Exam Name</th>
+                    <th class="text-center">Course</th>
+                  <tbody>
+                    {% for exam in exams %}
+                    <tr>
+                      <!-- <td></td> -->
+                      <td>{{ forloop.counter }}</td>
+                      <td>{{ exam.exam_name }}</td>
+		                  <td>{{exam.courses}}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="row mx-1">
+                <div class="col-sm-12 col-md-5 font-size-base"><span class="mt-2 d-block">Showing {{ exams.start_index }} - {{ exams.end_index }} of {{ exams.paginator.count }}</span></div>
+                <div class="col-sm-12 col-md-7">
+                  <div class="dataTables_paginate paging_simple_numbers" id="datatables_paginate">
+                      <ul class="pagination">
+                        {% comment %} {% if courses.has_previous %}
+                        <li class="paginate_button page-item previous" id="datatables_previous">
+                        <a href="?page={{ courses.previous_page_number }}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                        </li>
+                        {% else %}
+                        <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                        <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                        </li>
+                        {% endif %}
+
+                        {% for i in courses.paginator.page_range %}
+                          {% if i %}
+                            {% ifequal i courses.number %}
+                              <li class="paginate_button page-item active">
+                                <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                              </li>
+                            {% else %}
+                              <li class="paginate_button page-item">
+                                <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                              </li>
+                            {% endifequal %}
+                          {% else %}
+                            <li class="paginate_button page-item" id="nopage">
+                              <a href="javaScript:void(0)" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" style="pointer-events: none;">...</a>
+                            </li>
+                          {% endif %}
+                        {% endfor %}
+
+                        {% if courses.has_next %}
+                          <li class="paginate_button page-item next" id="datatables_next">
+                          <a href="?page={{ courses.next_page_number }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                          </li>
+                        {% else %}
+                          <li class="paginate_button page-item next disabled" id="datatables_next">
+                          <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                          </li>
+                        {% endif %} {% endcomment %}
+
+                        {% if exams.has_previous %}
+                          <li class="paginate_button page-item previous" id="datatables_previous">
+                            <a aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" href="?page=1" tabindex="-1">FIRST</a>
+                          </li>
+                          <li class="paginate_button page-item previous" id="datatables_previous">
+                            <a href="?page={{ exams.previous_page_number }}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                          </li>
+                          {% else %}
+                          <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                          <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">FIRST</a>
+                          </li>
+                          <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                          <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                          </li>
+                          {% endif %}
+
+                          {% for i in exams.paginator.page_range %}
+                              {% if exams.number == i %}
+                                  <li class="paginate_button page-item active">
+                                  <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                </li>
+                              {% elif i > exams.number|add:'-5' and i < exams.number|add:'5' %}
+                                  <li class="paginate_button page-item">
+                                  <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                </li>
+                              {% endif %}
+                          {% endfor %}
+
+                          {% if exams.has_next %}
+                            <li class="paginate_button page-item next" id="datatables_next">
+                              <a href="?page={{ exams.next_page_number }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                            </li>
+                            <li class="paginate_button page-item next" id="datatables_next">
+                              <a href="{% if exams.has_next %} ?page={{ exams.paginator.num_pages }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link" {% endif %}">LAST</a>
+                            </li>
+                          {% else %}
+                            <li class="paginate_button page-item next disabled" id="datatables_next">
+                              <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                            </li>
+                            <li class="paginate_button page-item next disabled" id="datatables_next">
+                              <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">LAST</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% include 'website/footer.html' %}
+  </div>
+</div>
+{% endblock content %}

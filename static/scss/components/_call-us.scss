@@ -1,0 +1,34 @@
+.call-us {
+    position: relative;
+
+    &::before {
+        content: '';
+        @include size(115px, 97px);
+        background-image: url(#{$path}/call-us-bg.png);
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+    
+    &::after {
+        content: '';
+        @include size(81px, 77px);
+        background-image: url(#{$path}/call-us.png);
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    &--subHead {
+        color: $gray-light;
+        font-weight: 600;
+    }
+
+    &--head {
+        font-size: 1.875rem;
+        font-weight: 500;
+        color: $secondary;
+    }
+}

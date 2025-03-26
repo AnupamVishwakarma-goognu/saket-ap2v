@@ -1,0 +1,59 @@
+.push-down-banner {
+    @include size(100%, 71px);
+    background-color: $primary;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translateY(-100%);
+    transition: transform 1s ease;
+    
+
+    &::after {
+        @include size (345px, 71px);
+        content: '';
+        position: absolute;
+        display: block;
+        right: 0;
+        top: 0;
+        background-image: url(#{$path}/push-down-bg.png);
+    }
+
+    &--content {
+        font-size: $font-size-md;
+        color: rgba($white, .7);
+        height: 71px;
+        position: relative;
+        z-index: 1;
+
+        strong {
+            font-weight: $headings-font-weight;
+            color: $white;
+        }
+            
+    }
+
+    .close {
+        font-size: $font-size-md;
+        position: relative;
+        transform: translateY(-50%);
+        top: 35px;
+        right: 15px;
+        z-index: 2;
+    }
+}
+
+.main-wrap {
+    transition: margin 1s ease;
+    
+    &.pushed {
+        margin-top: 71px;
+
+        .push-down-banner {
+            transform: translateY(0);
+        }
+
+        .overlay {
+            top: 137px;
+        }
+    }
+}

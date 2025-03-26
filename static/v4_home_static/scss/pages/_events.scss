@@ -1,0 +1,36 @@
+.event-banner {
+    @include gradient-x($start-color: #00e5fc, $end-color: #0063e2, $start-percent: 0%, $end-percent: 100%);
+
+    &::after {
+        background-image: url(#{$path}/course-detail/event-bg.png);
+        background-size: cover;
+    }
+}
+
+.event {
+    &__list {
+        background-image: url(#{$path}/events-list-bg.jpg);
+        background-repeat: no-repeat;
+        background-size: contain; 
+
+        &--img {
+            @include size(110px, 110px);
+            @include gradient-y($start-color: rgba($gray-700, .1), $end-color: rgba($gray-800, .1), $start-percent: 0%, $end-percent: 100%);
+            display: block;
+            border-radius: 4px;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+            }
+        }
+
+        .media-body {
+            margin-top: 65px;
+
+            p {
+                font-size: $font-size-sm;
+            }
+        }
+    }
+}

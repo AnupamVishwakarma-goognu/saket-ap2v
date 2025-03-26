@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Start Batch</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    </head>
+    <body>
+        <div class="container-fluid">
+            Waiting Page
+            <h1>Please wait class is not started by host...</h1>
+            <h5>The page will refresh in every 5 seconds...<h5>
+            Batch id is : {{batch_id}}
+            <h1><p id="error" style="color:red;"></p></h1>
+            <p>Trying : <span id="tryid"></span></p>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+        <script>
+            var status_code = 0;
+            var trying = 1
+            function checkMeeting(){
+                if(status_code == 0){
+                    status_code = 1
+                    $("#tryid").text(trying)
+                    $.ajax({
+                        url: '/classroom/getting_meeting_details_student',
+                        data: {"batch_id":{{batch_id}},"csrfmiddlewaretoken": "{{ csrf_token }}"},
+                        type: 'POST',
+                        success: function(data) {
+                            //alert("success")
+                            //alert(data)
+                            meeting_status_code = data['code']
+                            //alert(meeting_status_code)
+
+                            if(meeting_status_code == 1){
+                                window.location.href = data['stu_link'];
+                            }else{
+                                status_code = 0
+                                $("#error").text(data['error'])
+                            }
+                        },
+                        error: function() {
+                            alert("Internal Server Error!!!");
+                        },
+                    });
+                }
+                trying = trying+1
+            }
+            var intervalId = window.setInterval(function(){
+                checkMeeting()
+            }, 5000);
+        </script>
+    </body>
+</html>

@@ -1,0 +1,135 @@
+{% load static %}
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>{{ title|safe }}</title>
+    <meta name="description" content="{{ description|safe }}"/>
+    <meta name="keywords" content="{{ keywords }}"/>
+
+    <link rel="dns-prefetch" href="https://www.ap2v.com">
+
+    <meta name="geo.region" content="IN-HR" />
+    <meta name="geo.placename" content="Gurugram" />
+    <meta name="geo.position" content="28.469454;77.044248" />
+    <meta name="ICBM" content="28.469454, 77.044248" />
+
+    {{ social_meta|safe }}
+
+    <!-- Added on 02/02/2021 -->
+        <!-- Google Tag Manager -->
+            <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-NBG7NXZ');</script>
+        <!-- End Google Tag Manager -->
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-49118138-1"></script>
+            <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-49118138-1');
+            </script>
+        <!-- End Global site tag (gtag.js) - Google Analytics -->
+    <!-- End Code Added on 02/02/2021 -->
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-136606597-1"></script>
+    <script>
+	    window.dataLayer = window.dataLayer || [];
+	    function gtag(){dataLayer.push(arguments);}
+	    gtag('js', new Date());
+            gtag('config', 'UA-136516609-1');
+    </script>
+    <script type="application/ld+json">
+	{% if course_desc|length != 0 %}
+            {
+                "@context": "https://schema.org",
+                "@type": "Course",
+		"name": "{{ title|safe }}",
+		"description": "{{ description }}",
+                "contentLocation": "M44, 2nd Floor, Old DLF Colony, Sector 14, Gurugram, Haryana 122001",
+		"image": "{{ image_link }}",
+                "url": "https://www.ap2v.com{{ request.get_full_path }}",
+                "aggregateRating": {
+                        "@type": "AggregateRating",
+                        "ratingValue": "{{ course_desc.rating }}",
+                        "reviewCount": "{{ course_desc.reviews }}"
+                },
+                "provider": {
+                "@type": "Organization",
+                "name": "AP2V Academy",
+                "sameAs": "https://www.ap2v.com"
+                }
+        }
+        {% endif %}
+	</script>
+	{% if course_qna|length != 0 %}
+    	<script type="application/ld+json">
+	    {
+	    	"@context": "https://schema.org",
+		"@type": "FAQPage",
+		"mainEntity": [{
+			{% for courses_qna in course_qna %}
+			"@type": "Question",
+			"name": "{{ courses_qna.question }}",
+			"acceptedAnswer": {
+			"@type": "Answer",
+			"text": "{{ courses_qna.answer }}"
+			}{% if forloop.last %}}]{% endif %}
+	    }{% if course_qna|length > 1 or forloop.counter0 > 0 %}{% if not forloop.last %},{{% endif %}{% endif %}
+	    {% endfor %}
+    	</script>
+    	{% endif %}
+    <!-- Bootstrap -->
+    <link href="{% static "css/global.css" %}?{% now "jS F Y H:i" %}" rel="stylesheet">
+    <link href="{% static "css/style-404.css" %}?{% now "jS F Y H:i" %}" rel="stylesheet">
+    <link href='/favicon.png' rel='shortcut icon' type='image/x-icon'/>
+    <link rel="canonical" href="https://www.ap2v.com{{ request.get_full_path }}">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Global site tag (gtag.js) - Google Ads: 617098637 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-617098637"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'AW-617098637');
+    </script>
+
+    <!-- Event snippet for Website_Lead_AP2V_NOIDA_12/09 conversion page -->
+    <script>
+      gtag('event', 'conversion', {'send_to': 'AW-617098637/Ycz2CLbnx94BEI3boKYC'});
+    </script>
+
+
+    <script>
+      gtag('config', 'AW-617098637/QrIrCIz2vN4BEI3boKYC', {
+        'phone_conversion_number': '92103 33323'
+      });
+    </script>
+
+    <script>
+      gtag('config', 'AW-617098637/-GBqCMn32N4BEI3boKYC', {
+        'phone_conversion_number': '97117 03453'
+      });
+    </script>
+
+
+    <script>
+      gtag('config', 'AW-617098637/ZdpZCNX32N4BEI3boKYC', {
+        'phone_conversion_number': '124 4364210'
+      });
+    </script>
+  </head>

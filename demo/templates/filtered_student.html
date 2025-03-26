@@ -1,0 +1,92 @@
+{% for i in enquiry_obj %}
+    <li class="custom-control custom-checkbox">
+        <input class="form-check-input" type="checkbox" id="name_{{ forloop.counter }}" name="select_student" value="{{i.id}}" style="margin-right: 10px;" onchange="stickyheaddsadaer(this,'{{i.id}}')"/>
+        <script>
+            if (stu_email.includes("{{i.id}}")){
+                console.log(stu_email)
+                $("#name_{{forloop.counter}}").prop('checked', true);
+                
+            }
+        </script>
+        <label class="custom-control-label" for="name_{{forloop.counter}}">
+            <span class="d-block"> <b>{{i.full_name}}</b> ({{i.email}})-{{i.mobile}} / <u>{{i.added_on}}</u></span>
+        </label>
+    </li>
+    <br>
+{% endfor %}
+
+<script>
+$('input[name="select_student"]').change(function () {
+    if (this.checked) {
+        var i = $(this).val()
+        if ($.inArray(i, stu_email) > -1){
+            //alert("already added")
+        }
+        else{
+            stu_email.push(i)
+            $("#student_list_s").empty();
+            $("#student_list_s2").empty();
+            $.each(stu_email, function(index, value){
+                $.ajax({
+                    type: "GET",
+                    url: "/demo/get_student_name?id="+value,
+                    success: function (data) {
+                        var stu_nam = data['student_name']
+                        $('#student_list_s').append('<span id="add_here" style="border: 1px solid;padding: 10px;padding-top: 3px;padding-bottom: 3;border-radius: 20px;background-color: aquamarine; margin-left: 7px; border-color: burlywood"> '+stu_nam+'<a href="#" onclick="return removeStudent('+index+')"> &nbsp; <i class="far fa-trash-alt"></i></i></a> </span>');
+                        $('#student_list_s2').append('<span id="add_here" style="border: 1px solid;padding: 10px;padding-top: 3px;padding-bottom: 3;border-radius: 20px;background-color: aquamarine; margin-left: 7px; border-color: burlywood"> '+stu_nam+'<a href="#" onclick="return removeStudent('+index+')"> &nbsp; <i class="far fa-trash-alt"></i></i></a> </span>');
+                    },
+                    error: function (data) {
+                        alert("Somethings Wents Wrong");
+                    },
+                }); 
+                
+            })
+        }
+        //alert(stu_email)
+    }
+});
+
+function removeStudent(id = 0) {
+    //alert(id)
+    //delete stu_email_for_email[id]
+    var remove_email = stu_email[id]
+    $('input:checkbox[value="'+remove_email+'"]').prop('checked', false);
+    stu_email.splice(id, 1);
+    
+    $("#student_list_s").empty();
+    $("#student_list_s2").empty();
+        $.each(stu_email, function(index, value){
+            $.ajax({
+                type: "GET",
+                url: "/demo/get_student_name?id="+value,
+                success: function (data) {
+                    var stu_nam = data['student_name']
+                    $('#student_list_s').append('<span id="add_here" style="border: 1px solid;padding: 10px;padding-top: 3px;padding-bottom: 3;border-radius: 20px;background-color: aquamarine; margin-left: 7px; border-color: burlywood"> '+stu_nam+'<a href="#" onclick="return removeStudent('+index+')"> &nbsp; <i class="far fa-trash-alt"></i></i></a> </span>');
+                    $('#student_list_s2').append('<span id="add_here" style="border: 1px solid;padding: 10px;padding-top: 3px;padding-bottom: 3;border-radius: 20px;background-color: aquamarine; margin-left: 7px; border-color: burlywood"> '+stu_nam+'<a href="#" onclick="return removeStudent('+index+')"> &nbsp; <i class="far fa-trash-alt"></i></i></a> </span>');
+                },
+                error: function (data) {
+                    alert("Somethings Wents Wrong");
+                },
+            }); 
+    })
+    if(stu_email.length == 0){
+        $('#sub_button').prop('disabled', true);
+    };
+
+   //alert(stu_email)
+}
+
+function stickyheaddsadaer(obj,email) {
+  if($(obj).is(":checked")){
+    console.log("Yes checked"); //when checked
+  }
+  else{
+    //alert(email); //when not checked
+    email_index = stu_email.indexOf(email)
+    //console.log(email_index)
+    removeStudent(email_index)
+    console.log("Yes unchecked"); //when unchecked
+  }
+  
+}
+</script>

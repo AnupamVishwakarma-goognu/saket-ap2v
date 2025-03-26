@@ -1,0 +1,252 @@
+<div id="kefve">
+    Added To Your Cart
+    </div>
+<div id="addtooocarttmodel" class="modaladd closeadd">
+    <div class="outer-bax"  >
+    <div class="modal-contentadd">
+     <span class="closeadd">&times;</span>
+    </div>
+  <div class="cartParts">
+      <div class="cart-part left">
+        
+          <h2>Recorded Videos </h2>
+          <ol type="A">
+            <li>Enhance students learning Experience.</li>
+            <li>Relief the pressure of Note-Taking.</li>
+            <li>Lifetime Access.</li>
+            <li>Learning Flexibility.</li>
+            <li >Easy to retakes of each sessions.</li>
+            <li >Pocket friendly course.</li>
+           
+          </ol>
+          
+            <input type="text" id="com_batch_id" class="courseid" hidden>
+            <input type="text" class="ctype" id="rec_type" value="1" hidden>
+            <input type="text" id="avlang"  hidden>
+            <!-- <input type="text" name="" id="hindi">
+            <input type="text" name="" id="english"> -->
+            <button class="record" {% if not request.user.is_authenticated %} data-target="#exampleModal1" data-toggle="modal"{% else %} onclick="addToCourse(1)" {% endif %} >Select</button>
+            <button class="added"  onclick="Popu()" hidden>
+                test
+            </button>
+        
+      </div>
+      <div class="cart-part right">
+        <h2>Live Interactive Classes</h2>
+        <ol type="A">
+           <li>Lectures bring together diversed group of students to learn in different ways.</li>
+           <li>Live interactive Instructor-led training.</li>
+           <li>24 x 7 hours learning assistance. </li>
+           <li>Have a team of well-qualified expert trainers.</li>
+           <li>Lifetime access of class recordings.</li>
+           <li>Affordable fees.</li>
+          </ol>
+          <input type="text" class="courseid" hidden>
+          <input type="text" class="ctype" id="online_type" value="2" hidden>
+          <button class="live" {% if not request.user.is_authenticated %} data-target="#exampleModal1" data-toggle="modal"{% else %} onclick="addToCourse(2)" {% endif %}>Select</button>
+          <button class="added"  onclick="Popu()" hidden>
+            test
+        </button>
+      </div>
+  </div>
+
+</div>
+ </div>
+ <style>
+span.material-symbols-outlined.adddTooCarrt {
+position: absolute;
+right: 17px;
+color: white;
+top: 18px;
+font-size: 28px;
+font-weight: 800 !important;
+}
+.outer-bax {
+  background-color: #fcfcfc;
+  width: fit-content;
+  margin: 0 auto;
+  position: relative;
+  padding: 50px;
+  border-radius: 11px;
+  margin-top: 70px;
+}
+.modaladd {
+display: none;
+position: absolute;
+z-index: 16;
+width: 100%;
+height: 100%;
+overflow: auto;
+background-color: rgb(0 0 0 / 41%);
+}
+.cartParts {
+position: relative;
+display: flex;
+justify-content: space-around;
+width: 100%;
+margin: 0 auto;
+}
+.closeadd {
+padding: 20px;
+position: absolute;
+color: #aaaaaa;
+float: right;
+font-size: 36px;
+font-weight: bold;
+top: 0;
+right: 0px;
+}
+.closeadd:hover,
+.closeadd:focus {
+color: #000;
+text-decoration: none;
+cursor: pointer;
+}
+
+.cart-part h2 {
+text-align: center;
+margin-bottom: 0;
+padding: 8px;
+font-size: 24px;
+color: #8583ff;
+width: 100%;
+text-transform: uppercase;
+}
+.cart-part {
+  width: 46%;
+  padding: 0 20px;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.cart-part li {
+list-style-type: decimal;
+color: #686868;
+font-size: 17px;
+font-weight: 500;
+padding: 6px 0;
+}
+.cart-part ol {
+padding: 10px 0px 10px 41px;
+}
+.cartParts {
+display: flex;
+justify-content: space-around;
+}
+.cart-part button {
+padding: 5px 30px;
+border: 2px solid #66ac6a;
+background-color: #66ac6a;
+color: white;
+border-radius: 5px;
+font-size: 17px;
+width: 70%;
+}
+.cart-part button:hover {
+background-color: white;
+color: #66ac6a;
+transition-duration: 1s;
+}
+.cart-part.left {
+border-right: 1px solid;
+}
+.cart-part.right {
+border-left: 1px solid;
+}
+@media only screen and (max-width: 600px) {
+  .cart-part h2 { 
+    font-size: 20px; 
+}
+.outer-bax {
+ width: 100%; 
+padding: 0px;
+ margin-top: 28px;
+}
+.cartParts {
+flex-direction: column;
+margin: 21px 0;
+width: 100% !important;
+padding: 58px 0;
+}
+.closeadd {
+padding: 8px; 
+}
+.cart-part li { 
+padding: 0;
+}
+.cart-part ol {
+padding: 1px 0px 11px 41px;
+margin-bottom: 0;
+}
+.cart-part {
+padding: 0 6px;
+width: 100%;
+}
+.cart-part.left {
+margin-bottom: 60px;
+}
+.cart-part.left {
+border-right: none;
+border-bottom: 1px solid;
+padding-bottom: 10px;
+}
+.cart-part.right {
+border-left: none;
+border-top: 1px solid;
+}
+ </style>
+ <style>
+    #kefve{
+        display: none; 
+    }
+    div#kefve {
+      width: 200px;
+      position: fixed;
+      padding: 16px;
+      top: 122px;
+      justify-content: center;
+      align-items: center;
+      background-color: #1e1a1a;
+      text-align: center;
+      right: 25px;
+      color: white;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 700;
+      animation: jumpdrop;
+      animation-duration: 0.7s;
+      animation-timing-function: linear;
+      z-index: 10;
+  }
+ 
+  @keyframes jumpdrop{
+    0%{top: -100px;}
+    60%{top: 180px;}
+    80%{top: 90px;}
+    100%{top:122px}
+    }
+</style>
+<script>
+  if ($(".live").click(function(){
+    <!-- alert('this is id 2'); -->
+    sessionStorage.setItem('type', '2');
+  }));
+  if ($(".record").click(function(){
+    <!-- alert('this is id 1 '); -->
+    <!-- console.log('this red') -->
+    sessionStorage.setItem('type', '1');
+  }));
+</script>
+{% include 'v4_home/sub_pages/add_to_cart_login.html' %}
+ <script> 
+    const Popu = () => {
+        document.getElementById("kefve").style.display = "block"
+    setTimeout(()=>{
+        document.getElementById("kefve").style.display = "none"
+},5000)
+}
+    
+    
+ </script>

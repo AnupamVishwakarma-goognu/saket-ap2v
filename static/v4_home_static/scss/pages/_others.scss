@@ -1,0 +1,48 @@
+// Components
+@import '../components/banner-inner';
+@import '../pages/error-pages';
+
+
+.skill-coverd {
+    overflow: hidden;
+    position: relative;
+    font-size: $font-size-sm;
+
+    &::after {
+        content: '';
+        @include size(154px, 220px);
+        display: block;
+        position: absolute;
+        bottom: -20px;
+        right: -60px;
+        background-image: url(#{$path}/course-detail/skill-coverd.png);
+    }
+
+    .text.collapse:not(.show) {
+        height: 140px !important; 
+    }
+
+    .text.collapsing {
+        min-height: 140px !important;
+    }
+}
+
+
+.sitemap-content {
+    ul {
+        li {
+            font-size: $font-size-sm;
+            margin-bottom: 5px;
+            margin-top: 5px;
+
+            a {
+                color: $gray-medium;
+
+                &:hover {
+                    color: $gray-darker;
+                }
+            }
+        }
+    }
+}
+

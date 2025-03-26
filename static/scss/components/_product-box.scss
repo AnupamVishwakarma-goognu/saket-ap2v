@@ -1,0 +1,48 @@
+.white-box {
+    background-color: $white;
+    border-radius: 4px;
+    box-shadow: 0 0 10px 0 rgba($black, .1);
+    padding: 25px 15px;
+    color: $gray-light;
+
+    h3 {
+        color: $secondary;
+        font-size: $font-size-md;
+        width: 100%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    // &--content {
+
+    // }
+    
+}
+
+.product-box {
+    border: 1px solid transparent;
+    transition: all 0.5s ease;
+    width: 100%;
+
+    &:hover {
+        box-shadow: 0 0 10px 3px rgba($black, .15);
+        border-color: #dbe4ec;
+    }
+
+    .icon-star-fill {
+        color: $yellow;
+    }
+}
+
+.product-list {
+    
+    &--item {
+        padding: 12px;
+    }
+}
+
+.bg-gray {
+    background-color: $gray-f6;
+}
+

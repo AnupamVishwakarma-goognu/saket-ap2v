@@ -1,0 +1,70 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+{% load ap2v_course_tag %}
+{% block title %} AP2V {% endblock %}
+{% block css %}
+    <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/others.css' %}" type="text/css" />
+{% endblock css %}
+{% block content %}
+    <div class="main-wrap">
+    {% include 'v4_home/sub_pages/push-down.html' %}
+    {% include 'v4_home/sub_pages/navigation.html' %}
+
+        <!-- Banner -->
+        <div class="banner-inner">
+            <div class="container">
+                <div class="row banner-inner--content flex-column">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0 pb-0">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"> City Sitemap</li>
+                        </ol>
+                    </nav><!-- // breadcrumb -->
+                    <div class="d-flex">
+                        <div class="banner-inner--left-pan d-flex flex-column justify-content-center">
+                        <h1 class="text-secondary">System Requirements and Supported Browsers</h1>
+                        </div>
+                        <div class="banner-inner--right-pan d-none d-xl-block" style="right: 0;">
+                          <img src="{% static 'v4_home_static/images/system-req.png'%}" alt="term condition" class="img-fluid">
+                        </div>
+                    </div><!-- slick-slide d-flex-->
+                </div><!-- // row -->
+            </div>
+        </div><!-- // Banner -->
+
+
+        <div class="spacer mt-0"></div><!-- // Spacer -->
+        <div class="container pt-4">
+            <h3>BigBlueButton System Requirements and Supported Browsers (HTML5 Client)</h3>
+            <div class="white-box mt-4 px-4">
+                <h3 class="mb-3">Recommended Browsers</h3>
+                <p>At this time IE and EDGE browsers <strong>are not supported.</strong></p>
+                <ul class="list list--round">
+                    <li class="mb-3">Mobile users: Chrome or Safari (latest versions)</li>
+                    <li>Desktop/Laptop users: Chrome or Firefox (latest versions)</li>
+                </ul>
+            </div>
+            
+            <div class="white-box mt-4 px-4 mt-4 mb-5">
+                <h3 class="mb-3">Minimum Requirements</h3>
+                <p><strong>Mobile users</strong> - the following settings are recommended for all users connecting to BigBlueButton</strong></p>
+                <ul class="list list--round">
+                    <li class="mb-3">Browsers: Chrome or Safari (latest versions)</li>
+                    <li class="mb-3">For data network, we recommended 4G LTE for best results or minimum 3G Network to use audio, view presentation content and receive screen sharing.</li>
+                    <li class="mb-3">For connection via wireless, we recommend private versus public networks.</li>
+                    <li>For device settings, we recommend reducing device usage while connecting to BigBlueButton; close applications that my run in the background and reduce browsing activities.</li>
+                </ul>
+                <hr class="my-4" />
+                <p><strong>Desktop or laptop users</strong> - the following settings are recommended for all users connecting to BigBlueButton</p>
+
+                <ul class="list list--round">
+                    <li class="mb-3">Browsers: Chrome or Firefox (latest versions)</li>
+                    <li class="mb-3">For computer, you need a laptop or desktop computer with (at least) 2G of memory and a 1Ghz processor (any computer bought in the last five years should be fine).</li>
+                    <li class="mb-3">For bandwidth, you must have at least 0.5 Mbits/second upstream and 1 Mbits/second downstream. To check bandwidth use, <a href="https://speedtest.net/" target="_blank">https://speedtest.net/</a></li>
+                    <li>For audio, you will need a headset or speakers.</li>
+                </ul>
+
+            </div>
+        </div>
+    {% include 'v4_home/sub_pages/modals.html' %}
+{% endblock content %}

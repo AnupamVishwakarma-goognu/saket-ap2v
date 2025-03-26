@@ -1,0 +1,463 @@
+{% load static %}
+<!DOCTYPE html>
+{% load compress %}
+<html lang="en">
+    <head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{seo.title|safe}}</title>
+	<meta name="description" content="{{seo.description|safe}}"/>
+	<meta name="keywords" content="{{seo.keywords|safe}}"/>
+
+    <link rel="canonical" href="https://www.ap2v.com{{request.path}}" />
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+    	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="preload" as="style" id="google-fonts-css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+	<meta name="robots" content="index, follow" />
+	<meta name="googlebot" content="index, follow" />
+	<meta name="bingbot" content="index, follow" />
+	<meta name="coverage" content="Worldwide" />
+	<meta name="country" content="India" />
+	<meta name="Revisit-after" content="1 Days"/>
+	<meta name="Language" content="English" />
+	<meta name="Publisher" content="AP2V Academy" />
+	<meta name="YahooSeeker" content="index,follow" />
+	<meta name="msnbot" content="index,follow" />
+	<meta name="googlebot" content="index,follow"/>
+	<meta name="allow-search" content="yes" />
+	<meta name="robots" content="noodp"/>
+	<meta name="googlebot" content="noodp" />
+	<meta name="slurp" content="noydir" />
+	<meta name="msnbot" content="noodp" />
+	<meta name="robots" content="noodp,noydir" />
+
+	{% if seo.geo_placename %}
+	<meta name="geo.region" content="{{seo.geo_region}}"/>
+	<meta name="geo.placename" content="{{seo.geo_placename}}"/>
+	<meta name="geo.position" content="{{seo.geo_position}}"/>
+	<meta name="ICBM" content="{{seo.geo_icbm}}"/>
+	{% endif %}
+
+    	<!-- Schema.org markup for Google+ -->
+	<meta itemprop="name" content="{{seo.title}}"/>
+	<meta itemprop="description" content="{{seo.description}}"/>
+	<meta itemprop="image" content="{{seo.image}}"/>
+
+	<!-- Twitter Card data -->
+	<meta name="twitter:card" content="article"/>
+	<meta name="twitter:title" content="{{seo.title}}"/>
+	<meta name="twitter:description" content="{{seo.description}}"/>
+	<meta name="twitter:creator" content="@ap2vsolutions">
+	<meta name="twitter:image" content="{{seo.image}}"/>
+
+	<!-- Open Graph data -->
+	<meta property="og:title" content="{{seo.title}}"/>
+	<meta property="og:url" content="{{request.build_absolute_uri}}"/>
+	<meta property="og:image" content="{{seo.image}}"/>
+	<meta property="og:locale" content="en_US"/>
+	<meta property="og:description" content="{{seo.description}}"/>
+
+	<link href='/favicon.png' rel='shortcut icon' type='image/x-icon'/>
+    	<!--<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">-->
+
+    {% comment %} <link rel="stylesheet" href="https://cdn.tutorialjinni.com/intl-tel-input/17.0.8/css/intlTelInput.css"/>
+    <script src="https://cdn.tutorialjinni.com/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script> {% endcomment %}
+
+
+	{% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/bootstrap.css' %}" type="text/css" /> {% endcomment %}
+    {% compress css %}
+        <link media="all" rel="stylesheet" href="/static/v4_home_static/css/bootstrap.css" type="text/css" />
+        {% comment %} <link media="all" rel="stylesheet" href="/static/v4_home_static/css/snow-fall.css" type="text/css" /> {% endcomment %}
+        <link media="all" rel="stylesheet" href="/static/v4_home_static/css/carddesign.css" type="text/css" />
+    {% endcompress %}
+
+    {% comment %} {% compress css %}
+        <!-- Contry Code CSS-->
+        <link media="all" rel="stylesheet" defer href="/static/v4_home_static/intlTelInput.css" type="text/css" defer/>
+    {% endcompress %} {% endcomment %}
+
+    {% comment %} {% compress js %}
+    <!-- Contry Code JS-->
+        <script type="text/javascript" defer src="/static/v4_home_static/intlTelInput.js"></script>
+    {% endcompress %} {% endcomment %}
+
+    <link media="all" rel="stylesheet" defer href="/static/v4_home_static/intlTelInput.css" type="text/css" defer/>
+    <script type="text/javascript" src="/static/v4_home_static/inTlTellnputmin.js"></script>
+
+    {% comment %} <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "url": "https://www.ap2v.com/",
+        "logo": "https://www.ap2v.com/static/images/logo.png"
+        }
+    </script> {% endcomment %}
+
+	{% comment %}
+	<link rel="preload" href="{% static 'v4_home_static/css/bootstrap.css' %}" as="style" onload="this.rel='stylesheet'"><noscript><link rel="stylesheet" href="{% static 'v4_home_static/css/bootstrap.css' %}"></noscript>
+	{% endcomment %}
+    
+    <meta name="msvalidate.01" content="D4522EE925ED2F184177A7B24E9537A5" />
+
+    {% if tag_code %}
+        <!--   FACEBOOK PIXIEL CODE ADDED ON 18042022-->
+        <!-- Meta Pixel Code -->
+        <script>
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '1784819085100184');
+            fbq('track', 'PageView');
+            </script>
+            <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=1784819085100184&ev=PageView&noscript=1"
+        /></noscript>
+        <!-- End Meta Pixel Code -->
+    {% endif %}
+    
+    <!-- Tag added on 26/12/2022-->
+    <!-- Google Tag Manager -->
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-NBG7NXZ');</script>
+    <!-- End Google Tag Manager -->
+
+	<!-- jQuery first, then others -->
+        {% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script> {% endcomment %}
+        <script src="/static/v4_home_static/jquery213min.js"></script>
+    
+    	{% if not user.is_authenticated %}
+	    <!-- <script src="//code-eu1.jivosite.com/widget/SaqTzDWYat" async></script> -->
+    	{% endif %}
+        
+        {% if tag_code %}
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PLVPHGJ7" height="0" width="0"
+        style="display:none;visibility:hidden"></iframe></noscript>
+<!-- Google Tag Manager -->
+<script>
+    (function (w, d, s, l, i) {
+        w[l] = w[l] || []; w[l].push({
+            'gtm.start':
+                new Date().getTime(), event: 'gtm.js'
+        }); var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-PLVPHGJ7');
+</script>
+    <!-- End Google Tag Manager -->
+
+
+    <!-- End Google Tag Manager (noscript) -->
+
+            <!-- Added on 02/02/2021 -->
+                <!-- Google Tag Manager -->
+                        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                        })(window,document,'script','dataLayer','GTM-NBG7NXZ');</script>
+                <!-- End Google Tag Manager -->
+                
+                <!-- End Global site tag (gtag.js) - Google Analytics -->
+            <!-- End Code Added on 02/02/2021 -->
+
+            <!-- Added on 17/11/2022 -->
+                <!-- Google tag (gtag.js) -->
+                    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BW9NSXTNCC"></script>
+                    <script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+
+                    gtag('config', 'G-BW9NSXTNCC');
+                    </script>
+                <!-- End Google Tag Manager -->
+            <!-- End Code Added on 17/11/2022 -->
+        {% endif %}
+
+            <script> 
+                /* Add "https://api.ipify.org?format=json" statement this will communicate with the ipify servers in order to retrieve the IP address $.getJSON will 
+            load JSON-encoded data from the server using a GET HTTPS request */ 
+                $.getJSON("https://api.ipify.org?format=json", 
+                    function(data) { 
+                    // Setting with id source_ip 
+                    document.getElementById("source_ip").value = data.ip; 
+                    }) 
+            </script>
+
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-2M1QLMHQMG"></script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', 'G-2M1QLMHQMG');
+            </script>
+
+        {% comment %} {% compress js %} {% endcomment %}
+            <script type="application/ld+json">
+                {
+                    "@context": "https://schema.org",
+                    "@type": "CollegeOrUniversity",
+                    "name": "AP2V Solutions Private Limited",
+                    "alternateName": "AP2V Academy",
+                    "url": "https://www.ap2v.com",
+                    "logo": "https://www.ap2v.com/static/v4_home_static/images/ap2v-logo.png",
+                    "sameAs": [
+                        "https://www.facebook.com/ap2vacademy",
+                        "https://www.youtube.com/c/AP2VAcademy",
+                        "https://www.ap2v.com/",
+                        "https://www.linkedin.com/company/ap2vacademy"
+                    ]
+                }
+            </script>
+        {% comment %} {% endcompress js %} {% endcomment %}
+        {% block css %}  {% endblock css %}
+
+        <style>
+
+             .icon-bar {
+                position: fixed;
+                top: 92%;
+                -webkit-transform: translateY(-50%);
+                -ms-transform: translateY(-50%);
+                transform: translateY(-50%);
+                padding-left:20px;
+                z-index:99999;
+                left:13px;
+                } 
+
+                .icon-bar a {
+                display: block;
+                padding: 16px;
+                color: #448edd;
+                border-radius: 50px;
+                }
+                .whatsapp{
+                    background-color:#25D366;
+                }
+
+            
+
+
+            @media only screen and (max-width: 575px) {
+                .label_1f7d _bottom_ffe9 notranslate {
+                    display:none;
+                }
+		jdiv jdiv jdiv jdiv {
+                        display: none !important;
+                }
+            }
+
+            @media only screen and (max-height: 778px) {
+                .icon-bar {
+                    top:94%;
+                }
+            }
+            
+            @media only screen and (max-height: 575px) {
+		.wrap_e5cd _orientationRight_96d2 __jivoMobileButton {
+                    display:none;
+		}
+            }
+
+            @media only screen and (max-height: 490px) {
+                .icon-bar {
+                    top:75%;
+                }
+            }
+
+            @media only screen and (max-height: 350px) {
+                .icon-bar {
+                    top:66%;
+                }
+            }
+
+            @media only screen and (max-height: 290px) {
+                .icon-bar {
+                    top:60%;
+                }
+            }
+
+            @media only screen and (max-height: 230px) {
+                .icon-bar {
+                    top:40%;
+                }
+            }
+
+            @media screen and (min-width: 768px){
+                #logbtn{
+                    display:none;
+                }
+            }
+
+            @media screen and (max-width: 768px){
+                .icon-bar {
+                    top:85%;
+                }
+            }
+
+            
+            #clockdiv{ 
+                font-family: sans-serif; 
+                color: #fff; 
+                display: inline-block; 
+                font-weight: 100; 
+                text-align: center; 
+                font-size: 15px; 
+            } 
+            #clockdiv > div{ 
+                padding: 10px; 
+                border-radius: 3px; 
+                /* background: #DE294A; */
+                display: inline-block; 
+            } 
+            #clockdiv div > span{ 
+            /*    padding: 15px; */
+                border-radius: 3px; 
+                /* background: #DE294A; */
+                display: inline-block; 
+            } 
+            smalltext{ 
+                padding-top: 5px; 
+                font-size: 16px; 
+            } 
+
+            @media only screen and (max-width: 1220px) {
+                #clockdiv{ 
+                    font-size: 12px; 
+                } 
+            }
+            
+            @media only screen and (max-width: 800px) {
+                #clockdiv{ 
+                    font-size: 10px; 
+                } 
+            }
+
+            .timers{
+                margin-right: 5px;
+                font-size: 12px;
+                background-color: brown;
+            }
+            .iti__country-list{
+                /*position:fixed;*/
+                width: 355px;
+            }
+
+            .wrap_2b34{
+                display: none !important;
+            }
+
+            @media only screen and (max-width: 575px) {
+                .views_enroll{
+                    font-size:11px;
+                    margin-left: 10px;
+                }
+            }
+
+            @media only screen and (max-width: 650px) {
+                .parent_div_pay {
+                    display: flex;
+                    flex-direction: column-reverse;
+                }
+            }
+
+            @media only screen and (max-width: 760px) {
+                #blog_image_article{
+                    display:none;
+                }
+            }
+
+        </style>
+        {% if tag_code %}
+            <!-- Google Tag Added-->
+            <meta name="google-site-verification" content="ORxygrnvbtoyT2ql0NA10eTztWrS3GhfucohIfbfxXQ" />
+        {% endif %}
+    </head>
+
+
+    <body {% if not user.is_authenticated %}onload="caller();" {% endif %} > 
+        {% if tag_code %} 
+            <!-- Added on 02/02/2021 -->
+                <!-- Google Tag Manager (noscript) -->
+                    <noscript><iframe sandbox src="https://www.googletagmanager.com/ns.html?id=GTM-NBG7NXZ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+                <!-- End Google Tag Manager (noscript) -->
+            <!-- End Code Added on 02/02/2021 -->
+        {% endif %}
+
+        <!-- Tag added on 26/12/2022-->
+        <!-- Google Tag Manager (noscript) -->
+            <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NBG7NXZ"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <!-- End Google Tag Manager (noscript) -->
+
+        <input type="text" id="source_ip" aria-label="source_ip" hidden>
+
+        {% block content %}
+
+        {% endblock content %}
+
+        {% include 'v4_home/sub_pages/footer.html' %}
+        </div><!-- // main wrap-->
+        {% load static %}
+        {% include 'v4_home/sub_pages/sign-signup.html' %}
+
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        {% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> {% endcomment %}
+
+
+        {% compress js %}
+            <script src="/static/v4_home_static/js/vendor/simple-lightbox.js"></script>
+            <script src="/static/v4_home_static/js/main.js"></script>
+        {% endcompress %}
+
+        
+
+
+        {% block scripts %}
+
+        {% endblock scripts %}
+
+        {% if not user.is_authenticated %}
+            <script>
+                var ti = 0;
+                function call() {
+                    var wi =  $( window ).width();
+                    if(wi > 319 ){
+                        if(window.location.href.search('pay') == -1){
+                            if(ti==0){
+                                if($('#apply_now_course_content').is(':visible') ||$('#apply-now').is(':visible') || $('#previewVideoEnquiry').is(':visible') || $('#request-batch').is(':visible') || $('#call-now').is(':visible') || $('#offer-apply-now').is(':visible') || $('#syllabus').is(':visible') || $('#certificate').is(':visible') || $('#exampleModal1').is(':visible'))  {
+                                    //alert("yes")
+                                    //console.log("alredy opened")
+                                }else{
+                                    //console.log("not opened")
+                                    $("#apply-now").modal("show");
+                                }
+                            //setTimeout(wait, 8000); // closes the pop-up after 8 secs delay
+                            }
+                            ti=1;
+                        }
+                    }
+                }
+
+                function caller(){
+                    setInterval(call, 30000); // opens a pop-up on every 30th second
+                }
+            </script>
+        {% endif %}
+
+        <script>
+        </script>
+    </body>
+</html>

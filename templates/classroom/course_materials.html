@@ -1,0 +1,121 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+
+{% block title %} AP2V {% endblock %}
+
+{% block css %}
+    <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/dashboard.css' %}" type="text/css" />
+{% endblock css %}
+
+{% block content %}
+
+    <div class="main-wrap">
+        <!-- <?php include 'inc/push-down.php'; ?> -->
+        {% include 'v4_home/sub_pages/push-down.html' %}
+        <!-- <?php include 'inc/navigation.php'; ?> -->
+        {% include 'v4_home/sub_pages/navigation.html' %}
+
+        <div class="banner-inner dashboard-banner">
+            <div class="container">
+                <div class="row banner-inner--content flex-column">
+                    <div class="d-flex">
+                        <div class="banner-inner--right-pan d-none d-xl-block">
+                            <img src="{% static 'v4_home_static/images/dashboard/dashboard.png' %}" alt="Devops Training">
+                        </div>
+
+                        <div class="banner-inner--left-pan d-flex flex-column justify-content-center ml-5">
+                            <h1 class="text-secondary font-size-18">Welcome back!</h1>
+                            <p class="text-gray-lightest mb-0">Here’s wishing you a happy learning today!</p>
+                        </div>
+
+
+                    </div><!-- slick-slide d-flex-->
+                </div><!-- // row -->
+            </div>
+        </div><!-- // Banner -->
+        
+        
+        <div class="container mt-3">
+            <div class="dashboard">
+                {% if request.user.user_type == "student" %}
+                    {% include 'classroom/classroom_student_left_bar.html' %}
+                {% elif request.user.user_type == "instructor" %}
+                    {% include 'classroom/classroom_instructor_left_bar.html' %}
+                {% endif %}
+
+                <div class="dashboard__rightPan">
+                    <h2>Python Django Training and Certification</h2>
+                    <p class="font-size-xs">Manish Kumar | 25 lectures - 03:30:45 | Batch timing: 23:00</p>
+
+                    <h5 class="text-gray-medium">Course Materials</h5>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                        labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. </p>
+
+                    <ul class="course-materials">
+                        <li class="white-box d-flex align-items-center justify-content-between">
+                            <span class="course-materials--img">
+                                <img src="{% static 'v4_home_static/images/dashboard/pdf.svg' %}" class="img-fluid" alt="course">
+                            </span>
+                            <div class="course-materials--content">
+                                <strong class="d-block font-weight-bold">Pellentesque faucibus</strong>
+                                <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                                    tempor incididunt ut labore et dolore magna aliqua.</p>
+                            </div>
+                            <button class="btn btn-link font-weight-bold">Download</button>
+                        </li>
+
+                        <li class="white-box d-flex align-items-center justify-content-between">
+                            <span class="course-materials--img">
+                                <img src="{% static 'v4_home_static/images/dashboard/doc.svg' %}" class="img-fluid" alt="course">
+                            </span>
+                            <div class="course-materials--content">
+                                <strong class="d-block font-weight-bold">Praesent eget</strong>
+                                <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+                            </div>
+                            <button class="btn btn-link font-weight-bold disabled">Downloaded</button>
+                        </li>
+
+                        <li class="white-box d-flex align-items-center justify-content-between">
+                            <span class="course-materials--img">
+                                <img src="{% static 'v4_home_static/images/dashboard/pdf.svg' %}" class="img-fluid" alt="course">
+                            </span>
+                            <div class="course-materials--content">
+                                <strong class="d-block font-weight-bold">Pellentesque faucibus</strong>
+                                <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                                    tempor incididunt ut labore et dolore magna aliqua.</p>
+                            </div>
+                            <button class="btn btn-link font-weight-bold">Download</button>
+                        </li>
+
+                        <li class="white-box d-flex align-items-center justify-content-between">
+                            <span class="course-materials--img">
+                                <img src="{% static 'v4_home_static/images/dashboard/video.svg' %}" class="img-fluid" alt="course">
+                            </span>
+                            <div class="course-materials--content">
+                                <strong class="d-block font-weight-bold">Pellentesque faucibus</strong>
+                                <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                                    tempor incididunt ut labore et dolore magna aliqua.</p>
+                            </div>
+                            <button class="btn btn-link font-weight-bold">Download</button>
+                        </li>
+
+                        <li class="white-box d-flex align-items-center justify-content-between">
+                            <span class="course-materials--img">
+                                <img src="{% static 'v4_home_static/images/dashboard/upload.svg' %}" class="img-fluid" alt="course">
+                            </span>
+                            <div class="course-materials--content">
+                                <strong class="d-block font-weight-bold">Pellentesque faucibus</strong>
+                                <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                                    tempor incididunt ut labore et dolore magna aliqua.</p>
+                            </div>
+                            <button class="btn btn-link font-weight-bold">Upload</button>
+                        </li>
+
+
+                    </ul>
+                </div><!-- // Right panel -->
+
+            </div><!-- // Dashboard -->
+        </div><!-- // Container -->
+
+{% endblock content %}

@@ -1,0 +1,165 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+{% load ap2v_course_tag %}
+{% block title %} AP2V {% endblock %}
+{% block css %}
+    <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/others.css' %}" type="text/css" />
+
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.ap2v.com/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Why AP2v",
+            "item": "https://www.ap2v.com/why-ap2v/"
+        }]
+        }
+    </script>
+    
+{% endblock css %}
+
+{% block content %}
+    <div class="main-wrap">
+    {% include 'v4_home/sub_pages/push-down.html' %}
+    {% include 'v4_home/sub_pages/navigation.html' %}
+
+        <!-- Banner -->
+        <div class="banner-inner">
+            <div class="container">
+                <div class="row banner-inner--content flex-column">
+                    {% include 'v4/breadcrumb.html' %}<!-- // breadcrumb -->
+                    <div class="d-flex">
+                        <div class="banner-inner--left-pan d-flex flex-column justify-content-center">
+                        <h1 class="text-secondary">Why Ap2v.com</h1>
+                        <p class="text-gray-lightest mb-0">AP2V certificates for various programs are valid all across India as well as abroad. Because it is a Red Hat Authorized Training Partner. Enroll yourself to give your career a boost.</p>
+                        </div>
+                        <div class="banner-inner--right-pan d-none d-xl-block">
+                          <img src="{% static 'v4_home_static/images/why-us.png'%}" alt="Contact us">
+                        </div>
+                    </div><!-- slick-slide d-flex-->
+                </div><!-- // row -->
+            </div>
+        </div><!-- // Banner -->
+
+
+        <div class="spacer mt-0"></div><!-- // Spacer -->
+
+        <section class="container pt-4">
+            <div class="row">
+                <div class="col-12 col-md-12">
+                    <h3 class="mb-5">There are 100 Reasons of Join AP2V</h3>
+                    <ol class="list list--tick column-2">
+                      <li>Flexible Batch Slots as Per Candidates Convenience</li>
+                      <li>Excellent Support Services for Students</li>
+                      <li>Impressive Ranking</li>
+                      <li>Skills to Underpin Your Career</li>
+                      <li>Verity of Professional Courses at Affordable Prices</li>
+                      <li>Authorized Partner with Red Hat and Star Certification</li>
+                      <li>100% Job Placement Assistance</li>
+                      <li>Connectivity on All Devices</li>
+                      <li>Doubt-Clarification Classes </li>
+                      <li>Globally Certified Trainers with Industry Experiences</li>
+                      <li>Modern Classroom Infrastructure with High Level Hardware</li>
+                      <li>Dedicated Labs for Dedicated Courses</li>
+                      <li>Offers Live Projects and Scenarios with Hands-On Practice</li>
+                      <li>Summer Internship with Live Projects for College Students</li>
+                      <li>Hot and Trending Technologies</li>
+                      <li>Ready to Teach You New Things Which Means Up To Date</li>
+                      <li>Online Classes with Recording and Course Materials.</li>
+                      <li>Increase Your Earning Potential</li>
+                      <li>A Bucket Full of Opportunities</li>
+                      <li>High-Quality Environment</li>
+                      <li>Identifying and Developing Each Student’s Talents</li>
+                      <li>Supportive Staff</li>
+                      <li>Applied Projects and Work</li>
+                      <li>We Offer 2 Modes of Classroom</li>
+                      <li>Well Equipped & Smart Classrooms</li>
+                      <li>Innovative Training Methodologies</li>
+                      <li>Personality Development Sessions</li>
+                      <li>Learn & Get Inspired Every Minute</li>
+                      <li>Technical Interview Sessions</li>
+                      <li>Dedicated Lab Instructor for Every Track</li>
+                      <li>Focus on Skill’s Growth, Continuous Monitoring</li>
+                      <li>We Transform Students into Expert Professionals</li>
+                      <li>Outstanding Placement</li>
+                      <li>6 Years of Training Excellence</li>
+                      <li>Intensive Training Model</li>
+                      <li>Live Projects Training</li>
+                      <li>Free Demo Classes</li>
+                      <li>Live Projects</li>
+                      <li>Heavy Discounts to College Students</li>
+                      <li>World Class Instructor</li>
+                      <li>Experienced MNC Professionals</li>
+                      <li>Corporate Style Training</li>
+                      <li>20+ Coursed On Latest Technology</li>
+                      <li>Providing Free Notepads & Pen to Students </li>
+                      <li>Consider New Carriers</li>
+                      <li>Develop Unique Professional Learning Opportunities</li>
+                      <li>Gain Qualifications from Recognized, Well-Regarded Institute</li>
+                      <li>Gain an Experience That Is Engaging, Enabling, Entertaining, Enlightening and Easy</li>
+                      <li>Rank 1st in Top Python Training Institute</li>
+                      <li>Rank 1st in Top Aws Training Institute</li>
+                      <li>Rank 2nd in Top Devops Training Institute</li>
+                      <li>Rank 2nd in Top Docker Training Institute</li>
+                      <li>Rank 1st in Top Ansible Training Institute</li>
+                      <li>Rank 2nd in Top Openstack Training Institute</li>
+                      <li>Possibility of Individual Attention to Each & Every Student Due To Limited Batch Size.</li>
+                      <li>An 6 Year Old Institute Dedicated To Development of Candidates</li>
+                      <li>Free Technical Support after Course Completion</li>
+                      <li>Back Up Classes Available</li>
+                      <li>Latest Study Material</li>
+                      <li>We Are Known For Our Innovative Training Mythologies</li>
+                      <li>We Have Outstanding Career Development Opportunities</li>
+                      <li>You’ll Be Part of a Global Organization, With Plenty Of Travel Opportunities</li>
+                      <li>We Offer Flexible Training Hours</li>
+                      <li>We Organize Regular Learn Sessions</li>
+                      <li>All Our Staff Receives a Personal Development Plan</li>
+                      <li>We Offer Training Courses on 50s Of Subjects</li>
+                      <li>We All Love the Work We Do</li>
+                      <li>We Offer a Progressive Technical Environment</li>
+                      <li>We Believe In Promoting A Healthy Learning Environment</li>
+                      <li>We’re known for Our Thought Leadership and Industry Insights</li>
+                      <li>Continue Facility Also Available Within Months</li>
+                      <li>Hard Work Is Rewarded Here</li>
+                      <li>We’re Professional at Every Level</li>
+                      <li>We Have an Overall Rating of 4.5 Out 5</li>
+                      <li>We’re A Well-Respected Company in Our Industry</li>
+                      <li>We Provide ‘On the Job Training</li>
+                      <li>We Are Committed To Your Career Development</li>
+                      <li>We Share All the Latest Industry Hot Topics</li>
+                      <li>All Our Offices Are Modern and Well-Equipped</li>
+                      <li>We Offer Work Experience Opportunities for Students</li>
+                      <li>We Experiment With All the Latest Technologies In Our Innovation Lab</li>
+                      <li>Clarify Your Thinking</li>
+                      <li>More Than 20 Professional Trainers</li>
+                      <li>We Will Develop Your Leadership Skills</li>
+                      <li>Help Students in the Development of Their Resume as Per Industry Standards</li>
+                      <li>Increased Overall Confidence</li>
+                      <li>Developing Techniques for Handling Change</li>
+                      <li>First Institute Who Conducting Ansbile 2.7 Exam</li>
+                      <li>We Provide Systems To Every Student For Practice.</li>
+                      <li>Extra Classes for Students If Topic Not Cleared</li>
+                      <li>Organizing Tech Event Every Month on Latest& Trending Technology</li>
+                      <li>Heavy Discount on Time to Time on Latest Technologies</li>
+                      <li>1 To 1 Systems Ratio for Students</li>
+                      <li>Exam Preparation Classes Available</li>
+                      <li>Trainers Are Always Available To Help Students</li>
+                      <li>Seasons for Doubt Classes in Every Week</li>
+                      <li>We Provide Exam Preparation Classes.</li>
+                      <li>Provide Discounts to Old Ap2vians</li>
+                      <li>Easy Course Fees Payment Options Available.</li>
+                      <li>Provide Discount Time To Time to Students and Working Professionals</li>
+                    </ol>
+                </div>
+            </div>
+
+        </section><!-- // Overview -->
+    {% comment %} {% include 'v4_home/sub_pages/modals.html' %} {% endcomment %}
+{% endblock content %}

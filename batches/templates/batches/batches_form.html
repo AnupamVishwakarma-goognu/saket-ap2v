@@ -1,0 +1,241 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="wrapper">
+    {% include 'website/sidebar.html' %}
+    {% include 'website/header.html' %}
+    
+      <div class="main-panel">
+        <!-- Navbar -->
+        
+            <!-- End Navbar -->
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form id="new_batches_form" class="form-horizontal" enctype="multipart/form-data" action="{% url 'batches' %}" method="post">
+                                    {% csrf_token %}
+                                    <h4 class="card-title mt-0">ADD BATCH</h4>
+                                    <div class="card ">
+                                        <div class="card-body">
+                                              <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Batch Type</label>
+                                                        {% comment %} <div style="    margin-left: 10px;">
+                                                          <input type="radio" id="regular_batch" value="1" class="" name="batch_type" required="true" />
+                                                          <label for="regular_batch" style="margin-left: 5px;">Regular Batch</label>
+                                                          <input type="radio"  style="margin-left: 20px;" id="backup_batch" value="2" class="" name="batch_type" required="true" />
+                                                          <label for="backup_batch" style="margin-left: 5px;">Backup Batch</label>
+                                                        </div> {% endcomment %}
+                                                        <select id="batch_type" name="batch_type" class="selectpicker" required="true">
+                                                            <option></option>
+                                                            <option value="1">Regular Batch</option>
+                                                            <option value="2">Backup Batch</option>
+                                                      </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                  <div class="form-group">
+                                                    <label>Course</label>
+                                                    <select id="selectcourse" name="course" class="selectpicker" multiple size="10" required="true">
+                                                        {% for data in course %}
+                                                          <option value="{{ data.id }}">{{ data.name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Start Date & Time (MM/DD/YYYY)</label>
+                                                        <input type="text" id="datetimepicker" class="form-control datetimepicker startDate" name="start_date_time" placeholder="Batch start & time" required="true" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                           <!-- <div class="row"> -->
+                                                <!-- <div class="col-md-6">
+                                                  <div class="form-group">
+                                                      <label>Duration</label>
+                                                      <input type="text" class="form-control" name="duration" placeholder="enter course duration" required="true" />
+                                                  </div>
+                                                </div> -->
+                                                <!-- <div class="col-md-6 pr-l">
+                                                    <div class="form-group">
+                                                        <label>End Time</label>
+                                                        <input type="text" name="end_time" class="form-control timepicker" placeholder="Time Picker Here">
+                                                    </div>
+                                                </div> -->
+                                           <!-- </div> -->
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                  <div class="form-group">
+                                                    <label>Days Of Week</label>
+                                                    <select class="selectpicker" id="days" name="days_of_week" multiple required>
+                                                      <option>Monday</option>
+                                                      <option>Tuesday</option>
+                                                      <option>Wednesday</option>
+                                                      <option>Thursday</option>
+                                                      <option>Friday</option>
+                                                      <option>Saturday</option>
+                                                      <option>Sunday</option>
+                                                    </select>
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                  <div class="form-group">
+                                                    <label>Instructors</label>
+                                                    <select name="instructors" id="instructors" class="selectpicker" required>
+                                                      <option value="">Choice Instuctor Name</option>
+                                                      {% for trainer in instructor %}
+                                                        <option value="{{ trainer.id }}">{{ trainer.full_name }}</option>
+                                                      {% endfor %}
+                                                    </select>
+                                                  </div>
+                                                </div>
+                                             </div>
+                                             <div class="row">
+                                               <div class="col-md-6">
+                                                 <div class="form-group">
+                                                   <label> Daily Session Duration (In min..)</label>
+                                                   <input type="number" id="session_duration" name="session_duration" class="form-control" onfocusout="course_end_date()" required>
+                                                 </div>
+                                               </div>
+                                               <div class="col-md-6">
+                                                <div class="form-group">
+                                                  <label>End Time (MM/DD/YYYY)</label>
+                                                  <input type="text" id="datetimepicker" class="form-control datetimepicker endDate"  name="end_date_time" readonly placeholder="Batch end & time" required />
+                                                </div>
+                                              </div>
+                                              <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Language</label>
+                                                    <select id="language_type" name="language_type" class="selectpicker" required="true">
+                                                        <option></option>
+                                                        <option value="1">Hindi</option>
+                                                        <option value="2">English</option>
+                                                  </select>
+                                                </div>
+                                            </div>
+                                            </div>
+                                                
+                                             </div>
+                                             <div class="row">
+                                               <div class="col-md-12">
+                                                 <div class="form-group">
+                                                   <label>Candidates</label>
+                                                   <input type="text" id="candidateSearch" class="form-control multi_select_fastselect" multiple data-url="/enrollments/search" name="candidate">
+                                                   <br>
+                                                   <p id="student_list_read_only" style="padding-left: 13px;"> </p>
+                                                   <input type="text" hidden id="candidateSearchlist2" name="candidate2">
+                                                 </div>
+                                               </div>
+                                             </div>
+                                             
+                                             <div class="card-footer">
+                                             {% include 'batches/modal_batches.html' %}
+                                            <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+                                                <button type="submit" class="btn btn-primary" onclick="openWaitingModal()" value="Reset Form">Create Batches</button>
+                                                
+                                             </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             {% include 'website/footer.html' %}
+        </div>
+    </div>
+
+  <!-- Wating Modal -->
+    <div class="modal fade" id="waitingModal" tabindex="-1" aria-labelledby="waitingModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content add-student">
+              <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <img id="theImg" style="height: 50px;padding-left: 43%;" src={% static "assets/images/waiting-icon.jpg" %}>
+                        <p>Please wait we are adding the student, this process may take some time.</p>
+                        <p>Students is auto recieve the demo invite mail and sms.</p>
+                        <p>After complations the process page will auto reload.</p>
+                        <p>If nothing is happen after some time,Please refresh page and check wather student is added or not.</p>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+  
+  <script>
+    function openWaitingModal(){
+      batch_course = $("#selectcourse").val();
+      batch_type = $("#batch_type").val();
+      //alert(batch_type)
+      //days = $("#days").val();
+      //instructors = $("#instructors").val();
+      //session_duration = $("#session_duration").val();
+      //end_date_time = $("#end
+
+
+      if(batch_type.length <= 0){
+        alert("Select Batch Type")
+        return false;
+      }
+
+      if(batch_course.length <= 0){
+        alert("Select Course")
+        return false;
+      }
+      $("#waitingModal").modal('show')
+    }
+  </script>
+
+  <script>
+    function course_end_date(){
+      var selectCourse = $('#selectcourse').val();
+      if(selectCourse.length==0){
+        alert("Please select atleast one course...");
+        return false;
+      }
+      var startDate = $('.startDate').val();
+      if(startDate.length==0){
+        alert("Please select the date...");
+        return false;
+      }
+      var days = $('#days').val();
+      if(days.length==0){
+        alert("Please select the days...");
+        return false;
+      }
+      var session_duration = $('#session_duration').val();
+      if(session_duration.length==0){
+        alert("Please enter session time...");
+        return false;
+      }
+      $.ajax({
+            url: '/batches/get_end_date?selectCourse='+selectCourse+'&startDate='+startDate+'&days='+days+'&session_duration='+session_duration,
+            data: {},
+            type: 'GET',
+            success: function(data){
+              var jsonConvert = JSON.stringify(data);
+              var end=data["ending_date"]
+             
+                $('.endDate').val(end)
+            
+              
+             
+              
+            },
+            error: function() {
+                alert("Internal Server Error!!!");
+            },
+          });
+      };
+      //"selectCourse":"[252,458]",'startDate':startDate,'days':days,'session_duration':session_duration
+  </script>
+{% endblock content %}

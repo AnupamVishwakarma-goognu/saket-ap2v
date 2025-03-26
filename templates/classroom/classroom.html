@@ -1,0 +1,522 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+{% load ap2v_course_tag %}
+
+{% block title %} AP2v {% endblock %}
+
+{% block css %}
+    <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/dashboard.css' %}" type="text/css" />
+<style>
+.adddsense {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    right: 5px;
+    display: flex;
+    align-items: center;
+    width: 350px;
+    flex-direction: column;
+    justify-content: flex-end;
+ }
+ .item {
+    border-radius: 70px;
+    position: relative;
+    margin-bottom: 48px;
+}
+p#validdatess {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    color: black;
+    bottom: -61px;
+    font-weight: 700;
+    font-size: 10px;
+}
+div#carosule49 .owl-stage .owl-item:nth-child(odd) .item {
+    background: linear-gradient(90deg, rgba(213,199,40,1) 0%, rgba(9,121,86,1) 35%, rgba(0,212,255,1) 100%);
+}
+div#carosule49 .owl-stage .owl-item:nth-child(even) .item {
+    background: linear-gradient(90deg, rgba(177,213,40,1) 0%, rgba(121,116,9,1) 35%, rgba(255,0,9,1) 100%);
+}
+.course-trend-upper {
+     height: 72px;
+     padding: 0 10px;
+ }
+ p.offerpricess {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+}
+div#carosule49 .owl-dots {
+    display: none;
+}
+p.offerpricess span {
+    padding: 9px 10px;
+    font-weight: 700;
+    font-size: 18px;
+}
+p.offerpricess span:nth-child(odd) {
+text-decoration: line-through;
+}
+p.offerpricess span:nth-child(even) {
+color: black;
+}
+button.avlnoww {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    height: 100%;
+    border-radius: 56px;
+    font-size: 20px;
+    opacity: 0;
+    background-color: #e3800c;
+    border: none;
+    color: white;
+    outline: none;
+}
+div#carosule49:hover button.avlnoww {
+    z-index: 1;
+    opacity: 1;
+    transition-duration: 1s;
+}
+    @media (max-width:786px ){
+        .adddsense {
+            right: initial;
+            width: 100%;
+            padding: 0 40px;
+        }
+        .syysstem .banner-inner--left-pan.d-flex.flex-column.justify-content-center.ml-5 {
+    margin: 0 !important;
+    text-align: center;
+}
+        img.specoffer {
+    display: none !important;
+}
+        .row.banner-inner--content.flex-column.syysstem {
+    padding-bottom: 8rem;
+}
+        .dashboard { 
+    flex-direction:  column-reverse;
+}
+.dashboard__rightPan {
+     margin: 10px 0;
+}
+.dashboard__rightPan--tableWrap .table-responsive{
+    height: auto !important;
+}
+.dashboard__rightPan--tableWrap .table .thead-light th { 
+    font-size: 12px;
+}
+.dashboard__rightPan h2 {
+    font-size: 19px;
+}
+    }
+
+        /* Style the form for better appearance */
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .close-button {
+            background-color: #f44336;
+        }
+
+</style>
+    <script>
+        function load_recodring(meeting_id,first_load=0){
+            $("#course_recording_board").hide();
+            if(parseInt(first_load)==1){
+                $("#loading_loader2").show();
+                // debugger;
+            }
+            else{
+                $("#loading_loader").show();
+            }
+            {% if request.user.user_type == "student" %}
+                {% for i in enroll_data %}
+                    $('#cr_'+{{i.meeting_id}}).removeClass("active");
+                {% endfor %}
+            {% else %}
+                {% for i in all_instructor_batch %}
+                    $('#cr_'+{{i.meeting_id}}).removeClass("active");
+                {% endfor %}
+            {% endif %}
+
+            $('#cr_'+meeting_id).addClass("active");
+
+            //debugger;
+            $.ajax({
+                url: '/classroom/get_recording',
+                data: {"meeting_id":meeting_id},
+                type: 'POST',
+                success: function(data) {
+                    $("#loading_loader").hide()
+                    $("#loading_loader2").hide();
+                    $("#course_recording_board").show()
+                    $('#course_recording_board').html(data)
+                },
+                error: function() {
+                    console.log("Internal Server Error!!!");
+                },
+            });
+        };
+
+        function batchStudent(batch_id){
+            //alert(batch_id)
+            $.ajax({
+                url: '/classroom/get_batch_student_details/',
+                data: {"batch_id":batch_id},
+                type: 'POST',
+                success: function(data) {
+                    //$("#loading_loader").hide()
+                    //$("#loading_loader2").hide();
+                    //$("#course_recording_board").show()
+                    $('#modal_body').html(data)
+                },
+                error: function() {
+                    console.log("Internal Server Error!!!");
+                },
+            });
+
+            $('#studentBatchDetails').modal('show');
+
+        }
+
+        function get_student_attemdance(batch_id){
+            //alert(batch_id)
+            $.ajax({
+                url: '/classroom/get_batch_student_attendance_details/',
+                data: {"batch_id":batch_id,"csrfmiddlewaretoken": "{{ csrf_token }}"},
+                type: 'POST',
+                success: function(data) {
+                    //$("#loading_loader").hide()
+                    //$("#loading_loader2").hide();
+                    //$("#course_recording_board").show()
+                    $('#modal_bodyAttendance').html(data)
+                },
+                error: function() {
+                    console.log("Internal Server Error!!!");
+                },
+            });
+
+            $('#studentAttendanceDetails').modal('show');
+
+        }
+    </script>
+
+{% endblock css %}
+
+{% block content %}
+
+    <div class="main-wrap">
+        <!-- <?php include 'inc/push-down.php'; ?> --> 
+        {% include 'v4_home/sub_pages/push-down.html' %}
+        <!-- <?php include 'inc/navigation.php'; ?> -->
+        {% include 'v4_home/sub_pages/navigation.html' %}
+
+        <div class="banner-inner dashboard-banner">
+            <div class="container">
+                <div class="row banner-inner--content flex-column syysstem">
+                    <div class="d-flex">
+                        <div class="banner-inner--right-pan d-none d-xl-block">
+                            <img src="{% static 'v4_home_static/images/dashboard/dashboard.png' %}" alt="Devops Training">
+                        </div>
+
+                        <div class="banner-inner--left-pan d-flex flex-column justify-content-center ml-5">
+                            <h1 class="text-secondary font-size-18">Welcome Back !</h1>
+                            <p class="text-gray-lightest mb-0">Here’s wishing you a happy learning today!</p>
+<!-- uncomment this to see -->
+
+
+</div>
+
+                    </div><!-- slick-slide d-flex-->
+                </div><!-- // row -->
+            </div>
+            <div class="adddsense">
+                {% if offers %}
+                <img loading="lazy" class="specoffer" src= "{% static 'v4_home_static/images/specoffer.png' %}"   alt="{{crs.name}}" width="auto" height="200px">
+                {% endif %}
+                <div class="owl-carousel" id="carosule49">
+                    {% for item in offers %} 
+                        <a href="javascript:void(0)">
+                            <div class="item">
+                                <div class="course-trend-upper three" style="background: linear-gradient(45deg, {{dynamic_color.0}}, {{dynamic_color.1}})">
+                                    <div class="course-trend-upper-img">
+                                        <img loading="lazy" class="d-inline-block" src= "/media/{{item.image}}"   alt="{{item.name}}" width="52" height="52">
+                                    </div><span >{{item.name|truncatechars:48}}</span>
+                                    <button class="avlnoww know_more_{{item.id}}" onclick="availNow('{{item.id}}')">Know More</button>
+                                </div>
+                                
+                                <p class="offerpricess"><span>{{item.orignal_price}}</span><span>{{item.price}}-/ only</span> <span></span></p>
+                                {% if item.offer_date %}
+                                    <p class="validdatess" id="validdatess">Offer valid till: {{item.offer_date}}</p>
+                                {% endif %}
+                            </div>
+                        </a>
+                    {% endfor %}
+                    
+                </div>
+            </div>
+        </div>
+        
+        {% include 'classroom/batch_filter_instructore.html' %}
+
+        {% if request.user.user_type == "student" %}
+            <div class="container mt-3">
+                <div class="dashboard">
+                    
+                    {% include 'classroom/classroom_student_left_bar.html' %}
+
+                    <div class="dashboard__rightPan" id="course_recording_board">   
+                        <!-- Code load by AJAX -->
+                        <div class="dashboard__rightPan--wrap">
+                            <div id="loading_loader2" class="spinner-grow text-primary" role="status"></div>
+                            <p>Loading...</p>
+                        </div>
+
+                    </div><!-- // Right panel -->
+
+                    <div id="loading_loader" class="spinner-grow text-primary" role="status" style="margin-left:360px">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+
+                    
+                </div><!-- // Dashboard -->
+            </div><!-- // Container -->
+        {% elif request.user.user_type == "instructor" %}
+            <div class="container mt-3">
+                <div class="dashboard">
+                    
+                    {% include 'classroom/classroom_instructor_left_bar.html' %}
+
+                    <div class="dashboard__rightPan" id="course_recording_board">   
+                        <!-- Code load by AJAX -->
+                    </div><!-- // Right panel -->
+
+                    <div id="loading_loader" class="spinner-grow text-primary" role="status" style="margin-left:360px">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+
+                    <div id="loading_loader2" class="spinner-grow text-primary" role="status" style="margin-right:360px">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+
+                </div><!-- // Dashboard -->
+            </div><!-- // Container -->
+        {% endif %}
+    
+
+    <!--studentBatchDetails show modal -->
+    <div class="modal fade" id="studentBatchDetails" tabindex="-1" aria-labelledby="studentBatchDetailsLabel" aria-hidden="true">
+        <div class="modal-dialog form-modal" style="max-width: 434px;">
+            <div class="modal-content">
+                <div class="form-modal__wrapper">
+                    <div class="form-modal__wrapper--form">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Batch Student info</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&#x2715;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="modal_body">
+                            <div id="loading_loader3" class="spinner-grow text-primary" role="status" style="margin-left:360px">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--studentAttendanceDetails show modal -->
+    <div class="modal fade" id="studentAttendanceDetails" tabindex="-1" aria-labelledby="studentAttendanceDetailsLabel" aria-hidden="true">
+        <div class="modal-dialog form-modal" style="max-width: 1000px;">
+            <div class="modal-content">
+                <div class="form-modal__wrapper">
+                    <div class="form-modal__wrapper--form">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Batch Student Attendance info</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&#x2715;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="modal_bodyAttendance">
+                            <div id="loading_loader3" class="spinner-grow text-primary" role="status" style="margin-left:360px">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function sendenquirydata(formClassName) {
+        event.preventDefault();
+        var activeForm = document.querySelector('.' + formClassName);
+        var errorContainer = activeForm.querySelector('.error-message');
+        var formData = new FormData(activeForm);
+        var subject = formData.get('subject');
+        var description = formData.get('description');
+        var isFormValid = true;
+
+        for (var i = 0; i < activeForm.elements.length; i++) {
+            if (!activeForm.elements[i].checkValidity()) {
+                isFormValid = false;
+                var errorMessage = activeForm.elements[i].validationMessage;
+                errorContainer.textContent = errorMessage;
+                errorContainer.style.display = 'block';
+                setTimeout(function () {
+                    errorContainer.textContent = "";
+                }, 3000);
+            }
+        }
+
+        if (isFormValid) {
+            var arr = [subject, description];
+            sendquery(arr);
+        }
+    }
+
+    function sendquery(arr) {
+        event.preventDefault();
+
+        $.ajax({
+            // url: "http://127.0.0.1:8000/ticket/eqticketgenerate",
+            url: "https://taggy.ai/ticket/eqticketgenerate",
+            method: "POST",
+            data: {
+                subject: arr[0],
+                description: arr[1]
+            },
+            success: function (data, textStatus, jqXHR) {
+        if (jqXHR.status === 201) {  // Check the status code
+            $('#success-message').html("Your Ticket has been generated !");
+                $('input[name="subject"]').val(""); 
+                $('textarea[name="description"]').val("");          
+            setTimeout(function () {
+                $('#success-message').fadeOut('fast');
+            }, 3000);
+        } 
+        else {
+            console.log("Unexpected server response");
+        }
+    },
+    error: function (data) {
+        console.log("Internal server error...");
+    }
+});
+    }
+</script>
+
+        <script>
+            const openFormButton = document.getElementById("openFormButton");
+            const closeFormButton = document.getElementById("closeFormButton");
+            const ticketForm = document.getElementById("ticketForm");
+    
+            openFormButton.addEventListener("click", () => {
+                openFormButton.style.display = "none";
+                ticketForm.style.display = "block";
+            });
+    
+            closeFormButton.addEventListener("click", () => {
+                ticketForm.style.display = "none";
+                openFormButton.style.display = "block";
+            });
+    
+            ticketForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const subject = document.getElementById("subject").value;
+                const description = document.getElementById("description").value;
+    
+                // Here, you can perform actions with the subject and description data, e.g., send it to a server.
+                // For this example, we'll just log the data.
+                console.log("Subject:", subject);
+                console.log("Description:", description);
+    
+                // Optionally, you can reset the form and hide it.
+                ticketForm.reset();
+                ticketForm.style.display = "none";
+                openFormButton.style.display = "block";
+            });
+        </script>
+<script>
+        $('#carosule49').owlCarousel({
+  items: 4,
+  margin: 10,
+  loop: true,
+  autoplay: true,
+  autoplayHoverPause: true,
+  responsive: {
+    0: {
+      items: 1,
+      nav: false,
+    },
+    700: {
+      items: 1,
+      nav: false,
+    },
+    1000: {
+      items: 1,
+      nav: false,
+    },
+  },
+  })
+    </script>
+    <script>
+        $("#loading_loader").hide()
+        //$("#loading_loader2").hide()
+    </script>
+    <script>
+        function availNow(cid){
+            mdata = {
+                courseid:cid,
+            }
+            
+            $.ajax({
+                url : "/classroom/availCourse",
+                method : "POST",
+                data : mdata,
+                success:function(data) {
+                    //alert('success')
+                    //alert("#know_more_"+cid)
+                    $(".know_more_"+cid).text("Catch You Soon");                    
+                },
+                error:function(data){
+                    console.log("internal server error...")
+                    
+                }
+            })
+            
+        }
+    </script>
+
+{% endblock content %}

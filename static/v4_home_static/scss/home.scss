@@ -1,0 +1,24 @@
+/*!
+ * Bootstrap v4.5.2 (https://getbootstrap.com/)
+ * Copyright 2011-2020 The Bootstrap Authors
+ * Copyright 2011-2020 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ */
+
+
+ @import "functions";
+ @import "variables";
+ @import "mixins";
+ @import "custom";
+ @import "extend";
+
+// Components
+@import 'components/banner-home';
+@import 'components/product-box';
+@import 'components/tagging';
+@import 'components/featured-certification';
+@import 'components/learning-path';
+@import 'components/testimonials';
+@import 'components/request-quote';
+@import 'components/recent-events';
+@import 'components/recent-articles';

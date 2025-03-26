@@ -1,0 +1,1650 @@
+{% load static %}
+{% load custom_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{landing_page_queryset.title}}</title>
+    <!--     <meta name="title" content="{{landing_page_queryset.title}}"/> -->
+    <meta name="description" content="{{landing_page_queryset.description}}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/landing-page.css' %}" type="text/css"/>
+
+    <style>
+        #success_message, #success_message1{
+            color:green;
+        }
+        
+    </style>
+    <script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script> 
+    <script> 
+        /* Add "https://api.ipify.org?format=json" statement 
+           this will communicate with the ipify servers in 
+           order to retrieve the IP address $.getJSON will 
+           load JSON-encoded data from the server using a 
+           GET HTTPS request */ 
+  
+        $.getJSON("https://api.ipify.org?format=json", 
+                                          function(data) { 
+  
+            // Setting with id source_ip 
+            document.getElementById("source_ip").value = data.ip; 
+        }) 
+    </script>
+    <!-- Updated on 06/09/2021 -->
+        <!-- Google Tag Manager -->
+            <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-NBG7NXZ');</script>
+        <!-- End Google Tag Manager -->
+        <!-- Global site tag (gtag.js) - Google Ads: 617098637 -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=AW-617098637"></script>
+            <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'AW-617098637');
+            </script>
+        <!-- End Global site tag (gtag.js) - Google Analytics -->
+    <!-- End Code Updated on 06/09/2021 -->
+
+    <script src="//code-eu1.jivosite.com/widget/SaqTzDWYat" async></script>
+</head>
+<body>
+<div class="main-wrap lp">
+    <!-- Added on 02/02/2021 -->
+        <!-- Google Tag Manager (noscript) -->
+            <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NBG7NXZ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <!-- End Google Tag Manager (noscript) -->
+    <!-- End Code Added on 02/02/2021 -->
+
+    <!-- Banner -->
+    <div class="banner-inner">
+        <nav class="navbar py-2 pt-3 mb-1 pt-md-4">
+            <div class="container">
+                <div class="row w-100 align-items-center">
+                    <div class="overlay"></div>
+                    <a class="navbar-brand" href="https://www.ap2v.com/"></a>
+                </div><!-- // Row -->
+            </div><!-- // container -->
+        </nav><!-- // Navigation and Logon modal-->
+
+        <div class="container h-100">
+            <div class="row banner-inner--content flex-column">
+                <div class="row mt-0 mt-md-5">
+                    <div class="col-12 col-md-8 banner-inner--left-pan d-flex flex-column justify-content-center">
+                        <span class="banner-inner--content--img">
+                            <a href="#" data-toggle="modal" data-target="#apply-now">
+                                <img src="{% static 'v4_home_static/images/lp/sale-banner.png' %}" alt="Download Syllabus" class="img-fluid">
+                            </a>
+                        </span>
+
+                        <!-- <h1>{{landing_page_queryset.title}}</h1> -->
+                        <!-- <ul class="banner-inner--list">
+                            <li>Avail upto 40% disccount.</li>
+                            <li>Book Demo Now - <strong>FREE</strong></li>
+                        </ul> --> 
+                            
+                        <!-- <p class="mb-0">{{landing_page_queryset.description}}</p> -->
+
+                        <!-- <<div class="mt-4 mb-3">
+                            <a href="#fee" class="page-scroll btn btn-lg btn-primary btn-gr-primary  mr-3 px-5">Apply Now</a>
+                        </div> -->
+                    </div>
+                    <div class="col-12 col-md-4 banner-inner--right-pan d-none d-md-block">
+                        <div class="white-box">
+                            <h2 class="font-size-18 text-secondary mb-0">Download Brochure</h2>
+                            <p class="font-size-xs">Instant PDF Download isjust a click away</p>
+                            <form>
+                                <ul>
+                                    <li class="form-group error">
+                                        <div class="input-effect">
+                                            <input type="text" id = "name1" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name" required >
+                                            <label>Full name</label>
+                                            <p class="error--mgs" id="name1_error">Please enter name</p>
+                                            <p ></p>
+                                        </div>
+                                    </li>
+
+                                    <li class="form-group">
+                                        <div class="input-effect error">
+                                            <input type="email" id = "email1" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name" required >
+                                            <label>Email Address</label>
+                                            <p class="error--mgs" id="email1_error">Please enter email</p>
+                                            <p ></p>
+                                        </div>
+                                    </li>
+
+                                    <li class="form-group">
+                                        <div class="input-effect error">
+                                            <input type="number" id = "mobile_number1" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name" required >
+                                            <label>Mobile Number</label>
+                                            <p class="error--mgs" id="mobile1_error">Please enter mobile</p>
+                                            <p ></p>
+                                        </div>
+                                    </li>
+                                    <p id="success_message1"></p>
+        
+                                    <li>
+                                        {% comment %} <button class="btn btn-primary">Download Now</button> {% endcomment %}
+                                        <a class="btn btn-lg btn-outline-primary link3">Download Now</a>
+                                    </li>
+                                </ul>
+                            </form>
+                        </div>
+                    </div>
+                </div><!-- slick-slide d-flex-->
+            </div><!-- // row -->
+        </div>
+    </div><!-- // Banner -->
+
+    <div class="container">
+        <div class="info-bar">
+            <ul>
+                <li>
+                    <strong>{{landing_page_queryset.student_enrolled}}+</strong>
+                    Students Enrolled
+                </li>
+                <li>
+                    <strong>Online</strong>
+                    Format
+                </li>
+                <li>
+                    <strong>{{landing_page_queryset.duration}} months</strong>
+                    Duration
+                </li>
+                <li>
+                    {% get_start_date landing_page_queryset.id as lp_date %}
+                    <strong>{{lp_date|date:"d-M-Y"}}</strong>
+                    Start Date
+                </li>
+                <li>
+                    <strong>{{landing_page_queryset.hiring_partners}}+</strong>
+                    Hiring Partners
+                </li>
+                {% comment %} <li>
+                    <strong>EMI Options</strong>
+                    Starting at Rs.{{landing_page_queryset.emi}}/month*
+                </li> {% endcomment %}
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="secondary-menu " id="mainNav">
+        <div class="container d-flex align-items-center justify-content-between">
+            <ul class="secondary-menu--lists">
+                <li><a href="#overview" class="page-scroll">Overview</a></li>
+                <li><a href="#tools" class="page-scroll">Tools</a></li>
+                <li><a href="#certification" class="page-scroll">Certification</a></li>
+                <li><a href="#projects" class="page-scroll">Projects</a></li>
+                <li><a href="#benefits" class="page-scroll">Benefits</a></li>
+                <li><a href="#instructors" class="page-scroll">Reviews</a></li>
+                <li><a href="#fee" class="page-scroll">Program Fee</a></li>
+            </ul>
+            <a href="#fee" class="page-scroll btn btn-lg btn-primary btn-gr-primary ">Claim FREE Demo</a>
+
+        </div>
+    </div><!-- // Secondary Menu -->
+
+    <section id="overview" class="page-section container overview">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="align-items-start">Program Overview</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-7">
+                <p class="overview--subtitle">Key Highlights</p>
+                <p>{{landing_page_queryset.overview}}</p>
+
+                {% get_skill landing_page_queryset.overview_point as op %}
+                <ul class="list list--round column-2 mt-4">
+                    {% for i in op %}
+                        <li>{{i}}</li>
+                    {% endfor %}
+
+                    <li>No Cost EMI Options available</li>
+                </ul>
+            </div>
+            
+            <div class="col-12 col-md-5">
+                <img src="{% static 'v4_home_static/images/lp/landing-page-img-2.png' %}" alt="Download Syllabus" class="img-fluid">
+                <!--<div class="white-box skill-coverd p-4 mt-3">
+                    <p class="mt-3 mb-4 "><em>Bachelor’s Degree with 50% or equivalent passing marks. No coding experience required.</em></p>
+                    <p><em>Agile and DevOps are for harnessing integration, interaction, and innovation. - Pearl Zhu</em></p>
+                    <p class="mb-3"><strong>Ap2v.com</strong></p>
+                    <h3>Skills Covered</h3>
+                    <div class="more-less">
+                    {% get_skill landing_page_queryset.skill_covered as sp %}
+                        <ul class="red-bullet text collapse" id="skill-coverd">
+                        {% for i in sp %}
+                            <li>{{i}}</li>
+                        {% endfor %}
+                        </ul>
+                        <a class="read-more collapsed" data-toggle="collapse" href="#skill-coverd" aria-expanded="false"
+                        aria-controls="skill-coverd"></a>
+                    </div> 
+                </div>// More less -->
+            </div>
+        </div>
+    </section><!-- // Overview -->
+
+    <section class="enroll-form syllabus red-gradient-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-8">
+                    <h3>AP2V Academy- Helping Youngsters Shaping Their Career Bright</h3>
+                    <p>AP2V Academy has made job-oriented IT programs accessible to thousands of students from every corner in India. Get ready to enrol in Artificial Intelligence, Cloud Computing, Programming & Frameworks, RED HAT, DevOps & Machine Learning to enhance your resume & embark for a successful career journey. We will make you ready to live your dream fullest!</p>
+                </div>
+    
+                <div class="col-12 col-md-4">
+                    <button class="btn btn-lg btn-white  mt-4" data-toggle="modal" data-target="#syllabus"> <img src="{% static 'v4_home_static/images/lp/download-icon.png' %}" alt="Download Syllabus"> Download Brochure</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="syllabus" tabindex="-1" aria-labelledby="syllabusLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title pl-3">Download Syallbus</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&#x2715;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center pt-0">
+                        <form>
+                            <ul class="p-3 mb-0">
+
+                                <li class="form-group error">
+                                    <div class="input-effect">
+                                        <input type="email" id="email" name = "email" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name" required>
+                                        <label>Email Address</label>
+                                        <p class="error--mgs" id="email_error">Please enter name</p>
+                                    </div>
+                                </li>
+
+                                <li class="form-group error">
+                                    <div class="input-effect">
+                                        <input type="tel" id="mobile_number" name="mobile_number" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name" required>
+                                        <label>Mobile Number</label>
+                                        <p class="error--mgs" id="mobile_number_error">Please enter email</p>
+                                    </div>
+                                </li>
+
+                                <li class="mt-4 text-left">
+                                    <a class="btn btn-lg btn-outline-primary  px-5 link">Download now</a>
+                                    {% comment %} <a href="/media/{{landing_page_queryset.syllabus}}" target="_blank_"><button class="btn btn-lg btn-outline-primary  px-5" target="_blank_">Download now</button></a> {% endcomment %}
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- // Enroll Now-->
+
+    <section class="programe-logo" id="tools">
+        <div class="container">
+            <h4>Programming Languages, Tools & Libraries Covered</h4>
+
+            <ul class="mt-5 prog-tools">
+                <!-- {% for i in software_tools_queryset %}
+                    <li class="col-6 col-md-2">
+                        <div class="white-box"><img src="/media/{{i.image}}" alt="lp"></div>
+                    </li>
+                {% endfor %} -->
+
+                {% for i in software_tools_queryset %}
+                    <li>
+                        <div class="p-logo-slider--imgwrap">
+                            <img src="/media/{{i.image}}" alt="lp"> 
+                        </div>
+                    </li>
+                {% endfor %}
+                
+                <!-- <li>
+                    <div class="p-logo-slider--imgwrap">
+                        <img src="{% static 'landing_page_candidates/tools-logo-4.jpg' %}" alt="Download Syllabus" class="img-fluid"> 
+                    </div>
+                </li>
+                
+                <li>
+                    <div class="p-logo-slider--imgwrap">
+                        <img src="{% static 'landing_page_candidates/tools-logo-2.jpg' %}" alt="Download Syllabus" class="img-fluid"> 
+                    </div>
+                </li>
+                
+                <li>
+                    <div class="p-logo-slider--imgwrap">
+                        <img src="{% static 'landing_page_candidates/tools-logo-3.jpg' %}" alt="Download Syllabus" class="img-fluid"> 
+                    </div>
+                </li>
+                
+                <li>
+                    <div class="p-logo-slider--imgwrap">
+                        <img src="{% static 'landing_page_candidates/tools-logo-1.jpg' %}" alt="Download Syllabus" class="img-fluid"> 
+                    </div>
+                </li>
+                
+                <li>
+                    <div class="p-logo-slider--imgwrap">
+                        <img src="{% static 'landing_page_candidates/tools-logo-5.jpg' %}" alt="Download Syllabus" class="img-fluid"> 
+                    </div>
+                </li>
+                
+                <li>
+                    <div class="p-logo-slider--imgwrap">
+                        <img src="{% static 'landing_page_candidates/tools-logo-6.jpg' %}" alt="Download Syllabus" class="img-fluid"> 
+                    </div>
+                </li> -->
+        
+            </ul>
+        </div>
+    </section>
+
+    <section id="certification" class="red-gradient-bg certification">
+        <div class="container">
+            
+           
+            <div class="certification__wrap"> 
+                <div class="certification__wrap__leftPanel">
+                     <!-- <h2 class="align-items-start mb-4">{{exam_certification_queryset.exam_certification_title}}</h2> -->
+                    <h2 class="align-items-start mb-4">Advanced & Reliable IT Software Training & Certification </h2>
+                    <!-- <p>{{exam_certification_queryset.description}}</p> -->
+                    <p>Your training is our aim. We provide the best online training support on wide ranges of courses – Artificial Intelligence, Cloud Computing, Programming & Frameworks, Red Hat, DevOps and Machine Learning. Our learning support is flexible to let you learn in your own pace. Our dedication to your success is reflected in our experienced instructors and record-breaking job selection.</p>  
+                </div>
+                <div class="certification__wrap--rightPanel d-none d-md-block">
+                    <!-- <img src="/media/{{exam_certification_queryset.exam_certification_image}}" class="img-fluid" alt="Certifcation"> -->
+                    <img src="{% static 'v4_home_static/images/lp/certificate.jpg' %}" alt="exam certification" class="img-fluid mt-5">
+                </div>
+            </div>
+        </div>
+    </section><!-- // Certification -->
+
+    <section class="container industry-projects mt-4" id="projects">
+        {% get_landing_page_course_project landing_page_queryset.course.id as projects %}
+        <div class="row">
+            <div class="col-12 col-md-5 mt-3">
+                <img src="{% static 'v4_home_static/images/lp/industry-project.jpg' %}" alt="Download Syllabus" class="img-fluid">
+            </div>
+            <div class="col-12 col-md-7">
+                <h2 class="align-items-start mb-4">Industry Project</h2>
+                <!-- <p>Learn through real-life industry projects, assignments & case studies</p>
+
+                <ul class="list list--tick ml-2 font-size-xs text-gray-light">
+                    <li class="mb-1">Network with peers by collaborating on projects</li>
+                    <li class="mb-1">Guidance from an experienced industry mentor to achieve concrete learning outcomes</li>
+                    <li>Personalised subjective feedback on your submissions to help you improve</li>
+                </ul> -->
+
+                <ol class="industry-projects--listing industry-projects-slider">
+                     {% for i in projects %}
+                        <li>
+                            <strong>Project {{forloop.counter}}</strong>
+                            <p>{{i.description |truncatechars:150}}</p>
+                        </li>
+                    {% endfor %}
+
+                    {% comment %} <li>
+                        <strong>Project 1</strong>
+                        <p>Connect your datacentre with AWS vpc with direct connect, customer gateway services for having hybrid infrastructure setup.</p>
+                    </li>
+                    
+                    <li>
+                        <strong>Project 2</strong>
+                        <p>Connect your datacentre with AWS vpc with direct connect, customer gateway services for having hybrid infrastructure setup.</p>
+                    </li>
+                    
+                    <li>
+                        <strong>Project 3</strong>
+                        <p>Connect your datacentre with AWS vpc with direct connect, customer gateway services for having hybrid infrastructure setup.</p>
+                    </li>
+                    
+                    <li>
+                        <strong>Project 1</strong>
+                        <p>Connect your datacentre with AWS vpc with direct connect, customer gateway services for having hybrid infrastructure setup.</p>
+                    </li>
+                    
+                    <li>
+                        <strong>Project 2</strong>
+                        <p>Connect your datacentre with AWS vpc with direct connect, customer gateway services for having hybrid infrastructure setup.</p>
+                    </li>
+                    
+                    <li>
+                        <strong>Project 3</strong>
+                        <p>Connect your datacentre with AWS vpc with direct connect, customer gateway services for having hybrid infrastructure setup.</p>
+                    </li> {% endcomment %}
+                </ol>
+
+                
+
+                <!-- <ul class="industry-projects--lists slide_3">
+                    {% get_landing_page_course_project landing_page_queryset.course.id as projects %}
+                    {% for i in projects %}
+                        <li>
+                            <div class="white-box p-0 overflow-hidden">
+                                <div class="industry-projects--top">
+                                    <span class="text-uppercase text-gray-light font-weight-bold">Project {{forloop.counter}}</span>
+                                    <h5 class="text-secondary mb-0">{{i.title}}</h5>
+                                </div>
+        
+                                <div class="industry-projects--bottom">
+                                    <p class="mb-0">{{i.description}}</p>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul> -->
+            </div>
+        </div>
+        
+
+        {% comment %} <ul class="industry-projects--lists slide_3">
+            {% for i in projects %}
+                <li>
+                    <div class="white-box p-0 overflow-hidden">
+                        <div class="industry-projects--top">
+                            <span class="text-uppercase text-gray-light font-weight-bold">Project {{forloop.counter}}</span>
+                            <h5 class="text-secondary mb-0">{{i.title}}</h5>
+                        </div>
+
+                        <div class="industry-projects--bottom">
+                            <p class="mb-0">{{i.description}}</p>
+                        </div>
+                    </div>
+                </li><!-- // li -->
+            {% endfor %}
+        </ul> {% endcomment %}
+    </section><!-- // Industry Project -->
+
+
+    <section class="bg-gray benefits" id="benefits">
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <h2 class="align-items-start mb-4">Advantages of Enrolling in AP2V Academy</h2>
+                    <ul>
+                        <li>Basic to advanced and update curriculum to make you industry ready</li>
+                        <li>Focusing on job oriented courses and skill development </li>
+                        <li>Flexible learning hours to let you complete your course with dedication </li>
+                        <li>Training with theoretical and practical classes to build your confidence </li>
+                        <li>Our learning paths are DevOps developer, ML Developer, Django Developer, and more… </li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-6">
+                    <img src="{% static 'v4_home_static/images/lp/benefits.png' %}" class="img-fluid" alt="Benefits">
+                </div>
+            </div>
+            </div>
+    </section>
+    <section class="faculty" id="faculty">
+        <div class="container">
+            <h2 class="align-items-start">Instructors</h2>
+            <p>Learn from India's leading DevOps faculty and industry leaders.</p>
+            <ul class="mt-5 faculty-slider">
+                {% for i in landing_page_queryset.instructor.all %}
+                    <li>
+                        <div class="faculty--box">
+                            <span class="faculty--img">
+                                <img src="/media/{{i.company_logo}}" alt="lp">
+                                <a href="#" class="linkedin-wrap">
+                                    <i class="icon-linkedin"></i>
+                                </a>
+                            </span>
+
+                            <div class="faculty--content">
+                                <div class="faculty--content--name">{{i.name}}</div>
+                                <div class="faculty--content--position">{{i.designation}}</div>
+                                <!-- <div class="faculty--content--clogo"><img src="/media/{{i.company_logo}}" class="img-fluid" alt="Benefits"></div> -->
+                                <p class="mb-0">{{i.about_instructor | truncatechars:190 }}</p>
+                            </div>
+
+                        </div>
+                    </li>
+                {% endfor %}
+                
+                {% comment %} <li>
+                    <div class="faculty--box">
+                        <span class="faculty--img">
+                            <img src="{% static 'v4_home_static/images/lp/cc-1.jpg' %}" alt="lp">
+                        </span>
+
+                        <div class="faculty--content">
+                            <div class="faculty--content--name">Abhijeet Singh</div>
+                            <div class="faculty--content--position">Sr. Software Manager</div>
+                            <div class="faculty--content--clogo"><img src="{% static 'v4_home_static/images/lp/fc-logo-1.png' %}" class="img-fluid" alt="Benefits"></div>
+                            <p class="mb-0">He has a Master's Degree in Computer Science from IIT Roorkee and 15+ years of experience working in software companies like Informatica, CA Technologies, and Computer Sciences Corporation.</p>
+                        </div>
+
+                    </div>
+                </li>
+                <li>
+                    <div class="faculty--box">
+                        <span class="faculty--img">
+                            <img src="{% static 'v4_home_static/images/lp/cc-1.jpg' %}" alt="lp">
+                        </span>
+
+                        <div class="faculty--content">
+                            <div class="faculty--content--name">Abhijeet Singh</div>
+                            <div class="faculty--content--position">Sr. Software Manager</div>
+                            <div class="faculty--content--clogo"><img src="{% static 'v4_home_static/images/lp/fc-logo-1.png' %}" class="img-fluid" alt="Benefits"></div>
+                            <p class="mb-0">He has a Master's Degree in Computer Science from IIT Roorkee and 15+ years of experience working in software companies like Informatica, CA Technologies, and Computer Sciences Corporation.</p>
+                        </div>
+
+                    </div>
+                </li>
+                <li>
+                    <div class="faculty--box">
+                        <span class="faculty--img">
+                            <img src="{% static 'v4_home_static/images/lp/cc-1.jpg' %}" alt="lp">
+                        </span>
+
+                        <div class="faculty--content">
+                            <div class="faculty--content--name">Abhijeet Singh</div>
+                            <div class="faculty--content--position">Sr. Software Manager</div>
+                            <div class="faculty--content--clogo"><img src="{% static 'v4_home_static/images/lp/fc-logo-1.png' %}" class="img-fluid" alt="Benefits"></div>
+                            <p class="mb-0">He has a Master's Degree in Computer Science from IIT Roorkee and 15+ years of experience working in software companies like Informatica, CA Technologies, and Computer Sciences Corporation.</p>
+                        </div>
+
+                    </div>
+                </li>
+                <li>
+                    <div class="faculty--box">
+                        <span class="faculty--img">
+                            <img src="{% static 'v4_home_static/images/lp/cc-1.jpg' %}" alt="lp">
+                        </span>
+
+                        <div class="faculty--content">
+                            <div class="faculty--content--name">Abhijeet Singh</div>
+                            <div class="faculty--content--position">Sr. Software Manager</div>
+                            <div class="faculty--content--clogo"><img src="{% static 'v4_home_static/images/lp/fc-logo-1.png' %}" class="img-fluid" alt="Benefits"></div>
+                            <p class="mb-0">He has a Master's Degree in Computer Science from IIT Roorkee and 15+ years of experience working in software companies like Informatica, CA Technologies, and Computer Sciences Corporation.</p>
+                        </div>
+
+                    </div>
+                </li>
+                <li>
+                    <div class="faculty--box">
+                        <span class="faculty--img">
+                            <img src="{% static 'v4_home_static/images/lp/cc-1.jpg' %}" alt="lp">
+                        </span>
+
+                        <div class="faculty--content">
+                            <div class="faculty--content--name">Abhijeet Singh</div>
+                            <div class="faculty--content--position">Sr. Software Manager</div>
+                            <div class="faculty--content--clogo"><img src="{% static 'v4_home_static/images/lp/fc-logo-1.png' %}" class="img-fluid" alt="Benefits"></div>
+                            <p class="mb-0">He has a Master's Degree in Computer Science from IIT Roorkee and 15+ years of experience working in software companies like Informatica, CA Technologies, and Computer Sciences Corporation.</p>
+                        </div>
+
+                    </div>
+                </li>
+                <li>
+                    <div class="faculty--box">
+                        <span class="faculty--img">
+                            <img src="{% static 'v4_home_static/images/lp/cc-1.jpg' %}" alt="lp">
+                        </span>
+
+                        <div class="faculty--content">
+                            <div class="faculty--content--name">Abhijeet Singh</div>
+                            <div class="faculty--content--position">Sr. Software Manager</div>
+                            <div class="faculty--content--clogo"><img src="{% static 'v4_home_static/images/lp/fc-logo-1.png' %}" class="img-fluid" alt="Benefits"></div>
+                            <p class="mb-0">He has a Master's Degree in Computer Science from IIT Roorkee and 15+ years of experience working in software companies like Informatica, CA Technologies, and Computer Sciences Corporation.</p>
+                        </div>
+
+                    </div>
+                </li> {% endcomment %}
+            </ul>
+        </div>
+    </section>
+
+    <section class="placement" id="placement">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-5">
+                    <img src="{% static 'v4_home_static/images/lp/placement.png' %}" class="img-fluid" alt="Benefits">
+                </div>
+                <div class="col-12 col-md-7">
+                    <h2 class="align-items-start mb-4">Placement Support</h2>
+                    <ul>
+                        <li>Get hired by top companies of India and International</li>
+                        <li>Arranging hiring process virtually as connected with 300+ Hiring partners</li>
+                        <li>Helping in building a strong profile through profile workshops & 1:1 resume reviews</li>
+                        <li>On-job training support & access to experts to prepare you for interviews</li>
+                        <li>Providing 3 months career support after completion of your programme</li>
+                        <li>Dedicated career mentorship to help track your career goals</li>
+                        <li>1:1 mentorship sessions occasionally with industry experts to build confidence</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="learners red-gradient-bg" id="learners">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <h2>77% Learners Achieve Career Benefits</h2>
+                    <ul class="learners--list learners-slider">
+                        <li>
+                            <div class="learners__topinfo">
+                                <span class="learners__topinfo--img">
+                                    <img src="{% static 'landing_page_candidates/1548509296195.jpg' %}" class="img-fluid" alt="learner">
+                                </span>
+                                <div class="learners__topinfo--name">
+                                    <strong>Pankaj Verma</strong>
+                                    <p class="mb-0">Gurugram <span class="mx-2">|</span> 3 Years</p>
+                                </div>
+                            </div>
+
+                            <p class="learners__bottom--content">I had a wonderful experience with AP2V Academy. Programs are affordable as well as valuable for further career growth. So, after completion of one program I rejoined for another to make my resume impressive.</p>
+
+                            <div class="learners__bottom__company"> 
+                                <div class="learners__bottom__company--logo">
+                                    <strong class="d-block">System administrator</strong>
+                                    <img src="{% static 'landing_page_candidates/foster.jpg' %}" class="clogo img-fluid" alt="lp">
+                                </div>
+                                <span class="learners__bottom__company--arrow">
+                                    <i class="icon-right-arrow"></i>
+                                </span>
+                                <div class="learners__bottom__company--logo">
+                                    <strong class="d-block">Devops engineer</strong>
+                                    <img src="{% static 'landing_page_candidates/goognu.jpg' %}" class="clogo img-fluid" alt="lp">
+                                </div>
+                            </div>
+                            
+                        </li>
+                        
+                        <li>
+                            <div class="learners__topinfo">
+                                <span class="learners__topinfo--img">
+                                    <img src="{% static 'landing_page_candidates/Akash sharma.jpeg' %}" class="img-fluid" alt="learner">
+                                </span>
+                                <div class="learners__topinfo--name">
+                                    <strong>Akash Sharma</strong>
+                                    <p class="mb-0">Delhi <span class="mx-2">|</span> 2 Years</p>
+                                </div>
+                            </div>
+
+                            <p class="learners__bottom--content">Even after graduating with computer science, I failed to grab the desired job. It is the right mentorship and updated curriculum of AP2V Academy that helped me to find a job in a multinational organization at a good post.</p>
+
+                            <div class="learners__bottom__company"> 
+                                <div class="learners__bottom__company--logo">
+                                    <strong class="d-block">Python Devloper</strong>
+                                    <img src="{% static 'landing_page_candidates/cloud-stock.jpg' %}" class="clogo img-fluid" alt="lp">
+                                </div>
+                                <span class="learners__bottom__company--arrow">
+                                    <i class="icon-right-arrow"></i>
+                                </span>
+                                <div class="learners__bottom__company--logo">
+                                    <strong class="d-block">Full stack devloper</strong>
+                                    <img src="{% static 'landing_page_candidates/anveshan-logo.jpg' %}" class="clogo img-fluid" alt="lp">
+                                </div>
+                            </div>
+                            
+                        </li>
+
+                        <li>
+                            <div class="learners__topinfo">
+                                <span class="learners__topinfo--img">
+                                    <img src="{% static 'landing_page_candidates/Kuldeep.jpeg' %}" class="img-fluid" alt="learner">
+                                </span>
+                                <div class="learners__topinfo--name">
+                                    <strong>Kuldeep</strong>
+                                    <p class="mb-0">Bangalore <span class="mx-2">|</span> 2 Years</p>
+                                </div>
+                            </div>
+
+                            <p class="learners__bottom--content">Frankly speaking, my engineering degree is not so helpful for me to live my dream. AP2V Academy’s short-term courses have helped me to get not only rapid promotions but also lucrative salaries.</p>
+
+                            <div class="learners__bottom__company"> 
+                                <div class="learners__bottom__company--logo">
+                                    <strong class="d-block">Linux administrator</strong>
+                                    <img src="{% static 'landing_page_candidates/teledna.jpg' %}" class="clogo img-fluid" alt="lp">
+                                </div>
+                                <span class="learners__bottom__company--arrow">
+                                    <i class="icon-right-arrow"></i>
+                                </span>
+                                <div class="learners__bottom__company--logo">
+                                    <strong class="d-block">Linux administrator</strong>
+                                    <img src="{% static 'landing_page_candidates/ericsson.jpg' %}" class="clogo img-fluid" alt="lp">
+                                </div>
+                            </div>
+                            
+                        </li>
+
+                        <li>
+                            <div class="learners__topinfo">
+                                <span class="learners__topinfo--img">
+                                    <img src="{% static 'landing_page_candidates/Rampal.jpeg' %}" class="img-fluid" alt="learner">
+                                </span>
+                                <div class="learners__topinfo--name">
+                                    <strong>Rampal</strong>
+                                    <p class="mb-0">Delhi <span class="mx-2">|</span> 4 Years</p>
+                                </div>
+                            </div>
+
+                            <p class="learners__bottom--content">AP2V Academy’s online courses are so well-focused and as per the industry’s requirements. I have cracked my 90% interviews because of the right mentorship of AP2V Academy. I am so thankful to the mentors of the institute.</p>
+
+                            <div class="learners__bottom__company"> 
+                                <div class="learners__bottom__company--logo">
+                                    <strong class="d-block">Head of Delivery Operations</strong>
+                                    <img src="{% static 'landing_page_candidates/dainik-jagran.jpg' %}" class="clogo img-fluid" alt="lp">
+                                </div>
+                                <span class="learners__bottom__company--arrow">
+                                    <i class="icon-right-arrow"></i>
+                                </span>
+                                <div class="learners__bottom__company--logo">
+                                    <strong class="d-block">Devops engineer</strong>
+                                    <img src="{% static 'landing_page_candidates/indian-express.jpg' %}" class="clogo img-fluid" alt="lp">
+                                </div>
+                            </div>
+                            
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-6">
+                    <img src="{% static 'v4_home_static/images/lp/learner.png' %}" class="img-fluid" alt="Benefits">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="instructors course-review" id="instructors">
+        {% get_landing_page_course_testimonials landing_page_queryset.course.id as testimonials %}
+        <div class="container">
+            <h2 class="align-items-center">Discover What Our Learners are Saying</h2>
+            <p class="align-items-center" style="text-align: center;">AP2V Academy Alumni Has Found Remarkable Teaching & Placement Support to Live Their Dreams </p>
+            <ul class="course-review__lists review-slider">
+                {% for i in testimonials %}
+                    <li>
+                        <div class="white-box p-4">
+                            {% comment %} <div class="">
+                                <img src="/media/{{i.image}}" alt="lp">
+                            </div> {% endcomment %}
+
+                            <div class="line">
+                                <img src="{% static 'v4_home_static/images/quotes.jpg' %}" alt="lp">
+                            </div>
+                            
+                            <div class="mb-0 testimonial-content">
+                                {{i.content}}
+                                {% comment %} <p class="d-block mt-1"><a href="#">Read more</a></p> {% endcomment %}
+                            </div>
+                        
+                            <p class="d-block mt-3"><span>Course:</span> <a href="https://www.ap2v.com/{{i.course.slug}}" target="__BLANK__">{{i.course}}</a></p>
+
+                            <div class="course-review__lists--bottom">
+                                <div class="course-review__lists--content">
+                                    <p class="mb-1 font-weight-bold text-gray-dark">{{testimonial.name}}</p>
+                                    <div class="d-flex align-items-centerss">
+                                        <span class="icon-star-fill mr-1"></span>
+                                        <span class="icon-star-fill mr-1"></span>
+                                        <span class="icon-star-fill mr-1"></span>
+                                        <span class="icon-star-fill mr-2"></span>
+                                        <strong>4</strong>/5
+                                        <span class="font-size-xxs ml-1"></span>
+                                    </div>
+                                </div>
+
+                                <p class="mb-0">{{i.date}}</p>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+                {% comment %} <li>
+                    <div class="white-box p-4">
+                        <div class="line">
+                            <img src="{% static 'v4_home_static/images/quotes.jpg' %}" alt="lp">
+                        </div>
+                        
+                        <div class="mb-0 testimonial-content">
+                            I have taken Pyton Core& Advance coaching under the guidance of Mr. Sachin Saini sir. The classes were excellent, we got to learn so much from him. Now I can develop my own Python application.
+                            <p class="d-block mt-1"><a href="#">Read more</a></p>
+                        </div>
+                       
+                        <p class="d-block mt-3"><span>Course:</span> <a href="#">DevOps Certification Training Course</a></p>
+
+                        <div class="course-review__lists--bottom">
+                            <div class="course-review__lists--content">
+                                <p class="mb-1 font-weight-bold text-gray-dark">{{testimonial.name}}</p>
+                                <div class="d-flex align-items-centerss">
+                                    <span class="icon-star-fill mr-1"></span>
+                                    <span class="icon-star-fill mr-1"></span>
+                                    <span class="icon-star-fill mr-1"></span>
+                                    <span class="icon-star-fill mr-2"></span>
+                                    <strong>4</strong>/5
+                                    <span class="font-size-xxs ml-1"></span>
+                                </div>
+                            </div>
+
+                            <p class="mb-0">14 Jul’ 21</p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="white-box p-4">
+                        <div class="line">
+                            <img src="{% static 'v4_home_static/images/quotes.jpg' %}" alt="lp">
+                        </div>
+                        
+                        <div class="mb-0 testimonial-content">
+                            I have taken Pyton Core& Advance coaching under the guidance of Mr. Sachin Saini sir. The classes were excellent, we got to learn so much from him. Now I can develop my own Python application.
+                            <p class="d-block mt-1"><a href="#">Read more</a></p>
+                        </div>
+                       
+                        <p class="d-block mt-3"><span>Course:</span> <a href="#">DevOps Certification Training Course</a></p>
+
+                        <div class="course-review__lists--bottom">
+                            <div class="course-review__lists--content">
+                                <p class="mb-1 font-weight-bold text-gray-dark">{{testimonial.name}}</p>
+                                <div class="d-flex align-items-centerss">
+                                    <span class="icon-star-fill mr-1"></span>
+                                    <span class="icon-star-fill mr-1"></span>
+                                    <span class="icon-star-fill mr-1"></span>
+                                    <span class="icon-star-fill mr-2"></span>
+                                    <strong>4</strong>/5
+                                    <span class="font-size-xxs ml-1"></span>
+                                </div>
+                            </div>
+
+                            <p class="mb-0">14 Jul’ 21</p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="white-box p-4">
+                        <div class="line">
+                            <img src="{% static 'v4_home_static/images/quotes.jpg' %}" alt="lp">
+                        </div>
+                        
+                        <div class="mb-0 testimonial-content">
+                            I have taken Pyton Core& Advance coaching under the guidance of Mr. Sachin Saini sir. The classes were excellent, we got to learn so much from him. Now I can develop my own Python application.
+                            <p class="d-block mt-1"><a href="#">Read more</a></p>
+                        </div>
+                       
+                        <p class="d-block mt-3"><span>Course:</span> <a href="#">DevOps Certification Training Course</a></p>
+
+                        <div class="course-review__lists--bottom">
+                            <div class="course-review__lists--content">
+                                <p class="mb-1 font-weight-bold text-gray-dark">{{testimonial.name}}</p>
+                                <div class="d-flex align-items-centerss">
+                                    <span class="icon-star-fill mr-1"></span>
+                                    <span class="icon-star-fill mr-1"></span>
+                                    <span class="icon-star-fill mr-1"></span>
+                                    <span class="icon-star-fill mr-2"></span>
+                                    <strong>4</strong>/5
+                                    <span class="font-size-xxs ml-1"></span>
+                                </div>
+                            </div>
+
+                            <p class="mb-0">14 Jul’ 21</p>
+                        </div>
+                    </div>
+                </li> {% endcomment %}
+            </ul>
+            <!-- <ul class="product-list product-slider hide">
+
+                {% for i in testimonial_queryset %}
+                    <li class="product-list--item">
+                        <div class="white-box text-center">
+                            <span class="instructors--pic">
+                                <img src="/media/{{i.image}}" class="img-fluid" alt="lp">
+                            </span>
+                            <div class="white-box--content mt-3">
+                                <h3 class="justify-content-start">{{i.name}}</h3>
+                                {% comment %} <p>Professor</p> {% endcomment %}
+                                <p class="font-size-xs mb-0">{{i.description}}</p>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul> -->
+        </div><!-- // container -->
+    </section><!-- // Trending Courses -->
+
+    <section class="overflow-hidden bg-gray program-fee">
+        <div class="container">
+            {% comment %}<div class="col-12 col-md-6 px-0 px-md-3">
+                <h2 class="align-items-start">Program Fee</h2>
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <p class="font-size-20 text-gray-light mb-0">Starting at Rs.{{landing_page_queryset.emi}}/month*</p>
+                     <button class="btn btn-primary  px-4">View Plain</button> 
+                </div>
+        
+                <p class="font-size-xs text-gray-light mb-0">Program Price INR {{landing_page_queryset.price}} (incl. taxes). No cost EMI options
+                    available.</p>
+            </div>{% endcomment %}
+            <div class="col px-0 px-md-3">
+                <div class="white-box py-0 mt-5 overflow-hidden">
+                    <div class="row">
+                        <div class="col-12 col-lg-6 program-fee--features red-gradient-bg">
+                            <div class="p-0 py-3 py-md-0 p-md-4">
+                                <h3 class="mb-3">What's Included in the Price</h3>
+                                <strong>Features/Benefits</strong>
+                                <ul class="list list--tick mt-3 payfee">
+                                    {% comment %} <li>Downloadable lab Guides</li>
+                                    <li>Official AP2V Academy course materials</li>
+                                    <li>Life-time access of self-paced learning</li>
+                                    <li>Industry grade live projects exposure</li>
+                                    <li>Certification of Completion</li> {% endcomment %}
+                                    <li>Get noticed by top hiring companies with our top online IT Courses</li>
+                                    <li>Online classes by well-qualified mentors, teaching with illustrations</li>
+                                    <li>Access to lab courses and self-note of mentors for self-studies</li>
+                                    <li>Official AP2V Academy course materials prepared by our instructors</li>
+                                    <li>Life-time access to self-paced learning course content to revive your knowledge</li>
+                                    <li>Industry grade hands-on live projects to provide industrial work exposure</li>
+                                    <li>Offering certification programs to enhance your self-esteem and resume</li>
+                                    <li>Job guidance and assistance to prepare your resume to crack interv</li>
+
+                                </ul>
+                            </div>
+                        </div>
+        
+        
+        
+                        <div class="col-12 col-lg-6 request-quote--form" id="fee">
+                            <div class="py-3 mt-3">
+                                <h2 class="align-item-start">Claim Your FREE DEMO Class</h2>
+                                <p>Save time and money with free quote</p>
+                            </div>
+                            <form >
+                                <ul class="mb-4">
+                                    <li class="form-group error">
+                                        <div class="input-effect">
+                                            <input type="text" id="name" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name" required>
+                                            <label>Full name</label>
+                                            <p class="error--mgs" id="name_error">Please enter name</p>
+                                            <p ></p>
+                                        </div>
+        
+                                    </li>
+                                    <li class="form-group error">
+                                        <div class="input-effect">
+                                            <input type="email" id="email2"  class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name" required>
+                                            <label>Email Address</label>
+                                            <p class="error--mgs" id="email2_error">Please enter email</p>
+                                            <p ></p>
+                                        </div>
+                                    </li>
+                                    <li class="form-group error">
+                                        <div class="input-effect">
+                                            <input type="number" id="mobile_number2"  class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name" required>
+                                            <label>Mobile Number</label>
+                                            <p class="error--mgs" id="mobile_number2_error">Please enter mobile</p>
+                                            <p></p>
+                                        </div>
+                                    </li>
+                                    <li class="form-group error">
+                                        <div class="input-effect flex-fill">
+                                            <textarea class="form-control animation-input" id="Message" rows="3" required></textarea>
+                                            <label>Message</label>
+                                            <p class="error--mgs" id="message_error">Please enter message</p>
+                                            <p ></p>
+                                        </div>
+                                    </li>
+        
+                                    <li class="form-group error">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck1" required>
+                                            <label class="custom-control-label font-size-xxs" for="customCheck1">I have read and
+                                                agreed to the Terms of Use, <a href="#">Terms of Sale</a> & <a href="#">Privacy
+                                                    Policy</a></label>
+                                            <p id="check_error"></p>
+                                            <p id="success_message"></p>
+                                        </div>
+                                    </li>
+        
+                                    <li>
+                                        {% comment %} <button class="btn btn-primary">Claim Now!!</button> {% endcomment %}
+                                        <a class="btn btn-lg btn-outline-primary link2">Claim Now!!</a>
+                                    </li>
+                                </ul>
+                            </form>
+                            <input type="text" class="custom-control-input" id="source_ip">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- // Request A Free Quote -->
+
+    <section>
+        <div class="container">
+            <div class="text-center">
+                <h2 class="mb-4">Our Learners Work At</h2>
+                <p class="mb-5">Top companies from all around the world have recruited AP2V Academy alumni</p>
+                <p> <img src="{% static 'v4_home_static/images/lp/company-logo.png' %}" class="img-fluid" style="width: 70%;" alt="lp"> </p>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="footer pt-0 col">
+        <div class="footer--copyright">
+            Copyright © 2010-{{year}} <a href="https://www.ap2v.com/" class="ml-1"> ap2v.com</a>. All Rights Reserved. 
+           <p style="margin-left: 15px;"> Reach us at {% for i in all_number %}{{i.number}},{% endfor %}</p> 
+        </div>
+    </footer>
+
+    
+    <a id="btnScrollTop" class="rounded-circle top-visible"></a>
+
+    <div class="d-block d-md-none">
+       <div class="sticky-box">
+            <!-- <a href="tel:{{landing_page_queryset.advisor_number}}" class="call font-size-md font-weight-bold"> <i class="icon-phone-chat"></i> Call an advisor</a> -->
+            <a href="#fee" class="enroll page-scroll bg-primary px-4 text-uppercase">Enroll Now</a>
+       </div>
+    </div>
+
+    <div class="sticky-bottom" id="bottomScroll">
+        <div class="sticky-bottom__list">
+            <div class="sticky-bottom__list--item d-block d-sm-none">
+                <a href="tel:+918306996216" class="sticky-bottom__list--item">
+                    <i class="icon-call"></i>
+                    Call now
+                </a>
+            </div>
+            
+            <div class="sticky-bottom__list--item d-none d-sm-block" data-toggle="modal" data-target="#call-now">
+                <a id="random_counselor" href="javascript:void(0)" class="sticky-bottom__list--item">
+                    <i class="icon-call"></i>
+                    
+                </a>
+            </div>
+            </div> 
+            
+            <button type="button" class="sticky-bottom__list--item enroll-now" data-toggle="modal" data-target="#apply-now">
+                <i class="icon-enroll"></i>
+                Query now
+            </button>
+            
+            <a href="#" onclick="jivo_api.open();return false;" class="sticky-bottom__list--item d-block d-sm-none">
+                <span class="sticky-bottom__list--item">
+                    <i class="icon-chat"></i>Chat
+                </span>
+            </a>
+        </div>
+    </div>
+    
+    </div><!-- // main wrap-->
+
+<!--Apply Now Modal -->
+<div class="modal fade" id="apply-now" tabindex="-1" aria-labelledby="apply-nowLabel" aria-hidden="true">
+    <div class="modal-dialog form-modal">
+        <div class="modal-content">
+            <div class="form-modal__wrapper">
+                <span class="form-modal__wrapper--img d-none d-md-block">
+                    <img src="{% static 'v4_home_static/images/modal/modal-1.png'%}" class="img-fluid" alt="lp">
+                </span>
+                <div class="form-modal__wrapper--form">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Book Demo Now</h5>
+                        <p class="font-size-xs mb-0 text-gray-medium">Can’t find a batch you were looking for? Contact AP2V Academy Learner Support</p>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&#x2715;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <ul>
+                            <!-- <li class="form-group has-content">
+                                <div class="input-effect ">
+                                    <input type="date" class="form-control animation-input border-top-left-radius-0"
+                                        placeholder aria-label="name" aria-describedby="name">
+                                    <label>Preferred Batch Start Date</label>
+                                </div>
+                            </li> -->
+
+                            <li id="error_name2" class="form-group">
+                                <div class="input-effect">
+                                    <input type="text" id="name2" class="form-control animation-input border-top-left-radius-0"
+                                        placeholder aria-label="name" aria-describedby="name">
+                                    <label>Full Name</label>
+                                    <p class="error--mgs">Please enter name</p>
+                                </div>
+                            </li>
+                            
+                            <li id="error_email2" class="form-group">
+                                <div class="input-effect">
+                                    <input type="email" id="email21" class="form-control animation-input border-top-left-radius-0"
+                                        placeholder aria-label="name" aria-describedby="name">
+                                    <label>Email Id</label>
+                                    <p class="error--mgs">Please enter email</p>
+                                </div>
+                            </li>
+
+                            <li id="error_mobile2" class="form-group">
+                                <div class="phone-cc form-control">
+                                    <select class="form-control code">
+                                        <option>+91</option>
+                                    </select>
+                                    <div class="input-effect phone">
+                                        <input type="number" id="mobile2" class="form-control animation-input border-top-left-radius-0" placeholder
+                                            aria-label="name" aria-describedby="name">
+                                        <label>Phone Numver</label>
+                                        <p class="error--mgs">Please enter number</p>
+                                    </div>
+                                </div>
+                            </li>
+                            {% comment %} {% if not course %}
+                                <li class="form-group">
+                                    <select class="form-control" id="selectCourse">
+                                        <option value="">Select course</option>
+                                        {% for i in all_course %}
+                                            <option value="{{i.name}}">{{i.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </li>
+                            {% endif %} {% endcomment %}
+
+                            <p id="error_message2"></p>
+                            <p id="success_message2"></p>
+
+                            <li>
+                                <button onclick="applyNow()" class="btn btn-lg btn-outline-primary rounded-60 px-4">Book Now</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Apply Now Modal -->
+<div class="modal fade" id="call-now" tabindex="-1" aria-labelledby="call-nowLabel" aria-hidden="true">
+    <div class="modal-dialog callNow-modal">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&#x2715;</span>
+            </button>
+
+            <div class="modal-body">
+                <span class="callNow-modal--img d-none d-md-block">
+                    <img src="{% static 'v4_home_static/images/lp/call-now.png'%}" class="img-fluid" alt="lp">
+                </span>
+                <p class="callNow-modal--phone">Call Now to 24x7 Career Consultant</p>
+                <p class="callNow-modal--heading"> <a href="tel:{{number}}">{{number}}</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    <script src={% static "v4_home_static/js/bootstrap.js" %}></script>
+    <script src={% static "v4_home_static/js/vendor/slick.js" %}></script>
+    <script src={% static "v4_home_static/js/main-lp.js" %}></script>
+
+    <script>
+        var ti = 0;
+        function calllp() {
+            var wi =  $( window ).width();
+            if(wi > 550 ){
+                if(window.location.href.search('pay') == -1){
+                    if(ti==0){
+                        if($('#apply-now').is(':visible')){
+                            alert("yes")
+                            console.log("alredy opened")
+                        }else{
+                            console.log("not opened")
+                            $("#apply-now").modal("show");
+                        }
+                    //setTimeout(wait, 8000); // closes the pop-up after 8 secs delay
+                    }
+                    ti=1;
+                }
+            }
+        }
+    
+        //function caller(){
+        //    setInterval(calllp, 3000); // opens a pop-up on every 30th second
+        //}
+        var intervalId = window.setInterval(function(){
+            /// call your function here
+            calllp();
+        }, 30000);
+    </script>
+
+    <script  type="text/javascript">
+
+        $("#email_error").hide()
+        $("#mobile_number_error").hide()
+
+        $(".link").on("click",function(){
+            var email = document.getElementById("email").value;
+            var mobile_number = document.getElementById("mobile_number").value;
+            var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+            mobile_number_length = mobile_number.toString().length
+
+            if (email=="" || email == " " || mobile_number=="" || mobile_number==" "){
+                if(email=="" || email==" "){
+                    //document.getElementById("email_error").innerHTML = "Please enter a valid email."
+                    $("#email_error").show()
+                };
+                if (mobile_number=="" || mobile_number==" "){
+                    //document.getElementById("mobile_number_error").innerHTML = "Please enter 10 digit valid mobile number."
+                    $("#mobile_number_error").show()
+                };
+
+                if(email=="" || email==" "){
+                    document.getElementById("email").focus();
+                }
+                else{
+                    document.getElementById("mobile_number").focus();
+                    //document.getElementById("email_error").innerHTML = ""
+                    $("#email_error").hide()
+                };
+
+                
+
+                
+            }
+            else if (mobile_number_length != 10){
+                //document.getElementById("mobile_number_error").innerHTML = "Please enter 10 digit valid mobile number."
+                $("#mobile_number_error").show()
+                document.getElementById("mobile_number").focus();
+            }
+            else{
+                if(email.match(mailformat)){
+                     mydata = {
+                        'name': "",
+                        'mobile':mobile_number,
+                        'email':email,
+                        "course":"{{landing_page_queryset.course.anquira_course.id}}",
+                        "reference":"{{landing_page_queryset.anquira_reference}}",
+                        "ip": document.getElementById("source_ip").value,
+                        "message": "Download Syllabus",
+                        "comments" :window.location.href
+                    }
+
+                    $.ajax({
+                        url : "/lp_enq/enquirysave/",
+                        method : "POST",
+                        data : mydata,
+                        success:function(data) {
+                            if (data.status == 1){
+                                //document.getElementById("email_error").innerHTML = ""
+                                //document.getElementById("mobile_number_error").innerHTML = ""
+                                $("#email_error").hide()
+                                $("#mobile_number_error").hide()
+                                document.getElementById("email").value = ""
+                                document.getElementById("mobile_number").value = ""
+                                $('#syllabus').modal('hide')
+                                window.open('/media/{{landing_page_queryset.course.anquira_course.course_content}}','_blank');
+                            };
+                        },
+                    });    
+                }
+                else{
+                    //document.getElementById("email_error").innerHTML = "Please enter a valid email."
+                    $("#email_error").show()
+                    document.getElementById("email").focus();
+                }
+            }
+        });
+
+        $("#name_error").hide()
+        $("#email2_error").hide()
+        $("#mobile_number2_error").hide()
+        $("#message_error").hide()
+
+        $(".link2").on("click",function(){
+            var name = document.getElementById("name").value;
+            var email2 = document.getElementById("email2").value;
+            var mobile_number2 = document.getElementById("mobile_number2").value;
+            var message = document.getElementById("Message").value;
+            var checked = document.getElementById("customCheck1").checked
+            var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            var ip = "0.0.0.0"
+            var loc = window.location.href
+            
+
+            mobile_number_length = mobile_number2.toString().length
+
+            if (name=="" || name==" " || email=="" || email == " " || mobile_number=="" || mobile_number==" " || message=="" || message==" "){
+                if(name=="" || name==" "){
+                    //document.getElementById("name_error").innerHTML = "Please enter name."
+                    $("#name_error").hide()
+                }
+
+                if(email2=="" || email2==" "){
+                    //document.getElementById("email2_error").innerHTML = "Please enter a valid email."
+                    $("#email2_error").hide()
+                };
+
+                if (mobile_number2=="" || mobile_number2==" "){
+                    //document.getElementById("mobile_number2_error").innerHTML = "Please enter 10 digit valid mobile number."
+                    $("#mobile_number2_error").hide()
+                };
+
+                if (message=="" || message==" "){
+                    //document.getElementById("message_error").innerHTML = "Please enter your message"
+                    $("#message_error").hide()
+                };
+
+                
+                if(name=="" || name==" "){
+                    document.getElementById("success_message").innerHTML = ""
+                    document.getElementById("name").focus();
+                }
+                else if(email2=="" || email2==" "){
+                    //document.getElementById("name_error").innerHTML = ""
+                    document.getElementById("success_message").innerHTML = ""
+                    $("#name_error").hide()
+                    document.getElementById("email2").focus();
+                }
+                else if (mobile_number2=="" || mobile_number2==" "){
+                    //document.getElementById("name_error").innerHTML = ""
+                    $("#name_error").hide()
+                    document.getElementById("success_message").innerHTML = ""
+                    //document.getElementById("email2_error").innerHTML = ""
+                    $("#email2_error").hide()
+                    document.getElementById("mobile_number2").focus();
+                }
+                else if(message=="" || message==" "){
+                    //document.getElementById("name_error").innerHTML = ""
+                    $("#name_error").hide()
+                    //document.getElementById("email2_error").innerHTML = ""
+                    $("#email2_error").hide()
+                    //document.getElementById("mobile_number2_error").innerHTML = ""
+                    $("#mobile_number2_error").hide()
+                    document.getElementById("success_message").innerHTML = ""
+                    document.getElementById("Message").focus();
+                }
+            }
+            else if (mobile_number_length != 10){
+                //document.getElementById("name_error").innerHTML = ""
+                $("#name_error").hide()
+                //document.getElementById("email2_error").innerHTML = ""
+                $("#email2_error").hide()
+                //document.getElementById("message_error").innerHTML = ""
+                $("#message_error").hide()
+                //document.getElementById("mobile_number2_error").innerHTML = "Please enter 10 digit valid mobile number."
+                $("#mobile_number2_error").show()
+                document.getElementById("mobile_number2").focus();
+            }
+            else{
+                if(email2.match(mailformat)){
+                    if (document.getElementById("customCheck1").checked == true){
+                        //document.getElementById("name_error").innerHTML = ""
+                        $("#name_error").hide()
+                        //document.getElementById("email2_error").innerHTML = ""
+                        $("#email2_error").hide()
+                        //document.getElementById("mobile_number2_error").innerHTML = ""
+                        $("#mobile_number2_error").hide()
+                        //document.getElementById("message_error").innerHTML = ""
+                        $("#message_error").hide()
+                        document.getElementById("check_error").innerHTML = ""
+
+                        
+
+                        mydata = {
+                        "name": name,
+                        "mobile":mobile_number2,
+                        "email":email2,
+                        "course":"{{landing_page_queryset.course.anquira_course.id}}",
+                        "reference":"{{landing_page_queryset.anquira_reference}}",
+                        "ip": document.getElementById("source_ip").value,
+                        "message": message,
+                        "comments" :window.location.href
+                        }
+
+                        $.ajax({
+                            url : "/lp_enq/enquirysave/",
+                            method : "POST",
+                            data : mydata,
+                            success:function(data) {
+                                if (data.status == 1){
+                                    document.getElementById("success_message").innerHTML = "Your query has been submitted successfully."
+
+                                    document.getElementById("name").value = ""
+                                    document.getElementById("email2").value = ""
+                                    document.getElementById("mobile_number2").value = ""
+                                    document.getElementById("Message").value = ""
+                                    document.getElementById("customCheck1").checked = false;
+                                    //alert(document.getElementById("source_ip").value)
+                                    
+                                }
+                                else{
+                                    document.getElementById("success_message").innerHTML = "Something went wrong."
+                                }
+                            },
+                        })
+                    }
+                    else{
+                        //document.getElementById("name_error").innerHTML = ""
+                        $("#name_error").hide()
+                        //document.getElementById("email2_error").innerHTML = ""
+                        $("#email2_error").hide()
+                        //document.getElementById("mobile_number2_error").innerHTML = ""
+                        $("#mobile_number2_error").hide()
+                        //document.getElementById("message_error").innerHTML = ""
+                        $("#message_error").hide()
+                        document.getElementById("check_error").innerHTML = "Please agree the terms and conditions"
+                    }
+                }
+                else{
+                    //document.getElementById("email2_error").innerHTML = "Please enter a valid email."
+                    $("#email2_error").show()
+                    document.getElementById("email2").focus();
+                }
+            }
+        });
+
+        $("#name1_error").hide()
+        $("#email1_error").hide()
+        $("#mobile1_error").hide()
+        
+        $(".link3").on("click",function(){
+            var name1 = document.getElementById("name1").value;
+            var email1 = document.getElementById("email1").value;
+            var mobile_number1 = document.getElementById("mobile_number1").value;
+            var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+            mobile_number_length = mobile_number1.toString().length
+
+            if (name1=="" || name1==" " || email1=="" || email1 == " " || mobile_number1=="" || mobile_number1==" "){
+                if(name1=="" || name1==" "){
+                    //document.getElementById("name1_error").innerHTML = "Please enter name."
+                    $("#name1_error").show()
+                }
+
+                if(email1=="" || email1==" "){
+                    //document.getElementById("email1_error").innerHTML = "Please enter a valid email."
+                    $("#email1_error").show()
+                };
+
+                if (mobile_number1=="" || mobile_number1==" "){
+                    //document.getElementById("mobile1_error").innerHTML = "Please enter 10 digit valid mobile number."
+                    $("#mobile1_error").show()
+                };
+                
+                if(name1=="" || name1==" "){
+                    document.getElementById("success_message1").innerHTML = ""
+                    document.getElementById("name1").focus();
+                }
+                else if(email1=="" || email1==" "){
+                    //document.getElementById("name1_error").innerHTML = ""
+                    $("#name1_error").hide()
+                    document.getElementById("success_message1").innerHTML = ""
+                    document.getElementById("email1").focus();
+                    if (mobile_number_length == 10){
+                        //document.getElementById("mobile1_error").innerHTML = ""
+                        $("#mobile1_error").hide()
+                    }
+                }
+                else if (mobile_number1=="" || mobile_number1==" "){
+                    //document.getElementById("name1_error").innerHTML = ""
+                    $("#name1_error").hide()
+                    document.getElementById("success_message1").innerHTML = ""
+                    //document.getElementById("email1_error").innerHTML = ""
+                    $("#email1_error").hide()
+                    document.getElementById("mobile_number1").focus();
+                }
+            }
+            else if (mobile_number_length != 10){
+                //document.getElementById("name1_error").innerHTML = ""
+                $("#name1_error").hide()
+                //document.getElementById("email1_error").innerHTML = ""
+                $("#email1_error").hide()
+                //document.getElementById("mobile1_error").innerHTML = "Please enter 10 digit valid mobile number."
+                $("#mobile1_error").show()
+                document.getElementById("mobile_number1").focus();
+            }
+            else{
+                if(email1.match(mailformat)){
+                    //document.getElementById("name1_error").innerHTML = ""
+                    $("#name1_error").hide()
+                    //document.getElementById("email1_error").innerHTML = ""
+                    $("#email1_error").hide()
+                    //document.getElementById("mobile1_error").innerHTML = ""
+                    $("#mobile1_error").hide()
+
+                    mydata = {
+                        "name": name1,
+                        "mobile":mobile_number1,
+                        "email":email1,
+                        "course":"{{landing_page_queryset.course.anquira_course.id}}",
+                        "reference":"{{landing_page_queryset.anquira_reference}}",
+                        "ip": document.getElementById("source_ip").value,
+                        "comments" :window.location.href
+                        }
+
+                        $.ajax({
+                            url : "/lp_enq/enquirysave/",
+                            method : "POST",
+                            data : mydata,
+                            success:function(data) {
+                                if (data.status == 1){
+                                    document.getElementById("success_message1").innerHTML = "Your query has been submitted successfully."
+
+                                    $("#name1_error").hide()
+                                    $("#email1_error").hide()
+                                    $("#mobile1_error").hide()
+
+                                    $("#name1").val("")
+                                    $("#email1").val("")
+                                    $("#mobile1").val("")
+
+                                     window.open('/media/{{landing_page_queryset.course.anquira_course.course_content}}','_blank');
+                                }
+                                else{
+                                    document.getElementById("success_message1").innerHTML = "Something wents wrong."
+                                }
+                            },
+                        });
+                }
+                else{
+                    //document.getElementById("email1_error").innerHTML = "Please enter a valid email."
+                    $("#email1_error").show()
+                    document.getElementById("success_message1").innerHTML = ""
+                    document.getElementById("email1").focus();
+                    if (mobile_number_length == 10){
+                        document.getElementById("mobile1_error").innerHTML = ""
+                        $("#mobile1_error").hide()
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script>
+    function applyNow(){
+        var name = document.getElementById("name2").value;
+        var email = document.getElementById("email21").value;
+        var mobile_number = document.getElementById("mobile2").value;
+        var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        var loc = window.location.href
+
+        if(name.trim().length == 0){
+            $("#error_name2").addClass("error");
+            document.getElementById("name2").focus();
+            return false;
+        }
+        if(email.trim().length == 0){
+            $("#error_email2").addClass("error");
+            document.getElementById("email21").focus();
+            return false;
+        }
+        if(mobile_number.trim().length == 0){
+            $("#error_mobile2").addClass("error");
+            document.getElementById("mobile2").focus();
+            return false;
+        }
+
+
+        if(email.match(mailformat)){
+            mydata = {
+                name: name,
+                mobile:mobile_number,
+                email:email,
+                comments:window.location.href,
+                source_ip: document.getElementById("source_ip").value,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                course:"{{landing_page_queryset.course.anquira_course.id}}",
+                reference:"{{landing_page_queryset.anquira_reference}}",
+            }
+
+            $.ajax({
+                url : "/create_enquiry",
+                method : "POST",
+                data : mydata,
+                success:function(data) {
+                    if (data.code == 1){
+                        document.getElementById("success_message2").innerHTML = "Your query has been submitted successfully."
+                        $("#error_name2").removeClass("error");   
+                        $("#error_email21").removeClass("error");  
+                        $("#error_mobile2").removeClass("error"); 
+
+                        document.getElementById("name2").value="";
+                        document.getElementById("email21").value="";
+                        document.getElementById("mobile2").value="";
+                        $("#error_message2").hide()
+                    }
+                    else{
+                        document.getElementById("error_message2").innerHTML = "Something went wrong."
+                    }           
+                },
+                error:function(data){
+                    document.getElementById("error_message2").innerHTML = "Something went wrong."
+                }
+            })
+        }
+    }
+</script>
+
+<script>
+    $( document ).ready(function() {
+        function get_number(){
+            $.ajax({
+                type: "POST",
+                url: "/core_apis/v1/get_counselor_round_number",
+                data:{"csrfmiddlewaretoken": "{{ csrf_token }}"},
+                success: function (data) {
+                //alert("success")
+                //alert(data['number'])
+                var c_number = data['number']
+                $("#random_counselor").text(c_number)
+                },
+                error: function (data) {
+                    //alert("Somethings Wents Wrong");
+                },
+            });
+        };
+        get_number();
+    });
+</script>
+
+    </body>
+</html>

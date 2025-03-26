@@ -1,0 +1,99 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+
+{% block title %} AP2V {% endblock %}
+
+{% block css %}
+    <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/dashboard.css' %}" type="text/css" />
+{% endblock css %}
+
+{% block content %}
+
+    <div class="main-wrap">
+        <!-- <?php include 'inc/push-down.php'; ?> -->
+        {% include 'v4_home/sub_pages/push-down.html' %}
+        <!-- <?php include 'inc/navigation.php'; ?> -->
+        {% include 'v4_home/sub_pages/navigation.html' %}
+
+        <div class="banner-inner dashboard-banner">
+            <div class="container">
+                <div class="row banner-inner--content flex-column">
+                    <div class="d-flex">
+                        <div class="banner-inner--right-pan d-none d-xl-block">
+                            <img src="{% static 'v4_home_static/images/dashboard/dashboard.png' %}" alt="Devops Training">
+                        </div>
+
+                        <div class="banner-inner--left-pan d-flex flex-column justify-content-center ml-5">
+                            <h1 class="text-secondary font-size-18">Welcome back!</h1>
+                            <p class="text-gray-lightest mb-0">Here’s wishing you a happy learning today!</p>
+                        </div>
+
+
+                    </div><!-- slick-slide d-flex-->
+                </div><!-- // row -->
+            </div>
+        </div><!-- // Banner -->
+
+        {% include 'classroom/batch_filter_instructore.html' %}
+
+        <div class="container mt-3">
+            <div class="dashboard">
+                
+                {% if request.user.user_type == "student" %}
+                    {% include 'classroom/classroom_student_left_bar.html' %}
+                {% elif request.user.user_type == "instructor" %}
+                    {% include 'classroom/classroom_instructor_left_bar.html' %}
+                {% endif %}
+
+                <div class="dashboard__rightPan">
+                    <div class="course-curriculum mt-3">
+                        <span>
+                            <img src="{% static 'v4_home_static/images/dashboard/course-curriculum.png' %}" class="img-fluid" alt="syallbus">
+                        </span>
+                        <h2>Download your course curriculum</h2>
+                        <td><a href="javascript:void(0)" class="btn btn-outline-primary px-5"onclick="syllabusModalOpen()" >Download</a></td> 
+                    </div>
+                </div><!-- // Right panel -->
+
+            </div><!-- // Dashboard -->
+        </div><!-- // Container -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="downloadCourseSyllabus" tabindex="-1" aria-labelledby="downloadCourseSyllabusLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content add-student">
+            <div class="modal-header">
+                <h5 class="modal-title" id="downloadCourseSyllabusLabel">Download your course curriculum</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <table  class="table ">
+                            {% for i in batch_data.courses.all %}
+                                <tr>
+                                    <td><p>{{i}} </td></p>
+                                    <td><a href="{% if i.course_content %} /media/{{i.course_content}} {% else %} javascript:void(0){% endif %} " {% if i.course_content %} target="__BLANK__" {% endif %}> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+  <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+  <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+</svg></a></td>
+                                </tr>
+                            {% endfor %}
+                         </table>
+                        </div>
+                    </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<script>
+    function syllabusModalOpen(){
+        $('#downloadCourseSyllabus').modal('show');
+    }
+</script>
+{% endblock content %}

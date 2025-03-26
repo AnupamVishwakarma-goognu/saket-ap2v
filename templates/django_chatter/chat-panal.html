@@ -1,0 +1,95 @@
+{% load static %}
+{% load custom_tags %}
+<script>
+	function get_activate_room(id){
+		//alert(typeof(window.location.href))
+		//alert(id)
+		var purl = window.location.href
+		var res = purl.includes(id)
+		//alert(res)
+		if (res){
+			$("#"+id).css("backgroundColor", "#8bf6f687");
+			$("#"+id).css("padding", "10px");
+			$("#"+id).css("border-radius", "10px");
+		}
+	}
+</script>
+
+	{% for room in rooms_list %}
+	{% get_chat_room_id room.id as batch_obj %}
+	<a class="chat-link list-room" id='{{room.id}}' href="{% url 'django_chatter:chatroom' uuid=room.id %}" style="margin-bottom: 0px;	padding-top: 10px;padding-bottom: 10px;">
+		{% if room.last_message.0 == "" %}
+			<span class="" style="text-align: center;background-color: #1254dc;border-radius: 32px;padding-top: 9px;color: white;font-weight: bold;width:40px; height: 40px;display: block;position: relative;">
+		{% else %} 
+			<span class="" style="text-align: center;background-color: #1254dc;border-radius: 32px;padding-top: 9px;color: white;font-weight: bold;width:40px; height: 40px;display: block;position: relative;">
+		{% endif %}
+		{{batch_obj.id}}
+			<span class="avatar-wrap">
+				{% comment %}
+				<img src="https://ui-avatars.com/api/?name={{" ".join(room.members.all().exclude(id=request.user.id).values_list('name',flat=True))}}&background=5b73e8&color=FFF">
+				{% endcomment %}
+				{% comment %} <img src="https://ui-avatars.com/api/?name=Ashu&background=5b73e8&color=FFF"> {% endcomment %}
+				
+				
+			</span>
+			<span class="dot active"></span>
+		</span>
+
+		<script>
+			get_activate_room('{{room.id}}')
+		</script>
+
+		{% if room.id in rooms_with_unread %}
+		<div class='conversations__leftPan__list--content chat-list-item'>
+			{% else %}
+			<div class='conversations__leftPan__list--content chat-list-item'>
+				{% endif %}
+				<div class="d-flex justify-content-between mb-1">
+					<h2>
+						{% get_chat_room_title room.id as chat_room_title %}
+						{% comment %} {% get_batch_ending_details batch_obj.end_date_time as res %} {% endcomment %}
+						{{chat_room_title}} <span class="ml-1">Batch <small> {% if res %}<span style="background-color: #bd475d;color: white;margin: 2px;padding: 3px;border-radius: 8px;">Ended</span> {% endif %} ({{batch_obj.start_date_time |date:'d-m-Y'}}) - ({{batch_obj.end_date_time |date:'d-m-Y'}})</small></span>
+						{% comment %} 
+						{% if room.members.count == 2 %}
+
+							{% for user in room.members.all() %}
+
+								{% if user.email != request.user.email %}
+								{{user}}
+								{% endif %}
+
+							{% endfor %}
+
+						{% else %}
+							{% for index in range(2) %}
+								{{room.members.all()[index]}},
+							{% endfor %}
+							+{{room.members.count()-2}}
+						{% endif %}
+						{% endcomment %}
+					</h2>
+					{% comment %} <span c	lass="time">12:39 PM</span> {% endcomment %}
+				</div>
+
+				<div class="chat-list-last-message">
+					{% if room.last_message.0 == "" %}
+					<i>No Message</i>
+					{% else %}
+						{% if room.last_message.0 == request.user %}
+						You:
+						{% else %}
+						{{room.last_message.0.name}}
+						{% endif %}
+						{% if "media/chat_files" in room.last_message.1%}
+							<b> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="12" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+								<path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
+								<path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+							  </svg> &#160;&#160;Document File</b>
+						{% else %}
+							{{room.last_message.1|truncatechars:"32"}}
+						{% endif %}
+					{% endif %}
+				</div>
+			</div>
+	</a>
+	{% endfor %}

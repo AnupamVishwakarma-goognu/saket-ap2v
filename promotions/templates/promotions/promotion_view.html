@@ -1,0 +1,38 @@
+{% comment %} <div class="container-fluid"> {% endcomment %}
+    {% comment %} <div class="container"> {% endcomment %}
+        {% comment %} <div class="row mt-4">
+            <div class="col-md-12 col-sm-12"> {% endcomment %}
+                    {% comment %} <div class="card"> {% endcomment %}
+                        <div class="card-body ">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input class="form-control"  type="text" accept=".csv" readonly name="" value="{{campaign_obj.campaign_template.template_name}}"/>
+                                    </div>
+                                </div>
+
+                                <div id="template_message_div" class="col-md-12 mt-2" style="box-shadow: 0 30px 40px rgba(0,0,0,.1);padding-top: 15px;padding-bottom: 5px;border: burlywood;background-color: azure;">
+                                    Template Message: <p style="color:#bba0a0;" id="">{{complete_message | safe}}</p>
+                                </div>
+
+                                <div class="col-md-12" style="padding-top: 15px;">
+                                    <div class="form-group">
+                                        <select name=""  class="selectpicker" >
+                                            <option value="csv">CSV</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12" id="">
+                                    <div class="form-group">
+                                        <input class="form-control"  type="text" accept=".csv" readonly name="" value="{{campaign_obj.location}}"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <input hidden type="text" id="variable_field_count" name="variable_field_count">
+                            <button type="button" data-dismiss="modal" style="float:right;" class="btn btn-secondary btn-fill">Cancel</button>
+                        </div>
+                    </div>
+            </div>
+        {% comment %} </div>
+    </div> {% endcomment %}
+</div>

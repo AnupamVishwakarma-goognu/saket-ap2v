@@ -1,0 +1,258 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+{% load ap2v_course_tag %}
+{% load compress %}
+{% block title %} AP2V {% endblock %}
+{% block css %}
+    {% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/others.css' %}" type="text/css" /> {% endcomment %}
+    {% compress css %}
+        {% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/others.css' %}" type="text/css" /> {% endcomment %}
+        <link media="all" rel="stylesheet" href="/static/v4_home_static/css/others.css" type="text/css" />
+    {% endcompress %}
+
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.ap2v.com/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Contact Us",
+            "item": "https://www.ap2v.com/contact-us/"
+        }]
+        }
+    </script>
+{% endblock css %}
+{% block content %}
+    <div class="main-wrap">
+    {% include 'v4_home/sub_pages/push-down.html' %}
+    {% include 'v4_home/sub_pages/navigation.html' %}
+
+        <!-- Banner -->
+        <div class="banner-inner">
+            <div class="container">
+                <div class="row banner-inner--content flex-column">
+                    {% include 'v4/breadcrumb.html' %}<!-- // breadcrumb -->
+                    <div class="d-flex">
+                        <div class="banner-inner--left-pan d-flex flex-column justify-content-center">
+                        <h1 class="text-secondary">Contact us</h1>
+                        <p class="text-gray-lightest mb-0">We are located across two locations in Delhi-NCR. We have Professionals and Industry Experts who provides Coaching to Candidates at our Centers.</p>
+                        </div>
+                        <div class="banner-inner--right-pan d-none d-xl-block">
+                          <img src="{% static 'v4_home_static/images/contact-us.png'%}" alt="Contact us">
+                        </div>
+                    </div><!-- slick-slide d-flex-->
+                </div><!-- // row -->
+            </div>
+        </div><!-- // Banner -->
+
+
+        <div class="spacer mt-0"></div><!-- // Spacer -->
+
+        <section class="container pt-4">
+            <div class="row">
+                <div class="col-12 col-md-7">
+                    <h3 class="mt-3s">Get in Touch</h3>
+
+                    <div class="d-flex mb-4 mt-3">
+                      <span class="icon-maps text-primary font-size-20 mt-1 mr-2"></span>
+                      <div>
+                        <strong class="d-block">Address:</strong>
+                        M-44, Sector 14 Gurgaon
+                      </div>
+                    </div>
+                    
+                     <div class="d-flex mb-4 mt-3">
+                      <span class="icon-phone1 text-primary font-size-20 mt-1 mr-2"></span>
+                      
+                      <div>
+                        <strong class="d-block">Phone:</strong>
+                        {%comment%}{% for i in all_number %}
+                            <a href="tel:{{i.number | cut:" " }}">{{i.number}}</a> {% if not forloop.last %},{% endif %}
+                        {% endfor %}{%endcomment%}
+                        <a href="tel:{{i.number | cut:" " }}">8306996216</a>
+                      </div>
+                      
+                    </div>
+                    
+                    <div class="d-flex mb-4 mt-3">
+                      <span class="icon-envelope text-primary font-size-20 mt-1 mr-2"></span>
+                      <div>
+                        <strong class="d-block">Email:</strong>
+                        <a href="mailto:info@ap2v.com">info@ap2v.com</a>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-5">
+                    <div class="white-box skill-coverd p-4">
+                        <h3>Let's get started</h3>
+                        <p class="mb-4">Please fill this form and we will contact you.</p>
+                        <form>
+                          <ul class="mb-0">
+                            
+                            <li id="error_name_cnt1" class="form-group">
+                                <div class="input-effect">
+                                    <input id="name_cnt1" type="text" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name">
+                                    <label>Fullname</label>
+                                    <p class="error--mgs">Please enter name</p>
+                                </div>
+                            </li>
+                            
+                            <li id="error_email_cnt1" class="form-group">
+                                <div class="input-effect">
+                                    <input id="email_cnt1" type="email" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name">
+                                    <label>Email Id</label>
+                                    <p class="error--mgs">Please enter email</p>
+                                </div>
+                            </li>
+
+                            <li id="error_mobile_cnt1" class="form-group">
+                                <div class="phone-cc form-control">
+                                    <select class="form-control code">
+                                        <option>+91</option>
+                                        <option>+90</option>
+                                        <option>+92</option>
+                                        <option>+232</option>
+                                        <option>+1</option>
+                                    </select>
+                                    <div class="input-effect phone">
+                                        <input  id="mobile_cnt1" type="text" maxlength="10" class="form-control animation-input border-top-left-radius-0" placeholder
+                                            aria-label="name" aria-describedby="name">
+                                        <label>Phone Numver</label>
+                                        <p class="error--mgs">Please enter number</p>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li id="error_message_cnt1" class="form-group">
+                                <div class="input-effect">
+                                  <textarea id="message_cnt1" class="form-control animation-input border-top-left-radius-0" name="" id="" cols="30" rows="5" placeholder=""></textarea>
+                                    <label>Enter Message</label>
+                                    <p class="error--mgs">Please enter message</p>
+                                </div>
+                            </li>
+
+                            <p id="success_message4"></p>
+
+                            <li>
+                                <input type="text" name="page_ms2" hidden id="page_ms7">
+                                <button onclick="contactenquiry()" id="subbtnContactUs" type="button" class="btn btn-lg btn-primary rounded-60 px-4">Submit</button>
+                            </li>
+                        </ul>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </section><!-- // Overview -->
+    {% comment %} {% include 'v4_home/sub_pages/modals.html' %} {% endcomment %}
+{% comment %} {% compress js %} {% endcomment %}
+    <script>
+        function contactenquiry(){
+            var name = document.getElementById("name_cnt1").value;
+            var email = document.getElementById("email_cnt1").value;
+            var mobile_number = document.getElementById("mobile_cnt1").value;
+            var message = document.getElementById("message_cnt1").value;
+            var page_ms7 = document.getElementById("page_ms7").value;
+            var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+            if(name.trim().length == 0){
+                $("#error_name_cnt1").addClass("error");
+                document.getElementById("name_cnt1").focus();
+                return false;
+            }
+            if(email.trim().length == 0){
+                $("#error_email_cnt1").addClass("error");
+                document.getElementById("email_cnt1").focus();
+                return false;
+            }
+            if(mobile_number.trim().length == 0){
+                $("#error_mobile_cnt1").addClass("error");
+                document.getElementById("mobile_cnt1").focus();
+                return false;
+            }
+            if(mobile_number.trim().length < 10){
+                $("#error_mobile_cnt1").addClass("error");
+                document.getElementById("mobile_cnt1").focus();
+                return false;
+            }
+    
+            if(!$.isNumeric(mobile_number)){
+                $("#error_mobile_cnt1").addClass("error");
+                document.getElementById("mobile_cnt1").focus();
+                return false;
+            }
+            if(message.trim().length == 0){
+                $("#error_message_cnt1").addClass("error");
+                document.getElementById("message_cnt1").focus();
+                return false;
+            }
+
+            if(email.match(mailformat)){
+                mydata = {
+                    reference: "ap2v.com",
+                    name: name,
+                    mobile:mobile_number,
+                    email:email,
+                    comments: window.location.href,
+                    source_ip: document.getElementById("source_ip").value,
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    page_ms2:page_ms7,
+                }
+
+                $("#subbtnContactUs").prop("disabled", true);
+                // add spinner to button
+                $("#subbtnContactUs").html(
+                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submiting...'
+                );
+
+                $.ajax({
+                    url : "/create_enquiry",
+                    method : "POST",
+                    data : mydata,
+                    success:function(data) {
+                        if (data.code == 1){
+                            document.getElementById("success_message4").innerHTML = "Your query has been submitted successfully."
+                            $("#error_name_cnt1").removeClass("error");   
+                            $("#error_email_cnt1").removeClass("error");  
+                            $("#error_mobile_cnt1").removeClass("error"); 
+                            $("#error_message_cnt1").removeClass("error");
+
+                            document.getElementById("name_cnt1").value="";
+                            document.getElementById("email_cnt1").value="";
+                            document.getElementById("mobile_cnt1").value="";
+                            document.getElementById("message_cnt1").value=""; 
+                            $("#subbtnContactUs").prop("disabled", false);
+                            // add spinner to button
+                            $("#subbtnContactUs").html(
+                                '<span class="" aria-hidden="true"></span> Submit'
+                            );
+                        }
+                        else{
+                            document.getElementById("success_message4").innerHTML = "Something went wrong."
+                            $("#subbtnContactUs").prop("disabled", false);
+                            // add spinner to button
+                            $("#subbtnContactUs").html(
+                                '<span class="" aria-hidden="true"></span> Submit'
+                            );
+                        }           
+                    },
+                    error:function(data){
+                        document.getElementById("success_message4").innerHTML = "Something went wrong."
+                        $("#subbtnContactUs").prop("disabled", false);
+                        // add spinner to button
+                        $("#subbtnContactUs").html(
+                            '<span class="" aria-hidden="true"></span> Submit'
+                        );
+                    }
+                })
+            }
+        }
+    </script>
+{% comment %} {% endcompress js %} {% endcomment %}
+{% endblock content %}

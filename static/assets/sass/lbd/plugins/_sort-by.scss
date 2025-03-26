@@ -1,0 +1,36 @@
+.sort-by {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $white;
+    border: 1px solid #c1c7d2;
+    border-radius: 5px;
+    overflow: hidden;
+
+    .form-control {
+        border: 0;
+        border-radius: 0;
+    }
+
+    select.form-control {
+        border-right: 1px solid #dadfea;
+        padding-right: 25px;
+        -webkit-appearance: none;
+        background-image: url(#{$image-path}down-arrow-dark.svg);
+        background-repeat: no-repeat;
+        background-position: 90% center;
+        background-size: 10px;
+    }
+    
+    input.form-control {
+        width: 200px;
+    }
+
+    .search-btn {
+        border: 0;
+        background-color: transparent;
+        border-left: 1px solid #dadfea;
+        height: 40px;
+        padding: 0 12px;
+    }
+}

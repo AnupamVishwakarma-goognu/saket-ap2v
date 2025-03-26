@@ -1,0 +1,1016 @@
+{% load static %}
+{% load compress %}
+
+<!-- Request a Batch Modal -->
+<style>
+    img.img-fluid.pok {
+    height: 100%;
+    max-width: initial;
+}
+.form-modal__wrapper--img.d-none.d-md-block {
+    padding: 66px 14px 31px 15px;
+    display: flex !important;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: white;
+    max-width: 365px;
+    flex: 0 0 365px;
+}
+span.form-modal__wrapper--img.d-none.d-md-block.jonmos {
+    padding-top: 0;
+}
+ul.sitom li {
+    padding: 11px;
+    padding-left: 20px;
+    position: relative;
+    margin-left: 11px;
+}
+ 
+ul.sitom li:hover { 
+    box-shadow: none;
+}
+button.soto {
+    width: 100%;
+    color: #fff;
+    background-color: #5abe5f;
+    border-color: #5abe5f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+button.soto:hover {
+    width: 100%;
+  color: white;
+    background-color: #3ea543;
+    border-color: #3ea543;
+}
+h5.mosu {
+    width: 100%;
+    font-size: 1rem;
+    padding-left: 10px !important;
+}
+ul.sitom li span.material-symbols-outlined {
+    position: absolute;
+    left: -3px;
+    top: 9px;
+    font-size: 22px;
+    font-weight: 300;
+}
+h3.mashed {
+    position: absolute;
+    width: 100%;
+    margin: 0;
+    background-color: #e92347;
+    padding: 15px 36px;
+    text-align: center;
+    display: flex;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 30px;
+    align-items: center;
+    justify-content: center;
+}
+p.mishi {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 13px;
+}
+button.close.mokl {
+    opacity: 1; 
+}
+ 
+div#apply-now .form-control{
+    background-color: rgba(255, 255, 255, 0)  !important;
+}
+span.stip {
+    padding: 0 8px 0 17px;
+    position: relative;
+    position: relative;
+    display: inline-block;
+    line-height: 20px;
+    background-color: #000;
+    color: #fff;
+}
+span.stip:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-right: 16px solid transparent;
+    border-top: 40px solid #e92347;
+    width: 0;
+    z-index: 1;
+}span.stip:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-bottom: 20px solid #e92347;
+    border-left: 5px solid transparent;
+    width: 0;
+    z-index: 1;
+}
+img.zom1 {
+    position: absolute;
+    width: 60px;
+    transform: rotate(206deg);
+    left: 35px;
+}
+img.zom2 {
+    position: absolute;
+    width: 60px;
+    right: 46px;
+    transform: rotate3d(1, 1, 1, 19deg);
+}
+button.soto span.material-symbols-outlined {
+    margin-right: 10px;
+    animation: ringg 1s infinite;
+}
+@keyframes ringg {
+  0% {
+    transform: rotate(-15deg) scale(.9)
+  }
+  50% {
+    transform: rotate(15deg)scale(1.1)
+  }
+  100% {
+    transform: rotate(-15deg)scale(.9)
+  }
+}
+@media screen and (max-width: 768px) {
+    span.stip { 
+    margin-right: 8px;
+}
+    img.zom1 { 
+    left: 2px;
+    top: -5px;
+}
+img.zom2 { 
+    right: 1px;
+    bottom: 1px; 
+}
+    .form-modal__wrapper--img.d-none.d-md-block {
+    display: none !important;
+}
+.form-modal__wrapper--form.ibjks {
+    padding-top: 92px !important;
+    padding-bottom: 30px;
+}
+h3.mashed {
+    line-height: 39px;
+    display: initial;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 15px 29px; 
+}
+div#apply-now .modal-content {
+    bottom: 0;
+    position: fixed;
+    left: 0;
+}
+ 
+}
+
+</style>
+<div class="modal fade" id="request-batch" tabindex="-1" aria-labelledby="request-batchLabel" aria-hidden="true">
+    <div class="modal-dialog form-modal">
+        <div class="modal-content">
+            <div class="form-modal__wrapper">
+                <span class="form-modal__wrapper--img d-none d-md-block">
+                    <img src="{% static 'v4_home_static/images/modal/req-batch.png'%}" loading="lazy" class="img-fluid" alt="request_batch">
+                </span>
+                <div class="form-modal__wrapper--form">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Request a Batch</h5>
+                        <p class="font-size-xs mb-0 text-gray-medium">Can’t find a batch you were looking for? Contact AP2V Learner Support</p>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&#x2715;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <ul>
+                            <li class="form-group has-content">
+                                <div class="input-effect ">
+                                    <input type="date" id="request_batch1" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name">
+                                    <label>Preferred Batch Start Date</label>
+                                </div>
+                            </li>
+
+                            <li id="error_mobile_01" class="form-group">
+                                <div class="phone-cc form-control">
+                                    {% comment %} <select class="form-control code">
+                                        <option>+91</option>
+                                    </select> {% endcomment %}
+                                    <input type="text" id="phone7" class="form-control" style="width: 0px;border: none;padding-left: 79px;outline: none;">
+                                    <div class="input-effect phone">
+                                        <input type="text" maxlength="10" id="mobile1" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name">
+                                        <label>Phone Numver</label>
+                                        <p class="error--mgs">Please enter Nummber</p>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li id="error_email_01" class="form-group">
+                                <div class="input-effect">
+                                    <input type="email" id="email1" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name">
+                                    <label>Email Id</label>
+                                    <p class="error--mgs">Please enter email</p>
+                                </div>
+                            </li>
+
+                            <p id="success_message1"></p>
+
+                            <li>
+                                <input type="text" name="page_ms2" hidden id="page_ms4">
+                                <button onclick="requestBatch()" id="subbtnReqBatch" type="button" class="btn btn-lg btn-outline-primary rounded-20 px-4">Submit</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% comment %} {% compress js %} {% endcomment %}
+<script>
+    var input = document.querySelector("#phone7");
+    window.intlTelInput(input, {
+        separateDialCode: true,
+        excludeCountries: ["pk", "il","ba","cf","cd","pm","do","gp","st"],
+        preferredCountries: ["{{mylip}}"]
+    });
+</script>
+<script>
+    function requestBatch(){
+        var request_batch = document.getElementById("request_batch1").value;
+        var email = document.getElementById("email1").value;
+        var mobile_number = document.getElementById("mobile1").value;
+        var page_ms4 = document.getElementById("page_ms4").value;
+
+        if(request_batch.trim().length == 0){
+            document.getElementById("request_batch1").focus();
+            return false;
+        }
+        if(email.trim().length == 0){
+            $("#error_email_01").addClass("error");
+            document.getElementById("email1").focus();
+            
+            return false;
+        }
+        try {
+            var con_code = $("#error_mobile_01").find('.iti__selected-flag').attr("title");	
+            con_code = con_code.split(":");
+            con_code = con_code[1].trim();
+        }
+        catch(err) {
+            con_code = "N/A"
+        }
+        if(mobile_number.trim().length == 0){
+            $("#error_mobile_01").addClass("error");
+            document.getElementById("mobile1").focus();
+            
+            return false;
+        }
+        if(mobile_number.trim().length < 10){
+            $("#error_mobile_01").addClass("error");
+            document.getElementById("mobile1").focus();
+            return false;
+        }
+
+        if(!$.isNumeric(mobile_number)){
+            $("#error_mobile_01").addClass("error");
+            document.getElementById("mobile1").focus();
+            return false;
+        }
+
+        mydata = {
+            reference: "ap2v.com",
+            name: name,
+            con_code:con_code,
+            mobile:mobile_number,
+            email:email,
+            comments: window.location.href,
+            source_ip: document.getElementById("source_ip").value,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            message : "Request a batch on: "+request_batch+ ", For : {{course_details.name}}",
+            page_ms2:page_ms4
+        }
+
+        $("#subbtnReqBatch").prop("disabled", true);
+        // add spinner to button
+        $("#subbtnReqBatch").html(
+            '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submiting...'
+        )
+
+        $.ajax({
+            url : "/create_enquiry",
+            method : "POST",
+            data : mydata,
+            success:function(data) {
+                if (data.code == 1){
+                    document.getElementById("success_message1").innerHTML = "Your query has been submitted successfully."
+                    document.getElementById("email1").value = "";
+                    document.getElementById("mobile1").value = "";
+
+                    $("#subbtnReqBatch").prop("disabled", false);
+                    // add spinner to button
+                    $("#subbtnReqBatch").html(
+                        '<span class="" aria-hidden="true"></span> Submit Batch'
+                    );
+
+                }
+                else{
+                    document.getElementById("success_message1").innerHTML = "Something went wrong."
+                    $("#subbtnReqBatch").prop("disabled", false);
+                    // add spinner to button
+                    $("#subbtnReqBatch").html(
+                        '<span class="" aria-hidden="true"></span> Submit Batch'
+                    );
+                }           
+            },
+            error:function(data){
+                document.getElementById("success_message1").innerHTML = "Something went wrong."
+                $("#subbtnReqBatch").prop("disabled", false);
+                // add spinner to button
+                $("#subbtnReqBatch").html(
+                    '<span class="" aria-hidden="true"></span> Submit Batch'
+                );
+        }
+        })
+    }
+</script>
+{% comment %} {% endcompress js %} {% endcomment %}
+
+<!--Apply Now Modal -->
+<div class="modal fade" id="apply-now" tabindex="-1" aria-labelledby="apply-nowLabel" aria-hidden="true" style="z-index: 999999;">
+    <div class="modal-dialog form-modal ">
+        <div class="modal-content" >
+            <div class="form-modal__wrapper ">
+                <h3 class="mashed">Take Advantage of an Exclusive Course  <span class="stip"> Discount</span>  Now!
+                    <!-- <img src="{% static 'v4_home_static/images/sikon.png'%}" loading="lazy" class="zom zom1" alt="request_batch">
+                    <img src="{% static 'v4_home_static/images/sikon.png'%}" loading="lazy" class="zom zom2" alt="request_batch"> -->
+                </h3>                
+                <div class="form-modal__wrapper--img d-none d-md-block " >
+                     <h5 class="modal-title mosu" style="padding: 19px 0;">Future-Proof Your Career with the Latest In-Demand Courses
+                        </h5>
+                     <ul class="sitom">
+                        <li><span class="material-symbols-outlined">
+                            done
+                            </span>  AP2V is the leading provider of professional training for all the latest technology courses.</li> 
+                     <li ><span class="material-symbols-outlined">
+                        done
+                        </span>   Our highly experienced instructors help beginners and professionals to grab high paying jobs in top MNCs.</li>
+                   <li><span class="material-symbols-outlined">
+                    done
+                    </span>   Get valid certifications recognised by top MNC's.</li> 
+                    </ul>
+                </div>
+                <div class="form-modal__wrapper--form ibjks"  style="padding-top: 55px;">
+                    <div class="modal-header">
+                        <!-- <h5 class="modal-title mosu" id="modalTitle">We're Here to Help!</h5> -->
+                        <!-- <p class="font-size-xs mb-0 text-gray-medium" id="modalDescription">Hurry Up! Fill-in the details to avail limited time offers</p> -->
+                        <button type="button" class="close mokl" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&#x2715;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <ul>
+                           
+                            <li id="error_name2" class="form-group">
+                                <div class="input-effect">
+                                    <input type="text" id="name2" class="form-control animation-input border-top-left-radius-0"
+                                        placeholder aria-label="name" aria-describedby="name">
+                                    <label>Full Name</label>
+                                    <p class="error--mgs">Please enter name</p>
+                                </div>
+                            </li>
+
+                            <li id="error_mobile2" class="form-group">
+                                <div class="phone-cc form-control">
+                                    {% comment %} <select class="form-control code">
+                                        <option>+91</option>
+                                    </select> {% endcomment %}
+                                    <input type="text" id="phone6" class="form-control" style="width: 0px;border: none;padding-left: 79px;outline: none;">
+                                    <div class="input-effect phone">
+                                        <input type="text" maxlength="10" id="mobile2" class="form-control animation-input border-top-left-radius-0" placeholder
+                                            aria-label="name" aria-describedby="name">
+                                        <label>Phone Number</label>
+                                        <p class="error--mgs">Please enter number</p>
+                                    </div>
+                                </div>
+                            </li>
+                            
+                            <li id="error_email2" class="form-group">
+                                <div class="input-effect">
+                                    <input type="email" id="email2" class="form-control animation-input border-top-left-radius-0"
+                                        placeholder aria-label="name" aria-describedby="name">
+                                    <label>Email Id</label>
+                                    <p class="error--mgs">Please enter email</p>
+                                </div>
+                            </li>
+
+                            {% comment %} {% if not course %}
+                                <li class="form-group">
+                                    <select class="form-control" aria-label="Select Course" id="selectCourse">
+                                        <option value="">Select course</option>
+                                        {% for i in all_course %}
+                                            <option value="{{i.name}}">{{i.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </li>
+                            {% endif %} {% endcomment %}
+
+                            
+ 
+
+                            <p id="error_message2"></p>
+                            <p id="success_message2"></p>
+
+                            <li>
+                                <input type="text" name="page_ms2" hidden id="page_ms5">
+                                <button onclick="applyNow()" id="subbtn" class="btn btn-lg   rounded-20 px-4 soto"> <span class="material-symbols-outlined">
+                                    call
+                                    </span>Get In Touch</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mishi">You agreed on the terms of the <a href="/privacy-policy/">Privacy Policy </a> and <a href="/terms-and-conditions/"> Terms of use.</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var input = document.querySelector("#phone6");
+    window.intlTelInput(input, {
+        separateDialCode: true,
+        excludeCountries: ["pk", "il","ba","cf","cd","pm","do","gp","st"],
+        preferredCountries: ["{{mylip}}"]
+    });
+</script>
+
+{% comment %} {% compress js %} {% endcomment %}
+<script>
+    function applyNow(){
+        var name = document.getElementById("name2").value;
+        //var datetime = document.getElementById("datetime1d").value;
+        var email = document.getElementById("email2").value;
+        var mobile_number = document.getElementById("mobile2").value;
+        var page_ms5 = document.getElementById("page_ms5").value;
+        var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        var loc = window.location.href
+        if("{{course}}"=="True"){
+            var course = "{{anquira_course}}"
+            var message = "Enquiry for course: "+$('#selectCourse option:selected').val();
+        }
+        else{
+            var message = "Enquiry for course: "+$('#selectCourse option:selected').val();
+            course = 139;
+            console.log("no");
+        }
+
+        if(name.trim().length == 0){
+            $("#error_name2").addClass("error");
+            document.getElementById("name2").focus();
+            return false;
+        }
+        if(email.trim().length == 0){
+            $("#error_email2").addClass("error");
+            document.getElementById("email2").focus();
+            return false;
+        }
+        try {
+            var con_code = $("#error_mobile2").find('.iti__selected-flag').attr("title");	
+            con_code = con_code.split(":");
+            con_code = con_code[1].trim();
+        }
+        catch(err) {
+            con_code = "N/A"
+        }
+        if(mobile_number.trim().length == 0){
+            $("#error_mobile2").addClass("error");
+            document.getElementById("mobile2").focus();
+            return false;
+        }
+
+        if(mobile_number.trim().length < 10){
+            $("#error_mobile2").addClass("error");
+            document.getElementById("mobile2").focus();
+            return false;
+        }
+
+        if(!$.isNumeric(mobile_number)){
+            $("#error_mobile2").addClass("error");
+            document.getElementById("mobile2").focus();
+            return false;
+        }
+
+
+        if(email.match(mailformat)){
+            mydata = {
+                reference: "ap2v.com",
+                name: name,
+                con_code:con_code,
+                mobile:mobile_number,
+                email:email,
+                comments:window.location.href,
+                source_ip: document.getElementById("source_ip").value,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                course:course,
+                message:message,
+                page_ms2:page_ms5,
+                //datetime:datetime
+            }
+
+            $("#subbtn").prop("disabled", true);
+            // add spinner to button
+            $("#subbtn").html(
+                '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submiting...'
+            );
+            $.ajax({
+                url : "/create_enquiry",
+                method : "POST",
+                data : mydata,
+                success:function(data) {
+                    if (data.code == 1){
+                        document.getElementById("success_message2").innerHTML = "Your query has been submitted successfully."
+                        $("#error_name2").removeClass("error");   
+                        $("#error_email2").removeClass("error");  
+                        $("#error_mobile2").removeClass("error"); 
+
+                        document.getElementById("name2").value="";
+                        document.getElementById("email2").value="";
+                        document.getElementById("mobile2").value="";
+                        $("#error_message2").hide()
+
+                        $("#subbtn").prop("disabled", false);
+                        // add spinner to button
+                        $("#subbtn").html(
+                            '<span class="" aria-hidden="true"></span> Apply Now'
+                        );
+                    }
+                    else{
+                        document.getElementById("error_message2").innerHTML = "Something went wrong."
+                        $("#subbtn").prop("disabled", false);
+                        // add spinner to button
+                        $("#subbtn").html(
+                            '<span class="" aria-hidden="true"></span> Apply Now'
+                        );
+                    }           
+                },
+                error:function(data){
+                    document.getElementById("error_message2").innerHTML = "Something went wrong."
+                    $("#subbtn").prop("disabled", false);
+                    // add spinner to button
+                    $("#subbtn").html(
+                        '<span class="" aria-hidden="true"></span> Apply Now'
+                    );
+                }
+            })
+        }
+    }
+</script>
+
+
+
+<!--Offer Apply Now Modal -->
+<div class="modal fade" id="offer-apply-now" tabindex="-1" aria-labelledby="offer-apply-nowLabel" aria-hidden="true">
+    <div class="modal-dialog form-modal">
+        <div class="modal-content">
+            <div class="form-modal__wrapper">
+                <span class="form-modal__wrapper--img d-none d-md-block jonmos"   >
+                    <img src="{% static 'v4_home_static/images/modal/getoffer.png'%}" loading="lazy" class="img-fluid pok" alt="apply_now" >
+                </span>
+                <div class="form-modal__wrapper--form" style="margin-top: 25px;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">Get the offer</h5>
+                        <p class="font-size-xs mb-0 text-gray-medium" id="modalDescription">Hurry Up! Fill-in the details to avail limited time offers</p>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&#x2715;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <ul>
+                            <!-- <li class="form-group has-content">
+                                <div class="input-effect ">
+                                    <input type="date" class="form-control animation-input border-top-left-radius-0"
+                                        placeholder aria-label="name" aria-describedby="name">
+                                    <label>Preferred Batch Start Date</label>
+                                </div>
+                            </li> -->
+
+                            <li id="error_name2of" class="form-group">
+                                <div class="input-effect">
+                                    <input type="text" id="name2of" class="form-control animation-input border-top-left-radius-0"
+                                        placeholder aria-label="name" aria-describedby="name">
+                                    <label>Full Name</label>
+                                    <p class="error--mgs">Please enter name</p>
+                                </div>
+                            </li>
+
+                            <li id="error_mobile2of" class="form-group">
+                                <div class="phone-cc form-control" style="height: 38px;">
+                                    {% comment %} <select class="form-control code">
+                                        <option>+91</option>
+                                    </select> {% endcomment %}
+                                    <input type="text" id="phone2" class="form-control" style="width: 0px;border: none;padding-left: 79px;outline: none;">
+                                    <div class="input-effect phone">
+                                        <input type="text" maxlength="10" id="mobile2of" class="form-control animation-input border-top-left-radius-0" placeholder
+                                            aria-label="name" aria-describedby="name">
+                                        <label>Phone Number</label>
+                                        <p class="error--mgs">Please enter number</p>
+                                    </div>
+                                </div>
+                            </li>
+                            
+                            <li id="error_email2of" class="form-group">
+                                <div class="input-effect">
+                                    <input type="email" id="email2of" class="form-control animation-input border-top-left-radius-0"
+                                        placeholder aria-label="name" aria-describedby="name">
+                                    <label>Email Id</label>
+                                    <p class="error--mgs">Please enter email</p>
+                                </div>
+                            </li>
+                            
+                            <!-- <label style="margin: 0;font-size: 10px;margin-left: 5px;">Suitable Date Time</label>
+                            <li id="datetime2" class="form-group">
+                                <div class="input-effect">
+                                    <input type="datetime-local" id="datetime2d" class="form-control animation-input border-top-left-radius-0"
+                                        placeholder aria-label="datetime" aria-describedby="name">
+                                    
+                                    <p class="error--mgs">Please enter email</p>
+                                </div>
+                            </li> -->
+
+                            
+
+                            <p id="error_message2of"></p>
+                            <p id="success_message2of"></p>
+
+                            <li>
+                                <input type="text" name="page_ms2" hidden id="page_ms5of">
+                                <button onclick="offerapplyNow()" id="subbtnof" class="btn btn-lg btn-outline-primary rounded-20 px-4">Avail now</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var input = document.querySelector("#phone2");
+    window.intlTelInput(input, {
+        separateDialCode: true,
+        excludeCountries: ["pk", "il","ba","cf","cd","pm","do","gp","st"],
+        preferredCountries: ["{{mylip}}"]
+    });
+</script>
+
+{% comment %} {% compress js %} {% endcomment %}
+<script>
+    function offerapplyNow(){
+        try {
+            //var con_code = $(".iti__selected-flag").attr("title")
+            var con_code = $("#error_mobile2of").find('.iti__selected-flag').attr("title");
+            con_code = con_code.split(":");
+            con_code = con_code[1].trim();
+        }
+        catch(err) {
+            con_code = "N/A"
+          }
+        var name = document.getElementById("name2of").value;
+        var email = document.getElementById("email2of").value;
+        var mobile_number = document.getElementById("mobile2of").value;
+        var page_ms5 = document.getElementById("page_ms5of").value;
+        var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        //var datetime = document.getElementById("datetime2d").value;
+        var loc = window.location.href
+        if("{{course}}"=="True"){
+            var course = "{{anquira_course}}"
+            var message = "Enquiry for course: "+$('#selectCourse option:selected').val();
+        }
+        else{
+            var message = "Enquiry for course: "+$('#selectCourse option:selected').val();
+            course = 139;
+            console.log("no");
+        }
+
+        if(name.trim().length == 0){
+            $("#error_name2of").addClass("error");
+            document.getElementById("name2of").focus();
+            return false;
+        }
+        if(email.trim().length == 0){
+            $("#error_email2of").addClass("error");
+            document.getElementById("email2of").focus();
+            return false;
+        }
+        if(mobile_number.trim().length == 0){
+            $("#error_mobile2of").addClass("error");
+            document.getElementById("mobile2of").focus();
+            return false;
+        }
+
+        //if(mobile_number.trim().length < 10){
+        //    $("#error_mobile2of").addClass("error");
+        //    document.getElementById("mobile2of").focus();
+        //    return false;
+        //}
+
+        if(!$.isNumeric(mobile_number)){
+            $("#error_mobile2of").addClass("error");
+            document.getElementById("mobile2of").focus();
+            return false;
+        }
+        mobile_number = mobile_number
+
+
+
+        if(email.match(mailformat)){
+            mydata = {
+                reference: "ap2v.com",
+                name: name,
+                mobile:mobile_number,
+                con_code:con_code,
+                email:email,
+                comments:window.location.href,
+                source_ip: document.getElementById("source_ip").value,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                course:course,
+                message:message,
+                page_ms2:page_ms5,
+                //datetime:datetime
+            }
+
+            $("#subbtnof").prop("disabled", true);
+            // add spinner to button
+            $("#subbtnof").html(
+                '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submiting...'
+            );
+            $.ajax({
+                url : "/create_enquiry",
+                method : "POST",
+                data : mydata,
+                success:function(data) {
+                    if (data.code == 1){
+                        document.getElementById("success_message2of").innerHTML = "Your query has been submitted successfully."
+                        $("#error_name2of").removeClass("error");   
+                        $("#error_email2of").removeClass("error");  
+                        $("#error_mobile2of").removeClass("error"); 
+
+                        document.getElementById("name2of").value="";
+                        document.getElementById("email2of").value="";
+                        document.getElementById("mobile2of").value="";
+                        $("#error_message2of").hide()
+
+                        $("#subbtnof").prop("disabled", false);
+                        // add spinner to button
+                        $("#subbtnof").html(
+                            '<span class="" aria-hidden="true"></span> Apply Now'
+                        );
+                    }
+                    else{
+                        document.getElementById("error_message2of").innerHTML = "Something went wrong."
+                        $("#subbtnof").prop("disabled", false);
+                        // add spinner to button
+                        $("#subbtnof").html(
+                            '<span class="" aria-hidden="true"></span> Apply Now'
+                        );
+                    }           
+                },
+                error:function(data){
+                    document.getElementById("error_message2of").innerHTML = "Something went wrong."
+                    $("#subbtnof").prop("disabled", false);
+                    // add spinner to button
+                    $("#subbtnof").html(
+                        '<span class="" aria-hidden="true"></span> Apply Now'
+                    );
+                }
+            })
+        }
+    }
+</script>
+
+
+
+
+{% comment %} {% endcompress js %} {% endcomment %}
+
+<!-- Download Syallbus Modal -->
+<div class="modal fade" id="syllabus" tabindex="-1" aria-labelledby="syllabusLabel" aria-hidden="true">
+    <div class="modal-dialog form-modal">
+        <div class="modal-content">
+            <div class="form-modal__wrapper">
+                <span class="form-modal__wrapper--img d-none d-md-block">
+                    <img src="{% static 'v4_home_static/images/modal/download-syallbus.png'%}" loading="lazy" class="img-fluid" alt="downloadsyallbus">
+                </span>
+                <div class="form-modal__wrapper--form">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Download Syallbus</h5>
+                        <p class="font-size-xs mb-0 text-gray-medium">Content developed by leading faculty & industry leaders in the form of videos, case studies & projects</p>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&#x2715;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                            <ul>
+                                <li id="error_mobile3" class="form-group">
+                                    <div class="phone-cc form-control">
+                                        {% comment %} <select class="form-control code">
+                                            <option>+91</option>
+                                        </select> {% endcomment %}
+                                        <input type="text" id="phone8" class="form-control" style="width: 0px;border: none;padding-left: 79px;outline: none;">
+                                        <div class="input-effect phone">
+                                            <input type="text" maxlength="10" id="mobile3" name="mobile_number" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name" required>
+                                            <label>Mobile Number</label>
+                                            <p class="error--mgs">Please enter mobile</p>
+                                        </div>
+                                    </div>
+                                </li>
+        
+                                <li id="error_email3" class="form-group">
+                                    <div class="input-effect">
+                                        <input type="email" id="email3" name = "email" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name" required>
+                                        <label>Email Address</label>
+                                        <p class="error--mgs">Please enter email</p>
+                                    </div>
+                                </li>
+
+                                <p id="success_message3"></p>
+        
+                                <li class="mt-4 text-left">
+                                    <a onclick="downloadSyallbus()" id="subbtnDownloadSyllabus" class="btn btn-lg btn-outline-primary rounded-20 px-5 link">Download now</a>
+                                    {% comment %} <a href="/media/{{landing_page_queryset.syllabus}}" target="_blank_"><button class="btn btn-lg btn-outline-primary rounded-20 px-5" target="_blank_">Download now</button></a> {% endcomment %}
+                                </li>
+                            </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var input = document.querySelector("#phone8");
+    window.intlTelInput(input, {
+        separateDialCode: true,
+        excludeCountries: ["pk", "il","ba","cf","cd","pm","do","gp","st"],
+        preferredCountries: ["{{mylip}}"]
+    });
+</script>
+
+{% comment %} {% compress js %} {% endcomment %}
+<script>
+    function downloadSyallbus(){
+        var email = document.getElementById("email3").value;
+        var mobile_number = document.getElementById("mobile3").value;
+        var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+        if(email.trim().length == 0){
+            $("#error_email3").addClass("error");
+            document.getElementById("email3").focus();
+            return false;
+        }
+        if(mobile_number.trim().length == 0){
+            $("#error_mobile3").addClass("error");
+            document.getElementById("mobile3").focus();
+            return false;
+        }
+        try {
+            var con_code = $("#error_mobile3").find('.iti__selected-flag').attr("title");	
+            con_code = con_code.split(":");
+            con_code = con_code[1].trim();
+        }
+        catch(err) {
+            var con_code = "N/A"
+        }
+        if(mobile_number.trim().length < 10){
+            $("#error_mobile3").addClass("error");
+            document.getElementById("mobile3").focus();
+            return false;
+        }
+
+        if(!$.isNumeric(mobile_number)){
+            $("#error_mobile3").addClass("error");
+            document.getElementById("mobile3").focus();
+            return false;
+        }
+
+        if(email.match(mailformat)){
+            mydata = {
+                reference: "ap2v.com",
+                name: "",
+                con_code:con_code,
+                mobile:mobile_number,
+                email:email,
+                comments: window.location.href,
+                source_ip: document.getElementById("source_ip").value,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                message : "Request syallbus for : {{course_details.name}}"
+            }
+            
+            $("#subbtnDownloadSyllabus").prop("disabled", true);
+            // add spinner to button
+            $("#subbtnDownloadSyllabus").html(
+                '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submiting...'
+            );
+       
+            $.ajax({
+                url : "/create_enquiry",
+                method : "POST",
+                data : mydata,
+                success:function(data) {
+                    if (data.code == 1){
+                        document.getElementById("success_message3").innerHTML = "You will be receiving a mail."
+                        $("#error_email3").removeClass("error");  
+                        $("#error_mobile3").removeClass("error"); 
+
+                        document.getElementById("email3").value="";
+                        document.getElementById("mobile3").value="";
+
+                        $("#subbtnDownloadSyllabus").prop("disabled", false);
+                        // add spinner to button
+                        $("#subbtnDownloadSyllabus").html(
+                            '<span class="" aria-hidden="true"></span> Download Now'
+                        );
+                    }
+                    else{
+                        document.getElementById("success_message3").innerHTML = "Something went wrong."
+                        $("#subbtnDownloadSyllabus").prop("disabled", false);
+                        // add spinner to button
+                        $("#subbtnDownloadSyllabus").html(
+                            '<span class="" aria-hidden="true"></span> Download Now'
+                        );
+                    }           
+                },
+                error:function(data){
+                    document.getElementById("success_message3").innerHTML = "Something went wrong."
+                }
+            })
+        }
+    }
+</script>
+{% comment %} {% endcompress js %} {% endcomment %}
+
+
+<!-- Certificate Modal -->
+<div class="modal fade" id="certificate" tabindex="-1" aria-labelledby="certificateLabel" aria-hidden="true">
+    <div class="modal-dialog certificate-modal">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&#x2715;</span>
+            </button>
+
+            <img src="{% static 'v4_home_static/images/certificate.jpg'%}" class="img-fluid" loading="lazy" alt="certificate">
+
+            <div class="form-modal__wrapper">
+                <span class="form-modal__wrapper--img d-none d-md-block">
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    var arrayJson = {"BDN1":['Book a Free Class','Attend a 30 mins free class with our top trainers and visualize how we can help you in your career growth','Schedule'],
+                     "EN1":['Enquire Now','Tell us your preferred start date','Submit'],
+                     "EN2":['Enquire Now','Enter your details to start learning','Submit'],
+                     "EN3":['Enquire Now','Enter your details to start learning','Submit'],
+                     "GIT1":['Call me Back','Let us know your mobile number for our Counselor to reach you','Submit'],
+                     "GSC1":['Sample Certificate','Please fill-in the details to preview sample certificate','Preview Certificate']
+                    }
+    
+    //alert(arrayJson['BDN1'][0])
+                    
+
+    var title = "Query Now Default"
+    var description = "Can’t find a batch you were looking for? Contact AP2V Learner Support"
+    var btn_text = "Submit"
+
+    function openModal(button_id){
+        //alert("Entring modal")
+        //alert(button_id)
+
+        if(arrayJson[button_id]){
+            title = arrayJson[button_id][0]
+            description = arrayJson[button_id][1]
+            btn_text = arrayJson[button_id][2]
+        }
+        
+        $("#modalTitle").text(title)
+        $("#modalDescription").text(description)
+        $("#subbtn").text(btn_text)
+
+        $('#apply-now').modal('show');  
+    };
+</script>

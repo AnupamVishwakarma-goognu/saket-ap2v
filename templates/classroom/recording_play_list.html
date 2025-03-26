@@ -1,0 +1,45 @@
+{% load custom_tags %}
+<div class="accordion" id="accordionExample">
+    {% for i,j in recording.items %}
+        {% get_datetime_format i as datetime_formated %}
+        {% get_class_details j.0 as batch_data_url %}
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button spas" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne_{{forloop.counter}}"
+                aria-expanded="true" aria-controls="collapseOne">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-collection-play-fill" viewBox="0 0 16 16">
+                    <path
+                    d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6v7zm6.258-6.437a.5.5 0 0 1 .507.013l4 2.5a.5.5 0 0 1 0 .848l-4 2.5A.5.5 0 0 1 6 12V7a.5.5 0 0 1 .258-.437z" />
+                </svg>
+                <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-right right-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
+                <span>Class {{forloop.counter}} <span style="margin-left: 0;font-size: 12px;">({{datetime_formated|date:'d-b-Y'}})</span></span>
+                </button>
+            </h2>
+            <div id="collapseOne_{{forloop.counter}}" class="accordion-collapse collapse {% if batch_data_url.3 == url %} show {% endif %}" aria-labelledby="headingOne"
+                data-bs-parent="#accordionExample">
+                
+               
+                
+                <div class="accordion-body">
+                <ul class="video-listu">
+                    {% for m in j %}
+                        {% get_class_details m as batch_data %}
+                        <li class="spas "><a href="/classroom/classplay/{{batch_data.2}}" {% if batch_data.3 == url %} class="active-vids"  {% endif %} >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+                            <path
+                                d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
+                            </svg>
+                            <svg style="display: none;"  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pause-fill" viewBox="0 0 16 16" >
+                                <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"/>
+                              </svg>
+                            <!-- <span>video1-1</span> </a> -->
+                            part {{forloop.counter}}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+  </div>

@@ -1,0 +1,150 @@
+{% extends 'courses/detail_certification_subpage.html' %}
+{% load static %}
+
+{% block section_content %}
+    <section class="white-bg">
+      <div class="container">
+        <div class="row">
+          <div class="pull-left left-pan">
+            <!-- starts of article -->
+            <article>
+	     {% comment %}
+              <h2 class="inline-block">Overview</h2>
+	     {% endcomment %}
+              <p>{{certification_details.description | safe }}</p>
+		{% comment %}
+              <ul>
+                <li>Deploy Red Hat Ceph Storage</li>
+                <li>Manage snapshots in Red Hat Ceph Storage</li>
+                <li>Access Ceph Storage through Ceph block device (RBD) and Ceph object gateway (RADOSGW)</li>
+                <li>Configure Red Hat Ceph Storage as a storage back end for OpenStack Services</li>
+                <li>Manage networks based on VXLAN, VLAN and GRE</li>
+                <li>Deploy and using load-balancer-as-a-service (LBaaS) in OpenStack Neutron</li>
+                <li>Troubleshoot Neutron issues</li>
+              </ul>
+
+              <h2 class="inline-block">Audience</h2>
+              <p>Experienced Linux® system administrators responsible for managing OpenStack environments who want to learn:</p>
+
+              <ul>
+                <li>To configure scalable and distributed storage as a storage back end for OpenStack</li>
+                <li>To configure scalable and distributed storage as a storage back end for OpenStack</li>
+              </ul>
+		{% endcomment %}
+              <h2 class="inline-block">Lessons</h2>
+              <p>Experienced Linux® system administrators responsible for managing OpenStack environments who want to learn:</p>
+              <div class="number-list">
+              {% for chapter in lessons %}
+                <div class="number-item">
+                  <span>{{chapter.index}}</span>
+                  <h3> {{chapter.name}} </h3>
+                  <p class="c6"> Lesson : {{chapter.index}} <sup class="spacer">|</sup> Duration  {{chapter.duration}} hours</p>
+                  <p> {{chapter.description |striptags | truncatechars:"250"}} </p>
+                </div><!-- /.number item -->
+              {% endfor %}
+              </div><!-- /.number item -->
+
+              <div class="tagging mb-50">
+
+
+                <h4>Tagged in</h4>
+
+                {% for tag in certification_details.tags.all %}
+                    <a href="#"> {{ tag.name }} </a>
+                {% endfor %}
+
+              </div>
+
+
+              <div class="question">
+                <h5>Do you have questions? Get in touch.</h5>
+                <a href="#" class="btn-lg btn-default" data-toggle="modal" data-target="#rac">Contact us</a>
+              </div>
+            </article><!-- end of article -->
+          </div><!-- /.col -->
+
+          <!-- Modal for rac -->
+          <div class="modal fade" id="rac" role="dialog">
+            <div class="modal-content-call">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <div class="form-wrap-call">
+      	    <form method="post" action="{% url 'contact-popup-enquiry' %}" id="contact_popup_form">
+      	      {% csrf_token %}
+                  <ul>
+                    <li class="form-group">
+                       <input type="text" name="firstname" class="form-control" placeholder="Name*" required>
+                    </li>
+
+                    <li class="form-group">
+                       <input type="email" name="email_address" class="form-control" placeholder="e.g. example@gmail.com*" required>
+                    </li>
+
+                    <li class="form-group">
+      		      <input type="number" name="mobile_number" class="form-control"  placeholder="Mobile Number*" required>
+                    </li>
+      	    
+                    <li class="form-group">
+                       <textarea class="form-control" name="text_message" rows="3" placeholder="Type your query here*" required> </textarea>
+                    </li>
+      	      <!-- <li class="form-group">
+                            <img src="/captcha?rand={{ number }}" alt="Captcha" id="captchaimg" class="img-responsive">
+                    </li>
+                    <li class="form-group">
+                            <input type="text" name="captcha_code" id="captcha_code" class="form-control" placeholder="Captcha" required>
+                    </li> -->
+                    <!-- <li class="form-group">
+                            <a href="javascript:void(0);" onClick="refresh_captcha();">Refresh Captcha</a>
+                    </li> -->
+                    <li class="form-group">
+                       <button type="submit" class="btn-lg btn-default">Submit</button>
+                    </li>
+                  </ul>
+      	    </form>
+                </div><!-- /. Form wrap -->
+              </div>
+            </div>
+          </div><!-- /. Modal for rac-->
+
+
+          <!-- RHS starts here -->
+          <aside class="pull-left hidden-xs hidden-sm">
+              {% include 'home/sub_pages_sidebar.html'%}
+          </aside><!-- RHS ends here -->
+        </div>
+      </div><!-- /.container -->
+    </section><!-- /.section -->
+
+
+    <!-- Related courses tabs starts here -->
+    <section class="related-courses container-fluid grey-bg">
+      <div class="row">
+      <div class="container">
+        <div class="col-sm-12">
+          <div class="related-tab keywords">
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#courses" data-toggle="tab">Related courses </a></li>
+            <li><a href="#testimonials" data-toggle="tab">Related testimonials</a></li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content mt-30">
+            <div class="tab-pane active" id="courses">
+            <!-- slider starts here -->
+              {% include 'courses/related_courses.html' %}
+            <!-- slider ends here -->
+            </div><!-- /. tab-pane -->
+            <div class="tab-pane" id="testimonials">
+            <!-- Testimonials starts -->
+              {% include 'courses/related_testimonials.html' %}
+            <!-- /. Testimonials ends -->
+            </div><!-- /. tab-pane -->
+          </div><!-- /.tab-content -->
+
+          </div><!-- /.keywords -->
+        </div><!-- /.Col-sm-12 -->
+      </div><!-- /.container -->
+    </div><!-- /.row -->
+    </section><!-- Related courses tabs ends here -->
+    {% include 'home/footer.html' %}
+{% endblock %}

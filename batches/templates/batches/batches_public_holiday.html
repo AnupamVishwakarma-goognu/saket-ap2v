@@ -1,0 +1,211 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% block content %}
+    <div class="wrapper">
+        {% include 'website/sidebar.html' %}
+        {% include 'website/header.html' %}
+        <div class="main-panel">
+            <!-- Navbar -->
+            
+            <div class="content" style="margin:0; padding-bottom:0">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                          <h4 class="card-title mt-0">Batch Public Holiday List | <a href="#" onclick="openModal()"><i class="fa fa-plus" aria-hidden="true"></i> Add Holiday</a></h4>
+                            <div class="card data-tables">
+                              <div class="card-header">
+                                <div class="row align-items-center justify-content-between">
+                                  <div class="d-flex follow-up--filter">
+                                    <div class="float-right col-md-4 pr-3 pr-md-0">
+                                    </div><!-- // col -->
+
+                                    <div class="float-right col-md-4 pr-3 pr-md-0">
+                                      {% comment %} <input type="search" class="form-control" onkeypress="search_filter(event);" id="filters_search" value="{% if request.GET.n %}{{request.GET.n}}{% endif %}" placeholder="search..."> {% endcomment %}
+                                    </div><!-- // col -->
+
+                                    <div class="col-md-1 pr-3 pr-md-0 d-flex align-items-center justify-content-center">
+                                      {% comment %} <i class="fa fa-refresh text-info" onclick="window.location.href=`${window.location.pathname}`"></i> {% endcomment %}
+                                    </div><!-- // col -->                                    
+
+                                  </div><!-- // d-flex -->
+                                </div><!-- // Row -->
+                                
+                              </div>
+                                <div class="card-body table-striped table-no-bordered table-hover dataTable dtr-inline table-full-width">
+                                    <div class="toolbar" id="table_data">
+                                      <table id="datatables" class="table" cellspacing="0" width="100%">
+                                        <thead>
+                                            <th>#</th>
+                                            <th>Id</th>
+                                            <th>Added on</th>
+                                            <th>Holiday Date</th>
+                                            <th>Occasion</th>
+                                            
+                                        </thead>
+                                        <tbody>
+                                          {% for i in batch_public_holiday_obj %}
+                                            <tr>
+                                              <td>{{forloop.counter}}</td>
+                                              <td>{{i.id}}</td>
+                                              <td>{{i.added_on}}</td>
+                                              <td>{{i.off_date}}</td>
+                                              <td>{{i.occasion}}</td>
+                                            </tr>
+                                          {% endfor %}
+                                        </tbody>
+                                      </table>
+                                </div>
+                            </div>
+
+                            <div class="row mx-1">
+                              <div class="col-sm-12 col-md-5 font-size-base"><span class="mt-2 d-block">Showing {{ batch_obj.start_index }} - {{ batch_obj.end_index }} of {{ batch_obj.paginator.count }}</span></div>
+                              <div class="col-sm-12 col-md-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="datatables_paginate">
+                                    <ul class="pagination">
+                                      {% comment %} {% if batches.has_previous %}
+                                      <li class="paginate_button page-item previous" id="datatables_previous">
+                                      <a href="?page={{ batches.previous_page_number }}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                      </li>
+                                      {% else %}
+                                      <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                                      <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                      </li>
+                                      {% endif %}
+
+                                      {% for i in batches.paginator.page_range %}
+                                        {% if i %}
+                                          {% ifequal i batches.number %}
+                                            <li class="paginate_button page-item active">
+                                              <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                            </li>
+                                          {% else %}
+                                            <li class="paginate_button page-item">
+                                              <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                            </li>
+                                          {% endifequal %}
+                                        {% else %}
+                                          <li class="paginate_button page-item" id="nopage">
+                                            <a href="javaScript:void(0)" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" style="pointer-events: none;">...</a>
+                                          </li>
+                                        {% endif %}
+                                      {% endfor %}
+
+                                      {% if batches.has_next %}
+                                        <li class="paginate_button page-item next" id="datatables_next">
+                                        <a href="?page={{ batches.next_page_number }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                                        </li>
+                                      {% else %}
+                                        <li class="paginate_button page-item next disabled" id="datatables_next">
+                                        <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                                        </li>
+                                      {% endif %} {% endcomment %}
+
+                                      {% if batch_obj.has_previous %}
+                                        <li class="paginate_button page-item previous" id="datatables_previous">
+                                          <a aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" href="?page=1" tabindex="-1">FIRST</a>
+                                        </li>
+                                        <li class="paginate_button page-item previous" id="datatables_previous">
+                                          <a href="?page={{ batch_obj.previous_page_number }}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                        </li>
+                                        {% else %}
+                                        <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                                        <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">FIRST</a>
+                                        </li>
+                                        <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                                        <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                        </li>
+                                        {% endif %}
+
+                                        {% for i in batch_obj.paginator.page_range %}
+                                            {% if batch_obj.number == i %}
+                                                <li class="paginate_button page-item active">
+                                                <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                              </li>
+                                            {% elif i > batch_obj.number|add:'-5' and i < batch_obj.number|add:'5' %}
+                                                <li class="paginate_button page-item">
+                                                <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                              </li>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        {% if batch_obj.has_next %}
+                                          <li class="paginate_button page-item next" id="datatables_next">
+                                            <a href="?page={{ batch_obj.next_page_number }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                                          </li>
+                                          <li class="paginate_button page-item next" id="datatables_next">
+                                            <a href="{% if batch_obj.has_next %} ?page={{ batch_obj.paginator.num_pages }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link" {% endif %}>LAST</a>
+                                          </li>
+                                        {% else %}
+                                          <li class="paginate_button page-item next disabled" id="datatables_next">
+                                            <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                                          </li>
+                                          <li class="paginate_button page-item next disabled" id="datatables_next">
+                                            <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">LAST</a>
+                                          </li>
+                                      {% endif %}
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          {% include 'website/footer.html' %}
+        </div>
+      </div>
+
+      <!-- Wating Modal -->
+      <div class="modal fade" id="publicHolidayModal" tabindex="-1" aria-labelledby="publicHolidayLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <form action="/batches/add-batch-public-holiday" method="POST">
+            {% csrf_token %}
+            <div class="modal-content add-student">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="waitingModalLabel">Add Public Holiday Date</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                  
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                          <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Date</label>
+                                    <input type="date" class="form-control datetimepicker" name="holiday_date" placeholder="" required="true" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Ocassion</label>
+                                    <input type="text" class="form-control" name="ocassion" placeholder="On ocassion of Holi" required="true" />
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                  
+                </div>
+                <p style="font-size: 12px;padding: 0;margin: 0;color: red;margin-left: 30px;">A notification email will be send to all runing batch</p>
+                <div class="modal-footer">
+                  <button type="submit" id="" class="btn btn-info btn-fill px-4">Add Holiday</button>
+                </div>
+                
+              </form>
+            </div>
+        </div>
+      </div>
+
+      <script>
+
+        function openModal(){
+          $("#publicHolidayModal").modal("show");
+        }
+        
+      </script>
+{% endblock content %}

@@ -1,0 +1,536 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% block content %}
+    <div class="wrapper">
+        {% include 'website/sidebar.html' %}
+        {% include 'website/header.html' %}
+        <div class="main-panel">
+            <!-- Navbar -->
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <!--<div class="col-lg-3 col-sm-6">
+                            <div class="card card-stats">
+                                <div class="card-body ">
+                                    <div class="row">
+                                        {% comment %} <div class="col-5">
+                                            <div class="icon-big text-center icon-warning">
+                                                <i class="nc-icon nc-chart text-warning"></i>
+                                            </div>
+                                        </div> {% endcomment %}
+                                        <div class="col-12">
+                                            <div class="numbers">
+                                                <p class="card-category">Enquiry</p>
+                                                <h4 class="card-title" style="font-size:15px;">Last Day Enquires : {{last_day_enquiries_count}}</h4>
+                                                <h4 class="card-title" style="font-size:13px;line-height: 15px;">Today Enquires (Till Now): {{today_enquiries_obj_count}}</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer ">
+                                    <hr>
+                                    <div class="stats">
+                                        <i class="fa fa-book"></i> View More Report
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="card card-stats">
+                                <div class="card-body ">
+                                    <div class="row">
+                                        {% comment %} <div class="col-5">
+                                            <div class="icon-big text-center icon-warning">
+                                                <i class="nc-icon nc-light-3 text-success"></i>
+                                            </div> 
+                                        </div> {% endcomment %}
+                                        <div class="col-12">
+                                            <div class="numbers">
+                                                <p class="card-category">Enrollment</p>
+                                                <h4 class="card-title" style="font-size:15px;">Last Day Enrollments : {{last_day_enroll_count}}</h4>
+                                                <h4 class="card-title" style="font-size:13px;line-height: 15px;">Today Enrollments : {{today_enroll_obj_count}}</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer ">
+                                    <hr>
+                                    <div class="stats">
+                                        <i class="fa fa-calendar-o"></i> Last day
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="card card-stats">
+                                <div class="card-body ">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <div class="icon-big text-center icon-warning">
+                                                {% comment %} <i class="nc-icon nc-vector text-danger"></i> {% endcomment %}
+                                            </div>
+                                        </div>
+                                        <div class="col-7">
+                                            <div class="numbers">
+                                                <p class="card-category">Batches Running</p>
+                                                <h4 class="card-title">{{batch_obj_count}}</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer ">
+                                    <hr>
+                                    <div class="stats">
+                                        <i class="fa fa-clock-o"></i> Including Today
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="card card-stats">
+                                <div class="card-body ">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <div class="icon-big text-center icon-warning">
+                                                {% comment %} <i class="nc-icon nc-favourite-28 text-primary"></i> {% endcomment %}
+                                            </div>
+                                        </div>
+                                        <div class="col-7">
+                                            <div class="numbers">
+                                                <p class="card-category">Demo</p>
+                                                <h4 class="card-title">--</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer ">
+                                    <hr>
+                                    <div class="stats">
+                                        <i class="fa fa-refresh"></i> Update now
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div style="width: 100%;display: flex;justify-content: flex-end;">
+                            <form method="GET" action="/dashboard/all-filter">
+                            {% csrf_token %}
+                            <input type="date" value="{{date_from}}" id="" name="from" style="font-size: 13px;height: 24px;" required>
+                            <input type="date" value="{{date_to}}" id="" name="to" style="font-size: 13px;height: 24px;margin-left: 10px;" required>
+                            <button type="submit" id="" name="" class="btn btn-primary" style="margin-left: 10px;margin-right: 35px;padding: 0px 20px;height: 27px;font-size: 13px;margin-top: 4px;">Filter</button>
+                            </form>
+                        </div>
+                        <div class="col-lg-12" style="background: white;">
+                            <div style="display: flex;justify-content: flex-end;">
+                                <a href="javascript:void(0)"  onclick="zoomChart('Enquiries')"><i class="fa fa-arrows-alt" aria-hidden="true" style="margin-top: 10px;"></i></a>
+                            </div>
+                            <div class="chart-container" style="height: 230px;background: white;">
+                                <canvas id="bar-chartcanvas"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="margin-top: 15px;background: white;display: flex;">
+                            <div class="col-md-6" style="background: white;border-right: 5px solid #dee4f1;margin-top: 0px;">
+                                <div style="display: flex;justify-content: flex-end;">
+                                    <a href="javascript:void(0)"  onclick="zoomChart('Enrollments')"><i class="fa fa-arrows-alt" aria-hidden="true" style="margin-top: 10px;"></i></a>
+                                </div>
+                                <div class="chart-container" style="height: 230px;background: white;">
+                                    <canvas id="bar-chartcanvas_enroll"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-md-6" style="background: white;border-left: 5px solid #dee4f1;margin-top: 0px;">
+                                <div style="display: flex;justify-content: flex-end;">
+                                    <a href="javascript:void(0)"  onclick="zoomChart('Followups')"><i class="fa fa-arrows-alt" aria-hidden="true" style="margin-top: 10px;"></i></a>
+                                </div>
+                                <div class="chart-container" style="height: 230px;background: white;">
+                                    <canvas id="bar-chartcanvas_followups"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="margin-top: 15px;background: white;display: flex;">
+                            <div class="col-md-6" style="background: white;border-right: 5px solid #dee4f1;margin-top: 0px;">
+                                <div style="display: flex;justify-content: flex-end;">
+                                    <a href="javascript:void(0)"  onclick="zoomChart('Fees Collection')"><i class="fa fa-arrows-alt" aria-hidden="true" style="margin-top: 10px;"></i></a>
+                                </div>
+                                <div class="chart-container" style="height: 230px;background: white;">
+                                    <canvas id="bar-chartcanvas_fees"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-md-6" style="background: white;border-left: 5px solid #dee4f1;margin-top: 0px;">
+                                <div style="display: flex;justify-content: flex-end;">
+                                    <a href="javascript:void(0)"  onclick="zoomChart('Batch')"><i class="fa fa-arrows-alt" aria-hidden="true" style="margin-top: 10px;"></i></a>
+                                </div>
+                                <div class="chart-container" style="height: 230px;background: white;">
+                                    <canvas id="bar-chartcanvas_batch"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6" style="margin-top: 15px;background: white;display: flex;padding: 0px 0px;">
+                          <div class="col-md-12" style="background: white;border-right: 5px solid #dee4f1;margin-top: 0px;">
+                              <div style="display: flex;justify-content: flex-end;">
+                                  <a href="javascript:void(0)"  onclick="zoomChart('Demo')"><i class="fa fa-arrows-alt" aria-hidden="true" style="margin-top: 10px;"></i></a>
+                              </div>
+                              <div class="chart-container" style="height: 230px;background: white;">
+                                  <canvas id="bar-chartcanvas_demo"></canvas>
+                              </div>
+                          </div>
+                      </div> 
+                    </div>
+                </div>
+            </div>   
+            
+          {% include 'website/footer.html' %}
+    
+    <!--Send Email Modal -->
+        <div class="modal fade" id="ZoomChartModal" tabindex="-1" role="dialog" aria-labelledby="ZoomChartModalLabel" style="display: none;">
+            <div class="modal-dialog modal-lg" role="document" style="width: 1100px;">
+            <div class="modal-content" style="width:145%;height: 550px;position: absolute;left: 50%;top: 525%;transform: translate(-50%, -50%);" id="add_chart_data"> 
+                
+            </div>
+            </div>
+        </div>
+
+<script src="{% static 'chart/chart.js' %}"></script>
+
+<script>
+    $(document).ready(function () {
+
+      var ctx = $("#bar-chartcanvas");
+
+      var data = {
+        labels : [{% for i in enq_list_date %}'{{i}}',{% endfor %}],
+        datasets : [
+          {
+            label : "Enquiries",
+            data : [{% for j in enq_list_count %}{{j}},{% endfor %}],
+            backgroundColor :
+              "rgba(255, 181, 72, 0.5)",
+
+            borderColor :
+              "rgba(10, 20, 30, 1)",
+
+            borderWidth : 0.6
+          },
+        ]
+      };
+
+      var options = {
+        maintainAspectRatio: false,
+        title : {
+          display : true,
+          position : "top",
+          text : "Enquiries - Last {{delta_d}} days.",
+          fontSize : 14,
+          fontColor : "#111"
+        },
+        legend : {
+          display : true,
+          position : "bottom"
+        },
+        scales : {
+          yAxes : [{
+            ticks : {
+              min : 0
+            }
+          }]
+        },
+      };
+
+      var chart = new Chart( ctx, {
+        type : "line",
+        data : data,
+        options : options
+      });
+
+    });
+  </script>
+
+  <script>
+    $(document).ready(function () {
+
+      var ctx = $("#bar-chartcanvas_enroll");
+
+      var data = {
+        labels : [{% for i in enroll_list_date %}'{{i}}',{% endfor %}],
+        datasets : [
+          {
+            label : "Enrollments",
+            data : [{% for j in enroll_list_count %}{{j}},{% endfor %}],
+            backgroundColor :
+              "rgba(255, 181, 72, 0.5)",
+
+            borderColor :
+              "rgba(10, 20, 30, 1)",
+
+            borderWidth : 0.6
+          },
+        ]
+      };
+
+      var options = {
+        maintainAspectRatio: false,
+        title : {
+          display : true,
+          position : "top",
+          text : "Enrollments - Last {{delta_d}} days",
+          fontSize : 14,
+          fontColor : "#111"
+        },
+        legend : {
+          display : true,
+          position : "bottom"
+        },
+        scales : {
+          yAxes : [{
+            ticks : {
+              min : 0
+            }
+          }]
+        },
+      };
+
+      var chart = new Chart( ctx, {
+        type : "line",
+        data : data,
+        options : options
+      });
+
+    });
+  </script>
+
+  <script>
+    $(document).ready(function () {
+
+      var ctx = $("#bar-chartcanvas_followups");
+
+      var data = {
+        labels : [{% for i in followups_list_date %}'{{i}}',{% endfor %}],
+        datasets : [
+          {
+            label : "Followups",
+            data : [{% for j in followups_list_count %}{{j}},{% endfor %}],
+            backgroundColor :
+              "rgba(255, 181, 72, 0.5)",
+
+            borderColor :
+              "rgba(10, 20, 30, 1)",
+
+            borderWidth : 0.6
+          },
+        ]
+      };
+
+      var options = {
+        maintainAspectRatio: false,
+        title : {
+          display : true,
+          position : "top",
+          text : "Followups - Last {{delta_d}} days",
+          fontSize : 14,
+          fontColor : "#111"
+        },
+        legend : {
+          display : true,
+          position : "bottom"
+        },
+        scales : {
+          yAxes : [{
+            ticks : {
+              min : 0
+            }
+          }]
+        },
+      };
+
+      var chart = new Chart( ctx, {
+        type : "line",
+        data : data,
+        options : options
+      });
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+
+      var ctx = $("#bar-chartcanvas_fees");
+
+      var data = {
+        labels : [{% for i in installments_list_date %}'{{i}}',{% endfor %}],
+        datasets : [
+          {
+            label : "Fees Collection",
+            data : [{% for j in installments_list_count %}{{j}},{% endfor %}],
+            backgroundColor :
+              "rgba(255, 181, 72, 0.5)",
+
+            borderColor :
+              "rgba(10, 20, 30, 1)",
+
+            borderWidth : 0.6
+          },
+        ]
+      };
+
+      var options = {
+        maintainAspectRatio: false,
+        title : {
+          display : true,
+          position : "top",
+          text : "Fees Collection - Last {{delta_d}} days.",
+          fontSize : 14,
+          fontColor : "#111"
+        },
+        legend : {
+          display : true,
+          position : "bottom"
+        },
+        scales : {
+          yAxes : [{
+            ticks : {
+              min : 0
+            }
+          }]
+        },
+      };
+
+      var chart = new Chart( ctx, {
+        type : "line",
+        data : data,
+        options : options
+      });
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+
+      var ctx = $("#bar-chartcanvas_batch");
+
+      var data = {
+        labels : [{% for i in batch_list_date %}'{{i}}',{% endfor %}],
+        datasets : [
+          {
+            label : "Number of batch created per day",
+            data : [{% for j in batch_list_count %}{{j}},{% endfor %}],
+            backgroundColor :
+              "rgba(255, 181, 72, 0.5)",
+
+            borderColor :
+              "rgba(10, 20, 30, 1)",
+
+            borderWidth : 0.6
+          },
+        ]
+      };
+
+      var options = {
+        maintainAspectRatio: false,
+        title : {
+          display : true,
+          position : "top",
+          text : "Batches - Last {{delta_d}} days",
+          fontSize : 14,
+          fontColor : "#111"
+        },
+        legend : {
+          display : true,
+          position : "bottom"
+        },
+        scales : {
+          yAxes : [{
+            ticks : {
+              min : 0
+            }
+          }]
+        },
+      };
+
+      var chart = new Chart( ctx, {
+        type : "line",
+        data : data,
+        options : options
+      });
+
+    });
+</script>
+
+<script>
+  $(document).ready(function () {
+
+    var ctx = $("#bar-chartcanvas_demo");
+
+    var data = {
+      labels : [{% for i in demo_list_date %}'{{i}}',{% endfor %}],
+      datasets : [
+        {
+          label : "Number of demo created per day",
+          data : [{% for j in demo_list_count %}{{j}},{% endfor %}],
+          backgroundColor :
+            "rgba(255, 181, 72, 0.5)",
+
+          borderColor :
+            "rgba(10, 20, 30, 1)",
+
+          borderWidth : 0.6
+        },
+      ]
+    };
+
+    var options = {
+      maintainAspectRatio: false,
+      title : {
+        display : true,
+        position : "top",
+        text : "Demo - Last {{delta_d}} days",
+        fontSize : 14,
+        fontColor : "#111"
+      },
+      legend : {
+        display : true,
+        position : "bottom"
+      },
+      scales : {
+        yAxes : [{
+          ticks : {
+            min : 0
+          }
+        }]
+      },
+    };
+
+    var chart = new Chart( ctx, {
+      type : "line",
+      data : data,
+      options : options
+    });
+
+  });
+</script>
+    <script>
+        function zoomChart(type){
+            //alert(type)
+            $("#add_chart_data").empty();
+            $("#ZoomChartModal").modal("show");
+            graphData(type);
+        }
+
+        function graphData(type){
+          $('#add_chart_data').prepend('<img id="" style="height: 80px;width: 80px;top: 50%;margin-left: 47%;margin-top: 20%;" src={% static "assets/images/waiting-icon.jpg" %}><span style="text-align: center;">Loading...</span>')
+            //alert(type)
+            $.ajax({
+                type: "GET",
+                url: "/dashboard/get_chart_data",
+                data: {"from":"{{date_from}}","to":"{{date_to}}","type":type},
+                success: function (data) {
+                    $("#add_chart_data").empty();
+                    $('#add_chart_data').html(data)
+                },
+                error: function (data) {
+                    alert("Internal Server Error!!!");
+                },
+            });
+        }
+    </script>
+{% endblock content %}

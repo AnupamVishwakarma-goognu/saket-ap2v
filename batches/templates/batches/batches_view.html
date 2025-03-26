@@ -1,0 +1,534 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% load custom_tag %}
+{% load custom_tags %}
+{% block content %}
+<style>
+  .top-btn{
+    padding-bottom: 4px;
+    border-radius: 8px;
+    padding-top: 4px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .top-btn:hover{
+    color:white;
+    background-color:#447df7;
+  }
+  .top-btn-anh:hover{
+    color:white;
+  }
+</style>
+    <div class="wrapper">
+    {% include 'website/sidebar.html' %}
+    {% include 'website/header.html' %}
+      <div class="main-panel">
+      
+        <!-- End Navbar -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            {% comment %} <form id="update_batch" class="form-horizontal" action="{% url 'BatchupdateView' batches.id %}" method="post"> {% endcomment %}
+                            <form id="" class="form-horizontal" action="/batches/update_batch" method="post">
+                                {% csrf_token %}
+                                <div class="card ">
+                                    <div class="card-header" style="display: flex;justify-content: space-between;">
+                                        <h4 class="card-title">Batch Details</h4>
+                                        <div style="display: flex;">
+                                          <h5 class="card-title"> <a class="top-btn-anh top-btn" href="#" onclick="openBatchAttendanceDetailsModel('{{batches.id}}')"> <i class="fa fa-users" aria-hidden="true"></i> View Batch Attendance</a></h5>
+                                          <h5 class="card-title"> <a class=" top-btn-anh top-btn" href="#" onclick="openBatchDetailsModel('{{batches.id}}')"> <i class="fa fa-video-camera" aria-hidden="true"></i> View Batch Recordings</a></h5>
+                                        </div>
+                                        </div>
+                                    <div class="card-body">
+                                          <div class="col-md-6" style="padding-left: 0;">
+                                            <div class="form-group">
+                                                <label>Batch Type</label>
+                                                {% comment %} <div style="    margin-left: 10px;">
+                                                  <input type="radio" id="regular_batch" value="1" class="" name="batch_type" required="true" />
+                                                  <label for="regular_batch" style="margin-left: 5px;">Regular Batch</label>
+                                                  <input type="radio"  style="margin-left: 20px;" id="backup_batch" value="2" class="" name="batch_type" required="true" />
+                                                  <label for="backup_batch" style="margin-left: 5px;">Backup Batch</label>
+                                                </div> {% endcomment %}
+                                                <select id="batch_type" name="batch_type" class="selectpicker" required="true">
+                                                    <option disabled ></option>
+                                                    <option value="1" {% if batches.batch_type == "1" %} selected {% endif %} >Regular Batch</option>
+                                                    <option value="2" {% if batches.batch_type == "2" %} selected {% endif %}>Backup Batch</option>
+                                              </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                              <div class="form-group">
+                                                <label>Course </label>
+                                                <!-- <input type="text" class="form-control" name="course" value="{{ batches.courses.name }}"> -->
+                                                <select id="selectcourse" name="course" class="selectpicker" multiple size="10">
+                                                  {% for data in course %}
+                                                    {% for j in batches.courses.all %}
+                                                        {% if data.id == j.id %}
+                                                          <option selected value="{{ data.id }}">{{ data.name }}</option>
+                                                        {% else %}
+                                                          <option value="{{ data.id }}">{{ data.name }}</option>
+                                                        {% endif %}  
+                                                    {% empty %}
+                                                        <option value="{{ data.id }}">{{ data.name }}</option>                                                  
+                                                    {% endfor %}
+                                                  {% endfor %}
+                                                </select>
+                                              </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Start Date & Time</label>
+                                                    <input type="text" value="{{ batches.start_date_time }}" class="form-control datetimepicker" name="start_date_time" placeholder="{{ batches.start_date_time }}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                              <div class="form-group">
+                                                <label>Days Of Week</label>
+                                                  <select class="selectpicker" name="days_of_week" multiple size="7">
+                                                    <!-- <input type="text" name="days_of_week" class="form-control" value="{{ batches.days_of_week }}"> -->
+                                                    {% with batches.days_of_week|split:"," as batch_dows %}
+                                                      {% for dow in dows %}
+                                                        <option value="{{ dow.1 }}" {% if dow.1 in batch_dows %} selected='true' {% endif %}>{{ dow.1 }}</option>
+                                                      {% endfor %}
+                                                    {% endwith %}
+                                                  </select>
+                                              </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                              <div class="form-group">
+                                                <label>Instructors</label>
+                                                <select name="instructors" class="selectpicker">
+                                                  {% for trainer in instructors %}
+                                                    {% if batches.instructors.id == trainer.id %}
+                                                      <option selected="true" value="{{ trainer.id }}">{{ trainer.full_name }}</option>
+                                                    {% else %}
+                                                      <option value="{{ trainer.id }}">{{ trainer.full_name }}</option>
+                                                    {% endif %}
+                                                  {% endfor %}
+                                                </select>
+                                              </div>
+                                            </div>
+                                         </div>
+                                         <div class="row">
+                                           <div class="col-md-6">
+                                             <div class="form-group">
+                                               <label>Session Duration (min..)</label>
+                                               <input type="number" id="session_duration" onkeyup="session_duration_check(this);" name="session_duration" class="form-control" value="{{ batches.session_duration }}" required>
+                                             </div>
+                                           </div>
+                                             
+
+                                           <div class="col-md-6">
+                                             <div class="form-group">
+                                               <label>End Time</label>
+                                               <input type="text" class="form-control" value="{{ batches.end_date_time }}" readonly>
+                                             </div>
+                                           </div>
+                                         </div>
+
+                                         <div class="row">
+                                           <div class="col-md-6">
+                                             <div class="form-group">
+                                               <label>Created On</label>
+                                               <input type="datetime-local" class="form-control" value="{{ batches.get_update_created_dates.added_on }}" readonly>
+                                             </div>
+                                           </div>
+                                           <div class="col-md-6">
+                                             <label>Updated On</label>
+                                             <input type="datetime-local" class="form-control" value="{{ batches.get_update_created_dates.updated_on }}" readonly>
+                                           </div>
+                                         </div>
+                                         {% comment %} <div class="row">
+                                           <div class="col-md-12">
+                                             <div class="form-group">
+                                               <label>Candidates</label>
+                                               <input type="text" data-user-option-allowed="false" data-url="/enrollments/search" id="candidateSearch" class="form-control" multiple name="candidate" />
+                                             </div>
+                                           </div>
+                                         </div> {% endcomment %}
+
+                                         {% include 'batches/modal_batches.html' %}
+                                        <div class="row">
+                                          <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Batch Status</label>
+                                                <select class="selectpicker" name="batch_status">
+                                                      <option value="1" {% if batches.batch_status == "1" %}selected{% endif %} >Mark as complete</option>
+                                                      <option value="2" {% if batches.batch_status == "2" %}selected{% endif %}>Mark as merge</option>
+                                                      <option value="3" {% if batches.batch_status == "3" %}selected{% endif %}>Mark as discontinue</option>
+                                                      <option value="4" {% if batches.batch_status == "4" %}selected{% endif %}>Mark as Running</option>
+                                                </select>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <p style="font-size: 10px;color: red;margin-left: 20px;">**if you marked as complete, merge, discontinue. student unable to see option <b>join live class</b> in classroom</p>
+                                        <hr>
+                                        {% get_batch_fee_collection_details batches.id as amount %}  
+                                        <h6>Total Batch Fee Collection: &#8377;{{amount}}/-<h6>
+                                        <hr>
+                                        
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                {% comment %} Live Class URL: {% if batches.meeting_id != "0" %}<a href="https://bluejeans.com/{{batches.meeting_id}}/" target="__BLANK__"><u>https://bluejeans.com/{{batches.meeting_id}}/</u></a><br> {% else %} N/A<br> {% endif %} {% endcomment %}
+                                                {% comment %} <label>Moderator Passcode: {% if batches.moderator_passcode != "0" %}{{batches.moderator_passcode}} {% else %} N/A {% endif %}</label><br> {% endcomment %}
+                                                {% comment %} <label>Attendee Passcode: {% if batches.attendee_passcode != "0" %}{{batches.attendee_passcode}}{% else %} N/A {% endif %}</label><br> {% endcomment %}
+                                                <label onclick="copy01()"> <span style="color:#b7b0b0;">Instructor Join info </span>  <br>
+                                                  &nbsp;&nbsp; <textarea style="border: transparent;color: blueviolet;resize: none;width: 950px;" id="01" readonly cols=90 rows=3>Hello! Welcome to AP2V. Your Batch for {% get_batch_courses batches.id as course_name %}{{course_name}} has been scheduled for {{batches.start_date_time | date:"d/M/Y - g:i A" }} and the batch ID is {{batches.id}}, You can join the session using the login credentials.</textarea> <br>
+                                                  &nbsp;&nbsp;<span> <i style="font-size:15px" class="fa">&#xf0c5;</i> Copy Instructor joining info</span> &nbsp;&nbsp;<span style="color:green" id="stu_join"></span></label></br> <br>
+
+                                                {% comment %} <label onclick="copy02()"> <span style="color:#b7b0b0;">Student Join info:</span> <br>
+                                                  &nbsp;&nbsp; <textarea style="border: transparent;color: blueviolet;resize: none;width: 950px;" id="02" cols=90 rows=1>Hello! Welcome to AP2V. Your Batch for {% get_batch_courses batches.id as course_name %}{{course_name}} has been scheduled for {{batches.start_date_time | date:"d/M/Y - g:i A"}}, You can join the session using the link {{batches.bitly_link_student_mobile}}.</textarea> <br>
+                                                  &nbsp;&nbsp;<span> <i style="font-size:15px" class="fa">&#xf0c5;</i> Copy Student joining info</span> &nbsp;&nbsp;<span style="color:green" id="inst_join"></span></label></br> {% endcomment %}
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                          <table class="table table-sm">
+                                            <thead>
+                                              <tr style="background-color: aliceblue;">
+                                                <th scope="col">#</th>
+                                                <th scope="col">Meeting Id</th>
+                                                <th scope="col">Instructore Passcode</th>
+                                                <th scope="col">Student Passcode</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                                  <tr>
+                                                    <th scope="row">1</th>
+                                                    <td>{{batches.meeting_id}}</td>
+                                                    <td>{{batches.moderator_passcode}}</td>
+                                                    <td>{{batches.attendee_passcode}}</td>
+                                                  </tr>
+                                            </tbody>
+                                          </table>
+                                        </div>
+                                        
+                                        <hr>
+                                        <p style="text-align:center"> Batch Student Info </p>
+                                        <div class="col-md-12" style="height: 300px;overflow: overlay;">
+                                          <table class="table table-sm">
+                                            <thead>
+                                              <tr style="background-color: aliceblue;">
+                                                <th scope="col">Sr No</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Mobile</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Enroll id</th>
+                                                <th scope="col">Enrolled by</th>
+                                                <th scope="col">Discussed Fee</th>
+                                                <th scope="col"></th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              {% for i in batches.enroll_student.all %}
+                                                <tr>
+                                                  <th scope="row">{{forloop.counter}}</th>
+                                                  <td>{{i.enquiry_course_id.enquiry_id.full_name}}{% if i.enroll_type == "2" %} - (Revision) {% endif %} {% if i.certificate_issued %} <span title="{{i.certificate_uuid}}" >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-patch-check" viewBox="0 0 16 16">
+                                                      <path fill-rule="evenodd" d="M10.354 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                                                      <path d="m10.273 2.513-.921-.944.715-.698.622.637.89-.011a2.89 2.89 0 0 1 2.924 2.924l-.01.89.636.622a2.89 2.89 0 0 1 0 4.134l-.637.622.011.89a2.89 2.89 0 0 1-2.924 2.924l-.89-.01-.622.636a2.89 2.89 0 0 1-4.134 0l-.622-.637-.89.011a2.89 2.89 0 0 1-2.924-2.924l.01-.89-.636-.622a2.89 2.89 0 0 1 0-4.134l.637-.622-.011-.89a2.89 2.89 0 0 1 2.924-2.924l.89.01.622-.636a2.89 2.89 0 0 1 4.134 0l-.715.698a1.89 1.89 0 0 0-2.704 0l-.92.944-1.32-.016a1.89 1.89 0 0 0-1.911 1.912l.016 1.318-.944.921a1.89 1.89 0 0 0 0 2.704l.944.92-.016 1.32a1.89 1.89 0 0 0 1.912 1.911l1.318-.016.921.944a1.89 1.89 0 0 0 2.704 0l.92-.944 1.32.016a1.89 1.89 0 0 0 1.911-1.912l-.016-1.318.944-.921a1.89 1.89 0 0 0 0-2.704l-.944-.92.016-1.32a1.89 1.89 0 0 0-1.912-1.911l-1.318.016z"/>
+                                                    </svg></i></span>{% endif %}
+                                                  </td>
+                                                  <td>{{i.enquiry_course_id.enquiry_id.mobile}}</td>
+                                                  <td>{{i.enquiry_course_id.enquiry_id.email}}</td>
+                                                  <td> <a href="/enrollments/view/{{i.id}}/" target="__BLANK__">{{i.id}}</a></td>
+                                                  <td >{{i.registered_by}}</td>
+                                                  <td>&#8377;{{i.discussed_fee}}</td>
+                                                  
+                                                  {% if request.user.is_superuser %}
+                                                    <td> <a href="javascript:void(0)" onclick="removeStudentFromBatch('{{i.id}}')"><i class="fa fa-trash"></i></a> </td>
+                                                  {% endif %}
+                                                </tr>
+                                              {% endfor %}
+                                            </tbody>
+                                          </table>
+                                        </div>
+                                    </div>
+
+                                      <input type="text"  hidden id="candidateSearchlist2" name="candidate2">
+                                      <input type="text" hidden name="batch_id" value={{batches.id}} id="">
+
+                                      <div class="card-footer text-center" style="display: flex;justify-content: space-between;">
+                                      <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+                                        Total Student in batch : {{batches.enroll_student.all.count}}
+                                        <button type="submit" class="btn btn-info float-right" value="Reset Form">Update Batch</button>
+                                      </div>
+                                        
+                                    </hr>
+                                      
+                                      <div class="col-md-12" style="height: 300px;overflow: overlay;border-top: 1px solid #e8d3d3;margin-top: 10px;padding-top: 20px;">
+                                        <p style="text-align:center"> Batch Session off </p>
+                                        <table class="table table-sm">
+                                          <thead>
+                                            <tr style="background-color: aliceblue;">
+                                              <th scope="col">Sr No</th>
+                                              <th scope="col">Date</th>
+                                              <th scope="col"></th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            {% for i in batch_session_off %}
+                                              <tr>
+                                                <th scope="row">{{forloop.counter}}</th>
+                                                <td>{{i.off_date}}</td>
+                                                {% comment %} <td> <a href="javascript:void(0)" onclick="removeOffSessionDate('{{i.id}}')"><i class="fa fa-trash"></i></a> </td> {% endcomment %}
+                                              </tr>
+                                            {% endfor %}
+                                          </tbody>
+                                        </table>
+                                        <button type="button" onclick="openAddDateModal()" class="btn btn-info float-right" style="margin-bottom: 25px;">Add Date</button>
+                                      </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          {% include 'website/footer.html' %}
+        </div>
+      </div>
+  
+  
+<!-- Modal -->
+<div class="modal fade" id="confirmDeleteStudent" tabindex="-1" aria-labelledby="confirmDeleteStudentLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content add-student">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteStudentLabel">Delete student from batch</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label>Are you sure to remove this student.</label>
+                            <input type="text" hidden id="deleteStudentid" value="">
+                            <br>
+                            <button type="button" onclick="deleteStudent()" class="btn btn-info float-right">Remove</button>
+                        </div>
+                    </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Add Date Modal -->
+<div class="modal fade" id="AddDateModalOffSession" tabindex="-1" aria-labelledby="AddDateModalOffSessionLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content add-student">
+          <div class="modal-header">
+              <h5 class="modal-title" id="confirmDeleteStudentLabel">Add Date if any off for class/batch-session.</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+                  <div class="row">
+                    <form action="/batches/add-batch-session-off-date" method="POST">
+                      {% csrf_token %}                      
+                      <div class="col-md-12 mb-3">
+                          <label>Please Select date, and save.</label>
+                          <input type="text" hidden id="batchId" value="" name="batchId">
+                          <input type="date"  id="addDateOff" name="addDateOff" style="margin-left: 86px;font-size: 11px;margin-bottom: 30px;">
+                          <br>
+                          <button type="submit" class="btn btn-info float-right">Save</button>
+                      </div>
+                  </div>
+          </div>
+          
+      </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+    <div class="modal fade" id="batchDetailsModal" tabindex="-1" role="dialog" aria-labelledby="batchDetailsModalLabel"
+        style="display: none;">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="width: 680px;margin-left: 45px;">
+                <div class="modal-header">
+                    <h4 class="modal-title mt-0" id="myModalLabel">Batch Recordings Details</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="padding-top: 0px;">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            
+                        </div>
+
+                        <div class="form-group col-md-12" id="batch_student_details">
+
+                        </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<!-- Modal -->
+<div class="modal fade" id="batchDetailsModalAttendance" tabindex="-1" role="dialog" aria-labelledby="batchDetailsModalAttendanceLabel" style="display: none;">
+  <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content" style="width: 680px;margin-left: 45px;">
+          <div class="modal-header">
+              <h4 class="modal-title mt-0" id="myModalLabel2">Batch Attendance Details</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body" style="padding-top: 0px;">
+              <div class="row">
+                  <div class="form-group col-md-12">
+                      
+                  </div>
+
+                  <div class="form-group col-md-12" id="batch_student_details_attendance">
+
+                  </div>
+              </div>
+          </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+{% endblock content %}
+{% block extra_js %}
+  <script>
+    {% for i in student_data %}
+      $(".fstControls").append('<div onclick="window.location.href = `/enquiries/view/{{ i.enquiry_id | safe }}/`" data-text="{{ i.text | safe }}" data-value="{{ i.value | safe }}" class="fstChoiceItem">{{ i.text | safe }}<button class="fstChoiceRemove" type="button">×</button></div>')
+    {% endfor %}
+  </script>
+
+  <script>
+    function copy01(){
+      var copyText01 = document.getElementById("01")
+      copyText01.select();
+      document.execCommand("Copy");
+      //alert("Instructor Join Link Copied.")
+      $("#inst_join").text("")
+      $("#stu_join").text("Joining info copied.")
+      
+    }
+
+    function copy02(){
+      var copyText02 = document.getElementById("02")
+      copyText02.select();
+      document.execCommand("Copy");
+      //alert("Student Join Link Copied.")
+      
+      $("#stu_join").text("")
+      $("#inst_join").text("Joining info copied.")
+    }
+
+
+    function removeStudentFromBatch(id){
+      if(id){
+            $('#confirmDeleteStudent').modal('show');
+            $('#deleteStudentid').val(id)
+        }
+    }
+
+    function deleteStudent(){
+      id = $('#deleteStudentid').val()
+      if(id){
+            $.ajax({
+                type: "GET",
+                data : {"id":id,"batch_id":"{{batches.id}}"},
+                url: "/batches/removeStudentFromBatch", 
+                success: function(data){
+                    //alert("Success")
+                    location.reload();
+                },
+                error: function(data){
+                    alert("Internal Server Error !!!")
+                }
+            });
+        }
+    }
+
+/*
+    function openBatchDetailsModel(batch_id){
+            $('#batchDetailsModal').modal('show'); 
+            $("#batch_student_details").empty();
+            $('#batch_student_details').prepend('<img id="theImg" style="height: 50px;padding-left: 43%;" src={% static "assets/images/waiting-icon.jpg" %}>')
+            $.ajax({
+                type: "GET",
+                url: "/batches/get_batch_recording?batch_id="+batch_id,
+                data: {},
+                success: function (data) {
+                    $("#batch_student_details").empty();
+                    $('#batch_student_details').html(data)
+                },
+                error: function (data) {
+                    alert("Internal Server Error!!!");
+                },
+            });
+        };
+*/
+
+function openBatchDetailsModel(batch_id){
+            //alert(batch_id)
+            $('#batchDetailsModal').modal('show'); 
+            $("#batch_student_details").empty();
+            $('#batch_student_details').prepend('<img id="theImg" style="height: 50px;padding-left: 43%;" src={% static "assets/images/waiting-icon.jpg" %}>')
+            $.ajax({
+              url: '/batches/get_recording_for_anquira',
+              data: {"meeting_id":"{{batches.id}}"},
+              type: 'POST',
+              success: function(data) {
+                  //$("#loading_loader").hide()
+                  //$("#loading_loader2").hide();
+                  //$("#course_recording_board").show()
+                  //$('#course_recording_board').html(data)
+                  $("#batch_student_details").empty();
+                  $('#batch_student_details').html(data)
+              },
+              error: function() {
+                  alert("Internal Server Error!!!");
+              },
+            });
+        };
+
+      function openBatchAttendanceDetailsModel(batch_id){
+          $('#batchDetailsModalAttendance').modal('show'); 
+          $("#batch_student_details_attendance").empty();
+          $('#batch_student_details_attendance').prepend('<img id="theImg" style="height: 50px;padding-left: 43%;" src={% static "assets/images/waiting-icon.jpg" %}>')
+          $.ajax({
+            url: '/batches/get_batch_attendance',
+            data: {"batch_id":batch_id},
+            type: 'GET',
+            success: function(data) {
+                //$("#loading_loader").hide()
+                //$("#loading_loader2").hide();
+                //$("#course_recording_board").show()
+                //$('#course_recording_board').html(data)
+                $("#batch_student_details_attendance").empty();
+                $('#batch_student_details_attendance').html(data)
+            },
+            error: function() {
+                alert("Internal Server Error!!!");
+            },
+          });
+      };
+
+      function openAddDateModal(request){
+        $('#AddDateModalOffSession').modal('show'); 
+        $("#batchId").val('{{batches.id}}')
+      }
+  </script>
+  
+  
+{% endblock extra_js %}

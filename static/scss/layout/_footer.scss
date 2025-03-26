@@ -1,0 +1,72 @@
+.footer {
+    background-color: #252525;
+    background-image: url('../images/footer.webp');
+    background-size: cover;
+    padding-top: 30px;
+    color: rgba($white, .7);
+
+    h3 {
+        color: $white;
+        margin-bottom: 15px;
+    }
+
+    &--smo {
+        a {
+            font-size: 20px;
+            color: rgba($white, .9);
+            margin: 0 5px;
+        }
+    }
+
+    &--lists {
+        padding-left: 15px;
+
+        li {
+            list-style-type: disc;
+
+            &:not(:last-child) {
+                margin-bottom: 10px;
+            }
+
+            a {
+                color: rgba($white, .9);
+
+                &:hover {
+                    color: $primary;
+                }
+            }
+        }
+    }
+
+    &--copyright {
+        background-color: $secondary;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $white;
+    }
+
+    &--subFooter {
+        background-color: rgba($secondary, .95);
+
+        h4 {
+            color: rgba($white, .7);
+            font-size: 15px;
+        }
+
+        li {
+
+            &:not(:last-child) {
+                margin-bottom: 10px;
+            }
+
+            a {
+                color: rgba($white, .4);
+                font-size: 13px;
+            }
+        }
+
+        
+    }
+}

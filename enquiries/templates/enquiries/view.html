@@ -1,0 +1,617 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% block content %}
+    <div class="wrapper">
+        {% include 'website/sidebar.html' %}
+        {% include 'website/header.html' %}
+        <div class="main-panel">
+            <!-- Navbar -->
+            
+            
+            <!-- Start EnquiryCourses -->
+            {% if enq_obj %}
+            <div class="container-fluid">
+                <div class="container">
+                  <div class="row">
+                      <div class="col-md-12">
+			                  <br>
+                          <div class="card data-tables">
+                            <div class="card-header">
+                              <div class="d-flex align-items-center justify-content-between">
+                                <h4 class="card-title mt-0">Duplicate Enquiry Found</h4>
+                              </div>
+                              
+                            </div>
+                            
+                              <div class="card-body table-striped table-no-bordered table-hover dataTable dtr-inline">
+                                  <div class="table-reponsive" style="overflow-y: scroll;height: 250px;">
+                                      <table class="table table-striped">
+                                        <thead>
+                                          <tr>
+                                            <th>#</th>
+                                            <th>Id</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Mobile</th>
+                                            <th>Added on</th>
+                                            <th></th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for i in enq_obj %}
+                                                <tr>
+                                                    <td>{{forloop.counter}}</td>
+                                                    <td>{{i.id}}</td>
+                                                    <td>{{i.full_name}}</td>
+                                                    <td>{{i.email}}</td>
+                                                    <td>{{i.mobile}}</td>
+                                                    <td>{{i.added_on}}</td>
+                                                    <td><a href="/enquiries/view/{{i.id}}/">View</a></td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                      </table>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+
+
+              <div class="container-fluid">
+                <div class="container">
+                  <div class="row">
+                      <div class="col-md-12">
+			                  <br>
+                          <div class="card data-tables">
+                            <div class="card-header">
+                              <div class="d-flex align-items-center justify-content-between">
+                                <h4 class="card-title mt-0">Courses</h4>
+                                <button class="btn btn-secondary mb-0" id="modaldataToggle" data-toggle="modal" data-target="#AddCourse"><i class="fas fa-plus mr-1"></i>Add</button>
+                              </div>
+                              
+                            </div>
+                            <!-- Modal Start here -->
+                              <div class="modal fade" id="AddCourse" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="padding:0; margin:0">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content" style="width:700px">
+                                    <div class="modal-header">
+                                      <h4 class="modal-title mt-0">Add Course</h4>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body" style="width:100%">
+                                      <form class="form" id="add_course_form" method="post" action="{% url 'add_course' enquiry.id %}">
+                                          {% csrf_token %}
+                                          <div class="row">
+                                            <div class="col-md-12 pr-l">
+                                              <div class="form-group">
+                                                <label>Courses</label>
+                                                <select class="selectpicker" name="courseid">
+                                                  {% for course in courses %}
+                                                    <option value="{{ course.id }}" {% if course  in selected_courses%} disabled {% endif %}>{{ course.name }} {% if course.typee == 1 %} (Course) {% elif course.typee == 2 %} (Exam) {% elif course.typee == 3 %} (Book) {% endif %} {% if course in selected_courses%}(Already Added){% endif %}</option>
+                                                  {% endfor %}
+                                                </select>
+                                              </div>
+                                            </div>
+                                        </div>
+                                        <script>
+                                          var enquiry__id = {{ enquiry.id }}
+                                        </script>
+                                        <button type="submit" class="btn btn-secondary btn-fill"><i class="fas fa-plus mr-1"></i>Add</button>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                              <div class="card-body table-striped table-no-bordered table-hover dataTable dtr-inline">
+                                <form action="/enrollments/1001/" method="POST">
+                                {% csrf_token %}
+                                  <div class="table-reponsive">
+                                      <table class="table">
+                                          <thead>
+                                              <tr>
+                                                <th><h6>Enroll</h6></th>
+                                                <th><h6>Course</h6></th>
+                                                <th><h6>Duration (Hrs)</h6></th>
+                                                <th><h6>Status</h6></th>
+                                                <th><h6>Action</h6></th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                            {% for data in EnquireCourseData %}
+                                            <tr>
+					      <td><input {% if data.status == 1 %} checked disabled {% endif %} type="checkbox" value="{{data.id}}" class="enroll_courses" name="enroll_courses" style="height: 17px;width: 47px;" onclick="stickyheaddsadaer(this,'{{data.id}}')"></td>
+                
+					      <td>{{ data.courses }} {% if data.courses.typee == 1 %} (Course) {% elif data.courses.typee == 2 %} (Exam) {% elif data.courses.typee == 3 %} (Book) {% else %} (**TND) {% endif %}</td>
+                                              <td> {{ data.courses.duration }} </td>
+                                              <td>
+                                                {% if data.get_status_display != "None" %}
+                                                  {{data.get_status_display}}
+                                                {% if data.get_status_display == "Discarded" %}<br>Reason: {{ data.comment }}{% endif%}
+                                                {% else %}
+                                                  -
+                                                {% endif %}
+                                              </td>
+                                              <td>
+                                                <div class="dropdown" >
+                                                  <button class="" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" style="border: none !important; background: transparent !important;" aria-expanded="false">
+                                                    <div style="width: 10px;height: 22px;background-image: radial-gradient(circle, black 2px, transparent 2px);background-size: 108% 33.33%;"></div>
+                                                  </button>
+                                                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    {% if data.status == 2 %}
+                                                      <a class="dropdown-item" href="#" onclick="EnquireCourseDataUnDiscard('/enquiries/discard_course/{{ data.id }}/');">Un-Discard</a>
+                                                    {%else%}
+                                                      {% if data.status != 1 %}
+                                                      {% comment %} <a class="dropdown-item" href="#" onclick="enrollFunction('/enrollments/{{ data.id }}/');">Enroll</a> {% endcomment %}
+                                                      <a class="dropdown-item" href="#" onclick="EnquireCourseDataDiscard('/enquiries/discard_course/{{ data.id }}/',true);">Discard</a>
+                                                      {%endif%}
+                                                      
+                                                      
+                                                    {% endif %}
+                                                  </div>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                            {% endfor %}
+                                          </tbody>
+                                      </table>
+                                      <p style="color: blue;background-color: bisque;padding-left: 15px; line-height: 36px;">{% if pay == True %} Payment link Generated amount is <span style="color: #e10d34;"> Rs:{{amount}}/-</span> {% endif %} </p>
+                                  </div>
+                                  <button id="enroll_courses_btn" type="submit" class="btn btn-secondary btn-fill pull-right">Enroll</button>
+                                </form>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            <!-- end EnquiryCourses -->
+            <!-- Followups start -->
+            <div class="container-fluid">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-md-12 col-sm-12">
+                          <div class="card data-tables">
+                            <div class="card-header">
+                              <div class="d-flex align-items-center justify-content-between">
+                                <h4 class="card-title mt-0">Followups</h4>
+                                <button class="btn btn-secondary mb-0" id="modaldataToggle" data-toggle="modal" data-target="#AddFollowups"><i class="fas fa-plus mr-1"></i>Add</button>
+                              </div>
+
+                              <div class="modal fade" id="AddFollowups" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content" style="width:700px">
+                                    <div class="modal-header">
+                                      <h4 class="modal-title mt-0">Add followup</h4>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <form onsubmit="return results();" class="form" method="post" action="/enquiries/followups/{{ enquiry.id }}/">
+                                        {% csrf_token %}
+                                          <div class="row">
+                                            <div class="col-md-6 pr-l">
+                                              <div class="form-group">
+                                                  <label class="col-form-label">FollowUp_Mode</label>
+                                                  <select id ="followupMode" class="selectpicker" name="followups_mode">
+                                                  <option value="call">Call</option>
+                                                  <option value="email">Email</option>
+                                                  <option value="walk-in">Walk-in</option>
+                                                  </select>
+                                              </div>
+                                            </div>
+                                            <div class="form-group">
+                                              <label class="col-form-label">Followup Interest</label>
+                                              <select id="student_response" class="form-control selectpicker" name="student_response" required>
+                                                {%for student_response in student_responses %}
+                                                <option value="{{student_response.id}}">{{student_response.response}}</option>
+                                                {%endfor%}
+                                              </select>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-6 pr-l">
+                                              <div class="form-group">
+                                              <label for="next_followup" class="col-form-label">Next_FollowUp</label>
+					      <!-- Commented temp -->
+                                              <!--<input id="nextFolloup" type="text"  data-date-min-date="{{mindate}}"  {%if maxdate%}data-date-max-date="{{maxdate}}"{%endif%} class="form-control datetime-input" name="next_followup"  required>-->
+                                              <input id="nextFolloup" type="text"  data-date-min-date="{{mindate}}" class="form-control datetime-input" name="next_followup"  required>  
+                                              </div>
+                                            </div>
+                                            <div class="col-md-6 pr-l">
+                                            <!-- <div class="form-group">
+                                              <label class="col-form-label">Next Followup Mode</label>
+                                              <select id="response" class="form-control selectpicker" name="response" required>
+                                                <option value="call">Call</option>
+                                                <option value="email">Email</option>
+                                                <option value="visit">Visits</option>
+                                              </select>
+                                            </div> -->
+                                          </div>
+                                          
+                                        </div>
+                                        <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                          <div class="form-group">
+                                            <label for="comments" class="col-form-label">Comments</label>
+                                            <textarea id="comment" class="form-control" name="comment" style="height:50px" required></textarea>
+                                          </div>
+                                          </div>
+                                      </div>
+                                        <!-- <input type="hidden" name="enqId" value="{{ enquiry.id }}"> -->
+                                        <button type="submit" class="btn btn-secondary btn-fill"><i class="fas fa-plus mr-1"></i>Add</button>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                              <div class="card-body table-striped table-no-bordered table-hover dataTable dtr-inline">
+                                <div class="table-reponsive">
+                                  <table class="table">
+                                    <thead>
+                                      <!-- <th data-field="state" data-checkbox="true"></th> -->
+                                      <th data-field="id" class="text-center">Id</th>
+                                      <th data-field="text" data-sortable="true">Mode</th>
+                                      <th data-field="text" data-sortable="true">Student Response</th>
+                                      <th data-field="city" data-sortable="true">Next Followup Date</th>
+                                      <th data-field="city" data-sortable="true">Comment</th>
+                                      <th data-field="city" data-sortable="true">Added By</th>
+                                      <th data-field="city" data-sortable="true">Added On</th>
+                                      <th data-field="city" data-sortable="true">Completed</th>
+                                      <!--<th data-field="actions" class="td-actions text-right" data-events="operateEvents"
+                                        data-formatter="operateFormatter">Discard</th>-->
+                                    </thead>
+                                    <tbody>
+                                      {% for follow in followups %}
+                                      <tr>
+                                        <td>{{ follow.id }}</td>
+                                        <td>{{ follow.followup_mode }}</td>
+                                        <td>{{ follow.student_response.response }}</td>
+					<td title="{{ follow.next_followup }}">{{ follow.next_followup}}</td>
+                                        <td>{{ follow.comments }}</td>
+                                        <td>{%if follow.assigned_user %}{{ follow.assigned_user.name }}{%else %}-{%endif%}</td>
+					<td title="{{ follow.added_on }}">{{ follow.added_on|date:"d-M-Y" }}</td>
+					<td>{% if follow.is_complete %} Yes {% else %} No{% endif %}</td>
+                                        <!--<td>
+                                          <input type="checkbox" class="form-check-input mr-3 float-right"
+                                            onchange="discard_followups(event, '{% url 'DiscardFollowupsView' follow.id %}');" {% if follow.discard %}
+                                            checked {% endif %}>
+					</td>-->
+                                      </tr>
+                                      {% endfor %}
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+
+
+            <!-- End Navbar -->
+            <div class="content" style="margin:0; padding:0;">
+              <div class="container-fluid">
+                  <div class="section-image" data-image="{% static 'assets/img/bg5.jpg' %}" >
+                      <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
+                      <div class="container">
+                          <div class="row mt-4">
+                              <div class="col-md-12 col-sm-12">
+                                  <form class="form" id="update_enquiry" method="post" action="/enquiries/enquiry_update/{{ enquiry.id }}/">
+                                      {% csrf_token %}
+                                      <h4 class="card-title mt-0">VIEW ENQUIRY</h4>
+                                      <div class="card ">
+                                        <div class="card-body ">
+                                              <div class="row">
+                                                  <div class="col-md-6 pr-1">
+                                                      <div class="form-group">
+                                                          <label>Reference</label>
+                                                          <select name="reference" id="reference" class="selectpicker" placeholder="Reference" required>
+                                                          <!-- <input type="text" value="{{ enquiry.reference }}" name="reference" class="form-control" placeholder="Reference" required autofocus> -->
+                                                            {% for i in ReferenceModeChoices %}
+                                                              <option value="{{ i.1 }}" {% if i.1 == enquiry.reference %} selected {% endif %}>{{ i.1 }}</option>
+                                                            {% endfor %}
+                                                          </select>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-6 pr-1">
+                                                      <div class="form-group">
+                                                          <label>Fullname</label>
+                                                          <input type="text" name="fullname" value="{{ enquiry.full_name }}" class="form-control" placeholder="Username">
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                              <div class="row">
+                                                  <div class="col-md-6 pr-1">
+                                                      <div class="form-group">
+                                                          <label>Email</label>
+                                                          <input type="email" name="email" value="{{ enquiry.email }}" class="form-control" placeholder="Email">
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-1 pr-1">
+                                                    <div class="form-group"  style="width: 130%;">
+                                                      <label>Country</label>
+                                                      {% get_couontry_from_ip enquiry.source_ip as country_code_short %}
+                                                      <select name="con_code" id="con_code" class="" style="width: 93px;height: 40px;border: 1px solid #E3E3E3;border-radius: 4px;outline: none;">
+                                                          {% for i in con_codev %}
+                                                            <option value="{{ i.dialing_code }}" {% if i.dialing_code == enquiry.country_code %}selected{% endif %}>{{i.dialing_code}} {{ i.country }}</option>
+                                                          {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                  <div class="col-md-5 pr-1">
+                                                      <div class="form-group" style="margin-bottom: 3px;">
+                                                          <div style="display: flex;justify-content: space-between;"><label>Mobile</label> <span style="font-size: 9px;">[country code for that ip: {{country_code_short}}]</span></div>
+                                                          <input type="text" name="mobile" value="{{ enquiry.mobile }}" class="form-control" placeholder="Mobile">
+                                                      </div>
+                                                      <div style="text-align: start;">
+                                                        <p style="margin-bottom: 0px;font-size: 10px;">User Selected code : {{enquiry.country_code}} </p>
+                                                        <p style="margin-bottom: 0px;font-size: 10px;">System detected code a/c to ip : {{country_code_short}} </p>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                              <div class="row">
+                                                  <div class="col-md-6 pr-1">
+                                                      <div class="form-group">
+                                                          <label>Company</label>
+                                                          <input type="text" name="company" value="{{ enquiry.company_name }}" class="form-control" placeholder="Company">
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-6 pr-1">
+                                                      <div class="form-group">
+                                                          <label>Designation</label>
+                                                          <input type="text" name="designation" value="{{ enquiry.designation }}" class="form-control" placeholder="Designation">
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                              <div class="row">
+                                                   <div class="col-md-6 pr-l">
+                                                      <div class="form-group">
+                                                          <label>Batch Preference</label>
+                                                      <select name="select_days"  class="selectpicker" multiple="multiple">
+                                                          {% for days_of_week in days_of_week_all %}
+                                                            <option value="{{ days_of_week.1 }}" {% if days_of_week.1 in working_days %} selected='true' {% endif %}>{{ days_of_week.1 }}</option>
+                                                          {% endfor %}
+                                                      </select>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-6 pr-l">
+                                                      <div class="form-group">
+                                                          <label>Batch Time Preference</label>
+                                                          <input type="text" id="datetimepicker" name="batch_time" value="{{ enquiry.batch_time }}" class="form-control timepicker" placeholder="Time Picker Here">
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                              <div class="row">
+                                                <div class="col-md-6 pr-l">
+                                                  <div class="form-group">
+                                                    <label>Training Mode</label>
+                                                    <select class="selectpicker" name="training_mode" required>
+                                                      {% for i in TrainingModeChoices %}
+                                                        <option value="{{ i.0 }}" {% if enquiry.training_mode == i.0 %} selected='true' {% endif %}>{{ i.1 }}</option>
+                                                      {% endfor %}
+                                                    </select>
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-6 pr-l">
+                                                  <div class="form-group">
+                                                    <label>Enquiry Interest Level</label>
+                                                    <select class="selectpicker" name="enquiry_level" onselect="success()" required>
+                                                      {% for i in EnquiryLevelChoices %}
+                                                        <option value="{{ i.0 }}" {% if i.0 == enquiry.enquiry_level %} selected='true' {% endif %}>{{ i.1 }}</option>
+                                                      {% endfor %}
+                                                    </select>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div class="row">
+                                                <div class="col-md-6 pr-l">
+                                                  <div class="form-group">
+                                                    <label>Alternative Email</label>
+                                                    <input {%if enquiry.alternative_email%}value="{{ enquiry.alternative_email }}"{%endif%} type="email" name="alternative_email" class="form-control" placeholder="Alternative Email">
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-6 pr-l">
+                                                  <div class="form-group">
+                                                    <label>Alternative Mobile</label>
+                                                    <input value="{{ enquiry.alternative_mobile }}" type="number" name="alternative_mobile" class="form-control" placeholder="Alternative Mobile">
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div class="row">
+                                                {% if request.user.is_superuser %}
+                                                <div class="col-md-6 pr-l">
+                                                  <div class="form-group">
+                                                    <label>Assigned To</label>
+                                                    <select {% if user.is_superuser %} {% else %}disabled {% endif %} class="selectpicker" name="assigned_by">
+                                                    <option value="">Please select</option>
+                                                      {% for user in AssignedByUser %}
+						                                            <option value="{{ user.id }}" {% if enquiry.assigned_by_id == user.id %} selected='true' {% endif %}>{{ user.first_name }} {{ user.last_name }}</option>
+                                                      {% endfor %}
+                                                    </select>
+                                                  </div>
+                                                </div>
+                                                {% endif %}
+                                                <div class="col-md-6 pr-l">
+                                                  <div class="form-group">
+                                                    <label>Interested for Batch</label>
+                                                    <select class="selectpicker" name="interested_batch" required>
+                                                      <option value="yes" {% if enquiry.interested_batch %} selected='true' {% endif %}>Yes</option>
+                                                      <option value="no" {% if enquiry.interested_batch %} selected='true' {% endif %}>No</option>
+                                                    </select>
+                                                  </div>
+                                                </div>
+                                              </div>
+
+                                              
+
+                                              <div class="row">
+                                                {% comment %} <div class="col-md-6">
+                                                  <div class="form-group">
+                                                    <label>Branch</label>
+                                                    <select class="selectpicker"  name="branch_location" required>
+                                                      <option value="">Please select</option>
+                                                      <option value="gurgaon" {%if enquiry.branch_location == 'gurgaon'%}selected{%endif%}>Gurgaon</option>
+                                                      <option value="noida"  {%if enquiry.branch_location == 'noida'%}selected{%endif%}>Noida</option>
+                                                    </select>
+                                                    </div>
+                                                </div> {% endcomment %}
+                                                <div class="col-md-6">
+                                                  <div class="form-group">
+                                                    <label>Source IP</label></br>
+                                                    <a href="https://ipapi.co/{{enquiry.source_ip}}/json/" target="_bank">{{enquiry.source_ip}}</a>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                              <div class="row">
+                                                <div class="col-md-6">
+                                                  <div class="form-group">
+                                                    <label>Source Page</label></br>
+                                                    <a href="{{enquiry.comments}}" target="_bank">{{enquiry.comments}}</a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                  <div class="form-group">
+                                                    <label>TAT</label></br>
+                                                    <p>{{enquiry.tat_display}}</p>
+                                                    </div>
+                                                </div>
+                                              </div>
+
+                                              <div class="row">
+                                                <div class="col-md-12">
+                                                  <div class="form-group">
+                                                    <label>Enquiry message: </label></br>
+                                                    <p class="col ml-5" style="color:#297171"> {{enquiry.message}}</p>
+                                                    </div>
+                                                </div>
+                                              </div>
+
+                                              <div class="row">
+                                                <div class="col-md-6">
+                                                  <div class="form-group">
+                                                    <label>Calling Date and Time</label>
+                                                    <input type="text" id="" readonly  class="form-control" placeholder="" value={{enquiry.calling_datetime}} >
+                                                  </div>
+                                                </div>
+                                              </div>
+
+
+                                              
+                                              <div class="card-footer text-center">
+                                                  <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+                                                  <button type="submit" class="btn btn-info float-right">Update</button>
+                                                  <a href="javascript:void(0)" class="btn btn-secondary-menu float-left" {% if enquiry.junk %} onclick="markasreal('{{enquiry.id}}')"{% else %} onclick="markasjunk('{{enquiry.id}}')" {% endif %} > {% if enquiry.junk %} Mark as Real{% else %} Mark as Junk {% endif %}</a>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </form>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+         {% include 'website/footer.html' %}
+      </div>
+    </div>
+{% endblock content %}
+
+{% block extra_js %}
+  <script type="text/javascript">
+    var enroll_course_ids = []
+    $('#enroll_courses_btn').prop('disabled', true);
+    $("#enroll_courses_btn").css('background-color', '#29ABE2');
+    $("#enroll_courses_btn").css('cursor', 'no-drop');
+
+    $(document).ready(function(){
+      $(`#reference option[value="{{ enquiry.reference }}"]`).prop('selected', true);
+      $("#reference").selectpicker('refresh');
+    });
+
+
+    $('input[name="enroll_courses"]').change(function () {
+      if (this.checked) {
+          var i = $(this).val()
+          if ($.inArray(i, enroll_course_ids) > -1){
+              //alert("already added")
+          }
+          else{
+            enroll_course_ids.push(i)
+            $('#enroll_courses_btn').prop('disabled', false);
+            $("#enroll_courses_btn").css('background-color', '#447DF7');
+            $("#enroll_courses_btn").css('cursor', 'pointer');
+          }
+          //alert(enroll_course_ids)
+      }
+    });
+
+    function removeStudent(id = 0) {
+      //alert(id)
+      //delete enroll_course_ids_for_email[id]
+      enroll_course_ids.splice(id, 1);
+      if(enroll_course_ids.length == 0){
+          $('#enroll_courses_btn').prop('disabled', true);
+          $("#enroll_courses_btn").css('background-color', '#29ABE2');
+          $("#enroll_courses_btn").css('cursor', 'no-drop');
+      };
+      //alert(enroll_course_ids)
+    }
+
+    function stickyheaddsadaer(obj,id) {
+      if($(obj).is(":checked")){
+        //alert("Yes checked"); //when checked
+      }
+      else{
+        //alert(id); //when not checked
+        id_index = enroll_course_ids.indexOf(id)
+        //alert(id_index)
+        removeStudent(id_index)
+        //alert("Yes unchecked"); //when unchecked
+        //alert(enroll_course_ids)
+      }
+      
+    }
+  </script>
+
+  <script>
+        function markasjunk(enq_id){
+          $.ajax({
+            type: "GET",
+            url: "/enquiries/mark-as-junk?enq_id="+enq_id,
+            data: {},
+            success: function (data) {
+                location.reload();
+            },
+            error: function (data) {
+                alert("Internal Server Error!!!");
+            },
+          });
+        }
+
+        function markasreal(enq_id){
+          $.ajax({
+            type: "GET",
+            url: "/enquiries/mark-as-real?enq_id="+enq_id,
+            data: {},
+            success: function (data) {
+                location.reload();
+            },
+            error: function (data) {
+                alert("Internal Server Error!!!");
+            },
+        });
+      }
+      </script>
+{% endblock extra_js %}

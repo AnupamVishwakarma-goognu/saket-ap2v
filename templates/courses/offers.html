@@ -1,0 +1,192 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+{% load ap2v_course_tag %}
+{% load compress %}
+{% load custom_tags %}
+{% block title %} AP2V {% endblock %}
+{% block css %}
+    {% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/others.css' %}" type="text/css" /> {% endcomment %}
+      {% compress css %}
+        {% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/others.css' %}" type="text/css" /> {% endcomment %}
+        <link media="all" rel="stylesheet" href="/static/v4_home_static/css/others.css" type="text/css" />
+        <link media="all" rel="stylesheet" href="/static/v4_home_static/css/listing.css" type="text/css" />
+        {% endcompress %}
+
+      <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.ap2v.com/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Offers",
+            "item": "https://www.ap2v.com/offers/"
+        }]
+        }
+    </script>
+{% endblock css %}
+{% block content %}
+    <div class="main-wrap">
+    {% include 'v4_home/sub_pages/push-down.html' %}
+    {% include 'v4_home/sub_pages/navigation.html' %}
+         <!-- Banner -->
+        <div class="banner-inner offer-banner">
+          <div>
+            {% comment %} {% for i in snownumber %}
+              <div class="snow"></div>
+            {% endfor %} {% endcomment %}
+            <div class="banner-inner--right-pan d-none d-xl-block">
+            {% comment %} <img src={% static "v4_home_static/images/chrmiss.jpeg" %} alt="Contact us" style="width: 102%;"> {% endcomment %}
+            {% comment %} <img src={% static "v4_home_static/images/ap2v-diwali.jpg" %} alt="Contact us" style="width: 102%;"> {% endcomment %}
+            </div>
+
+               <div class="container">
+                  <div class="row banner-inner--content flex-column">
+                    <!-- {% include 'v4/breadcrumb.html' %} -->
+                      <div class="d-flex"> 
+                       <!-- // breadcrumb  -->
+                        <div class="banner-inner--left-pan d-flex flex-column justify-content-center"> 
+                           <h1 class="text-secondary" style="font-size: 40px;">Special Offer</h1> 
+                           <p class="text-gray-draker mb-0" style="font-size: 20px;color: red;font-weight: 600;">Save Up To 50% On Most Demanding Courses...</p>
+                          <!-- </div>  -->
+                           <!-- <div class="banner-inner--right-pan d-none d-xl-block">  -->
+                             <!-- <img src={% static "v4_home_static/images/offer-banner-img.jpg" %} alt="Contact us"> 
+                          </div>
+                            d-none -->
+                           <!-- <div class="banner-inner--right-pan  d-xl-block"> -->
+                            <!-- {% include 'v4/breadcrumb.html' %} -->
+                            <!-- <img src="{% static 'v4_home_static/images/diwali_2023.jpg' %}" alt="Contact us"style="width:100%; ;position:relative;">  -->
+                           </div>
+                       </div>
+                       <!-- slick-slide d-flex--> 
+                   </div>
+                   <!-- // row -->
+               </div> 
+          </div><!-- // Banner -->
+
+        <div class="container">
+
+          <div class="listing mt-0 mt-md-5">
+              <div class="listing__leftPanel">
+                  <ul >
+                  <!--Product Box Start Here -->
+                  {% for offer in offers %}
+                {% with offer.courses.all|get_offer_courses_object as course_price %}
+                {% chek_date offer.valid_till as passed %}
+                  <div class="white-box mb-4">
+                    <div class="p-3">
+                    <div>
+                      <h2 class="mb-3" style="color: black;margin-top: -20px;">{{offer.title}} {% if not passed %} {% else %} <span style="margin: 10px;padding: 5px 15px;border-radius: 40px;color: white;background-color: #ae5c5c;font-size:11px;">Expaired</span> {% endif %}</h2>
+                    </div>
+
+                    <ul class="offers__list">
+                      {% for course in offer.courses.all %}
+                        <li class="offers__list--item listing__box">
+                          <span class="offers__list--img d-none d-sm-block">
+                              <a href="/{{course.slug}}">
+                                <span class="meta-user">
+                                    <img src="/media/{{course.course_icon}}" class="img-fluid" alt="{{course.name}}">
+                                </span>
+                              </a>
+                          </span>
+                          <div class="content-box p-15">
+                            <h4 class="mb-1"><a href="/{{ course.slug }}">{{ course.name }}</a></h4>
+                            
+                            <div class="tag-wrap">
+                              {% comment %} {% for tag in course.tags.all %}
+                              <span class="yellow-tag my-2">{{tag.name}}</span>
+                              {% endfor %} {% endcomment %}
+                              <span class="yellow-tag d-inline-block max-w-90">{{ course.category_name.all|join:" &bull; " }}</span>
+                            </div>
+
+                            <div class="d-flex align-items-center course-price">
+                              <p class="mb-0 price">Price: <strong>Rs.{{ course.price }}</strong></p>
+                              <span class="mx-2">|</span>
+                              <div class="d-flex align-items-center justify-content-start mb-2 font-size-sm mt-2">
+                                  Rating:
+                                  <span class="icon-star-fill mx-1 text-yellow"></span>
+                                  <strong>{{course.rating}}</strong>/5
+                              </div>
+                            </div>
+                            <ul class="mb-2 d-flex course-list">
+                                <li class="mr-3"><i class="icon-user-fill"></i> {{course.review_count}} Learner</li>
+                                <li class="mr-3"><i class="icon-calendar-star"></i> Live Recorded Class</li>
+                                <li><i class="icon-video-player"></i> Instructor Led Tranning</li>
+                            </ul>
+                          </div>
+                      </li>
+                  {% endfor %}
+                    </ul>
+                    <p class="c6 fs-14 mt-2">{{offer.description}}</p> 
+                  </div>
+
+                    <div class="offers--bottom">
+                      <div class="mb-2 mb-md-0">
+                        <div class="mb-0 offers__priceDetail">
+                          <strong class="offers__priceDetail--price">Rs.{{offer.price}}</strong>
+                          <span class="offers__priceDetail--cutPrice">{{ course_price }}</span>
+                          <span class="offers__priceDetail--discount"> {{ course_price |discount_in_price:offer.price }}%<span>
+                        </div>
+                        {% comment %} <div class="offers__tags">
+                          {% for tag in offer.id|get_tags_by_event_id %}
+                          <span class="offers__tags--tag">{{ tag }}</span>
+                          {% endfor %}
+                        </div><!-- Tag Wrap Ends here --> {% endcomment %}
+                      </div>
+
+                      <button class="btn btn-lg btn-primary rounded-60" data-toggle="modal" data-target="#offer-apply-now">Avail Now</button>
+                    </div>
+
+                  </div><!-- White Box Ends here -->
+                {% endwith %}
+              {% endfor %}
+
+
+                      
+                  </ul>
+
+              </div>
+
+
+              <div class="listing__rightPanel d-none d-md-block">
+                  <div id="sidebar" style="position: sticky; top: 57px;">
+
+                      {% include 'v4_home/sub_pages/call-us.html' %}
+                      {% include 'v4_home/sub_pages/request-form.html' %}
+                  </div>
+              </div>
+          </div>
+
+      </div><!-- // container -->
+
+      
+
+      <script>
+        $( document ).ready(function() {
+            function get_number(){
+                $.ajax({
+                    type: "POST",
+                    url: "/core_apis/v1/get_counselor_round_number",
+                    data:{"csrfmiddlewaretoken": "{{ csrf_token }}"},
+                    success: function (data) {
+                    //alert("success")
+                    //alert(data['number'])
+                    var c_number = data['number']
+                    $(".co_number3").text(c_number)
+                    },
+                    error: function (data) {
+                        //alert("Somethings Wents Wrong");
+                    },
+                });
+            };
+            get_number();
+        });
+    </script>
+        
+    {% comment %} {% include 'v4_home/sub_pages/modals.html' %} {% endcomment %}
+{% endblock content %}

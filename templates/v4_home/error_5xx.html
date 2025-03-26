@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome AP2v.com</title>
+    <title>502</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/bootstrap.css' %}" type="text/css" />
+    <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/others.css' %}" type="text/css" />
+</head>
+<body>
+    <div class="container">
+        <div class="error-page">
+            <span class="error-page--img">
+                <img src="{% static 'v4_home_static/images/502.png' %}" loading="lazy" class="img-fluid" alt="500">
+            </span>
+            
+            <div class="error-page__content">
+                <h3>502 Bad Gateway</h3>
+                <p class="error-page__content--text">The server encountered a temporary error and could not complete your request. Please try again in a few minutes.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

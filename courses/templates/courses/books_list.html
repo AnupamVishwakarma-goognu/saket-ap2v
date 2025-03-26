@@ -1,0 +1,225 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% block content %}
+    <div class="wrapper">
+        {% include 'website/sidebar.html' %}
+        {% include 'website/header.html' %}
+        <div class="main-panel">
+            <!-- Navbar -->
+            
+            <div class="content" style="margin:0; padding-bottom:0">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                          <h4 class="card-title mt-0">Books | <a href="#" onclick="openModel()">Add Books</a></h4>
+                            <div class="card data-tables">
+                              <div class="card-header">
+                                <div class="row align-items-center justify-content-between">
+                                  <div class="d-flex follow-up--filter">
+                                    <div class="float-right col-md-4 pr-3 pr-md-0">
+                                      <select class="selectpicker" id="filters" name="filters">
+                                        <option value="name" {% if request.GET.type == 'name' %} selected='true' {% endif %}>Name</option>
+                                      </select>
+                                    </div><!-- // col -->
+
+                                    <div class="float-right col-md-4 pr-3 pr-md-0">
+                                      <input type="search" class="form-control" onkeypress="search_filter(event);" id="filters_search" value="{% if request.GET.n %}{{request.GET.n}}{% endif %}" placeholder="search...">
+                                    </div><!-- // col -->
+
+                                    <div class="col-md-1 pr-3 pr-md-0 d-flex align-items-center justify-content-center">
+                                      <i class="fa fa-refresh text-info" onclick="window.location.href=`${window.location.pathname}`"></i>
+                                    </div><!-- // col -->
+
+                                  </div><!-- // d-flex -->
+                                  <div class="col-md-3">
+                                    {% comment %} {% include 'batches/filters_batches.html'%} {% endcomment %}
+                                  </div>
+                                </div><!-- // Row -->
+                                
+                              </div>
+                                <div class="card-body table-striped table-no-bordered table-hover dataTable dtr-inline table-full-width">
+                                    <div class="toolbar">
+                                      <table id="datatables" class="table" cellspacing="0" width="100%">
+                                        <thead>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>Cost</th>
+                                            <th>Course</th>
+                                            <th>Stock</th>
+                                            <th>Added on</th>
+                                            <th></th>
+                                        </thead>
+                                        <tbody>
+                                          {% for i in books %}
+                                            <tr>
+                                                <td>{{ i.id }}</td>
+                                                <td>{{ i.name }}</td>
+                                                <td>{{ i.cost }}</td>
+                                                {% get_book_courses i.course as all_course %}
+                                                <td>{{all_course}}</td>
+                                                <td>{{i.stock}}</td>
+                                                <td>{{ i.added_on }}</td>
+                                                <td> <a href="JavaScript:void(0)" onclick="openAddStockModel('{{i.stock}}','{{i.id}}')">Add Stock</a></td>
+                                            </tr>
+                                          {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row mx-1">
+                              <div class="col-sm-12 col-md-5 font-size-base"><span class="mt-2 d-block">Showing {{ books.start_index }} - {{ books.end_index }} of {{ books.paginator.count }}</span></div>
+                              <div class="col-sm-12 col-md-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="datatables_paginate">
+                                    <ul class="pagination">
+                                      {% if books.has_previous %}
+                                        <li class="paginate_button page-item previous" id="datatables_previous">
+                                          <a aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" href="?page=1" tabindex="-1">FIRST</a>
+                                        </li>
+                                        <li class="paginate_button page-item previous" id="datatables_previous">
+                                          <a href="?page={{ books.previous_page_number }}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                        </li>
+                                        {% else %}
+                                        <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                                        <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">FIRST</a>
+                                        </li>
+                                        <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                                        <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                        </li>
+                                        {% endif %}
+
+                                        {% for i in books.paginator.page_range %}
+                                            {% if books.number == i %}
+                                                <li class="paginate_button page-item active">
+                                                <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                              </li>
+                                            {% elif i > books.number|add:'-5' and i < books.number|add:'5' %}
+                                                <li class="paginate_button page-item">
+                                                <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                              </li>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        {% if books.has_next %}
+                                          <li class="paginate_button page-item next" id="datatables_next">
+                                            <a href="?page={{ books.next_page_number }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                                          </li>
+                                          <li class="paginate_button page-item next" id="datatables_next">
+                                            <a href="{% if books.has_next %} ?page={{ books.paginator.num_pages }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link" {% endif %}>LAST</a>
+                                          </li>
+                                        {% else %}
+                                          <li class="paginate_button page-item next disabled" id="datatables_next">
+                                            <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                                          </li>
+                                          <li class="paginate_button page-item next disabled" id="datatables_next">
+                                            <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">LAST</a>
+                                          </li>
+                                      {% endif %}
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          {% include 'website/footer.html' %}
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="addBook" tabindex="-1" role="dialog" aria-labelledby="addBookLabel"
+        style="display: none;">
+        <div class="modal-dialog modal-lg" role="document" style="width: 550px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title mt-0" id="myModalLabel">Add New Book</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/courses/add_book/" method="POST">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <input type="text" class="form-control" name="book_name" placeholder="Book Name" required="true" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-8">
+                            <select id="selectcourse" name="book_course" class="selectpicker" multiple="multiple" required>
+                                <option value="">Select Course</option>
+                                    {% for data in course %}
+                                        <option value="{{ data.id }}">{{ data.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <input type="number" class="form-control" name="book_cost" placeholder="Book Cost" required="true" />
+                            </div>
+                        </div>
+                        <button type="submit" id="addNewBooks" class="btn btn-primary pull-right px-4" style="border: transparent;background-color: #6361b9;">Add Book</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+  <!-- Add Stock Modal -->
+    <div class="modal fade" id="addStockBook" tabindex="-1" role="dialog" aria-labelledby="addStockBookLabel"
+        style="display: none;">
+        <div class="modal-dialog modal-lg" role="document" style="width: 550px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title mt-0" id="myModalLabel">Add Book Stock</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/courses/add_book_stock/" method="POST">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="row">
+                           <div class="form-group col-md-12">
+                            <label style="margin: 0;padding: 0;margin-top: 8;"> Available Books : <span id="avlStock">0</span></label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                           <div class="form-group col-md-7">
+                            <label style="margin: 0;padding: 0;margin-top: 8;"> Total Available Book in New Stock</label>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <input type="number" class="form-control" id="newStock" name="newStock" placeholder="New Stock" required="true" />
+                            </div>
+                        </div>
+                        <input hidden type="text" name="stock_book_id" id="stock_book_id">
+                        <button type="submit" id="addBookStockBtn" class="btn btn-primary pull-right px-4" style="border: transparent;background-color: #6361b9;">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModel(){
+            $('#addBook').modal('show');  
+        };
+
+        function openAddStockModel(stock,book_id){
+          $('#avlStock').text(stock);
+          $("#stock_book_id").val(book_id)
+          $('#addStockBook').modal('show');  
+        };
+    </script>
+    
+    
+
+{% endblock content %}

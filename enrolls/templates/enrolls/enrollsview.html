@@ -1,0 +1,1697 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% load custom_tag %}
+{% load custom_tags %}
+
+{% block content %}
+
+<div class="wrapper">
+    {% include 'website/sidebar.html' %}
+    {% include 'website/header.html' %}
+    <div class="main-panel">
+        <!-- Navbar -->
+        <!-- End Navbar -->
+        <div class="container-fluid">
+            <div class="container">
+                <div class="row mt-4">
+                    <div class="col-md-12 col-sm-12">
+                        <form method = "POST" class="form-horizontal" action="/enrollments/update_enrolment/">
+                            {% csrf_token %}
+                            <div class="card">
+                                <div class="card-header" style="display: flex;justify-content: space-between;">
+                                    <h4 class="card-title">Enrollment Details |  <a href="/enquiries/view/{{ enquiries_course.enquiry_id.id }}" style="font-size:16px;" target="__BLANK">Go to Enquiry </a> | {% if enrollments.certificate_issued %} <span title="{{enrollments.certificate_uuid}}" style="background-color: #dfff00;border-radius: 92px;color: #080808;padding-right: 11px;padding-left: 11px;padding-top: 7px;padding-bottom: 4px;font-size: 10px;margin-left: 9px;font-weight: bold;">Certificate Issued</span> | <span> <a href="/enrollments/create-revision-enrollment?enrollment_id={{enrollments.id}}" style="font-size: 17px;">Create Revision Enrollment</a></span>{% endif %} {% if enrollments.parent_enrollment_id %}<a href="/enrollments/view/{{enrollments.parent_enrollment_id}}/" style="font-size: 18px;">Go to Parent Enrollment</a> {% if enrollments.enroll_type == "2" %}<span style="background-color: bisque;padding: 2px;border-radius: 8px;padding-top: 2px;padding-left: 5px;padding-right: 12px;padding-bottom: 4px;font-size: 13px;"><i class="fa fa-history" aria-hidden="true"></i> Revision </span>{% endif %} {% endif %}</h4>
+                                    <div>
+                                        {% if enrollments.dropped %}
+                                            <a href="javascript:void(0)" onclick="reJoinStudent()" class="btn btn-secondary"><i class="fa fa-user-plus" aria-hidden="true"></i> Rejoin</a>
+                                        {% endif %} 
+                                        <a href="javascript:void(0)" class="btn btn-secondary" {% if not enrollments.id or enrollments.dropped or enrollments.refund %}disabled style="background-color: darkslategray; cursor: not-allowed;" {% else %} onclick="markDrop()" {% endif %}><i class="fa fa-times-circle-o"></i> {% if enrollments.dropped or enrollments.refund %} Dropped {% else %} Drop out {% endif %}  </a>
+                                    </div>
+                                </div>
+                                    <div class="row ml-0">
+                                        <div class="col-md-6 pr-l">
+                                            <div class="form-group">
+                                                <label>Enrollment Type</label>
+                                                <select class="selectpicker" name="enroll_type" id="enroll_type" onchange="change_batch()" required>
+                                                    <option value="1" {% if enrollments.enroll_type == "1" %} selected {% endif%} >Fresh Enrollment</option>
+                                                    <option value="2" {% if enrollments.enroll_type == "2" %} selected {% endif%}>Revision Enrollment</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6" id="revision_msg">
+                                            <div class="form-group" style="margin-top: 22px;">
+                                                <label>You have selected revision type. <br>The default fee is 0 and you cannot add installmenonly only save it.</label>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="card-body ">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Enrollment Name </label>
+                                                <input class="form-control" type="text" name="enquiry_id" value="{{ enquiries_course.enquiry_id.full_name }}" placeholder="Enrollment Name"  readonly/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Course</label>
+                                                {% comment %} <input class="form-control" type="text" name="enrollcourse" value="{{ enrollments.enquiry_course_id.courses.name }}" > {% endcomment %}
+                                                {% comment %} {% if enrollments.enroll_courses %}
+                                                    <select name="enrollcourse" id="course" onselect="success()" class="selectpicker" required multiple size="10">
+                                                        <option value="">Please select Yes</option>
+                                                        {% with enrollments.enroll_courses|split:"," as batch_dows %}  
+                                                            {% for data in course %}
+                                                                {% with data.id|convt:"," as abc %}
+                                                                    <option value="{{ data.id }}" {% if abc in batch_dows %} selected='true' {% endif %}>{{ data.name }}</option>
+                                                                {% endwith %}
+                                                            {% endfor %}
+                                                        {% endwith %}
+                                                    </select>
+                                                {% else %}
+                                                    <select name="enrollcourse" id="course" onselect="success()" class="selectpicker" required multiple size="10">
+                                                        <option value="">Please select No</option>  
+                                                        {% for data in course %}
+                                                            {% ifequal enquiries_course.courses.id data.id %}
+                                                                <option value="{{ data.id }}" selected >{{ data.name }}</option>
+                                                            {% else %}
+                                                                <option value="{{ data.id }}">{{ data.name }}</option>
+                                                            {% endifequal %}
+                                                        {% endfor %}
+                                                    </select>
+                                                {% endif %} {% endcomment %}
+                                                <input class="form-control" type="text" value="{{enroll_course_name }}" readonly/>
+
+                                                <input hidden type="text" id="course" value="{{enquiryid}}">
+
+                                                {% comment %} <select class="selectpicker" name="days_of_week" multiple size="7">
+                                                <!-- <input type="text" name="days_of_week" class="form-control" value="{{ batches.days_of_week }}"> -->
+                                                {% with batches.days_of_week|split:"," as batch_dows %}
+                                                    {% for dow in dows %}
+                                                    <option value="{{ dow.1 }}" {% if dow.1 in batch_dows %} selected='true' {% endif %}>{{ dow.1 }}</option>
+                                                    {% endfor %}
+                                                {% endwith %}
+                                                </select> {% endcomment %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Discussed Fee</label>
+                                                <input type="text" class="form-control" {% if enrollments.enroll_type == "2" %} readonly {% endif%} id= "discussed_fee" value="{{ enrollments.discussed_fee }}" name="discuss_fee" placeholder="discussed fees"  />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Enquiries Added On</label>
+                                                <input class="form-control myCustomDateFormat" placeholder="{{ enquiries_course.enquiry_id.added_on}}" type="text" name="added_on" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                
+                                                {% if enrollments.discussed_fee %}
+                                                    {% get_gst_amount_of_fee enrollments.discussed_fee as fee_list %}
+                                                    <label style="margin-bottom: -2px;"> Actual Amount = <b>{% if  fee_list.0 %} {{ fee_list.0 }} {% else %} -- {% endif %} </b></label></br>
+                                                    <label style="margin-bottom: -2px;"> GST Amount 18% = <b>{% if  fee_list.1 %} {{ fee_list.1 }} {% else %} -- {% endif %} </b></label></br>
+                                                    <label style="margin-bottom: -2px;"> After GST Amount = <b>{% if  fee_list.2 %} {{ fee_list.2 }} {% else %} -- {% endif %} </b></label></br>
+                                                {% else %}
+                                                    <label>Fee After 18% GST : <span id="gstfee" style="font-size: 14px;font-weight: 600;">{% if enrollments.discussed_fee_gst %}{{enrollments.discussed_fee_gst}}{% else %} -- {% endif %}</span></label></br>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="form-group" style="text-align: center;">
+                                                <label>Fee After GST</label>
+                                                <input type="text" class="form-control" readonly id= "discussed_fee_af_sgt" {% if fee_list.2  %} value="{{ fee_list.2 }}" {% else %} value="0" {% endif %} name="" placeholder="Fee After GST"  />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" style="max-width: 135px;">
+                                            <div class="form-group" style="text-align: center;">
+                                                <label>Exam</label>
+                                                <input class="form-control" id="exam_fee" placeholder="Exam Fee Share" type="number" {% if exam_fee %} value="{{exam_fee}}" {% else %} value="0" {% endif %}  name="added_on" >
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" style="max-width: 135px;">
+                                            <div class="form-group" style="text-align: center;">
+                                                <label>Book</label>
+                                                <input class="form-control"  id= "book_fee" {% if book_fee %} value="{{book_fee}}" {% else %} value="0" {% endif %}  type="number" name="" placeholder="Books Fee Share"  />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" style="max-width: 135px;">
+                                            <div class="form-group" style="text-align: center;">
+                                                <label>Vendor</label>
+                                                <input class="form-control" placeholder="Vandor Share" id="vandor_fee" type="number" {% if vandor_fee %} value="{{vandor_fee}}" {% else %} value="0" {% endif %}  name="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" style="max-width: 135px;">
+                                            <div class="form-group" style="text-align: center;">
+                                                <label>Other</label>
+                                                <input class="form-control" placeholder="Other" id="other_fee_sh" {% if other_fee %} value="{{other_fee}}" {% else %} value="0" {% endif %}type="number"  name="" >
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" style="max-width: 135px;">
+                                            <div class="form-group" style="text-align: center;">
+                                                <label>AP2V</label>
+                                                <input class="form-control" type="number"  id= "balance_fee_sh" {% if ap2v_fee %} value="{{ap2v_fee}}" {% else %} value="0" {% endif %}  name="" placeholder="AP2V Share"  />
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- <div class="col-md-2" style="max-width: 135px;">
+                                            <div class="form-group" style="text-align: center;">
+                                                <label>Balance</label>
+                                                <input class="form-control" placeholder="Balance" id="balance_fee_sh" value="0" type="number" readonly name="" >
+                                            </div>
+                                        </div> -->
+                                        <div class="col-md-3" style="max-width: 250px;">
+                                            <div class="form-group" style="text-align: center;">
+                                                <label>Received Amount from <span>{{ enrollments.discussed_fee }}</span></label>
+                                                <input class="form-control" placeholder="Recived Amount" id="recive" {% if enrollments.current_recived_amount %} value="{{enrollments.current_recived_amount}}" {% else %} value="0" {% endif %} type="number"  name="recive" >
+                                            </div>
+                                        </div>
+                                        {% get_percent enrollments.discussed_fee enrollments.current_recived_amount as percentage %}
+                                        <div class="col-md-3" style="max-width: 135px; margin-top: 0px;">
+                                            <div class="form-group" style="text-align: center;">
+                                                <label>%</label>
+                                                
+                                                <input class="form-control" id="precent" readonly value={{percentage}} type="number"  name="percent" >
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" style="max-width: 250px;">
+                                            <div class="form-group" style="text-align: center;">
+                                                <label> <span id="needpercent"></span>% Received Amount of {{ap2v_fee}}</label>
+                                                <input class="form-control"  id="current" readonly {% if enrollments.ap2v_share_recived %} value="{{enrollments.ap2v_share_recived}}" {% else %} value="0" {% endif %} type="number"  name="current" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <span  id="sum_all_error" style="color: red;font-size: 12px;">Error : Please fill all the amount (Exam+Book+Vandor+AP2V), Balance must be 0 before save the enrollment.</span> -->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="card">
+                            <div class="card-header d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center">
+                                    <h4 class="card-title">Instalments</h4>
+                                    <div class="invisible no-border-select" id="DevPaymentMethod">
+                                        <select id="PaymentMethod" class="" name="PaymentMethod">
+                                            <option>Choose Payment Method</option>
+                                            {% for PaymentMethodLoop in paymentMethod %}
+                                                <option value="{{ PaymentMethodLoop.id }}">{{ PaymentMethodLoop.payment_method }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button  id="add_installment_button" class="btn btn-secondary" onclick="openRefundModal()" {% if not enrollments.id %}disabled style="background-color: darkslategray; cursor: not-allowed;" {% endif %} {% if enrollments.dropped %}disabled style="background-color: darkslategray; cursor: not-allowed;" {% endif %}><i class="fas fa-undo-alt"></i> Add Refund </button>
+                                    <button  id="add_installment_button" {% if enrollments.enroll_type == "2" %} disabled {% endif%} class="btn btn-secondary add_installlment_class" onclick="checkDiscussedFee()" style="margin-left: 5px;"><i class="fas fa-plus mr-1"></i>Add </button>
+                                    
+                                </div>
+                            </div>
+
+                            <div class="card-body table-full-width">
+                                <!-- Modal Start here -->
+                                <div class="modal fade" id="instalmentsModal" tabindex="-1" role="dialog" aria-labelledby="instalmentsModalLabel" aria-hidden="true" style="padding:0; margin:0">
+                                    <div class="modal-dialog" role="document">
+                                    <div class="modal-content" style="width:400px">
+                                        <div class="modal-header">
+                                            <h5 class="mb-0" id="instalmentsModalLabel">Fees Installments (Remaining: <span
+                                                id="remaining-fees"></span>)
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body" style="width:100%">
+                                        <form class="form" id="installment" method="post">
+                                            {% csrf_token %}
+                                            <div class="row">
+                                                <div class="col-md-12 pr-l">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label">Installment</label>
+                                                        <input class="form-control" type="number" name="installments" id="installments" placeholder="Installment amount" autofocus required />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12 pr-l">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label">Due Date</label>
+                                                        <input class="form-control myCustomDateFormat" id="datetimepicker"  type="text" name="duedate" placeholder="fee date"   data-date-min-date="{{mindate}}"  data-date-max-date="{{maxdate}}"  autofocus required />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12 pr-1">
+                                                <div class="form-group" style="margin-right: -3px;margin-left: -15px;">
+                                                    <label for="comments" class="col-form-label">Comments</label>
+                                                    <textarea id="comments" class="form-control" name="comment" style="height:50px"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12 pr-1">
+                                                <div class="form-group" style="margin-right: -3px;margin-left: -15px;">
+                                                    <input type="checkbox" id="paid" name="paid" value="1">
+                                                    <label for="paid"> Paid </label><br>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12 pr-1">
+                                                <div class="form-group" style="margin-right: -3px;margin-left: -15px;">
+                                                    <input type="file" class="form-control" id="screenshot" name="screenshot">
+                                                </div>
+                                            </div>
+
+                                            <button type="button" id="addInstallmentButton" class="btn btn-secondary btn-fill" onclick="addInstallment()"><i class="fas fa-plus mr-1"></i>Add</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div> <!-- End Modal here -->
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <!-- <th data-field="state" data-checkbox="true"></th> -->
+                                <th data-field="id" class="text-left">Installment No</th>
+                                <th data-field="date" data-sortable="true">Installment</th>
+                                <th data-field="salary" data-sortable="true">Due Date</th>
+                                <th data-field="salary" data-sortable="true">Comment</th>
+                                <th data-field="salary" class="text-center">Paid/Unpaid</th>
+                                <th data-field="salary" class="text-center">Transcation Screenshot </th>
+                                <th data-field="salary" class="text-center">Fee Type</th>
+                                <th class="text-right">Payments</th>
+                            </thead>
+                            <tbody id="installmentTableBody">
+                                {% for install in installments %}
+                                    <tr {% if not install.paid_unpaid %} style="background-color: #fbd7d7;" {% endif %} {% if install.fee_type == '2' %} style="background-color: #9feca1a8;" {% endif %}>
+                                        <td class="text-left">{{ forloop.counter }}</td>
+                                        <td id="istallment_{{install.id}}" class="instamt">{{ install.installment }}</td>
+                                        <td id="due_{{install.id}}" >{{ install.due_date | date:" d F Y"}}</td>
+                                        <td id="commnt_{{install.id}}" >{%if install.comment %}{{ install.comment }}{%endif%}</td>
+                                        
+                                        <td class="text-center">
+                                            {% if install.paid_unpaid %}
+                                            &#10004;
+                                            {% else %}
+                                            &#10006;
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center">
+                                            {% if install.attachment %}
+                                               <a href="/media/{{install.attachment}}" target="__BLANK__">View</a>
+                                            {% else %}
+                                                --
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center" id="commnt_{{install.id}}" ><div {% if install.fee_type == 1 %} style="margin: 0px;padding: -4px;width: 102px;margin-left: 12%;padding: 3px;background-color: #fbff00fa;border-radius: 20px;" {% elif install.fee_type == 3 %} style="margin: 0px;padding: -4px;width: 102px;margin-left: 12%;padding: 3px;background-color: #e650e2ba;border-radius: 20px;color:white;" {% else %} style="margin: 0px;padding: -4px;width: 102px;margin-left: 12%;padding: 3px;background-color: #ff0047ba;border-radius: 20px;color:white;" {% endif %} >{% if install.fee_type == 1 %} Payment {% elif install.fee_type == 3 %} Cancel {% else %} Refund {% endif %} </div></td>
+                                        <td class="text-right" id="menu_action_{{install.id}}">
+                                            <div class="dropdown" >
+                                                <button class="" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" style="border: none !important; background: transparent !important;" aria-expanded="false">
+                                                    <div style="width: 10px;height: 22px;background-image: radial-gradient(circle, black 2px, transparent 2px);background-size: 108% 33.33%;"></div>
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    {% if install.fee_type == 1 %}
+                                                        {% if install.paid_unpaid %}
+                                                            <a class="dropdown-item" href="#">Alread Paid</a>
+                                                        {% else %}
+                                                            {% comment %} <a class="dropdown-item" href="#" onclick="myEnrollInstFunc('/enrollments/paid/{{ install.id }}/');">Mark as Paid</a> {% endcomment %}
+                                                            <a class="dropdown-item" href="#" onclick="updatePaymentStatus('{{install.id}}','{{ install.installment }}','{{ install.due_date}}')">Mark as Paid</a>
+                                                        {% endif %}
+                                                        {% if user.is_superuser %}
+                                                            <a class="dropdown-item" onclick="openInstallmentUpdateModal('{{install.installment}}','{{ install.due_date}}','{{ install.comment }}','{{ install.id }}')" href="#">Edit</a>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="card-footer text-center">
+                            <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+                            <input value="{{ enrollments.id }}" type="text" name="e_id" hidden>
+                            <button type="button" onclick="saveInstallmentData()" id="saveInstallmentBtn" class="btn btn-info float-right">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <h4 class="card-title">Shared Books</h4>
+                            </div>
+                            <button  id="add_installment_button" class="btn btn-secondary" onclick="openSharedBookModal()" ><i class="fas fa-plus mr-1"></i>Add Book</button>
+                        </div>
+                        <div class="card-body ">
+                            <table class="table">
+                            <thead>
+                                <th data-field="id" class="text-left">#</th>
+                                <th data-field="date" data-sortable="true">Book</th>
+                                <th data-field="salary" data-sortable="true">Shared on</th>
+                                <th data-field="salary" data-sortable="true">Shared</th>
+                                <th class="text-right">Action</th>
+                            </thead>
+                            <tbody>
+                                {% for i in shared_books %}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{i.book.name}}</td>
+                                    <td>
+                                        {% if i.shared_on %}
+                                            {{i.shared_on}}
+                                        {% else %}
+                                            --
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if i.is_shared %}
+                                            &#10004;
+                                        {% else %}
+                                            &#10006;
+                                        {% endif %}
+                                    </td>
+                                
+                                    <td class="text-right">
+                                        <div class="dropdown" >
+                                            <button class="" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" style="border: none !important; background: transparent !important;" aria-expanded="false">
+                                                <div style="width: 10px;height: 22px;background-image: radial-gradient(circle, black 2px, transparent 2px);background-size: 108% 33.33%;"></div>
+                                            </button>
+                                            {% if not i.is_shared %}
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a onclick="bookShared('{{i.id}}')" class="dropdown-item" href="#">Share</a>
+                                                </div>
+                                            {% else %}
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a onclick="javascript:void(0)" class="dropdown-item" href="#">Already Shared</a>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                   
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="card">
+                            <div class="card-header d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center">
+                                    <h4 class="card-title">Partner Payment</h4>
+                                    <div class="invisible no-border-select" id="DevPaymentMethod">
+                                        <select id="PaymentMethod" class="" name="PaymentMethod">
+                                            <option>Choose Payment Method</option>
+                                            {% for PaymentMethodLoop in paymentMethod %}
+                                                <option value="{{ PaymentMethodLoop.id }}">{{ PaymentMethodLoop.payment_method }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <button  id="add_installment_button" class="btn btn-secondary" onclick="addPartnerPaymentModal()" ><i class="fas fa-plus mr-1"></i>Add </button>
+                            </div>
+
+                            <div class="card-body table-full-width">
+                                <!-- Modal Start here -->
+                                <div class="modal fade" id="instalmentsModal" tabindex="-1" role="dialog" aria-labelledby="instalmentsModalLabel" aria-hidden="true" style="padding:0; margin:0">
+                                    <div class="modal-dialog" role="document">
+                                    <div class="modal-content" style="width:700px">
+                                        <div class="modal-header">
+                                            <h5 class="mb-0" id="instalmentsModalLabel">Fees Installments (Remaining: <span
+                                                id="remaining-fees"></span>)
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body" style="width:100%">
+                                        <form class="form" id="installment" method="post">
+                                            {% csrf_token %}
+                                            <div class="row">
+                                                <div class="col-md-6 pr-l">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label">Installment</label>
+                                                        <input class="form-control" type="number" name="installments" id="installments" placeholder="Installment amount" autofocus required />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 pr-l">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label">Due Date</label>
+                                                        <input class="form-control myCustomDateFormat" id="datetimepicker"  type="text" name="duedate" placeholder="fee date"   data-date-min-date="{{mindate}}"  autofocus required />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label for="comments" class="col-form-label">Comments</label>
+                                                    <textarea id="comments" class="form-control" name="comment" style="height:50px"></textarea>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-secondary btn-fill" onclick="addInstallment()"><i class="fas fa-plus mr-1"></i>Add</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div> <!-- End Modal here -->
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <!-- <th data-field="state" data-checkbox="true"></th> -->
+                                <th class="text-left">Sr No</th>
+                                <th>Partner</th>
+                                <th>Amount</th>
+                                <th>Is Paid</th>
+                                <th >Paid on</th>
+                                <th >Added on</th>
+                                <th >Added By</th>
+                                <th >Updated By</th>
+                                <th >Action</th>
+                            </thead>
+                            <tbody>
+                                {% for i in partner_payment %}
+                                    <tr>
+                                        <td class="text-left">{{ forloop.counter }}</td>
+                                        <td>{{i.partner.user.first_name}}</td>
+                                        <td>{{i.amount}}</td>
+                                        <td>{% if i.is_paid %} Yes {% else %} No{% endif %}</td>
+                                        <td >{% if i.paid_on %}{{i.paid_on}} {% endif %}</td>
+                                        <td >{{i.added_on}}</td>
+                                        <td >{{i.added_by}}</td>
+                                        <td >{% if i.updated_by %}{{i.updated_by}}{% endif %}</td>
+                                        <td ><a href="#" onclick="openUpdatePartnerPaymentModal('{{i.id}}')">Edit</a></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="card-footer text-center">
+                            <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+                            <input value="{{ enrollments.id }}" type="text" name="e_id" hidden>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'website/footer.html' %}
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="updateInstallment" tabindex="-1" aria-labelledby="updateInstallmentLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content add-student">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateInstallmentLabel">Update Installment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            Installment  : <input class="form-control" type="text" id="update_installment">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            Due Date : <input class="form-control myCustomDateFormat" id="update_due_date" type="text" name="duedate" placeholder="fee date"  data-date-min-date="{{mindate}}"  autofocus />
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        Comment : <textarea class="form-control" type="text" id="update_comment"></textarea>
+                    </div>
+                </div>
+
+                <input hidden type="text" id="old_installment">
+                <input hidden type="text" id="installment_row">
+
+                <button type="button" onclick="update_install_row()" class="btn btn-info float-right">Save</button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Refund Modal -->
+<div class="modal fade" id="refundModal" tabindex="-1" aria-labelledby="refundModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content add-student">
+            <div class="modal-header">
+                <h5 class="modal-title" id="">Refund Initiate</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            Refund Amount : <input class="form-control" type="number" id="refundAmount">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            Refund Date : <input class="form-control myCustomDateFormat" id="refund_date" type="text" name="duedate" placeholder="fee date" autofocus />
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        Refund Reason : <textarea class="form-control" type="text" id="refund_comment"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <input class="form-control" id="refund_file" type="file" name="refund_file"/>
+                    </div>
+                    <p style="font-size:13px">**Both fields are compalsery</p>
+                </div>
+                
+                <input type="text" id="refund_enrollment_id" hidden name="refund_enrollment_id" value="{{enrollments.id}}" >
+                <button type="button" id="refundModalBTN" class="btn btn-info float-right" onclick="addRefundInstallment()" >Refund</button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="updatePaymentStatus" tabindex="-1" aria-labelledby="updatePaymentStatusLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content add-student">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updatePaymentStatusLabel">Update Payment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/enrollments/paid2/" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <p  class="ml-3" style="font-size:13px">You are uploading payment for Installment ₹<span id="rs"></span>/-, Due on <span id="due_date"></span>.</p>
+                        <div class="col-md-12 mb-3">
+                            <select name="paymentMethod" id="paymentMethod" class="selectpicker" required>
+                                <option value="">Please select</option>
+                                {% for i in paymentMethod %}
+                                    <option value="{{ i.id }}">{{i.payment_method}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <div class="form-group">
+                                <input class="form-control" id="payment_file" type="file" name="payment_file" placeholder="fee date" required/>
+                            </div>
+                            <p style="font-size:13px">**Both fields are compalsery</p>
+                        </div>
+                        
+                    </div>
+
+                    <input hidden type="text" id="installment_row2" name="installment_row2" required>
+                    <input hidden type="text" id="enrollment_id" name="enrollment_id" value="{{enrollments.id}}" required>
+                    <button type="submit" class="btn btn-info float-right">Update</button>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="addPartnerPayment" tabindex="-1" aria-labelledby="addPartnerPaymentLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content add-student">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addPartnerPaymentLabel">Add Partner Payment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/enrollments/partner_payment_add/" method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label>Select Partner</label>
+                            <select name="partner" id="partner" class="selectpicker" required>
+                                <option value="">Please select</option>
+                                {% for i in partner %}
+                                    <option value="{{ i.id }}">{{i.user.first_name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-12 mb-0">
+                            <div class="form-group">
+                                <label>Amount</label>
+                                <input class="form-control" id="amount" type="number" name="amount" placeholder="Amount" required/>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <div class="form-group">
+                                <label>Paid on</label>
+                                <input class="form-control myCustomDateFormat" id="paid_on" type="text" name="paid_on" placeholder="Paid on"  data-date-min-date="{{mindate}}"/>
+                            </div>
+                            <div>
+                                <label>Is Paid
+                                    <input type="checkbox" name="is_paid" id="is_paid">
+                                </label>
+                            </div>
+                        </div>
+                        {% comment %} <div class="col-md-12 mb-3">
+                            <div class="form-group">
+                                <input class="form-control myCustomDateFormat" id="" type="text" name="" placeholder="Added on"  data-date-min-date="{{mindate}}"/>
+                            </div>
+                        </div> {% endcomment %}
+                    </div>
+
+                    <input hidden type="text" id="enrollment_id" name="enrollment_id" value="{{enrollments.id}}" required>
+                    <button type="submit" class="btn btn-info float-right">Add</button>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="updatePartnerPayment" tabindex="-1" aria-labelledby="updatePartnerPaymentLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content add-student">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updatePartnerPaymentLabel">Update Partner Payment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="update_partnet_section">
+                
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="sharedBookModal" tabindex="-1" aria-labelledby="sharedBookModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content add-student">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sharedBookModalLabel">Add Shared Book</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/enrollments/shared_book_add/" method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label>Select Partner</label>
+                            <select name="shared_book" id="shared_book" class="selectpicker" required>
+                                <option value="">Please select book</option>
+                                {% for i in books %}
+                                    <option value="{{ i.id }}">{{i.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <input hidden type="text" id="enrollment_id" name="enrollment_id" value="{{enrollments.id}}" required>
+                    <button type="submit" class="btn btn-info float-right">Add</button>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="waitingModal" tabindex="-1" aria-labelledby="waitingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content add-student">
+            {% comment %} <div class="modal-header">
+                <h5 class="modal-title" id="waitingModalLabel">Download your course curriculum</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div> {% endcomment %}
+            <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <img id="theImg" style="height: 50px;padding-left: 43%;" src={% static "assets/images/waiting-icon.jpg" %}>
+                            <p>Please wait we are saving the installments, this process may take some time.</p>
+                            <p>After complations the process page will auto reload.</p>
+                            <p>If nothing is happen after some time,Please refresh page and check wather installments is save or not.</p>
+                        </div>
+                    </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="waitingModal2" tabindex="-1" aria-labelledby="waitingModal2Label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content add-student">
+            {% comment %} <div class="modal-header">
+                <h5 class="modal-title" id="waitingModal2Label">Download your course curriculum</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div> {% endcomment %}
+            <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <img id="theImg" style="height: 50px;padding-left: 43%;" src={% static "assets/images/waiting-icon.jpg" %}>
+                            <p>Please wait refund Initiating process in progress.</p>
+                            <p>The process may take some time, Don't press back button.</p>
+                        </div>
+                    </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="waitingModal3" tabindex="-1" aria-labelledby="waitingModal3Label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content add-student">
+            <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <img id="theImg" style="height: 50px;padding-left: 43%;" src={% static "assets/images/waiting-icon.jpg" %}>
+                            <p>Please wait marked the student as drop out and cancel remaning installment if any.</p>
+                            <p>The process may take some time, Don't press back button.</p>
+                        </div>
+                    </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Book Stock Not available Modal -->
+<div class="modal fade" id="bookStockNot" tabindex="-1" aria-labelledby="bookStockNotLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content add-student">
+            
+            <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <p>Book Stock is not available, Please update stock for this book.</p>
+                        </div>
+                    </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- <script>
+    $("#sum_all_error").hide() 
+</script> -->
+
+
+{% if edit == "yes" %}
+    <script>
+        //alert("Edit")
+
+        var number_of_installment = {{installments_count}}
+        var enrollment_data = []
+        var remaining_fee = 0
+        var total_installment_fee = {{installment_sum.installment__sum}}
+
+        var update_enrollment_data = []
+
+
+        function checkDiscussedFee(){
+            var discussed_fee = $("#discussed_fee").val()
+            if (discussed_fee){
+                if(number_of_installment==1){
+                    remaining_fee = discussed_fee
+                }
+                else{
+                    remaining_fee = discussed_fee-total_installment_fee
+                    $("#remaining-fees").text(remaining_fee)
+                }
+
+                //alert("Remaining Fee : "+ remaining_fee)
+                //alert("Total Installment count : "+ number_of_installment)
+                //alert("Total Installment fee : "+ total_installment_fee)
+
+                if(remaining_fee == 0){
+                    alert("All installments complated according to discussed fees.")
+                    return false;
+                }
+
+                if(remaining_fee < 0){
+                    alert("Discussed fee cannot less then privious installments.")
+                    return false;
+                }
+
+
+                $("#instalmentsModal").modal('show');
+            }
+            else{
+                alert("Please Enter Discussed Fee")
+            }
+        }
+
+        $("#installments").on('keyup paste', function () {
+            var element = (this.value)
+            if(remaining_fee-element < 0){
+                alert("Please enter installment less than remaining fee.")
+                $("#installments").val("")
+                $("#remaining-fees").text(remaining_fee)
+                return false;
+            }
+            $("#remaining-fees").text(remaining_fee-element)
+
+        });
+
+        function addInstallment(){
+            number_of_installment++;
+
+            var installment = $("#installments").val()
+            var datetimepicker = $("#datetimepicker").val()
+            var comment = $("#comments").val()
+            if ($('#paid').is(":checked")){
+                var paid = 1
+            }
+            if ($('#paid').is(":unchecked")){
+                var paid = 0
+            }
+            if(installment=="" && installment==" "){
+                alert("All Field required")
+                return false;
+            }
+
+            if(datetimepicker=="" && datetimepicker==" "){
+                alert("All Field required")
+                return false;
+            }
+
+            if(installment && datetimepicker){
+                markup = "<tr onmousedown='removeRow(this)'> <td>"+number_of_installment+"</td> <td>"+installment+"</td> <td>"+datetimepicker+"</td> <td>"+comment+"</td> </tr>";
+                tableBody = $("#installmentTableBody");
+                tableBody.append(markup);
+                remaining_fee = remaining_fee-installment
+            }
+            else{
+                alert("All Field required")
+                return false;
+            }
+
+            var installment_dict = {}
+            installment_dict['installment'] = installment
+            installment_dict['datetimepicker'] = datetimepicker
+            installment_dict['comment'] = comment
+            installment_dict['paid'] = paid
+
+            var data = new FormData();
+            data.append("file", $("input[id^='screenshot']")[0].files[0]);
+            data.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+            console.log($("input[id^='screenshot']")[0].files[0]);
+            screenshot_name = ""
+
+            
+            if ($('#paid').is(":checked")){
+                $("#addInstallmentButton").text("Uploading Screenshot, Please Wait.")
+                $("#saveInstallmentBtn").text("Uploading Screenshot, Please Wait.")
+                $("#saveInstallmentBtn").prop("disabled","true");
+                $("#saveInstallmentBtn").css("color","black");
+                $.ajax({
+                    type: 'POST',
+                    url: '/enrollments/save_attachment',
+                    data: data,
+                    contentType: false,
+                    processData: false,
+                    mimeType: "multipart/form-data",
+                    success: function (data) {
+                        var jk = JSON.parse(data);
+                        //alert(jk['name'])
+                        var screenshot_name = jk['name']
+                        installment_dict['screenshot'] = screenshot_name
+                        $("#addInstallmentButton").text("Add")
+                        $('#paid').prop('checked', false);
+                        $("#screenshot").hide();
+                        $('#screenshot').val('');
+                        $("#saveInstallmentBtn").text("Save")
+                        $("#saveInstallmentBtn").removeAttr("disabled");
+                        $("#saveInstallmentBtn").css("color","white");
+                    },
+                    error: function (data) {
+                        installment_dict['screenshot'] = ''
+                        alert("Internal Server Error");
+                        $("#addInstallmentButton").text("Add")
+                        $('#paid').prop('checked', false);
+                        $("#screenshot").hide();
+                        $('#screenshot').val('');
+                        $("#saveInstallmentBtn").text("Error While Uploading...")
+                        $("#saveInstallmentBtn").removeAttr("disabled");
+                        $("#saveInstallmentBtn").css("color","white");
+                    },
+                });
+            }
+            else{
+                installment_dict['screenshot'] = ''
+            }
+
+            enrollment_data.push(installment_dict)
+
+            total_installment_fee=parseInt(total_installment_fee)+parseInt(installment)
+
+            var installment = $("#installments").val("")
+            var datetimepicker = $("#datetimepicker").val("")
+            var comment = $("#comments").val("")
+            $("#instalmentsModal").modal('hide');
+            
+        }
+
+        function saveInstallmentData(){
+            data={}
+            data['enrollments']=JSON.stringify(enrollment_data)
+            data['update_enrollment']=JSON.stringify(update_enrollment_data)
+            data['enroll_course_id']={{enrollments.enquiry_course_id_id}}
+            course_list = ($( "#course" ).val());
+            data['course']=JSON.stringify(course_list);
+            data['discussed_fee']=($("#discussed_fee").val()); 
+            data['current_h'] = $("#current").val();
+            data['recive_h'] = $("#recive").val();
+            data['exam_fee_h'] = $("#exam_fee").val();
+            data['book_fee_h'] = $("#book_fee").val();
+            data['vandor_fee_h'] = $("#vandor_fee").val();
+            data['other_fee_h'] = $("#other_fee_sh").val();
+            data['ap2v_fee_h'] = $("#balance_fee_sh").val();
+            if (($("#discussed_fee").val()) == "" || ($("#discussed_fee").val()) == " "){
+                alert("Please Enter discussed fee")
+                return false;
+            }
+
+            if(parseInt(($("#discussed_fee").val())) != parseInt(total_installment_fee)){
+                fee_diff = parseInt(($("#discussed_fee").val())) - parseInt(total_installment_fee)
+
+                if (fee_diff>0){
+                    alert("Rs " +fee_diff+"/- Balance in installment according to discussed fee, Please add Rs "+fee_diff+"/- installment")
+                    return false
+                }
+            }
+
+            check_remaining_fee = ($("#discussed_fee").val())-total_installment_fee
+            //alert(check_remaining_fee)
+            if(check_remaining_fee < 0){
+                alert("Discussed fee cannot less then privious installments.")
+                return false;
+            }
+
+            
+            if (course_list == "" || course_list == " "){
+                alert("Please Select Course")
+                return false;
+            }
+
+
+            //alert(update_enrollment_data)
+            //return false
+
+            $('#waitingModal').modal('show');
+            $('#waitingModal').modal({backdrop: 'static', keyboard: false})
+            $('#saveInstallmentBtn').prop('disabled', true);
+            
+            $.ajax({
+                type: "GET",
+                url: "/enrollments/save_enroll_data", 
+                data: data,
+                success: function(result){
+                    //alert("Success")
+                    window.location.replace(/enrollments/);
+                },
+                error: function(data){
+                    alert("Internal Server Error !!!")
+                }
+            });
+        }
+        
+        function openInstallmentUpdateModal(installment,due_date,comment,row){
+            $("#update_installment").val(installment)
+            $("#old_installment").val(installment)
+            $("#update_due_date").val()
+            $("#update_comment").val(comment)
+            $("#installment_row").val(row)
+
+            $("#updateInstallment").modal('show');
+        }
+
+        function update_install_row(){
+            var row = $("#installment_row").val()
+            var old_installment = $("#old_installment").val()
+
+            var new_installment = $("#update_installment").val()
+            var new_due_date = $("#update_due_date").val()
+            var new_comment = $("#update_comment").val()
+
+            //alert(row)
+            //alert(old_installment)
+            //alert(new_installment)
+            //alert(new_due_date)
+            //alert(new_comment)
+
+            if ((total_installment_fee-parseInt(old_installment))+parseInt(new_installment) > ($("#discussed_fee").val())){
+                alert("Total installment cannot grater then discussed fee. Please increase discussed fee first.")
+                return false;
+            }
+
+            $("#istallment_"+row).text(new_installment)
+            $("#due_"+row).text(new_due_date)
+            $("#commnt_"+row).text(new_comment)
+
+            total_installment_fee = (total_installment_fee-parseInt(old_installment))+parseInt(new_installment)
+            //alert("Total Installment : "+ total_installment_fee)
+
+            remaining_fee = parseInt(($("#discussed_fee").val()))-total_installment_fee
+            //alert("Total remaning : "+ remaining_fee)
+
+            $("#menu_action_"+row).hide()
+
+            if(new_installment && new_due_date){
+                var update_installment_dict = {}
+                update_installment_dict['row'] = row
+                update_installment_dict['installment'] = new_installment
+                update_installment_dict['datetimepicker'] = new_due_date
+                update_installment_dict['comment'] = new_comment
+
+                update_enrollment_data.push(update_installment_dict)
+                $("#updateInstallment").modal('hide');
+            }
+            else{
+                alert("All Field required")
+                return false;
+            }
+        }
+
+        function updatePaymentStatus(installment_row_id,amount,due_date){
+            //alert(installment_row_id)
+            //alert(amount)
+            //alert(due_date)
+            $("#installment_row2").val(installment_row_id)
+            $("#rs").text(amount)
+            $("#due_date").text(due_date)
+
+            $("#updatePaymentStatus").modal('show');
+        }
+
+        function update_installment_payment(){
+            var installment_row = $("#installment_row2").val()
+            var payment_method = $("#paymentMethod option:selected").val();
+            var data = new FormData();
+            data.append("file", $("input[id^='payment_file']")[0].files[0]);
+            //alert($("input[id^='payment_file']")[0].files[0]['name'])
+            var installment_row = $("#installment_row2").val()
+            var payment_method = $("#paymentMethod option:selected").val();
+            data.append('installment_row',installment_row)
+            data.append('payment_method',payment_method)
+
+            if($("input[id^='payment_file']")[0].files.length === 0){
+                alert("Please Select Payment Proof ");
+                return false;
+            };
+            
+            //alert(installment_row)
+            //alert(payment_method)
+            alert(data)
+
+            $.ajax({
+                type: 'GET',
+                url: '/enrollments/paid2/',
+                data: {"installment_row":"installment_row"},
+                contentType: false,
+                processData: false,
+                mimeType: "multipart/form-data",
+                success: function (data) {
+                    alert("success");
+                },
+                error: function (data) {
+                    alert("error");
+                },
+            });
+        }
+    </script>
+{% else %}
+    <script>
+        var number_of_installment = 1
+        var enrollment_data = []
+        var remaining_fee = 0
+        var total_installment_fee = 0
+        //alert("-------NEW------")
+
+        function checkDiscussedFee(){
+            var discussed_fee = $("#discussed_fee").val()
+            if (discussed_fee){
+                if(number_of_installment==1){
+                    remaining_fee = discussed_fee
+                }
+
+                remaining_fee = discussed_fee-total_installment_fee
+                $("#remaining-fees").text(remaining_fee)
+
+                if(remaining_fee == 0){
+                    alert("All installments complated according to discussed fees.")
+                    return false;
+                }
+
+                if(remaining_fee < 0){
+                    alert("Discussed fee cannot less then all installments.")
+                    return false;
+                }
+
+                $("#instalmentsModal").modal('show');
+            }
+            else{
+                alert("Please Enter Discussed Fee")
+            }
+        }
+
+        $("#installments").on('keyup paste', function () {
+            var element = (this.value)
+            if(remaining_fee-element < 0){
+                alert("Please enter installment less than remaining fee.")
+                $("#installments").val("")
+                $("#remaining-fees").text(remaining_fee)
+                return false;
+            }
+            $("#remaining-fees").text(remaining_fee-element)
+
+        });
+
+        function addInstallment(){
+            var installment = $("#installments").val()
+            var datetimepicker = $("#datetimepicker").val()
+            var comment = $("#comments").val()
+            
+
+            if ($('#paid').is(":checked")){
+                var paid = 1
+            }
+            if ($('#paid').is(":unchecked")){
+                var paid = 0
+            }
+        
+            //alert(total_installment_fee)
+            if(installment && datetimepicker){
+                markup = "<tr onmousedown='removeRow(this)'> <td>"+number_of_installment+"</td> <td>"+installment+"</td> <td>"+datetimepicker+"</td> <td>"+comment+"</td> </tr>";
+                tableBody = $("#installmentTableBody");
+                tableBody.append(markup);
+                remaining_fee = remaining_fee-installment
+            }
+            else{
+                alert("All Field required")
+                return false;
+            }
+
+            var installment_dict = {}
+            installment_dict['installment'] = installment
+            installment_dict['datetimepicker'] = datetimepicker
+            installment_dict['comment'] = comment
+            installment_dict['paid'] = paid
+
+            var data = new FormData();
+            data.append("file", $("input[id^='screenshot']")[0].files[0]);
+            data.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+            console.log($("input[id^='screenshot']")[0].files[0]);
+            screenshot_name = ""
+
+            if ($('#paid').is(":checked")){
+                $("#addInstallmentButton").text("Uploading Screenshot, Please Wait.")
+                $("#saveInstallmentBtn").text("Uploading Screenshot, Please Wait.")
+                $("#saveInstallmentBtn").prop("disabled","true");
+                $("#saveInstallmentBtn").css("color","black");
+
+                
+                $.ajax({
+                    type: 'POST',
+                    url: '/enrollments/save_attachment',
+                    data: data,
+                    contentType: false,
+                    processData: false,
+                    mimeType: "multipart/form-data",
+                    success: function (data) {
+                        var jk = JSON.parse(data);
+                        //alert(jk['name'])
+                        var screenshot_name = jk['name']
+                        installment_dict['screenshot'] = screenshot_name
+                        $("#addInstallmentButton").text("Add")
+                        $('#paid').prop('checked', false);
+                        $("#screenshot").hide();
+                        $('#screenshot').val('');
+                        $("#saveInstallmentBtn").text("Save")
+                        $("#saveInstallmentBtn").removeAttr("disabled");
+                        $("#saveInstallmentBtn").css("color","white");
+                    },
+                    error: function (data) {
+                        installment_dict['screenshot'] = ''
+                        alert("Internal Server Error");
+                        $("#addInstallmentButton").text("Add")
+                        $('#paid').prop('checked', false);
+                        $("#screenshot").hide();
+                        $('#screenshot').val('');
+                        $("#saveInstallmentBtn").text("Error While Uploading...")
+                        $("#saveInstallmentBtn").removeAttr("disabled");
+                        $("#saveInstallmentBtn").css("color","white");
+                    },
+                });
+            }
+            else{
+                installment_dict['screenshot'] = ''
+            }
+
+            
+            enrollment_data.push(installment_dict)
+
+            total_installment_fee=parseInt(total_installment_fee)+parseInt(installment)
+
+            var installment = $("#installments").val("")
+            var datetimepicker = $("#datetimepicker").val("")
+            var comment = $("#comments").val("")
+            $("#instalmentsModal").modal('hide');
+
+            number_of_installment++;
+        }
+
+        function removeRow(row) {
+            alert(this)
+            //$(row).remove();
+        }
+
+        function saveInstallmentData(){
+            data={}
+            data['enrollments']=JSON.stringify(enrollment_data)
+            data['enroll_course_id']={{enquiryid}}
+            course_list = ($( "#course" ).val());
+            data['course']=JSON.stringify(course_list);
+            data['discussed_fee']=($("#discussed_fee").val())
+            data['enroll_type']=($("#enroll_type").val())
+            data['new'] = 'yes'
+
+            var disfee = $("#discussed_fee_af_sgt").val();
+            var exam_fee = $("#exam_fee").val();
+            var book_fee = $("#book_fee").val();
+            var vandor_fee = $("#vandor_fee").val();
+            var other_fee = $("#other_fee_sh").val();
+            var ap2v_fee = $("#balance_fee_sh").val();
+            var current = $("#current").val();
+            var recive = $("#recive").val();
+            //alert(recive)
+
+            data['exam_fee_h'] = exam_fee
+            data['book_fee_h'] = book_fee
+            data['vandor_fee_h'] = vandor_fee
+            data['ap2v_fee_h'] = ap2v_fee
+            data['current_h'] = current
+            data['recive_h'] = recive
+
+
+            var sum_of_all = parseInt(exam_fee)+parseInt(book_fee)+parseInt(vandor_fee)
+            var bal_fee_amount = parseInt(disfee)-parseInt(sum_of_all)
+            //$("#balance_fee_sh").val(bal_fee_amount)
+            // if(bal_fee_amount != 0){
+            //     $("#sum_all_error").show()
+            //     return false;
+            // }else{
+            //     $("#sum_all_error").hide()
+            // }
+
+            if (($("#discussed_fee").val()) == "" || ($("#discussed_fee").val()) == " "){
+                alert("Please Enter discussed fee")
+                return false;
+            }
+
+            if(parseInt(($("#discussed_fee").val())) != parseInt(total_installment_fee)){
+                fee_diff = parseInt(($("#discussed_fee").val())) - parseInt(total_installment_fee)
+
+                if (fee_diff>0){
+                    alert("Rs " +fee_diff+"/- Balance in installment according to discussed fee, Please add Rs "+fee_diff+"/- installment")
+                    return false
+                }
+            }
+
+            check_remaining_fee = ($("#discussed_fee").val())-total_installment_fee
+            //alert(check_remaining_fee)
+            if(check_remaining_fee < 0){
+                alert("Discussed fee cannot less then all installments.")
+                return false;
+            }
+
+            
+            if (course_list == "" || course_list == " "){
+                alert("Please Select Course")
+                return false;
+            }
+            
+            $('#waitingModal').modal('show');
+            $('#waitingModal').modal({backdrop: 'static', keyboard: false})
+            $('#saveInstallmentBtn').prop('disabled', true);
+
+            $.ajax({
+                type: "GET",
+                url: "/enrollments/save_enroll_data", 
+                data: data,
+                success: function(result){
+                    //alert("Success")
+                    window.location.replace(/enrollments/);
+                },
+                error: function(data){
+                    alert("Internal Server Error !!!")
+                }
+            });
+        }
+    </script>
+{% endif %}
+<script>
+    $("#screenshot").hide();
+    function addPartnerPaymentModal(){
+        $("#addPartnerPayment").modal("show");
+    }
+
+    function openUpdatePartnerPaymentModal(partner_payment_row){
+        //alert(partner_payment_row)
+
+        $.ajax({
+            type: "GET",
+            url: "/enrollments/update_partnet_data?id="+partner_payment_row, 
+            success: function(data){
+                //alert("Success")
+                //window.location.replace(/enrollments/);
+                $('#update_partnet_section').html(data)
+                $("#updatePartnerPayment").modal("show");
+            },
+            error: function(data){
+                alert("Internal Server Error !!!")
+            }
+        });
+    }
+    $("#paid").click(function () {
+        if ($('#paid').is(":checked")){
+            $("#screenshot").show();
+        }
+        if ($('#paid').is(":unchecked")){
+            $('#screenshot').val('');
+            $("#screenshot").hide();
+        }
+    });
+
+    function openSharedBookModal(){
+        $("#sharedBookModal").modal('show');
+    }
+
+    function bookShared(id){
+        if(id){
+            $.ajax({
+                type: "GET",
+                url: "/enrollments/update_book?id="+id, 
+                success: function(data){
+                    //alert("Success")
+                    code = data['code']
+                    if(code == 201){
+                        $("#bookStockNot").modal("show");
+                    }
+                    else{
+                        location.reload();
+                    }
+                },
+                error: function(data){
+                    alert("Internal Server Error !!!")
+                }
+            });
+        }
+    }
+
+    function openRefundModal(){
+        $("#refundModal").modal('show')
+    }
+
+    function addRefundInstallment(){
+        var amount = $("#refundAmount").val()
+        var date = $("#refund_date").val()
+        var reason = $("#refund_comment").val()
+        var refund_enrollment_id = $("#refund_enrollment_id").val()
+
+        var discussed_fee = '{{ enrollments.discussed_fee }}'
+        
+        if(parseInt(amount)> parseInt(discussed_fee)){
+            alert("Refund amount cannot grater then discussed fees.")
+            return false;
+        }
+
+        var data = new FormData();
+        data.append("file", $("#refund_file")[0].files[0]);
+        //alert($("refund_file")[0].files[0]['name'])
+
+        data.append('amount',amount)
+        data.append('date',date)
+        data.append('reason',reason)
+        data.append('refund_enrollment_id',refund_enrollment_id)
+        data.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+
+        if($("#refund_file")[0].files.length === 0){
+            alert("Please Select Refund Proof.");
+            return false;
+        };
+
+        $('#waitingModal2').modal('show');
+        $('#waitingModal2').modal({backdrop: 'static', keyboard: false})
+        $('#refundModalBTN').prop('disabled','true')
+
+        $.ajax({
+            type: 'POST',
+            url: '/enrollments/refund_payment/',
+            data: data,
+            contentType: false,
+            processData: false,
+            mimeType: "multipart/form-data",
+            success: function (data) {
+                response = JSON.parse(data)
+                if(response["status"] == 200){
+                    location.reload();
+                }
+                else{
+                    alert(response['message'])
+                }
+            },
+            error: function (data) {
+                alert("error");
+            },
+        });
+    }
+
+    function markDrop(){
+        //alert('{{enrollments.id}}')
+        enrollments_id='{{enrollments.id}}'
+        
+        if(enrollments_id){
+            $('#waitingModal3').modal('show');
+            $('#waitingModal3').modal({backdrop: 'static', keyboard: false})
+            $.ajax({
+                type: 'POST',
+                url: '/enrollments/drop_student/',
+                data: {'enrollments_id':enrollments_id,"csrfmiddlewaretoken":"{{ csrf_token }}"},
+                success: function (data) {
+                    location.reload();
+                },
+                error: function (data) {
+                    alert("error");
+                },
+            });
+        }
+        return false;
+    }
+
+    function reJoinStudent(){
+        enrollments_id='{{enrollments.id}}'
+        if(enrollments_id){
+            $.ajax({
+                type: 'POST',
+                url: '/enrollments/rejoin_student/',
+                data: {'enrollments_id':enrollments_id,"csrfmiddlewaretoken":"{{ csrf_token }}"},
+                success: function (data) {
+                    if(data['status']==200){
+                        location.reload();
+                    }
+                    else{
+                        alert(data["message"])
+                    }
+                },
+                error: function (data) {
+                    alert("Internal Sever Error!!!");
+                },
+            });
+        }
+        return false;
+    }
+    $("#revision_msg").hide()
+
+    function change_batch(){
+        //alert("---------------")
+        enroll_type = $("#enroll_type").val()
+        //alert(enroll_type)
+        if (enroll_type == "1"){
+            $("#discussed_fee").val("")
+            $("#discussed_fee").attr('readonly',false);
+            $(".add_installlment_class").prop("disabled",false);
+            $("#revision_msg").hide()
+        }else{
+            $("#discussed_fee").val("0")
+            $("#discussed_fee").attr('readonly','readonly');
+            $(".add_installlment_class").prop("disabled",true);
+            $("#revision_msg").show()
+        }
+
+
+    }
+
+    $("#discussed_fee").focusout(function(){
+        var disfee = $("#discussed_fee").val();
+        var gst_amount = (disfee*15.25428178522315)/100
+        var final_amnt = disfee-gst_amount
+        $("#gstfee").text(final_amnt)
+        $("#discussed_fee_af_sgt").val(final_amnt)
+        $("#balance_fee_sh").val(final_amnt)
+    });
+    
+    $("#exam_fee").focusout(function(){
+        var disfee = $("#discussed_fee_af_sgt").val();
+        var exam_fee = $("#exam_fee").val();
+        var book_fee = $("#book_fee").val();
+        var vandor_fee = $("#vandor_fee").val();
+        var ap2v_fee = $("#balance_fee_sh").val();
+        var other_fee = $("#other_fee_sh").val();
+        
+        
+        var sum_of_all = parseInt(exam_fee)+parseInt(book_fee)+parseInt(vandor_fee)+parseInt(other_fee)
+        var bal_fee_amount = parseInt(disfee)-parseInt(sum_of_all)
+
+        $("#balance_fee_sh").val(bal_fee_amount)
+        
+    });
+    $("#book_fee").focusout(function(){
+        var disfee = $("#discussed_fee_af_sgt").val();
+        var exam_fee = $("#exam_fee").val();
+        var book_fee = $("#book_fee").val();
+        var vandor_fee = $("#vandor_fee").val();
+        var ap2v_fee = $("#balance_fee_sh").val();
+        var other_fee = $("#other_fee_sh").val();
+        
+
+        var sum_of_all = parseInt(exam_fee)+parseInt(book_fee)+parseInt(vandor_fee)+parseInt(other_fee)
+        var bal_fee_amount = parseInt(disfee)-parseInt(sum_of_all)
+        $("#balance_fee_sh").val(bal_fee_amount)
+        
+    });
+    $("#vandor_fee").focusout(function(){
+        var disfee = $("#discussed_fee_af_sgt").val();
+        var exam_fee = $("#exam_fee").val();
+        var book_fee = $("#book_fee").val();
+        var vandor_fee = $("#vandor_fee").val();
+        var ap2v_fee = $("#balance_fee_sh").val();
+        var other_fee = $("#other_fee_sh").val();
+        
+
+        var sum_of_all = parseInt(exam_fee)+parseInt(book_fee)+parseInt(vandor_fee)+parseInt(other_fee)
+        var bal_fee_amount = parseInt(disfee)-parseInt(sum_of_all)
+        $("#balance_fee_sh").val(bal_fee_amount)
+        
+    });
+    $("#other_fee_sh").focusout(function(){
+        var disfee = $("#discussed_fee_af_sgt").val();
+        var exam_fee = $("#exam_fee").val();
+        var book_fee = $("#book_fee").val();
+        var vandor_fee = $("#vandor_fee").val();
+        var ap2v_fee = $("#balance_fee_sh").val();
+        var other_fee = $("#other_fee_sh").val();
+        
+
+        var sum_of_all = parseInt(exam_fee)+parseInt(book_fee)+parseInt(vandor_fee)+parseInt(other_fee)
+        var bal_fee_amount = parseInt(disfee)-parseInt(sum_of_all)
+        $("#balance_fee_sh").val(bal_fee_amount)
+        
+    });
+    $("#ap2v_fee").focusout(function(){
+        var disfee = $("#discussed_fee_af_sgt").val();
+        var exam_fee = $("#exam_fee").val();
+        var book_fee = $("#book_fee").val();
+        var vandor_fee = $("#vandor_fee").val();
+        var ap2v_fee = $("#balance_fee_sh").val();
+        var other_fee = $("#other_fee_sh").val();
+        
+
+        var sum_of_all = parseInt(exam_fee)+parseInt(book_fee)+parseInt(vandor_fee)+parseInt(other_fee)
+        var bal_fee_amount = parseInt(disfee)-parseInt(sum_of_all)
+        $("#balance_fee_sh").val(bal_fee_amount)
+        
+    });
+    $("#recive").focusout(function(){
+        var disfee = $("#discussed_fee").val();
+        var ap2fees = $("#balance_fee_sh").val();
+        var recive = $("#recive").val();
+        var percent= (parseInt(recive)/parseInt(disfee))*100
+        var current=parseInt(ap2fees)*parseInt(percent)/100
+        $("#precent").val(percent)
+        $("#current").val(current)
+        $("#needpercent").text(percent)
+        
+        
+    });
+
+
+</script>
+
+{% endblock %}
+

@@ -1,0 +1,93 @@
+.push-down-banner {
+    @include size(100%, 71px);
+    background-color: $primary;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translateY(-100%);
+    transition: transform 1s ease;
+    
+    &::after {
+        @include size (345px, 71px);
+        content: '';
+        position: absolute;
+        display: block;
+        right: 0;
+        top: 0;
+        background-image: url(#{$path}/push-down-bg.png);
+    }
+
+    &--content {
+        font-size: $font-size-md;
+        color: rgba($white, .7);
+        height: 71px;
+        position: relative;
+        z-index: 1;
+        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+
+        @include media-breakpoint-up(md) {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-direction: row; 
+        }
+
+        strong {
+            font-weight: $headings-font-weight;
+            color: $white;
+            font-size: $font-size-xxs;
+
+            @include media-breakpoint-up(md) {
+                font-size: $font-size-md; 
+            }
+        }
+
+        .push-text {
+            font-size: $font-size-xxs;
+            a {
+                font-size: $font-size-xxs;
+                color: $white;  
+            }
+            @include media-breakpoint-up(md) {
+                font-size: $font-size-md; 
+            }
+        }
+            
+    }
+
+    .close {
+        font-size: $font-size-md;
+        position: relative;
+        transform: translateY(-50%) scale(0.7);
+        top: 15px;
+        right: 5px;
+        z-index: 2;
+
+        @include media-breakpoint-up(md) {
+            transform: translateY(-50%) scale(1);
+            top: 35px;
+            right: 15px;
+        }
+    }
+}
+
+.main-wrap {
+    transition: margin 1s ease;
+    
+    &.pushed {
+        margin-top: 71px;
+
+        .push-down-banner {
+            transform: translateY(0);
+        }
+
+        .overlay {
+            top: 126px;
+        }
+    }
+}

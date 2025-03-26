@@ -1,0 +1,168 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#myModal">
+  Advanced Search
+</button>
+{%if request.GET.search%}
+{% if request.user.is_superuser%}
+<div>
+  <a href="#" onclick="window.location.href=window.location.href+'&download=yes'"
+    class="btn btn-warning btn-fill">Download</a>
+</div>
+{% endif %}
+
+{%endif%}
+<!-- Modal -->
+<form method="GET">
+  <input type="hidden" name="search" value="yes">
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    style="display: none;">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title mt-0" id="myModalLabel">Advanced Search</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label for="name">Name</label>
+              <input type="text" name="name" class="form-control" placeholder="Enter Name" value="{{request.session.enquiry_filter_data.name}}">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="name">Mobile</label>
+              <input type="text" name="mobile" class="form-control" placeholder="Enter Mobile"
+                value="{{request.session.enquiry_filter_data.mobile}}">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="name">Email</label>
+              <input type="text" name="email" class="form-control" placeholder="Enter email"
+                value="{{request.session.enquiry_filter_data.email}}">
+            </div>
+
+            <div class="form-group col-md-12">
+              <label for="name">Reference</label>
+              <select name="reference" class="form-control fastselect" multiple>
+                {%for reference in references %}
+                <option value="{{reference.0}}" {% if reference.1 in request.session.enquiry_filter_data.reference %}selected{% endif %}>{{reference.1}}
+                </option>
+                {%endfor%}
+              </select>
+            </div>
+            <div class="form-group col-md-12">
+              <label for="name">Course</label>
+              <select name="course" class="form-control fastselect" multiple>
+                {%for course in courses %}
+                <option value="{{course.id}}" {%if course.id in request.session.enquiry_filter_data.course %}selected{%endif%}>{{course.name}}</option>
+                {%endfor%}
+              </select>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="name">Assigned To</label>
+              <select name="owner" class="form-control fastselect">
+                <option></option>
+                {%for user in users %}
+                <option value="{{user.id}}" {%if user.id == request.session.enquiry_filter_data.owner %}selected{%endif%}>{{user.name}} </option>
+                {%endfor%}
+              </select>
+            </div>
+
+
+            <div class="form-group col-md-4">
+              <label for="name">Location</label>
+              <select name="location" class="form-control fastselect">
+                <option></option>
+                {%for location in locations %}
+                <option value="{{location.0}}" {% if location.0 == request.session.enquiry_filter_data.location %} selected {% endif %}>
+                  {{location.1}}</option>
+                {%endfor%}
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="name">Start Date</label>
+              <input type="date" name="start_date" class="form-control" placeholder="Enter Start Date"
+                value="{{request.session.enquiry_filter_data.start_date}}">
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="name">End Date</label>
+              <input type="date" name="end_date" class="form-control" placeholder="Enter End Date"
+                value="{{request.session.enquiry_filter_data.end_date}}">
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="name">Training Mode{{request.session.enquiry_filter_data.training_mode}}</label>
+              <select name="training_mode" class="form-control fastselect">
+                <option></option>
+                {%for training_mode in training_modes %}
+                <option value="{{training_mode.0}}" {% if training_mode.0 == request.session.enquiry_filter_data.training_mode %}selected{%endif%}>
+                  {{training_mode.1}}</option>
+                {%endfor%}
+              </select>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="name">Interest Level</label>
+              <select name="interest_level" class="form-control fastselect">
+                <option></option>
+                {%for interest_level in interest_levels %}
+                <option value="{{interest_level.0}}" {% if interest_level.0 == request.session.enquiry_filter_data.interest_level %}selected{% endif %}>
+                  {{interest_level.1}}</option>
+                {%endfor%}
+              </select>
+            </div>
+
+
+            <div class="form-group col-md-3">
+              <label for="name" style="color:#fff"> s</label>
+              <div class="d-flex align-items-center w-100" style="height: 40px;">
+                <input class="mr-2" type="checkbox" name="interested_batch" id="intested-batch"
+                  {% if request.session.enquiry_filter_data.interested_batch %}checked="yes" {% endif %} style="position: relative; top: -3px;">
+                <label for="intested-batch">Interested Batch</label>
+              </div>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label for="name" style="color:#fff"> s</label>
+              <div class="d-flex align-items-center w-100" style="height: 40px;">
+                <input class="mr-2" type="checkbox" id="discarded-lead" name="discarded" placeholder="" {%if request.session.enquiry_filter_data.discarded%}checked="yes"
+                {%endif%} style="position: relative; top: -3px;">
+                <label for="discarded-lead">Discarded Lead</label>
+              </div>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label for="name" style="color:#fff"> s</label>
+              <div class="d-flex align-items-center w-100" style="height: 40px;">
+                <input class="mr-2" type="checkbox" id="enrolled-lead" name="enrolled" placeholder="" {%if request.session.enquiry_filter_data.enrolled %}checked="yes"
+                {%endif%} style="position: relative; top: -3px;">
+                <label for="enrolled-lead">Enrolled Lead</label>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="name">Company Name</label>
+              <input type="text" name="company_name" class="form-control" placeholder="Enter Company Name"
+                value="{{request.session.enquiry_filter_data.company_name}}">
+            </div>
+
+            <div class="form-group col-md-12">
+              <label for="name">Designation</label>
+              <input type="text" name="designation" class="form-control" placeholder="Enter Designation"
+                value="{{request.session.enquiry_filter_data.designation}}">
+            </div>
+
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary btn-fill">Search</button>
+          <button type="button" class="btn btn-secondary btn-simple"><a
+              href="{% url 'list_enquiry' %}">Reset</a></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

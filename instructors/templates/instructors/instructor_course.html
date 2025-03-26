@@ -1,0 +1,8 @@
+{% load custom_tags %}
+Instructor Course
+<ul>
+{% for i in inst_obj.courses.all %}
+    {% get_batch_courses i.id as course_name %}
+    <li>{{course_name}}</li>
+{% endfor %}
+</ul>

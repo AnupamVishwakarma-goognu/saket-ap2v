@@ -1,0 +1,158 @@
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-header">
+      <button data-toggle="collapse-side" data-target=".side-collapse" data-target-2=".side-collapse-container" type="button" class="navbar-toggle pull-left">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+      <a class="navbar-brand" href="/">
+        <span></span>
+      </a>
+    </div>
+
+    <div class="side-collapse in">
+      <div id="navbar" class="navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="{% if request.resolver_match.url_name == 'home' %} active {% endif %}"><a href="/">Home</a></li>
+          <li class="left_side dropdown">
+            <a href="/courses/" class="js-dropdown">Courses<span class="caret"></span></a>
+            <ul class="dropdown-menu js-multi-level">
+            {% for name, courses in header_courses.items %}
+            <li class="dropdown-submenu js-level-one">
+              <a href="#">{{ name }}</a>
+                <ul class="dropdown-menu js-level-two">
+                  <li class="header-menu">
+                    <span class="icon-back js-menu-back"></span>
+                    {{ name }}
+                  </li>
+                  {% for course in courses %}
+                  <li><a href="/{{ course.url }}">{{ course.title }}</a></li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {% endfor %}
+            </ul>
+          </li>
+	  {% comment %}
+          <li class="dropdown">
+            <a href="/online-courses/" class="js-dropdown">Online Courses<span class="caret"></span></a>
+            <ul class="dropdown-menu js-multi-level">
+            {% for name, courses in header_online_courses.items %}
+            <li class="dropdown-submenu js-level-one">
+              <a href="#">{{ name }}</a>
+                <ul class="dropdown-menu js-level-two">
+                  <li class="header-menu">
+                    <span class="icon-back js-menu-back"></span>
+                    {{ name }}
+                  </li>
+                  {% for course in courses %}
+                  <li><a href="/courses/{{ course.url }}">{{ course.title }}</a></li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {% endfor %}
+            </ul>
+          </li>
+	  {% endcomment %}
+	  {% comment %}
+          <li class="dropdown">
+            <a href="/certifications/" class="js-dropdown">Certifications<span class="caret"></span></a>
+            <ul class="dropdown-menu js-multi-level">
+            {% for name, certifications in header_certifications.items %}
+              <li class="dropdown-submenu js-level-one">
+                <a href="#">{{ name }}</a>
+                <ul class="dropdown-menu js-level-two">
+                  <li class="header-menu">
+                    <span class="icon-back js-menu-back"></span>
+                    {{ name }}
+                  </li>
+                  {% for certificate in certifications %}
+                  <li><a href="/certifications/{{ certificate.url }}">{{ certificate.title }}</a></li>
+                  {% endfor %}
+                </ul>
+              </li>
+              {% endfor %}
+            </ul>
+          </li>
+	  {% endcomment %}
+
+	  {% comment %}
+	  <li class="{% if request.resolver_match.url_name == 'training_online' %} active {% endif %}"><a href="{% url 'training_online' %}">Online Courses</a></li>
+          <li class="{% if request.resolver_match.url_name == 'whyap2v' %} active {% endif %}"><a href="{% url 'whyap2v' %}">Why AP2V</a></li>
+          <li class="{% if request.resolver_match.url_name == 'events' %} active {% endif %}"><a href="/events/">Events</a></li>
+          <li class="{% if request.resolver_match.url_name == 'testimonials' %} active {% endif %}"><a href="/testimonials/">Testimonials</a></li>
+	  {% endcomment %}
+          <li class="{% if request.resolver_match.url_name == 'blogs' %} active {% endif %}"><a href="/blog/">Blog</a></li>
+
+	  {% comment %}
+          <li class="{% if request.resolver_match.url_name == 'gallery' %} active {% endif %}"><a href="/gallery/">Gallery</a></li>
+	  {% endcomment %}
+          <li class=""><a href="/about-us/">About us</a></li>
+          <li class="{% if request.resolver_match.url_name == 'contact-us' %} active {% endif %}"><a href="/contact/">Contact</a></li>
+	  {% comment %}
+          <li class="offers dropdown">
+            <a href="/college-courses/" class="js-dropdown">I am Student</a>
+            <ul class="dropdown-menu js-multi-level">
+            {% for category, courses_list  in header_students.items %}
+              <li class="dropdown-submenu js-level-one">
+		<a href="javascript:void(0);">{{ category }}</a>
+                <ul class="dropdown-menu js-level-two">
+                  <li class="header-menu">
+                    <span class="icon-back js-menu-back"></span>
+                    {{ category }}
+                  </li>
+                  {% for course in courses_list %}
+                  <li><a href="/college-courses/{{ course.url }}">{{ course.name }}</a></li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {% endfor %}
+            </ul>
+          </li>
+          <li class="offers"><a href="/offers/">Offers</a></li>
+	  {% endcomment %}
+          <li class="hidden-xs">
+            <span class="icon-search" data-toggle="collapse" data-target="#demo"></span>
+            <div class="search-container menu-search collapse" id="demo">
+              <sup class="sprite"></sup>
+              <div class="input-group">
+                <div class="input-group-btn">
+                  <select>
+                      <option>Select location</option>
+                      <option>Delhi NCR</option>
+                      <option>Hyderabad</option>
+                      <option>Bangalore</option>
+                      <option>Pune</option>
+                  </select>
+                </div><!-- /btn-group -->
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Recipient's username">
+                  <buttton class="input-group-addon sprite">Search</buttton>
+                </div>
+              </div><!-- /input-group -->
+            </div><!-- search-container -->
+          </li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
+</nav><!-- navbar Ends here -->
+
+
+
+<!-- Mobile Login -->
+<div class="mobile-modal">
+  <div class="mobile-modal__header">
+      <span class="btn btn-link btn-back"></span>
+      <span class="navbar-brand"></span>
+  </div>
+
+  <div class="mobile-modal__content">
+      <h2>Sign in to your account</h2>
+      <button class="google-login rounded d-flex align-items-center">
+          Sign up with google
+      </button>
+  </div>
+</div>

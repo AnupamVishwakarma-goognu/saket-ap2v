@@ -1,0 +1,239 @@
+.interview-inspection {
+    overflow: hidden;
+    max-width: 1140px;
+    width: 90%;
+    margin: 120px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.interview-heading {
+    max-width: 600px;
+}
+
+.interview-heading h1 {
+    color: #e92347;
+}
+
+img.corner-img {
+    position: absolute;
+    right: 43px;
+    top: -24px;
+    width: 46%;
+}
+
+.main-part-question {
+    position: relative;
+    overflow: hidden;
+}
+
+.mycards a {
+    width: 32%;
+}
+
+.flip-card {
+    background-color: transparent;
+    width: 100%;
+    height: 187px;
+    perspective: 1000px;
+    margin: 20px 0;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    box-shadow: 0px 1px 12px -5px rgb(233 35 71);
+    border-radius: 20px;
+}
+
+.flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.flip-card-front {
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 30px;
+    align-items: flex-start;
+}
+
+.flip-card-front p {
+    color: #e92347;
+}
+
+.flip-card-front h2 {
+    font-size: 25px;
+}
+
+.flip-card-front span {
+    color: #797979;
+}
+
+.flip-card-back {
+    background-color: #e92347cc;
+    color: white;
+    transform: rotateY(180deg);
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    border-radius: 20px;
+    box-shadow: 0px 1px 12px -5px rgb(233 35 71);
+    flex-direction: column;
+    align-items: center;
+}
+
+.flip-card-back button {
+    width: 56%;
+    border: 2px solid white;
+    background-color: #ed4f6c;
+    color: white;
+    padding: 6px;
+    border-radius: 16px;
+}
+
+.flip-card-back h5 {
+    border-bottom: 2px solid;
+    padding: 4px 23px;
+}
+
+.flip-card-back ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.flip-card-back ul li {
+    width: 34%;
+    text-transform: uppercase;
+    list-style-type: disc;
+    text-align: left;
+}
+
+.mycards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    max-width: 1140px;
+    width: 100%;
+}
+
+.catog {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.catog-box p {
+    color: #2c2c2c;
+    font-style: italic;
+    margin: 10px 0px;
+}
+
+.catog-box h3 {
+    display: initial;
+    border-bottom: 2px solid;
+    padding: 5px 0px;
+}
+
+.catog-box {
+    width: 30%;
+    margin: 10px;
+    padding: 9px 19px;
+    border-radius: 10px;
+    background-color: #e92347;
+    color: rgb(255, 255, 255);
+    transition: transform 2s;
+    /* text-align: center; */
+    animation: mymove 3s infinite;
+}
+
+@keyframes mymove {
+    0% {
+        background-color: #e923478b;
+    }
+
+    50% {
+        background-color: #e92347;
+    }
+
+    100% {
+        background-color: #e923478b;
+    }
+}
+
+.container.coschum .courses a.courses-content {
+    display: block;
+    padding: 15px;
+    color: black;
+    background-color: #bbb;
+    margin: 10px 0;
+    border-radius: 10px;
+}
+
+.container.coschum h2.section-heading {
+    text-transform: uppercase;
+    color: #e92347;
+}
+
+.container.coschum .courses a.courses-content:hover {
+    background-color: #e92347cc;
+    color: rgb(248, 248, 248);
+}
+
+
+
+
+@media only screen and (max-width: 767px) {
+    .catog-box {
+        width: 100%;
+    }
+
+    img.corner-img {
+        display: none;
+    }
+
+    .interview-inspection .interview-heading h1 {
+        font-size: 1.75rem;
+    }
+
+    .mycards a {
+        width: 100%;
+    }
+
+    .interview-inspection {
+        margin: 26px auto;
+    }
+    .container.coschum h2.section-heading { 
+        font-size: 18px;
+    }
+    .catog-box h3 { 
+        font-size: 18px;
+    }
+    .main-part-question .align-items-start { 
+        font-size: 22px;
+    }
+    .flip-card-front h2 {
+        font-size: 21px;
+    }
+}

@@ -1,0 +1,448 @@
+{% load custom_tags %}
+<nav class="navbar navbar-expand-lg navbar-light" id="main-navigation">
+    <div class="container">
+        <div class="d-flex justify-content-between w-100 align-items-center">
+            <div class="overlay"></div>
+            <div>
+                <div class="d-block d-sm-none" id="bar-menu">
+                    <span class="hmmenu">
+                        <sup></sup>
+                    </span>
+                </div>
+                <a class="navbar-brand" href="/"></a>
+            </div>
+            <a href="#" class="d-block d-sm-none text-uppercase font-weight-bold font-size-xs text-gray-dark" data-toggle="modal" data-target="#exampleModal">Login</a>
+
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav">
+                    <li class="dropdown courses-dropdown">
+                        <a class="nav-link  course-btn" href="/courses/" role="button">
+                            <span class="dropdown-toggle">All Courses</span>
+                        </a>
+
+                        <div class="dropdown-menu courses-tabs">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                {% for i in category_all %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="course-{{forloop.counter}}-tab" data-toggle="tab" href="#course-{{forloop.counter}}"
+                                            role="tab" aria-selected="true">{{i.name}}</a>
+                                    </li>
+                                {% endfor %}
+                                
+                            </ul><!-- list style -->
+
+                            <div class="menu-tab-content" id="myTabContent">
+                                {% for i in category_all %}
+                                    {% get_category_course i.slug as all_course %}
+                                    <div class="menu-tab-pane" id="course-{{forloop.counter}}" role="tabpanel" aria-labelledby="course-{{forloop.counter}}-tab">
+                                        <h2>{{i.name}}</h2>
+                                        <div class="submenu-wrap">
+                                            <ul>
+                                                {% for j in all_course %}
+                                                    <li><a href="/{{j.slug}}">{{j.name}}</a></li>
+                                                    {% comment %} <li><a href="#">Java Training in Noida</a></li>
+                                                    <li><a href="#">Java Training in Gurgaon</a></li>
+                                                    <li><a href="#">Python Training in Gurgaon</a></li>
+                                                    <li><a href="#">Ansible Training in Gurgaon</a></li>
+                                                    <li><a href="#">PYTHON ADVANCED</a></li>
+                                                    <li><a href="#">PERL SCRIPTING</a></li>
+                                                    <li><a href="#">PYTHON SCRIPTING</a></li>
+                                                    <li><a href="#">BASH SHELL SCRIPTING</a></li>
+                                                    <li><a href="#">PYTHON TRAINING IN DELHI</a></li>
+                                                    <li><a href="#">JAVA TRAINING IN DELHI</a></li>
+                                                    <li><a href="#">Red Hat Certificate Of Expertise In Deployment and
+                                                            Systems Management</a></li> {% endcomment %}
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div><!-- /. tab contant ends here -->
+                                {% endfor %}
+
+                                {% comment %} <div class="menu-tab-pane" id="course-2" role="tabpanel"
+                                    aria-labelledby="course-2-tab">
+                                    <h2>Database</h2>
+                                    <div class="submenu-wrap">
+                                        <ul>
+                                            <li><a href="#">MYSQL Aminstration</a></li>
+                                            <li><a href="#">MONGODB Aminstration</a></li>
+                                        </ul>
+                                    </div>
+                                </div><!-- /. tab contant ends here --> {% endcomment %}
+
+                               {% comment %} <div class="menu-tab-pane" id="course-3" role="tabpanel"
+                                    aria-labelledby="course-3-tab">
+                                    <h2>Middleware</h2>
+                                    <div class="submenu-wrap">
+                                        <ul>
+                                            <li><a href="#">Python Training in Noida</a></li>
+                                            <li><a href="#">Java Training in Noida</a></li>
+                                            <li><a href="#">Java Training in Gurgaon</a></li>
+                                            <li><a href="#">Python Training in Gurgaon</a></li>
+                                            <li><a href="#">Ansible Training in Gurgaon</a></li>
+                                            <li><a href="#">PYTHON ADVANCED</a></li>
+                                            <li><a href="#">PERL SCRIPTING</a></li>
+                                            <li><a href="#">PYTHON SCRIPTING</a></li>
+                                            <li><a href="#">BASH SHELL SCRIPTING</a></li>
+                                            <li><a href="#">PYTHON TRAINING IN DELHI</a></li>
+                                            <li><a href="#">JAVA TRAINING IN DELHI</a></li>
+                                            <li><a href="#">Red Hat Certificate Of Expertise In Deployment and
+                                                    Systems Management</a></li>
+                                        </ul>
+                                    </div>
+                                </div><!-- /. tab contant ends here -->
+
+                                <div class="menu-tab-pane" id="course-4" role="tabpanel"
+                                    aria-labelledby="course-4-tab">
+                                    <h2>Devops</h2>
+                                    <div class="submenu-wrap">
+                                        <ul>
+                                            <li><a href="#">Python Training in Noida</a></li>
+                                            <li><a href="#">Java Training in Noida</a></li>
+                                            <li><a href="#">Java Training in Gurgaon</a></li>
+                                            <li><a href="#">Python Training in Gurgaon</a></li>
+                                            <li><a href="#">Ansible Training in Gurgaon</a></li>
+                                            <li><a href="#">PYTHON ADVANCED</a></li>
+                                            <li><a href="#">PERL SCRIPTING</a></li>
+                                            <li><a href="#">PYTHON SCRIPTING</a></li>
+                                            <li><a href="#">BASH SHELL SCRIPTING</a></li>
+                                            <li><a href="#">PYTHON TRAINING IN DELHI</a></li>
+                                            <li><a href="#">JAVA TRAINING IN DELHI</a></li>
+                                            <li><a href="#">Red Hat Certificate Of Expertise In Deployment and
+                                                    Systems Management</a></li>
+                                        </ul>
+                                    </div>
+                                </div><!-- /. tab contant ends here -->
+
+                                <div class="menu-tab-pane" id="course-5" role="tabpanel"
+                                    aria-labelledby="course-5-tab">
+                                    <h2>Advanced Administration</h2>
+                                    <div class="submenu-wrap">
+                                        <ul>
+                                            <li><a href="#">Python Training in Noida</a></li>
+                                            <li><a href="#">Java Training in Noida</a></li>
+                                            <li><a href="#">Java Training in Gurgaon</a></li>
+                                            <li><a href="#">Python Training in Gurgaon</a></li>
+                                            <li><a href="#">Ansible Training in Gurgaon</a></li>
+                                            <li><a href="#">PYTHON ADVANCED</a></li>
+                                            <li><a href="#">PERL SCRIPTING</a></li>
+                                            <li><a href="#">PYTHON SCRIPTING</a></li>
+                                            <li><a href="#">BASH SHELL SCRIPTING</a></li>
+                                            <li><a href="#">PYTHON TRAINING IN DELHI</a></li>
+                                            <li><a href="#">JAVA TRAINING IN DELHI</a></li>
+                                            <li><a href="#">Red Hat Certificate Of Expertise In Deployment and
+                                                    Systems Management</a></li>
+                                        </ul>
+                                    </div>
+                                </div><!-- /. tab contant ends here -->
+
+                                <div class="menu-tab-pane" id="course-6" role="tabpanel"
+                                    aria-labelledby="course-6-tab">
+                                    <h2>Bigdata</h2>
+                                    <div class="submenu-wrap">
+                                        <ul>
+                                            <li><a href="#">Python Training in Noida</a></li>
+                                            <li><a href="#">Java Training in Noida</a></li>
+                                            <li><a href="#">Java Training in Gurgaon</a></li>
+                                            <li><a href="#">Python Training in Gurgaon</a></li>
+                                            <li><a href="#">Ansible Training in Gurgaon</a></li>
+                                            <li><a href="#">PYTHON ADVANCED</a></li>
+                                            <li><a href="#">PERL SCRIPTING</a></li>
+                                            <li><a href="#">PYTHON SCRIPTING</a></li>
+                                            <li><a href="#">BASH SHELL SCRIPTING</a></li>
+                                            <li><a href="#">PYTHON TRAINING IN DELHI</a></li>
+                                            <li><a href="#">JAVA TRAINING IN DELHI</a></li>
+                                            <li><a href="#">Red Hat Certificate Of Expertise In Deployment and
+                                                    Systems Management</a></li>
+                                        </ul>
+                                    </div>
+                                </div><!-- /. tab contant ends here -->
+
+                                <div class="menu-tab-pane" id="course-7" role="tabpanel"
+                                    aria-labelledby="course-7-tab">
+                                    <h2>Cloud</h2>
+                                    <div class="submenu-wrap">
+                                        <ul>
+                                            <li><a href="#">Python Training in Noida</a></li>
+                                            <li><a href="#">Java Training in Noida</a></li>
+                                            <li><a href="#">Java Training in Gurgaon</a></li>
+                                            <li><a href="#">Python Training in Gurgaon</a></li>
+                                            <li><a href="#">Ansible Training in Gurgaon</a></li>
+                                            <li><a href="#">PYTHON ADVANCED</a></li>
+                                            <li><a href="#">PERL SCRIPTING</a></li>
+                                            <li><a href="#">PYTHON SCRIPTING</a></li>
+                                            <li><a href="#">BASH SHELL SCRIPTING</a></li>
+                                            <li><a href="#">PYTHON TRAINING IN DELHI</a></li>
+                                            <li><a href="#">JAVA TRAINING IN DELHI</a></li>
+                                            <li><a href="#">Red Hat Certificate Of Expertise In Deployment and
+                                                    Systems Management</a></li>
+                                        </ul>
+                                    </div>
+                                </div><!-- /. tab contant ends here -->
+
+                                <div class="menu-tab-pane" id="course-8" role="tabpanel"
+                                    aria-labelledby="course-8-tab">
+                                    <h2>System Administration</h2>
+                                    <div class="submenu-wrap">
+                                        <ul>
+                                            <li><a href="#">Python Training in Noida</a></li>
+                                            <li><a href="#">Java Training in Noida</a></li>
+                                            <li><a href="#">Java Training in Gurgaon</a></li>
+                                            <li><a href="#">Python Training in Gurgaon</a></li>
+                                            <li><a href="#">Ansible Training in Gurgaon</a></li>
+                                            <li><a href="#">PYTHON ADVANCED</a></li>
+                                            <li><a href="#">PERL SCRIPTING</a></li>
+                                            <li><a href="#">PYTHON SCRIPTING</a></li>
+                                            <li><a href="#">BASH SHELL SCRIPTING</a></li>
+                                            <li><a href="#">PYTHON TRAINING IN DELHI</a></li>
+                                            <li><a href="#">JAVA TRAINING IN DELHI</a></li>
+                                            <li><a href="#">Red Hat Certificate Of Expertise In Deployment and
+                                                    Systems Management</a></li>
+                                        </ul>
+                                    </div>
+                                </div><!-- /. tab contant ends here -->
+
+                                <div class="menu-tab-pane" id="course-9" role="tabpanel"
+                                    aria-labelledby="course-9-tab">
+                                    <h2>Linux</h2>
+                                    <div class="submenu-wrap">
+                                        <ul>
+                                            <li><a href="#">Python Training in Noida</a></li>
+                                            <li><a href="#">Java Training in Noida</a></li>
+                                            <li><a href="#">Java Training in Gurgaon</a></li>
+                                            <li><a href="#">Python Training in Gurgaon</a></li>
+                                            <li><a href="#">Ansible Training in Gurgaon</a></li>
+                                            <li><a href="#">PYTHON ADVANCED</a></li>
+                                            <li><a href="#">PERL SCRIPTING</a></li>
+                                            <li><a href="#">PYTHON SCRIPTING</a></li>
+                                            <li><a href="#">BASH SHELL SCRIPTING</a></li>
+                                            <li><a href="#">PYTHON TRAINING IN DELHI</a></li>
+                                            <li><a href="#">JAVA TRAINING IN DELHI</a></li>
+                                            <li><a href="#">Red Hat Certificate Of Expertise In Deployment and
+                                                    Systems Management</a></li>
+                                        </ul>
+                                    </div>
+                                </div><!-- /. tab contant ends here -->
+
+                                <div class="menu-tab-pane" id="course-10" role="tabpanel"
+                                    aria-labelledby="course-10-tab">
+                                    <h2>Redhat Certification</h2>
+                                    <div class="submenu-wrap">
+                                        <ul>
+                                            <li><a href="#">Python Training in Noida</a></li>
+                                            <li><a href="#">Java Training in Noida</a></li>
+                                            <li><a href="#">Java Training in Gurgaon</a></li>
+                                            <li><a href="#">Python Training in Gurgaon</a></li>
+                                            <li><a href="#">Ansible Training in Gurgaon</a></li>
+                                            <li><a href="#">PYTHON ADVANCED</a></li>
+                                            <li><a href="#">PERL SCRIPTING</a></li>
+                                            <li><a href="#">PYTHON SCRIPTING</a></li>
+                                            <li><a href="#">BASH SHELL SCRIPTING</a></li>
+                                            <li><a href="#">PYTHON TRAINING IN DELHI</a></li>
+                                            <li><a href="#">JAVA TRAINING IN DELHI</a></li>
+                                            <li><a href="#">Red Hat Certificate Of Expertise In Deployment and
+                                                    Systems Management</a></li>
+                                        </ul>
+                                    </div>
+                                </div><!-- /. tab contant ends here -->
+
+                                <div class="menu-tab-pane" id="course-11" role="tabpanel"
+                                    aria-labelledby="course-11-tab">
+                                    <h2>Others</h2>
+                                    <div class="submenu-wrap">
+                                        <ul>
+                                            <li><a href="#">Python Training in Noida</a></li>
+                                            <li><a href="#">Java Training in Noida</a></li>
+                                            <li><a href="#">Java Training in Gurgaon</a></li>
+                                            <li><a href="#">Python Training in Gurgaon</a></li>
+                                            <li><a href="#">Ansible Training in Gurgaon</a></li>
+                                            <li><a href="#">PYTHON ADVANCED</a></li>
+                                            <li><a href="#">PERL SCRIPTING</a></li>
+                                            <li><a href="#">PYTHON SCRIPTING</a></li>
+                                            <li><a href="#">BASH SHELL SCRIPTING</a></li>
+                                            <li><a href="#">PYTHON TRAINING IN DELHI</a></li>
+                                            <li><a href="#">JAVA TRAINING IN DELHI</a></li>
+                                            <li><a href="#">Red Hat Certificate Of Expertise In Deployment and
+                                                    Systems Management</a></li>
+                                        </ul>
+                                    </div>
+                                </div><!-- /. tab contant ends here --> {% endcomment %}
+
+                            </div><!-- /. tab container ends here -->
+
+                        </div>
+                    </li>
+                    
+                    <li class="dropdown courses-dropdown">
+                        <a class="nav-link course-btn" href="#" role="button">
+                            <span class="dropdown-toggle">Learning Path</span>
+                        </a>
+
+                        <div class="dropdown-menu courses-tabs">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item"><a class="nav-link" href="#">AWS Solution Architect</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">AWS Cloud Administrator</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">AWS DevOps Engineer</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">GCP Cloud Architect</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">GCP DevOps Engineer</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Azure Administrator</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Kubernetes Expert</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Django Developer</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Python Developer</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">AI Developer</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">ML Developer</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Data Scientist</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">DevOps Engineer</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Docker Expert</a></li>
+                            </ul><!-- list style -->
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="navbar-nav navbar-right ml-auto">
+                    <div class="input-group search-bar">
+                        <input type="text" id="search-btn" class="form-control" placeholder="Enter Course, Category or keyword"
+                            aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon2">
+                                <i class="icon-search-thin"></i>
+                            </span>
+                        </div>
+                    </div><!-- // Search Bar-->
+                    {% if user.is_authenticated %}
+                        <a href="/classroom/logout" class="ml-3 mt-2 text-uppercase font-weight-bold font-size-xs text-gray-dark">Logout</a>
+                    {% else %}
+                        <a href="#" class="ml-3 mt-2 text-uppercase font-weight-bold font-size-xs text-gray-dark" data-toggle="modal" data-target="#exampleModal">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div><!-- // Row -->
+    </div><!-- // container -->
+</nav><!-- // Navigation and Logon modal-->
+
+
+<div class="sidebar">
+    <div class="sidebar__category">
+        <div class="sidebar__category--name mb-0">
+            Welcom to Ashutosh
+        </div>
+
+        <div class="sidebar__category--container">
+
+            <a href="#" class="side-link d-block pt-0"> <i class="icon-home mr-2"></i> Home</a>
+
+            <div class="accordion" id="mobileMenu">
+                <div class="card">
+                    <div class="card-header" id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                        aria-controls="collapseOne">
+                        <i class="icon-files-empty mr-2"></i> All Courses
+                    </div>
+            
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#mobileMenu">
+                        <div class="card-body">
+                            <ul>
+                                <li class="sidebar__category--item">
+                                    <a href="#">Devlopment</a>
+            
+                                    <ul class="sidebar__sub-category">
+                                        <li class="sub-headingwrap">
+                                            <div class="sidebar__sub-category--heading" id="back-to-menu">
+                                                <span class="back-btn"></span> Devlopment
+                                            </div>
+                                        </li>
+                                        <li><a href="#">1. Certified Kubernetes Application Developer (CKAD) Training Course
+                                                Online</a></li>
+                                        <li><a href="#">AWS DevOps Professional Engineer Course Training Online</a></li>
+                                        <li><a href="#">DevOps Certification Course Online</a></li>
+                                        <li><a href="#">(NA) Java Course Training Online</a></li>
+                                        <li><a href="#">(NA) Ansible Certification Course Training</a></li>
+                                        <li><a href="#">Python Core Training Course Online</a></li>
+                                        <li><a href="#">(NA) PERL Training Course Online</a></li>
+                                        <li><a href="#">Kubernetes Administrator (CKA) Certification Training Online</a></li>
+                                    </ul>
+                                </li>
+            
+                                <li class="sidebar__category--item">
+                                    <a href="#">Artificial Intelligence</a>
+            
+                                    <ul class="sidebar__sub-category">
+                                        <li class="sub-headingwrap">
+                                            <div class="sidebar__sub-category--heading">
+                                                <span class="back-btn"></span> Artificial Intelligence
+                                            </div>
+                                        </li>
+                                        <li><a href="#">2. Certified Kubernetes Application Developer (CKAD) Training Course
+                                                Online</a></li>
+                                        <li><a href="#">AWS DevOps Professional Engineer Course Training Online</a></li>
+                                        <li><a href="#">DevOps Certification Course Online</a></li>
+                                        <li><a href="#">(NA) Java Course Training Online</a></li>
+                                        <li><a href="#">(NA) Ansible Certification Course Training</a></li>
+                                        <li><a href="#">Python Core Training Course Online</a></li>
+                                        <li><a href="#">(NA) PERL Training Course Online</a></li>
+                                        <li><a href="#">Kubernetes Administrator (CKA) Certification Training Online</a></li>
+                                    </ul>
+                                </li>
+            
+                                <li class="sidebar__category--item">
+                                    <a href="#">Machine Learning</a>
+            
+                                    <ul class="sidebar__sub-category">
+                                        <li class="sub-headingwrap">
+                                            <div class="sidebar__sub-category--heading" id="back-to-menu">
+                                                <span class="back-btn"></span> Machine Learning
+                                            </div>
+                                        </li>
+                                        <li><a href="#">3. Certified Kubernetes Application Developer (CKAD) Training Course
+                                                Online</a></li>
+                                        <li><a href="#">AWS DevOps Professional Engineer Course Training Online</a></li>
+                                        <li><a href="#">DevOps Certification Course Online</a></li>
+                                        <li><a href="#">(NA) Java Course Training Online</a></li>
+                                        <li><a href="#">(NA) Ansible Certification Course Training</a></li>
+                                        <li><a href="#">Python Core Training Course Online</a></li>
+                                        <li><a href="#">(NA) PERL Training Course Online</a></li>
+                                        <li><a href="#">Kubernetes Administrator (CKA) Certification Training Online</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header pt-0" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+                        aria-controls="collapseTwo">
+                        <i class="icon-learning-path mr-2"></i> Learning Path
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#mobileMenu">
+                        <div class="card-body">
+                            <ul class="mb-0 sidebar-learning-path">
+                                <li class="sidebar__category--item"><a href="#">AWS Solution Architect</a></li>
+                                <li class="sidebar__category--item"><a href="#">AWS Cloud Administrator</a></li>
+                                <li class="sidebar__category--item"><a href="#">AWS DevOps Engineer</a></li>
+                                <li class="sidebar__category--item"><a href="#">GCP Cloud Architect</a></li>
+                                <li class="sidebar__category--item"><a href="#">GCP DevOps Engineer</a></li>
+                                <li class="sidebar__category--item"><a href="#">Azure Administrator</a></li>
+                                <li class="sidebar__category--item"><a href="#">Kubernetes Expert</a></li>
+                                <li class="sidebar__category--item"><a href="#">Django Developer</a></li>
+                                <li class="sidebar__category--item"><a href="#">Python Developer</a></li>
+                                <li class="sidebar__category--item"><a href="#">AI Developer</a></li>
+                                <li class="sidebar__category--item"><a href="#">ML Developer</a></li>
+                                <li class="sidebar__category--item"><a href="#">Data Scientist</a></li>
+                                <li class="sidebar__category--item"><a href="#">DevOps Engineer</a></li>
+                                <li class="sidebar__category--item"><a href="#">Docker Expert</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="#" class="side-link d-block"> <i class="icon-blog mr-2"></i> Blog</a>
+
+            <hr/>
+            <a href="#" class="side-link d-block py-2">About us</a>
+            <a href="#" class="side-link d-block py-2">contact us</a>
+            
+        </div>
+    </div>
+</div>
+<div class="menu-overlay">
+    <span class="close close--blue-cta" id="close-sidebar">&#x2715;</span>
+</div>

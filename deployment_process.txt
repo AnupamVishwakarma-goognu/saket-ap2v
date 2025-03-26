@@ -1,0 +1,18 @@
+
+source /opt/py3_vitualenv/dj3_anquira/bin/activate
+/opt/projects/anquira
+rm staticfiles -rfv
+git pull
+systemctl restart uwsgi-py3; systemctl restart chat; systemctl restart celery; systemctl restart nginx
+
+# CLEAR THE CACHE FROM CLOUDFRONT
+
+python3 manage.py url_cache
+
+
+
+# process if no changes in css & js
+source /opt/py3_vitualenv/dj3_anquira/bin/activate
+/opt/projects/anquira
+git pull
+systemctl restart uwsgi-py3; systemctl restart chat; systemctl restart celery; systemctl restart nginx

@@ -1,0 +1,25 @@
+{% load static %}
+<!-- Testimonials starts -->
+<div class="container mt-50 mobile-mt-0">
+  <div class="row">
+    
+    <div class="col-sm-12">
+      <div class="text-center">
+        <h2 class="inline-block">Testimonials</h2>
+      </div><!-- /. Text center-->
+     
+      <ul class="testimonials">
+        {% for testimonial in testimonials %}
+        <li><span><img src="/media/{{testimonial.image}}"></span>
+         
+          <p>{{testimonial.content|truncatechars:"250"|safe}}</p>
+          <p class="testi-name fs-14"><strong>{{testimonial.name}}</strong>{{testimonial.company}}</p>
+        </li>
+        {% endfor %}
+      </ul>
+   
+    </div><!-- /. col-sm-12 -->
+  </div><!-- /.Row -->
+</div><!-- /. Testimonials ends -->
+</div><!-- /.Row -->
+</section><!-- SEO Keyword ends here -->

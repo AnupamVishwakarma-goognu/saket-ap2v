@@ -1,0 +1,16 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in all_student_list %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{% if i.name %} {{i.name}} {% else %} -- {% endif %} {% if i.dropped %} (Dropped) {% endif %}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+  </table>

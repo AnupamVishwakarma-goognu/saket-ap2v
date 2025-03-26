@@ -1,0 +1,73 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+{% load ap2v_course_tag %}
+{% load compress %}
+{% block title %} AP2V {% endblock %}
+{% block css %}
+    {% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/others.css' %}" type="text/css" /> {% endcomment %}
+    {% compress css %}
+        {% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/others.css' %}" type="text/css" /> {% endcomment %}
+        <link media="all" rel="stylesheet" href="/static/v4_home_static/css/others.css" type="text/css" />
+    {% endcompress %}
+
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.ap2v.com/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Gallery",
+            "item": "https://www.ap2v.com/gallery/"
+        }]
+        }
+    </script>
+{% endblock css %}
+{% block content %}
+    <div class="main-wrap">
+    {% include 'v4_home/sub_pages/push-down.html' %}
+    {% include 'v4_home/sub_pages/navigation.html' %}
+
+        <!-- Banner -->
+        <div class="banner-inner">
+            <div class="container">
+                <div class="row banner-inner--content flex-column">
+                    {% include 'v4/breadcrumb.html' %}<!-- // breadcrumb -->
+                    <div class="d-flex">
+                        <div class="banner-inner--left-pan d-flex flex-column justify-content-center">
+                        <h1 class="text-secondary">Gallery</h1>
+                        <p class="text-gray-lightest mb-0">Welcome to AP2V Academy, Our Institute is one of the leading online training institutes located in Gurgaon. Here are the few pictures of our prestigious institute.</p>
+                        </div>
+                        <div class="banner-inner--right-pan d-none d-xl-block">
+                          <img src="{% static 'v4_home_static/images/gallery.png'%}" alt="Contact us">
+                        </div>
+                    </div><!-- slick-slide d-flex-->
+                </div><!-- // row -->
+            </div>
+        </div><!-- // Banner -->
+
+
+        <div class="spacer mt-0"></div><!-- // Spacer -->
+
+        <section class="container pt-0">
+
+            <div class="gallery">
+                {% for image in images %}
+                <a href="/media/{{image.photo}}">
+                    <img src="/media/{{image.photo}}" class="img-thumbnail" alt="gallery"/>
+                </a>
+                {% endfor %}
+            </div>
+
+
+
+
+        </section><!-- // Overview -->
+        
+    {% comment %} {% include 'v4_home/sub_pages/modals.html' %} {% endcomment %}
+{% endblock content %}

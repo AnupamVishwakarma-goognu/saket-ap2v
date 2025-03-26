@@ -1,0 +1,171 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+{% load ap2v_course_tag %}
+{% load custom_tags %}
+{% load compress %}
+{% block title %} AP2V {% endblock %}
+{% block css %}
+    {% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/others.css' %}" type="text/css" /> {% endcomment %}
+    {% compress css %}
+      {% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/others.css' %}" type="text/css" /> {% endcomment %}
+      <link media="all" rel="stylesheet" href="/static/v4_home_static/css/others.css" type="text/css" />
+  {% endcompress %}
+
+  <script type="application/ld+json">
+      {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.ap2v.com/"
+      },{
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Our Events",
+          "item": "https://www.ap2v.com/events/"
+      }]
+      }
+  </script>
+{% endblock css %}
+{% block content %}
+    <div class="main-wrap">
+    {% include 'v4_home/sub_pages/push-down.html' %}
+    {% include 'v4_home/sub_pages/navigation.html' %}
+
+        <!-- Banner -->
+        <div class="banner-inner event-banner">
+            <div class="container">
+                <div class="row banner-inner--content flex-column">
+                  <!-- // breadcrumb -->
+                    <div class="d-flex">
+                        <div class="banner-inner--left-pan d-flex flex-column justify-content-center">
+                        <h1 class="text-secondary">Our Events</h1>
+                        <p class="text-gray-draker mb-0">AP2V Academy is an education platform that provides industry-relevant programs that are rigorous and supported by world-class faculty, industry infrastructure, and real-world experience.</p>
+                        </div>
+                        <div class="banner-inner--right-pan d-none d-xl-block">
+                          <img src="{% static 'v4_home_static/images/event-banner.png'%}" alt="Contact us">
+                        </div>
+                    </div><!-- slick-slide d-flex-->
+                </div><!-- // row -->
+            </div>
+        </div><!-- // Banner -->
+
+
+        <div class="spacer mt-0"></div><!-- // Spacer -->
+        <div class="container">
+          <div class="row">
+            <div class="col-12 col-lg-8 event mb-5">
+
+              <div class="white-box event__list pt-5">
+                {% for item in events %}
+                  <div class="media">
+                    <a href="#" class="event__list--img mr-3"><img src="/media/{{item.image}}" alt="..."></a>
+                    <div class="media-body">
+                      <h4 class="mt-0">{{item.name}}</h4>
+                      <p>
+                        <!-- <span>July 2, 2021-9:48 a.m. to 9:48 a.m.-Gurgaon </span> -->
+                        <span>{{item.date}} {{item.start_time}} to {{item.end_time}}</span>
+                        <span class="mx-2">|</span>
+                        <a href="#"><span class="icon-document mr-2"></span>{{item.categories}}</a>
+                      </p>
+                    </div>
+                  </div><!-- // media-->
+
+                  <p>{{item.description}}</p>
+
+                  <div class="tagging">
+                    <span class="mr-1">Tag:</span>
+                    {% for tag in item.tags.all %}
+                      <a href="/{{tag.name}}-courses" class="tagging--item" tabindex="0">{{tag.name}}</a>
+                    {% endfor %}
+                   
+                    <!-- <a href="#" class="tagging--item" tabindex="0">HTML</a>
+                    <a href="#" class="tagging--item" tabindex="0">REACT</a>
+                    <a href="#" class="tagging--item" tabindex="0">JAVASCRIPT</a>
+                    <a href="#" class="tagging--item" tabindex="0">CSS</a> -->
+                  </div>
+                
+
+                  <hr class="mt-4">
+
+                  <div class="row mt-4">
+                    <div class="col-12 col-lg-6">
+                      <h3>Venue</h3>
+                      <ul class="mt-3 mb-0">
+                        <li class="d-flex mb-3">
+                          <span class="icon-maps mr-2 font-size-md"></span>
+                          <div>
+                           {{item.venue.address}}
+                          </div>
+                        </li>
+                        
+                        <li class="d-flex mb-3">
+                          <span class="icon-phone1 mr-2 font-size-20"></span>
+                          <div>
+                            <p class="mb-0">Phone:</p>
+                            <p class="mb-0">{{item.venue.phone}} ({{item.venue.name}})<br/>
+                            </p>
+                          </div>
+                        </li>
+                        
+                        <li class="d-flex">
+                          <span class="icon-envelope mr-2 font-size-md"></span>
+                          <div>
+                            <p class="mb-0">Email:</p>
+                            <p class="mb-1">{{item.contact_email}} ({{item.venue.name}})</p>
+                            <p><a href="#">{{item.venue.website}}</a></p>
+                          </div>
+                        </li>
+                      </ul>
+                      
+                    </div>
+                    <div class="col-12 col-lg-6 mt-5">
+                      <img src="{% static 'v4_home_static/images/events-show.jpg'%}" class="img-fluid" alt="events">
+                    </div>
+                  </div>
+                {% endfor %}
+                </div>
+              </div>
+
+            
+            <div class="col-12 col-lg-4 pl-4">
+              <div class="white-box py-3">
+                <h3>Latest Review</h3>
+                <ul class="latest-review mb-0">
+                  {% for testimonial in side_bar_testimonials %}
+                  <li><a href="#">{{testimonial.content |truncatechars:100 }}</a></li>
+                {% endfor %}
+                </ul>
+              </div>
+
+              
+            </div>
+          </div>
+        </div>
+
+        <!-- <script>
+        $( document ).ready(function() {
+            function get_number(){
+                $.ajax({
+                    type: "POST",
+                    url: "/core_apis/v1/get_counselor_round_number",
+                    data:{"csrfmiddlewaretoken": "{{ csrf_token }}"},
+                    success: function (data) {
+                    //alert("success")
+                    //alert(data['number'])
+                    var c_number = data['number']
+                    $(".co_number4").text(c_number)
+                    },
+                    error: function (data) {
+                        //alert("Somethings Wents Wrong");
+                    },
+                });
+            };
+            get_number();
+        });
+    </script> -->
+        
+    {% comment %} {% include 'v4_home/sub_pages/modals.html' %} {% endcomment %}
+{% endblock content %}

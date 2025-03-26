@@ -1,0 +1,119 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid pl-0">
+        <div class="navbar-wrapper">
+            <div class="navbar-minimize">
+                <button id="minimizeSidebar" class="btn btn-fill btn-icon d-none d-lg-block">
+                    <span class="burger-lines"></span>
+                    <span class="burger-lines"></span>
+                    <span class="burger-lines"></span>
+                </button>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                    aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-bar burger-lines"></span>
+                    <span class="navbar-toggler-bar burger-lines"></span>
+                    <span class="navbar-toggler-bar burger-lines"></span>
+                </button>
+            </div>
+            <a class="navbar-brand" href="#pablo">
+                <img src="{% static 'assets/img/anquiralogo.png'%}" class="logo-image" alt="">
+            </a>
+        </div>
+
+        <!--<form class="navbar-form navbar-left mb-0" action="index.html" method="post">
+            <div class="input-group select-option">
+                <select class="form-control selectpicker" name="serach_type" id="search_type">
+                    <option selected disabled="disabled">Please Select</option>
+                    <option value="mobile">Mobile</option>
+                    <option value="name">Name</option>
+                    <option value="enquiries">Enquiry</option>
+                    <option value="followup">Follow up</option>
+                </select>
+            </div>
+	</form>-->
+        <div class="collapse navbar-collapse justify-content-end">
+            <!--<ul class="nav navbar-nav mr-auto w-100">
+                <form class="navbar-form navbar-left navbar-search-form mb-0 w-100" role="search" id="search_form"
+                    action="#">
+                    <div class="input-group align-items-center">
+                        <i class="nc-icon nc-zoom-split font-size-medium medium-gray"></i>
+                        <input type="text" name="search_data" value="" class="form-control" placeholder="Search...">
+                    </div>
+                </form>
+	    </ul>-->
+            <ul class="navbar-nav notification">
+                <li class="dropdown nav-item">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                        <i class="nc-icon nc-bell-55"></i>
+                        <span class="notification--count"></span>
+                        <span class="d-lg-none">Notification</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right notification__content arrow-white white-arrow right-arrow">
+                        <div class="notification__content--dropdown">
+                            <div class="notification__content--title">Notifications <span>3</span></div>
+
+                            <ul class="notification__content--list">
+
+                                <li>
+                                    <a href="#">
+                                        <h4><strong>Brijesh kumar</strong> sent you a message</h4>
+                                        <p class="time">5 hours ago</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <h4><strong>Brijesh kumar</strong> sent you a message</h4>
+                                        <p class="time">5 hours ago</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <h4><strong>Brijesh kumar</strong> sent you a message</h4>
+                                        <p class="time">5 hours ago</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <h4><strong>Brijesh kumar</strong> sent you a message</h4>
+                                        <p class="time">5 hours ago</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <h4><strong>Brijesh kumar</strong> sent you a message</h4>
+                                        <p class="time">5 hours ago</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="avatar img-circle">
+				<img src="https://ui-avatars.com/api/?name={{ request.user.first_name }} {{ request.user.last_name }}&background=447DF7&color=FFF" class="img-fluid">
+                        </span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right arrow-white white-arrow right-arrow user-profile"
+                        aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item mb-1" href="#">
+                            <i class="far fa-envelope"></i> Messages
+                        </a>
+                        <a class="dropdown-item mb-1" href="#">
+                            <i class="far fa-question-circle"></i> Help Center
+                        </a>
+                        <a href="{% url 'editprofile' %}" class="dropdown-item mb-1" href="#">
+                            <i class="far fa-edit"></i> Edit Profile
+                        </a>
+                        <a href="{% url 'logout' %}" class="dropdown-item">
+                            <i class="fas fa-sign-out-alt"></i> Log out
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

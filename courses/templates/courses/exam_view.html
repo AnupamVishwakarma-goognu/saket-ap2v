@@ -1,0 +1,84 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="wrapper">
+
+         {% include 'website/sidebar.html' %}
+         {% include 'website/header.html' %}
+
+        <div class="main-panel">
+            <!-- Navbar -->
+
+             
+
+            <!-- End Navbar -->
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form id="update_courses" class="form-horizontal" action="{% url 'update_coures' courses.id %}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="card ">
+                                        <div class="card-header">
+                                            <h4 class="card-title">Course Details</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                  <div class="form-group">
+                                                    <label>Name</label>
+                                                    <input class="form-control" type="text" name="name" value="{{ courses.name }}" placeholder="enter course name" autofocus required />
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                  <div class="form-group">
+                                                    <label>Duration</label>
+                                                    <input class="form-control" value="{{ courses.duration }}" type="number" name="duration" required="true" />
+                                                  </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                              <div class="col-md-6">
+                                                <div class="form-group">
+                                                  <label>Price</label>
+                                                  <input class="form-control" type="number" value="{{ courses.price }}" name="price" placeholder="enter price" required="true" />
+                                                </div>
+                                              </div>
+                                              <div class="col-md-6">
+                                                <div class="form-group">
+                                                  <label>URL</label>
+                                                  <input class="form-control" type="url" value="{{ courses.url }}" name="url" placeholder="enter course url" required="true" />
+                                                </div>
+                                              </div>
+                                           </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                  <div class="form-group">
+                                                    <label>Course Content</label>
+                                                    <!-- <input class="form-control" type="file" value="{{ courses.course_content.name }}" name="course_content" required="true" /> -->
+                                                    {% if courses.course_content %}
+                                                      <iframe class="form-control embed-responsive" src="{{ courses.course_content.url }}" style="width:400px; height:300px;" frameborder="0" allowfullscreen>{{ courses.course_content.name }}</iframe>
+                                                      <br><input class="form-control" type="file" accept="application/pdf" name="course_content" />
+                                                    {% else %}
+                                                      <input class="form-control" type="file" accept="application/pdf" name="course_content" />
+                                                    {% endif %}
+                                                  </div>
+                                                </div>
+                                           </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+                                            <button type="submit" class="btn btn-primary" value="Reset form">Update</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% include 'website/footer.html' %}
+        </div>
+    </div>
+{% endblock content %}

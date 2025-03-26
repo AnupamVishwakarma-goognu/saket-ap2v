@@ -1,0 +1,119 @@
+.carousel-wrap {
+    margin: 30px auto;
+      position: relative;
+}
+
+/* fix blank or flashing items on carousel */
+.owl-carousel .item {
+    position: relative;
+    z-index: 100;
+    -webkit-backface-visibility: hidden;
+}
+
+/* end fix */
+.owl-nav>div {
+    margin-top: -26px;
+    position: absolute;
+    top: 50%;
+    color: #cdcbcd;
+}
+
+.owl-nav i {
+    font-size: 52px;
+}
+
+.owl-nav .owl-prev {
+    left: -30px;
+}
+
+.owl-nav .owl-next {
+    right: -30px;
+}
+
+.item {
+    margin: 10px;
+}
+
+/* ******************************************************************************************************************************************* */
+.white-box {
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    padding: 25px 15px;
+    color: #777777;
+}
+
+/* .d-block {
+    display: block !important;
+} */
+
+.product-list--item img {
+    width: 108px;
+}
+
+.slick-slide img {
+    display: block;
+}
+
+.yellow-tag.max-w-90 {
+    max-width: 90%;
+}
+
+.white-box h3 {
+    color: #252525;
+    font-size: 1rem;
+    width: 100%;
+    line-height: 1.5;
+}
+
+.align-items-center {
+    align-items: center !important;
+}
+
+.justify-content-start {
+    justify-content: flex-start !important;
+}
+
+.d-flex {
+    display: flex !important;
+}
+
+.know-more {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    display: inline-block;
+    font-size: 0.75rem;
+}
+
+.btn-link {
+    font-weight: 400;
+    color: #e92347;
+    text-decoration: none;
+}
+
+.know-more::after {
+    content: '\e908';
+    font-family: 'icomoon' !important;
+    position: relative;
+    top: 2px;
+    margin-left: 5px;
+}
+/* .carousel-wrap.carousel-bingo .owl-carousel .owl-dots.disabled, .owl-carousel .owl-nav.disabled {
+    font-size: 50px;
+    display: flex;
+    justify-content: space-evenly;
+} */
+/* button.owl-next span:focus-visible {
+    outline: none !important;
+}
+button.owl-prev span:focus-visible {
+    outline: none !important;
+}
+button.owl-next:focus-visible {
+    outline: none !important;
+}
+button.owl-prev:focus-visible {
+    outline: none !important;
+} */
+/* ********************************************************************************************************************************************************** */

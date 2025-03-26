@@ -1,0 +1,197 @@
+&__leftPan {
+    max-width: 345px;
+    flex: 0 0 345px;
+    position: relative;
+
+    .last-daysleft--mgs {
+        display: none;
+    }
+
+    .last-daysleft {
+        background-color: rgba($error, .15);
+        &--mgs {
+            display: block;
+            font-size: $font-size-xxs;
+            font-weight: $headings-font-weight;
+            color: $green;
+            position: absolute;
+            top: -1px;
+            left: 15px;
+            padding:2px 10px;
+            border: 1px solid $error;
+            background-color: rgba($error, .5);
+            color: $primary;
+            border-radius: 4px;
+        }
+    }
+
+    &--content {
+        border-top: 1px solid $border-light;
+        padding-top: 15px;
+        margin-top: 15px;
+
+        .border-bottom-1 {
+            border-bottom: 1px solid $border-light;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+
+            span {
+                color: $gray-darker;
+                font-weight: $font-weight-medium;
+            }
+        }
+    }
+
+    &--list {
+        margin-bottom: 0;
+
+        li {
+            position: relative;
+            display: flex;
+
+            a {
+                color: $gray-light;
+
+                &:hover {
+                    color: $gray-darker; 
+                }
+            }
+
+            &:not(:last-child) {
+                margin-bottom: 15px;
+            }
+
+            &.active {
+                font-weight: $headings-font-weight;
+                
+                a {
+                    color: $gray-darker;
+                }
+            }
+
+            &::before {
+                font-family: 'icomoon' !important;
+                font-size: 16px;
+                @include size(16px, 16px);
+                display: block;
+                background-repeat: no-repeat;
+                margin-right: 10px;
+                position: relative;
+                top: -1px;
+            }
+
+            &.recording {
+                &::before {
+                    content: '\e91f';
+                }
+            }
+            
+            &.courses-material {
+                &::before {
+                    content: '\e91d';
+                }
+            }
+            
+            &.course-curriculum {
+                &::before {
+                    content: '\e91c';
+                }
+            }
+            
+            &.feedback {
+                &::before {
+                    content: '\e91e';
+                }
+            }
+            
+            &.chat-room {
+                &::before {
+                    content: '\e917';
+                }
+            }
+        }
+    }
+    
+    .live-classes {
+        font-size: $font-size-xxs;
+        font-weight: $headings-font-weight;
+        color: $green;
+    }
+
+    &--course {
+        position: relative;
+
+        &::after {
+            content: '\e915';
+            font-family: 'icomoon' !important;
+            position: absolute;
+            right: 0;
+            top: 20px;
+            transform: rotate(270deg);
+            transition: all 0.3s ease-in-out;
+            color: $primary;
+        }
+    }
+
+    .collapsed {
+        &::after {
+            transform: rotate(90deg);
+        }
+    }
+
+    &--certificate {
+        background-color: $dashboard;
+        border-radius: 4px;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+
+        .content {
+            flex-grow: 1;
+            margin-right: 15px;
+            font-size: $font-size-sm;
+            text-align: left;
+        }
+
+        span {
+            width: 85px;
+            flex: 0 0 85px;
+            display: block;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: -20px;
+            z-index: 1;
+            font-size: $h4-font-size;
+        }
+
+        .certificate-note {
+            position: relative;
+            padding-left: 25px;
+            font-size: $font-size-sm;
+            color: $gray-medium;
+
+            i {
+                @include size(19px, 22px);
+                display: block;
+                position: absolute;
+                left: 0;
+            }
+        }
+
+        .certificate-footer {
+            background-color: #f1f1f1;
+            padding: 10px 15px;
+            padding: 0px 15px;
+            justify-content: space-between;
+            font-size: $font-size-xs;
+
+            .download-icon {
+                @include size(12px, 12px);
+                display: inline-block;
+            }
+        }
+    }
+}

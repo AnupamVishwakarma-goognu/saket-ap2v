@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Welcome to the AP2V Waiting Page</title>
+        <style>
+            body {
+                font-family: Arial;
+            }
+
+            .top {
+                display: flex;
+                width: 100%;
+            }
+
+            img {
+                justify-content: flex-start;
+                margin-top: 3px;
+            }
+
+            h3 {
+                margin-top: 2%;
+                margin-left: 30%;
+            }
+
+            .body-1 {
+                display: flex;
+                width: 100%;
+            }
+
+            h2 {
+                margin-left: 20%;
+            }
+
+            .clock {
+                color:#E24422;
+                font-size:20px;
+                text-align:center;
+            }
+
+            .container {
+                width: 300px;
+                height: 280px;
+                position: absolute;
+                top: calc(50% - 140px);
+                left: calc(50% - 150px);
+                }
+                .coffee-header {
+                width: 100%;
+                height: 80px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                background-color: #d4725e;
+                border-radius: 10px;
+                }
+                .coffee-header__buttons {
+                width: 25px;
+                height: 25px;
+                position: absolute;
+                top: 25px;
+                background-color: #282323;
+                border-radius: 50%;
+                }
+                .coffee-header__buttons::after {
+                content: "";
+                width: 8px;
+                height: 8px;
+                position: absolute;
+                bottom: -8px;
+                left: calc(50% - 4px);
+                background-color: #615e5e;
+                }
+                .coffee-header__button-one {
+                left: 15px;
+                }
+                .coffee-header__button-two {
+                left: 50px;
+                }
+                .coffee-header__display {
+                width: 50px;
+                height: 50px;
+                position: absolute;
+                top: calc(50% - 25px);
+                left: calc(50% - 25px);
+                border-radius: 50%;
+                background-color: #9acfc5;
+                border: 5px solid #43beae;
+                box-sizing: border-box;
+                }
+                .coffee-header__details {
+                width: 8px;
+                height: 20px;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background-color: #9b9091;
+                box-shadow: -12px 0 0 #9b9091, -24px 0 0 #9b9091;
+                }
+                .coffee-medium {
+                width: 90%;
+                height: 160px;
+                position: absolute;
+                top: 80px;
+                left: calc(50% - 45%);
+                background-color: #d4725e;
+                }
+                .coffee-medium:before {
+                content: "";
+                width: 90%;
+                height: 100px;
+                background-color: #f5deb3e0;
+                position: absolute;
+                bottom: 0;
+                left: calc(50% - 45%);
+                border-radius: 20px 20px 0 0;
+                }
+                .coffe-medium__exit {
+                width: 60px;
+                height: 20px;
+                position: absolute;
+                top: 0;
+                left: calc(50% - 30px);
+                background-color: #231f20;
+                }
+                .coffe-medium__exit::before {
+                content: "";
+                width: 50px;
+                height: 20px;
+                border-radius: 0 0 50% 50%;
+                position: absolute;
+                bottom: -20px;
+                left: calc(50% - 25px);
+                background-color: black;
+                }
+                .coffe-medium__exit::after {
+                content: "";
+                width: 10px;
+                height: 10px;
+                position: absolute;
+                bottom: -30px;
+                left: calc(50% - 5px);
+                background-color: black;
+                }
+                .coffee-medium__arm {
+                width: 70px;
+                height: 20px;
+                position: absolute;
+                top: 15px;
+                right: 25px;
+                background-color: #231f20;
+                }
+                .coffee-medium__arm::before {
+                content: "";
+                width: 15px;
+                height: 5px;
+                position: absolute;
+                top: 7px;
+                left: -15px;
+                background-color: #9e9495;
+                }
+                .coffee-medium__cup {
+                width: 80px;
+                height: 47px;
+                position: absolute;
+                bottom: 0;
+                left: calc(50% - 40px);
+                background-color: #FFF;
+                border-radius: 0 0 70px 70px / 0 0 110px 110px;
+                }
+                .coffee-medium__cup::after {
+                content: "";
+                width: 20px;
+                height: 20px;
+                position: absolute;
+                top: 6px;
+                right: -13px;
+                border: 5px solid #FFF;
+                border-radius: 50%;
+                }
+                @keyframes liquid {
+                0% {
+                    height: 0px;  
+                    opacity: 1;
+                }
+                5% {
+                    height: 0px;  
+                    opacity: 1;
+                }
+                20% {
+                    height: 62px;  
+                    opacity: 1;
+                }
+                95% {
+                    height: 62px;
+                    opacity: 1;
+                }
+                100% {
+                    height: 62px;
+                    opacity: 0;
+                }
+                }
+                .coffee-medium__liquid {
+                width: 6px;
+                height: 63px;
+                opacity: 0;
+                position: absolute;
+                top: 50px;
+                left: calc(50% - 3px);
+                background-color: #74372b;
+                animation: liquid 4s 4s linear infinite;
+                }
+                .coffee-medium__smoke {
+                width: 8px;
+                height: 20px;
+                position: absolute;  
+                border-radius: 5px;
+                background-color: #b3aeae;
+                }
+                @keyframes smokeOne {
+                0% {
+                    bottom: 20px;
+                    opacity: 0;
+                }
+                40% {
+                    bottom: 50px;
+                    opacity: .5;
+                }
+                80% {
+                    bottom: 80px;
+                    opacity: .3;
+                }
+                100% {
+                    bottom: 80px;
+                    opacity: 0;
+                }
+                }
+                @keyframes smokeTwo {
+                0% {
+                    bottom: 40px;
+                    opacity: 0;
+                }
+                40% {
+                    bottom: 70px;
+                    opacity: .5;
+                }
+                80% {
+                    bottom: 80px;
+                    opacity: .3;
+                }
+                100% {
+                    bottom: 80px;
+                    opacity: 0;
+                }
+                }
+                .coffee-medium__smoke-one {
+                opacity: 0;
+                bottom: 50px;
+                left: 102px;
+                animation: smokeOne 3s 4s linear infinite;
+                }
+                .coffee-medium__smoke-two {
+                opacity: 0;
+                bottom: 70px;
+                left: 118px;
+                animation: smokeTwo 3s 5s linear infinite;
+                }
+                .coffee-medium__smoke-three {
+                opacity: 0;
+                bottom: 65px;
+                right: 118px;
+                animation: smokeTwo 3s 6s linear infinite;
+                }
+                .coffee-medium__smoke-for {
+                opacity: 0;
+                bottom: 50px;
+                right: 102px;
+                animation: smokeOne 3s 5s linear infinite;
+                }
+                .coffee-footer {
+                width: 95%;
+                height: 15px;
+                position: absolute;
+                bottom: 25px;
+                left: calc(50% - 47.5%);
+                background-color: #d4725e;
+                border-radius: 10px;
+                }
+                .coffee-footer::after {
+                content: "";
+                width: 106%;
+                height: 26px;
+                position: absolute;
+                bottom: -25px;
+                left: -8px;
+                background-color: #000;
+            }
+
+            h5 {
+                margin-top: 25%;
+                margin-left: 38%;
+            }
+
+            .batch-id {
+                margin-left: 48%;
+                color: #E24422;
+            }
+
+            .trying {
+                margin-left: 48%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class = 'top'>
+            <img src = "https://www.ap2v.com/static/v4_home_static/images/ap2v-logo.png?303e50bb7ae0" height="60" width="180"/>
+            <h3>Classroom Waiting Page</h3>
+        </div>
+        <hr color="#E24422"/>
+        <div class = " body-1">
+            <h2>Please wait while we are creating the meeting for you. This process might take 2-3 minutes.</h2>
+        </div>
+
+        {% if not old_mid %}
+            <div class="clock">Estimated Time to Enter = <span id="timer"></span></div>
+        {% endif %}
+
+        <h1><p id="error" style="color:red;text-align: center;"></p></h1>
+
+
+        {% if old_mid %}
+            <div class="" id="meeting_message" style="margin-top: 50px;">
+                <h3>A meeting link is already exists by this batch which created today</h3>
+                <div style="text-align: center;">
+                    <a href="{{inst_link}}" style="text-decoration: none;background: aqua;padding: 10px;color: black;position: relative;border-radius: 10px;">Click here to join last link</a><br><br><br>
+                    <a href="javascript:void(0)" class="gen_new" onclick="checkMeeting()" style="text-decoration: none;background: gainsboro;padding: 10px;color: black;position: relative;border-radius: 10px;">Click here to genrate new link</a>
+                </div>
+                <h6 style="text-align: center;color: red;font-size: 12px;"><span style="color:black;">NOTE:</span> If you select join last link and see this message on zoom <span style="color:blue;">"You cannot start the meeting [MEETING ID LIKE :'95354848502'] because it is hosted by another user"</span>, <br>So close the zoom tab and again click on 'Join Live Class on Zoom' in Classroom and go with Genrate new link option...</h6>
+            </div>
+        
+        {% else %}
+            <div class="container" id="coffe_machine" style="margin-top: 50px;">
+                <div class="coffee-header">
+                <div class="coffee-header__buttons coffee-header__button-one"></div>
+                <div class="coffee-header__buttons coffee-header__button-two"></div>
+                <div class="coffee-header__display"></div>
+                <div class="coffee-header__details"></div>
+                </div>
+                <div class="coffee-medium">
+                <div class="coffe-medium__exit"></div>
+                <div class="coffee-medium__arm"></div>
+                <div class="coffee-medium__liquid"></div>
+                <div class="coffee-medium__smoke coffee-medium__smoke-one"></div>
+                <div class="coffee-medium__smoke coffee-medium__smoke-two"></div>
+                <div class="coffee-medium__smoke coffee-medium__smoke-three"></div>
+                <div class="coffee-medium__smoke coffee-medium__smoke-for"></div>
+                <div class="coffee-medium__cup"></div>
+                </div>
+                <div class="coffee-footer"></div>
+            </div>
+        {% endif %}
+
+
+        <h5>Don't refresh the page, the page will reload automatically.</h5>
+        <b><p class="batch-id"> Batch id : {{batch_id}}</p></b>
+        <p class="trying">Trying = <span id="tryid"></span></p>
+        
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+        <script>
+            document.getElementById('timer').innerHTML =
+            02 + ":" + 00;
+            startTimer();
+
+
+            function startTimer() {
+            var presentTime = document.getElementById('timer').innerHTML;
+            var timeArray = presentTime.split(/[:]+/);
+            var m = timeArray[0];
+            var s = checkSecond((timeArray[1] - 1));
+            if(s==59){m=m-1}
+            if(m<0){
+                return
+            }
+            
+            document.getElementById('timer').innerHTML =
+                m + ":" + s;
+            console.log(m)
+            setTimeout(startTimer, 1000);
+            
+            }
+
+            function checkSecond(sec) {
+            if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
+            if (sec < 0) {sec = "59"};
+            return sec;
+            }
+        </script>
+
+        <script>
+            var status_code = 0;
+            var trying = 1
+            function checkMeeting(){
+                $(".gen_new").html("New Meeting Link Genrating, Please Wait...")
+                //return false;
+                if(status_code == 0){
+                    status_code = 1
+                    $("#tryid").text(trying)
+                    $.ajax({
+                        url: '/classroom/getting_meeting_details',
+                        data: {"batch_id":{{batch_id}},"csrfmiddlewaretoken": "{{ csrf_token }}"},
+                        type: 'POST',
+                        success: function(data) {
+                            //alert("success")
+                            //alert(data)
+                            meeting_status_code = data['code']
+                            //alert(meeting_status_code)
+
+                            if(meeting_status_code == 1){
+                                $(".gen_new").html("Success. Link genrated, Redirecting to Zoom...")
+                                window.location.href = data['inst_link'];
+                            }else{
+                                status_code = 0
+                                $("#error").text(data['error'])
+                            }
+                        },
+                        error: function() {
+                            alert("Internal Server Error!!!");
+                        },
+                    });
+                }
+                trying = trying+1
+            }
+
+            var old_mid = "{{old_mid}}"
+            if(!old_mid){
+                checkMeeting()
+            }
+            
+            if(!old_mid){
+                var intervalId = window.setInterval(function(){
+                    checkMeeting()
+                }, 30000);
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,86 @@
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="{% static 'assets/img/apple-icon.png' %}">
+  <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>{% block title %}{% endblock title %}</title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link href="{% static 'assets/css/bootstrap.min.css' %}?{% now 'U' %}" rel="stylesheet" />
+  <link href="{% static 'assets/css/light-bootstrap-dashboard.css' %}?v=2.0.1?{% now 'U' %}" rel="stylesheet" />
+  <link href="{% static 'assets/css/demo.css' %}?{% now 'U' %}" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'assets/css/fastselect.css' %}?{% now 'U' %}">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <link href="{% static 'assets/css/anquira.css' %}?{% now 'U' %}" rel="stylesheet" />
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+
+</head>
+<body>
+  {% if request.resolver_match.url_name != 'login' %}
+  <div id="cover-spin">
+  </div>
+        {% block content %}
+        {% endblock content %}
+  {% else %}
+      {% block login %}
+      {% endblock login %}
+  {% endif %}
+</body>
+  {% comment %} <script src="{% static 'assets/js/core/jquery.3.2.1.min.js' %}?{% now 'U' %}" type="text/javascript"></script> {% endcomment %}
+  <script src="{% static 'assets/js/core/popper.min.js' %}?{% now 'U' %}" type="text/javascript"></script>
+  <script src="{% static 'assets/js/core/bootstrap.min.js' %}?{% now 'U' %}" type="text/javascript"></script>
+  <script src="{% static 'assets/js/plugins/bootstrap-switch.js' %}?{% now 'U' %}"></script>
+  <script src="{% static 'assets/js/plugins/chartist.min.js' %}?{% now 'U' %}"></script>
+  <script src="{% static 'assets/js/plugins/bootstrap-notify.js' %}?{% now 'U' %}"></script>
+  <script src="{% static 'assets/js/plugins/jquery-jvectormap.js' %}?{% now 'U' %}" type="text/javascript"></script>
+  <script src="{% static 'assets/js/plugins/moment.min.js' %}?{% now 'U' %}"></script>
+  <script src="{% static 'assets/js/demo.js' %}?{% now 'U' %}"></script>
+  <script src="{% static 'assets/js/plugins/bootstrap-datetimepicker.js' %}?{% now 'U' %}"></script>
+  <script src="{% static 'assets/js/plugins/sweetalert2.min.js' %}?{% now 'U' %}" type="text/javascript"></script>
+  <script src="{% static 'assets/js/plugins/fastselect.js' %}?{% now 'U' %}"></script>
+  <script src="{% static 'assets/js/plugins/fastselect_file.js' %}?{% now 'U' %}"></script>
+  <!-- <script src="{% static 'assets/js/plugins/sweetalertNewUpdated.js' %}?{% now 'U' %}"></script> -->
+  <script src="{% static 'assets/js/plugins/bootstrap-tagsinput.js' %}?{% now 'U' %}" type="text/javascript"></script>
+  <script src="{% static 'assets/js/plugins/nouislider.js' %}?{% now 'U' %}" type="text/javascript"></script>
+  <script src="{% static 'assets/js/plugins/bootstrap-selectpicker.js' %}?{% now 'U' %}" type="text/javascript"></script>
+  <script src="{% static 'assets/js/plugins/jquery.validate.min.js' %}?{% now 'U' %}" type="text/javascript"></script>
+  <script src="{% static 'assets/js/plugins/jquery.bootstrap-wizard.js' %}?{% now 'U' %}"></script>
+  <script src="{% static 'assets/js/plugins/bootstrap-table.js' %}?{% now 'U' %}"></script>
+  {% comment %}<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}?{% now 'U' %}"></script>{% endcomment %}
+  <script src="{% static 'assets/js/plugins/fullcalendar.min.js' %}?{% now 'U' %}"></script>
+  <script src="{% static 'assets/js/light-bootstrap-dashboard.js' %}?{% now 'U' %}?v=2.0.1" type="text/javascript"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="{% static 'assets/js/custom_javascriptCodes.js' %}?{% now 'U' %}"></script>
+  {% block extra_js %}
+  {% endblock extra_js %}
+  <script type="text/javascript">
+  $(document).ready(function() {
+    $(".fastselect").fastselect();
+  });
+    </script>
+
+    <script>
+      function get_un_enq(){
+          $.ajax({
+              type: "GET",
+              url: "/enquiries/get_unattended_enq",
+              data: {},
+              success: function (data) {
+                  //alert(data['count'])
+                  $("#un_enq").text(data['count'])
+                  $("#un_enq2").text(data['count'])
+              },
+              error: function (data) {
+                  alert("Internal Server Error!!!");
+              },
+          });
+      }
+      get_un_enq();
+  </script>
+</html>

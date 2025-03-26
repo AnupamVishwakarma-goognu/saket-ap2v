@@ -1,0 +1,70 @@
+.promo-banner {
+    @include size(100%, 203px);
+    position: relative;
+    @include gradient-x($primary-dark, $primary, 0, 100%);
+
+    img {
+        opacity: .5;
+    }
+
+
+    &--content {
+        @include size(100%, 100%);
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: $white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+
+        i {
+            top: 2px;
+        }
+
+        h2 {
+            font-size: $h1-font-size - .2;
+            font-weight: $headings-font-weight;
+        }
+
+        &--text {
+            color: rgba($white, .8);
+            font-size:$font-size-md ;
+        }
+    }
+
+   
+
+    &::after {
+        content: '';
+        @include size(100%, 100%);
+        display: block;
+        background-color: rgba($primary-dark, .6);
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    &--smo {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 22px;
+        z-index: 9;
+
+        a {
+            display: block;
+            color: $white;
+            height: 25px;
+            transition: all .2s linear;
+
+            &:hover {
+                color: $primary;
+            }
+        }
+    }
+}

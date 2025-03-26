@@ -1,0 +1,149 @@
+.login-modal {
+
+    .modal-dialog {
+        max-width: 740px;
+    }
+
+    .modal-body {
+        padding: 0;
+        overflow: hidden;
+
+        h2 {
+            font-weight: 400;
+        }
+    }
+
+    .close {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        z-index: 2;
+        opacity: .9;
+        font-size: 14px;
+        color: $white;
+    }
+
+    &__left-pan{
+        flex-grow: 1;
+        height: 100%;
+        padding: 0 85px;
+        height: 452px;
+        position: relative;
+
+        transform: translateX(0);
+        opacity: 1;
+        transition: transform 2s .25s cubic-bezier(0,1,.3,1), opacity .2s .25s ease-out;
+    
+        #left-panel-sign {
+            transform: translateX(0);
+            opacity: 1;
+            transition: transform 2s .25s cubic-bezier(0,1,.3,1), opacity .2s .25s ease-out;
+        }
+        
+        #left-panel-sign-up {
+            position: absolute;
+            top: 0;
+            width: 64%;
+            transform: translateX(-400px);
+            opacity: 0;
+            transition: transform 2s .25s cubic-bezier(0,1,.3,1), opacity .2s .25s ease-out;
+        }
+
+        &.move-right-disappear {
+            transform: translateX(260px);
+            opacity: 1;
+
+            #left-panel-sign {
+                transform: translateX(500px);
+                opacity: 0;
+                transition: transform 2s .25s cubic-bezier(0,1,.3,1), opacity .2s .25s ease-out;
+            }
+
+            #left-panel-sign-up {
+                transform: translateX(0);
+                opacity: 1; 
+            }
+        }
+    }
+
+    &__right-pan{
+       @include gradient-directional($primary, $primary-dark, 180deg);
+        max-width: 260px;
+        flex-basis: 260px;
+        position: relative;
+        overflow: hidden;
+        transform: translateX(0);
+        transition: transform 2s .25s cubic-bezier(0,1,.3,1), opacity .2s .25s ease-out;
+
+        &::after {
+            @include size(260px, 100%);
+            content: '';
+            background-image: url(#{$path}/sigin-bg.png);
+            background-repeat: repeat;
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        &--content {
+            position: relative;
+            z-index: 1;
+            width: 260px;
+            color: $white;
+            transform: translateX(0);
+            transition: transform 2s .25s cubic-bezier(0,1,.3,1), opacity .2s .25s ease-out;
+
+            &#sigin-in-content {
+                position: absolute;
+                top: 0;
+                left: -340px;
+                opacity: 0;
+                transition: left 1s .1s linear, opacity .2s .25s ease-out;
+            }
+        }
+
+        &.move-left {
+            transform: translateX(-478px);
+            opacity: 1;
+
+            #sigin-up-content {
+                transform: translateX(10px);
+                opacity: 0;
+            }
+
+            #sigin-in-content {
+                opacity: 1;
+                left: 0;
+            }
+            
+        }
+       
+    }
+}
+
+.is-visible {
+    display: block !important;
+  }
+  
+  .is-open {
+    margin-top: 15px;
+    opacity: 1;
+  }
+
+.google-login {
+    border: 0;
+    background-color: $white;
+    border: 1px solid rgba($gray-light, .3);
+    padding: 10px;
+
+    &::before {
+        content: '';
+        @include size (16px, 16px);
+        background-image: url(#{$path}/google-icon.svg);
+        background-repeat: repeat;
+        background-size: cover;
+        display: block;
+        margin-right: 10px;
+    }
+}

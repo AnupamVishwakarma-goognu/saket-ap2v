@@ -1,0 +1,23 @@
+.enroll-form {
+    background-color: $gray-f6;
+    padding: 30px 0;
+    position: relative;
+    height: 300px;
+    display: flex;
+    align-items: center;
+
+    &::after {
+        content: '';
+        @include size(338px, 299px);
+        background-image: url(#{$path}/course-detail/enroll-form.png);
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 1px;
+    }
+
+    .animation-input:focus ~ label, 
+    .has-content .animation-input ~ label {
+        background-image: linear-gradient(to bottom, #f6f6f6 33%, #fff 81%);
+    }
+}

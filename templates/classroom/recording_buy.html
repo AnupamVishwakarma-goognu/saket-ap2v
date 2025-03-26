@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+    <style>
+        body{
+            text-align: center;
+        }
+        .main{
+            display: inline-flex;
+            background-color: aliceblue;
+            padding: 20px;
+            width: 61%;
+
+        }
+        .subdiv{
+            background-color: beige;
+            text-align: center;
+            margin-right: 10px;
+            padding: 12px;
+            width: 60%;
+        }
+        .btn{
+            width: 100%;
+            color: #fff;
+            background-color: green;
+            border: 1px #fff;
+            border-radius: 2px;
+            height: 35px;
+            text-decoration: none;
+            padding: 9px 121px 9px 121px;
+        }
+        .subdiv span{
+           float: right;
+        }
+/* <-----------style new-----------> */
+    .bg{
+ width: 100%;
+    height:auto;
+	min-height:100vh;
+background-color: #cccccc;
+    background-size: 100% 100%;
+    background-position: top center;
+    margin:auto;
+}
+
+.mainRow{
+
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+p{
+   margin:0px; }
+
+.desc{
+  background-color: #f0edeb;
+  margin-top: 5%;
+  margin-left:0;
+  margin-right:50px;
+  margin-bottom: 4%;
+  }
+
+
+  .card-body{
+    padding:0;
+    margin:0;
+      margin-top:10%;
+
+  }
+  
+  div.card.main{
+    margin:0px!important;
+  }
+
+
+.card{
+  padding:0!important;
+  margin-top:40px;
+}
+
+
+
+
+.quantity,.shipping,.promocode,.subtotal,.cardAndExpire,.nameAndcvc{
+  margin:5%;
+  color:#6c757d!important
+}
+
+.heading1{
+    margin:5%;
+font-size: 25px;
+}
+
+.heading2{
+    margin:5%;
+margin-top:15%;
+font-size: 20px;
+}
+
+.payment{
+  background-color: #f0edeb;
+  padding:3px;
+  margin-top: 15%;
+}
+
+.text1{
+color:black;
+font-weight: 700;
+}
+
+.card-footer{
+background-color: #155720d6;;
+color:white;
+}
+
+.purchaseLink{
+  text-decoration: none;
+}
+
+.row1{
+font-size:12px;
+}
+
+.row2{
+  font-weight: 600;
+}
+
+.subRow{
+  margin-left:10%;
+margin-bottom: 2%;
+  margin-top:5%;
+}
+
+p.cardAndExpireValue,p.nameAndcvcValue{
+  margin:5%;
+  margin-bottom: 10%;
+font-weight: 600;}
+
+p.nameAndcvc,p.cardAndExpire{
+  margin-bottom: -10px;
+}
+
+.total{
+  margin:5%;
+}
+
+.totalText{
+  font-weight: 700;
+
+}
+.totalText2{
+ font-weight: 700;
+  font-size:30px;
+}
+
+.card-img-top {
+    width: 300px;
+    border-top-left-radius: calc(.25rem - 1px);
+    border-top-right-radius: calc(.25rem - 1px);
+    height: 300px;
+}
+.btnpay{
+  width: 92%;
+  background-color: green;
+  border: aquamarine;
+  border-radius: 3px;
+  margin-bottom: 22px;
+  height: 40px;
+}
+    </style>
+</head>
+<body>
+    
+
+
+<!--For Page-->
+<div class="bg">
+
+
+	<!--For Row containing all card-->
+	<div class="row mainRow">
+
+
+
+		<!--Card 1-->
+		<div class="col-sm-8">
+			<div class="card card-cascade wider shadow p-3 mb-5 ">
+
+				<!--Card image-->
+				<div class="view view-cascade overlay text-center">
+					<img class="card-img-top" src="/media/{{ course_detail.photo }}"
+      alt="" width="300px" height="300px">
+					<a>
+						<div class="mask rgba-white-slight"></div>
+					</a>
+				</div>
+
+
+				<!--Product Description-->
+				<div class="desc">
+
+					<!-- 1st Row for title-->
+					<div class="row subRow">
+
+						<!--Column for Data-->
+						<div class="col">
+							<h5 class="text-muted row1">Quantity</h5>
+							<p class="row2">{% for i in cv %} {{i.number}} {% endfor %}</p>
+						</div>
+
+						<!--Column for Data-->
+						<div class="col">
+							<h5 class="text-muted row1">Price</h5>
+							<p class="row2">{{course_detail.actual_price}}</p>
+						</div>
+
+						<!--Column for Data-->
+						<div class="col">
+							<h5 class="text-muted row1">Offer Price</h5>
+							<p class="row2" name='price'>{{course_detail.price}}</p>
+						</div>
+
+					</div>
+
+
+
+
+
+					<!-- 2nd Row for title-->
+					<div class="row subRow">
+
+						<!--Column for Data-->
+						<div class="col">
+							<h4 class="text-muted row1">Course Name</h4>
+							<p class="row2" name='course'>{{course_detail.name}}</p>
+						</div>
+
+						<!--Column for Data-->
+						<!-- <div class="col">
+							<p class="text-muted row1">Color</p>
+							<p class="row2">Black</p>
+						</div> -->
+
+						<!--Column for Data-->
+						<!-- <div class="col">
+							<p class="text-muted row1">Daily UI</p>
+							<p class="row2">#002</p>
+						</div> -->
+
+					</div>
+
+
+
+
+				</div>
+			</div>
+		</div>
+
+
+
+		<!--Card 2-->
+		<div class="col-sm-4">
+			<div class="card card-cascade card-ecommerce wider shadow p-3 mb-5 ">
+
+				<!--Card Body-->
+				<div class="card-body card-body-cascade">
+
+					<!--Card Description-->
+					<div class="card2decs">
+
+						<p class="heading1"><strong>Order details</strong></p>
+						<p class="quantity">Qty <span class="float-right text1">{% for i in cv %} {{i.number}} {% endfor %}</span></p>
+						<p class="subtotal">Subtotal<span class="float-right text1">{{course_detail.price}}</span></p>
+						<p class="promocode">GST<span class="float-right text1">-0.0</span></p>
+						<p class="total"><strong>Total</strong><span class="float-right totalText1"><span class="totalText2">{{course_detail.price}}</span></span></p>
+
+					</div>
+
+					<!-- <div class="payment">
+
+						<p class="heading2"><strong>Payment Details</strong></p>
+						<p class="cardAndExpire">Card Number<span class="float-right">Expiry</span></p>
+            <p class="cardAndExpireValue">161617161816188<span class="float-right">26/11</span></p>
+						<p class="nameAndcvc" style="margin-bottom:-10px;">Cardholder name<span class="float-right">CVC</span></p>
+						<p class="nameAndcvcValue">Mr. Example<span class="float-right">010</span></p>
+
+					</div> -->
+
+					<!--Card footer-->
+          <form action= '/classroom/paymentSuccess?pcid={{course_detail.id}}&crname={{course_detail.name}}&crprice={{course_detail.price}}' method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btnpay"> PAY &#8594; {{course_detail.price}}</button>
+          </form>
+					<!-- <a href="" class="purchaseLink">
+						<div class="card-footer text-center">
+							
+						</div>
+					</a> -->
+
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- <div class="main">
+        <div class="subdiv">
+            <p style="text-align:left ;">My Order <span id="close">x</span></p>
+            <div style="display: flex">
+                <img src="/media/{{ course_detail.photo }}" alt="pic" width="80" height="80">
+                <div style=" margin-top: -10px; text-align: left; margin-left: 8px; line-height: 0.5;">
+                    <p><b>Price {{course_detail.actual_price}} </b></p>
+                    <p style="font-size: 12px;">{{course_detail.name}}</p>
+                    <p style="font-size: 12px;">Quantity{% for i in cv %} {{i.number}} {% endfor %}</p>
+                    <p style="font-size: 12px;">Save For Later</p>
+                </div>
+                
+            </div>
+        </div>
+        <div class="subdiv"style="text-align:left ; width:40%">
+            <p >Total Amount</p>
+            <p><b>Course price Rs</b> <span>{{course_detail.actual_price}}</span></p>
+            <p><b>GST charge Rs </b><span>0.0</span></p>
+            <p><b>Total Amount Rs</b> <span>{{course_detail.actual_price}}</span> </p>
+            <a href="# " class="btn" >Checkout</a>
+            
+        </div>
+
+    </div>
+     -->
+
+
+
+    <!-- <h1 class="head"> <span>Your order details </span></h1> 
+    <h3>This is your course <span></span></h3>
+    <h3>This is the  price of course Rs <strike> <span> {{course_detail.price}}</span></strike></h3> 
+    <h3>Offer price Rs <span></span></h3> 
+    <h3>This is mobile no. <span>{{course_detail.mobile}}</span></h3> 
+    
+    <a href="#" class="btn btn-lg btn-outline-primary rounded-60"><i class="fa-solid fa-books"></i></i>Payment</a> -->
+</body>
+
+</html>

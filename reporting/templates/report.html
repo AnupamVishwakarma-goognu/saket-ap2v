@@ -1,0 +1,217 @@
+{% extends "website/base.html" %}
+{% load static %}
+{% block content %}
+    <link href="{% static 'assets/css/reporting_tabs.css' %}" rel="stylesheet" />
+    <div class="wrapper">
+        {% include 'website/sidebar.html' %}
+        {% include 'website/header.html' %}
+        <div class="main-panel">
+            <!-- Navbar -->
+            
+            <!-- End Navbar -->
+            <div class="content">
+                <div class="tabset">
+                <!-- Tab 1 -->
+                <input type="radio" name="tabset" id="tab1" aria-controls="marzen" {{report_active}}>
+                <label for="tab1">Counselor Report</label>
+                <!-- Tab 2 -->
+                <input type="radio" name="tabset" id="tab2" aria-controls="rauchbier" {{fee_active}} >
+                <label for="tab2">Fess Collection</label>
+                {% comment %} <!-- Tab 3 -->
+                <input type="radio" name="tabset" id="tab3" aria-controls="dunkles">
+                <label for="tab3">Dunkles Bock</label> {% endcomment %}
+  
+  
+  
+                <div class="tab-panels">
+                    <section id="marzen" class="tab-panel">
+                    <div class="container-fluid">
+                  <div class="row">
+                      <div class="col-md-12 col-sm-12">
+                        <h4 class="card-title mt-0 text-uppercase">Reporting</h4>
+                            <div class="card">
+                                <div class="card-body">
+                                    <form action="/report/get_report" method="GET">
+                                        <div class="row">
+                                            <div class="col-md-3 mt-3">
+                                                <div class="form-group">
+                                                    <label>Counselor</label>
+                                                    <select required value="{{counselor}}" class="selectpicker" name="counselor" >
+                                                    <option value="">Please select</option>
+                                                    {% for i in counselor_obj %}
+                                                        <option value="{{ i.id }}">{{ i.first_name }}</option>
+                                                    {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group mt-3">
+                                                    <label>From Date</label>
+                                                    <input type="Date"  name="fromDate"  class="form-control" placeholder="From" >
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group mt-3">
+                                                    <label>To Date</label>
+                                                    <input type="Date"  name="toDate" id="toDate" class="form-control phone-group" placeholder="To" >
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <button type="submit" style="margin-top: 37px;" class="btn btn-primary">Get Report</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <table   class="table table-striped table-hover" cellspacing="0" width="100%">
+                                        <thead >
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Name</th>
+                                                <th>Followups</th>
+                                                <th>Overdue</th>
+                                                <th>New Enquirie</th>
+                                                <th>Duplicate Enquiries</th>
+                                                <th>Enroll</th>
+                                                <th>Amount Recived</th>
+                                                <th>Amount Pending</th>
+                                                <th>Amount Pending</th>
+                                                <th>Dropped Enrollment</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="table-primary">
+                                                <th>Total</th>
+                                                <th>{{name}}</th>
+                                                <th>{{total_followups}}</th>
+                                                <th>{{total_overdue}}</th>
+                                                <th>{{total_new_enq}}</th>
+                                                <th>{{total_duplicate_enq}}</th>
+                                                <th>{{total_enroll_count}}</th>
+                                                <th>{{total_amount_received}}</th>
+                                                <th>{{total_amount_pending}}</th>
+                                                <th>{{total_unattended_enq}}</th>
+                                                <th>{{total_dropped_enrollment}}</th>
+                                            </tr>
+
+                                            {% for i in all_day_report%}
+                                                <tr>
+                                                    <td>{{forloop.counter}}</td>
+                                                    <td>{{i.date}}</td>
+                                                    <td>{{i.followups}}</td>
+                                                    <td>{{i.overdue}}</td>
+                                                    <td>{{i.new_enq}}</td>
+                                                    <td>{{i.duplicate_enq}}</td>
+                                                    <td>{{i.enroll_count}}</td>
+                                                    <td>{{i.amount_received}}</td>
+                                                    <td>{{i.amount_pending}}</td>
+                                                    <td>{{i.unattended_enq}}</td>
+                                                    <td>{{i.dropped_enrollment}}</td>
+                                                </tr>    
+                                            {% endfor %}  
+
+                                                                                      
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                      </div>
+                  </div>
+                </div>
+                </section>
+                    <section id="rauchbier" class="tab-panel">
+                        <h4 class="card-title mt-0 text-uppercase">Fee Collection</h4>
+                        <div class="card">
+                            <div class="card-body">
+                                <form action="/report/fee_collection" method="GET">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group mt-3">
+                                                <label>From Date</label>
+                                                <input type="Date"  name="fee_fromDate"  class="form-control" placeholder="From" >
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group mt-3">
+                                                <label>To Date</label>
+                                                <input type="Date"  name="fee_toDate" id="toDate" class="form-control phone-group" placeholder="To" >
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <button type="submit" style="margin-top: 37px;" class="btn btn-primary">Get Fee Report</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <p style="margin-top: 10px; margin-left:10px;"> <i class="fa fa-info-circle"></i> Report genrated from {{start_date }} to {{end_date |date:'Y-m-d' }}</p>
+                            <div style="display:flex;margin-left: 17%;">
+                                <table class="table table-striped" style="width: 400px;margin-top: 10px;">
+                                    <tbody>
+                                        <tr>
+                                            <td>Total Fees Collection</td>
+                                            <td> <b> &#8377; {% if total_fee %} {{total_fee}} {% else %} 0 {% endif %}  </b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total Recived Fee</td>
+                                            <td><b>&#8377; {% if paid_fee %} {{paid_fee}} {% else %} 0 {% endif %}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total Pending Fee</td>
+                                            <td> <b>&#8377; {% if unpaid_fee %} {{unpaid_fee}} {% else %} 0 {% endif %}</b></td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                <table class="table table-striped" style="width: 400px;margin-top: 10px;border-left: 1px solid;">
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td>Total No of Installments</td>
+                                            <td> {% if total_fee_count %} {{total_fee_count}} {% else %} 0 {% endif %} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Recived Installments</td>
+                                            <td>{% if total_fee_paid_count %} {{total_fee_paid_count}} {% else %} 0 {% endif %} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Panding Installments</td>
+                                            <td>{% if total_fee_unpaid_count %} {{total_fee_unpaid_count}} {% else %} 0 {% endif %} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    {% comment %} <section id="dunkles" class="tab-panel">
+                        <h2>6C. Dunkles Bock</h2>
+                        <p><strong>Overall Impression:</strong> A dark, strong, malty German lager beer that emphasizes the malty-rich and somewhat toasty qualities of continental malts without being sweet in the finish.</p>
+                        <p><strong>History:</strong> Originated in the Northern German city of Einbeck, which was a brewing center and popular exporter in the days of the Hanseatic League (14th to 17th century). Recreated in Munich starting in the 17th century. The name “bock” is based on a corruption of the name “Einbeck” in the Bavarian dialect, and was thus only used after the beer came to Munich. “Bock” also means “Ram” in German, and is often used in logos and advertisements.</p>
+                    </section> {% endcomment %}
+                </div>
+            </div>
+        </div>
+        {% include 'website/footer.html' %}
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extra_js %}
+  <script type="text/javascript">
+  </script>
+{% endblock extra_js %}

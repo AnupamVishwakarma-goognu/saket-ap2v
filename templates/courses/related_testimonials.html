@@ -1,0 +1,9 @@
+{% load static %}
+<div class="testimonials">
+              {% for comments in course_details.related_testimonials.all %}
+                <li><span><img src="/media/{{comments.image}}"></span>
+                  <p> {{comments.content}} </p>
+                  <p class="testi-name fs-14"><strong> {{comments.name}} </strong>{{comments.designation}}</p>
+                </li>
+              {% endfor %}
+</div>

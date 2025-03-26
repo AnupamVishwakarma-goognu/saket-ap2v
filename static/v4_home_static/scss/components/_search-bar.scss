@@ -1,0 +1,22 @@
+.search-bar {
+    &.input-group {
+        width: 375px;
+        height: 35px;
+    }
+
+    .form-control,
+    .input-group-text {
+        border-radius: 50rem;
+    }
+
+    .form-control {
+        border-right-color: transparent;
+        font-size: $font-size-xs;
+    }
+
+    .input-group-text {
+        background-color: $white;
+        border-left-color: transparent;
+    }
+
+}

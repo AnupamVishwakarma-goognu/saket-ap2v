@@ -1,0 +1,147 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% block content %}
+    <div class="wrapper">
+        {% include 'website/sidebar.html' %}
+        {% include 'website/header.html' %}
+        <div class="main-panel">
+            <!-- Navbar -->
+            
+            <div class="content" style="margin:0; padding-bottom:0">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                          <h4 class="card-title mt-0">URL Cache Script Logs</h4>
+                            <div class="card data-tables">
+
+                                <div class="card-body table-striped table-no-bordered table-hover dataTable dtr-inline table-full-width">
+                                    <div class="toolbar">
+                                      <table id="datatables" class="table" cellspacing="0" width="100%">
+                                        <thead>
+                                          <th scope="col" style="text-align: center;">Sr No</th>
+                                          <th scope="col" style="text-align: center;">Script Runing Date Time</th>
+                                          <th scope="col" style="text-align: center;">Started</th>
+                                          <th scope="col" style="text-align: center;">Complete</th>
+                                          <th scope="col" style="text-align: center;">Log File</th>
+                                        </thead>
+                                        <tbody>
+                                          {% for i in logs_obj %}
+                                            <tr class="new-table--list">
+                                              <td style="text-align: center;">{{i.id}}</td>
+                                              <td style="text-align: center;">{{i.added_on}}</td>
+                                              <td style="text-align: center;"> {% if i.start_script %}
+                                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                                        <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                                                      </svg>
+                                                    {% else %}
+                                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                                      </svg>
+                                                    {% endif %}
+                                              </td>
+                                              <td style="text-align: center;padding: 0;margin: 0;"> {% if i.complete_script %}  
+                                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16" style="padding-bottom: 4px;">
+                                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                                        <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                                                      </svg>
+                                                      {% if i.complete_on %}
+                                                        <br><span style="font-size: 9px;">complete at: {{i.complete_on}}</span>
+                                                        {% endif %}
+                                                   {% else %}
+                                                      <i class="fas fa-spinner fa-pulse"></i>
+                                                    {% endif %}
+                                              </td>
+                                              {% if i.log_file %}
+                                                <td style="text-align: center;"><a href="/media/{{i.log_file}}">
+                                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16">
+                                                    <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z"/>
+                                                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                                                  </svg>
+                                                </a></td>
+                                              {% else %}
+                                                <td style="text-align: center;"> <i class="fas fa-spinner fa-pulse"></i> Waiting to complete</td>
+                                              {% endif %}
+                                            </tr>
+                                          {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row mx-1">
+                              <div class="col-sm-12 col-md-5 font-size-base"><span class="mt-2 d-block">Showing {{ logs_obj.start_index }} - {{ logs_obj.end_index }} of {{ logs_obj.paginator.count }}</span></div>
+                              <div class="col-sm-12 col-md-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="datatables_paginate">
+                                    <ul class="pagination">
+                                      
+                                      {% with params=request.GET.urlencode %}
+                                      {% if logs_obj.has_previous %}
+                                        <li class="paginate_button page-item previous" id="datatables_previous">
+                                          {% comment %} <a aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" href="?page=1" tabindex="-1">FIRST</a> {% endcomment %}
+                                          <a aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" href="{% relative_url  1 'page' params %}" tabindex="-1">FIRST</a>
+                                        </li>
+                                        <li class="paginate_button page-item previous" id="datatables_previous">
+                                          {% comment %} <a href="?page={{ logs_obj.previous_page_number }}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a> {% endcomment %}
+                                          <a href="{% relative_url  logs_obj.previous_page_number 'page' params %}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                        </li>
+                                      {% else %}
+                                        <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                                        <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">FIRST</a>
+                                        </li>
+                                        <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                                        <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                        </li>
+                                      {% endif %}
+                                        
+                                        
+                                        {% for i in logs_obj.paginator.page_range %}
+                                            {% if logs_obj.number == i %}
+                                                <li class="paginate_button page-item active">
+                                                {% comment %} <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a> {% endcomment %}
+                                                <a href="{% relative_url  i 'page' params %}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                              </li>
+                                            {% elif i > logs_obj.number|add:'-5' and i < logs_obj.number|add:'5' %}
+                                                <li class="paginate_button page-item">
+                                                {% comment %} <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a> {% endcomment %}
+                                                <a href="{% relative_url  i 'page' params %}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                              </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        
+
+                                        {% if logs_obj.has_next %}
+                                          <li class="paginate_button page-item next" id="datatables_next">
+                                            {% comment %} <a href="?page={{ logs_obj.next_page_number }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a> {% endcomment %}
+                                            <a href="{% relative_url  logs_obj.next_page_number 'page' params %}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                                          </li>
+                                          <li class="paginate_button page-item next" id="datatables_next">
+                                            {% comment %} <a href="{% if logs_obj.has_next %} ?page={{ logs_obj.paginator.num_pages }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link" {% endif %}>LAST</a> {% endcomment %}
+                                            <a href="{% if logs_obj.has_next %} {% relative_url  logs_obj.paginator.num_pages 'page' params %}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link" {% endif %}>LAST</a>
+                                          </li>
+                                        {% else %}
+                                          <li class="paginate_button page-item next disabled" id="datatables_next">
+                                            {% comment %} <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a> {% endcomment %}
+                                            <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                                          </li>
+                                          <li class="paginate_button page-item next disabled" id="datatables_next">
+                                            {% comment %} <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">LAST</a> {% endcomment %}
+                                            <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">LAST</a>
+                                          </li>
+                                      {% endif %}
+                                      {% endwith %}
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          {% include 'website/footer.html' %}
+        </div>
+      </div>
+{% endblock content %}

@@ -1,0 +1,405 @@
+<!--AI==========================================================
+	Every chat session will have this html page rendered.
+===========================================================AI-->
+
+<!--Extends the Chat app base-->
+{% extends base_template %}
+
+<!--Django staticfiles functions are loaded using this tag-->
+{#% load static %#}
+{% load static %}
+{% load custom_tags %}
+
+
+<!--AI==========================================================
+	Extra CSS that applies to this template.
+===========================================================AI-->
+{%block additionalheader%}
+	<title>{{room_name}} | Chatter</title>
+	<link rel="stylesheet" href="{% static 'chatter/css/chat-window.css' %}">
+	<!--Jquery-->
+	<script src = "https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+	<link rel = "stylesheet" href = "{% static 'chatter/css/chatroom-list.css' %}">
+	<link rel = "stylesheet" href = "{% static 'chatter/css/conversations.css' %}">
+
+	<!-- select2 used to accommodate group chats later -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
+
+{% endblock %}
+
+{% block chat_content %}
+<div class="app-container">
+	<div class="chat-container conversations">
+			{% comment %}
+			<!--AI==========================================================
+				This inherits the list of chats that a user belongs to.
+			===========================================================AI-->
+			<div class="chatroom-list-container chat-subsection conversations__leftPan">
+				<div class="white-box p-0 h-100">
+					{% include 'django_chatter/chatroom-list.html' %}
+				</div>
+			</div>
+			{% endcomment %}
+
+			<!--AI==========================================================
+				The following contains the chat dialog div properties
+			===========================================================AI-->
+			<div class="conversations__rightPan">
+				{% if room_name %}
+				<div class="white-box p-0 h-100 chat-subsection ">
+
+					<div id="room-title" class="header-wrap">
+						{% get_chat_room_title uuid as chat_room_title %}
+						{% get_chat_room_id uuid as batch_obj %}
+						<div class="back-button-container">
+							{{batch_obj.id}} - {{chat_room_title}} 
+							{% get_chat_student_list room_name as name_list %}
+						<div style="color: cadetblue;font-size: 10px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+							<path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+							<path fill-rule="evenodd" d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/>
+							<path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+						  </svg>  {{name_list}}</div>
+						</div>
+						
+						{% comment %} {% get_chat_student_list room_name as name_list %}
+						<div style="color: cadetblue;font-size: 10px;">{{name_list}}</div> {% endcomment %}
+					</div>
+
+					<div id="chat-dialog" style="overflow-x: auto;margin-top: 55px; display: flex;flex-direction: column-reverse;">
+						<!--AI==========================================================
+									Fetch latest 50 messages and display them properly.
+								===========================================================AI-->
+						{% comment %} {% for message in latest_messages_curr_room | reverse %} {% endcomment %}
+						{% for message in latest_messages_curr_room %}
+						{% if message.sender.username == user.username %}
+						<!-- Sender Section -->
+						<div class="message-container">
+							<div class="message">
+								<div class="message-sent-container">
+									<div class="message message-sent">
+										<div class="d-flex align-items-center mb-1">
+											<span style="color: #708485;">{{message.date_created}}</span>
+												
+											
+										</div>
+										{% if "media" in message.text and message.file_id %}
+											<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+												<path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
+												<path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+											  </svg> &#160;&#160;<a href="/chats/document-view/{{message.file_id}}" target="__BLANK__" style="color:blue;" class="mb-0">{{message.text |slice:"17:" }}</a>
+											
+											<!-- Share option code icon -->
+											<div style="display: flex;justify-content: flex-end;margin-top: 10px;">
+												<a href="#" onclick="openShareNowModal('{{message.id}}')">
+												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-share-fill d-flex align-items-right mb-1" viewBox="0 0 16 16">
+													<path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/></svg></a>
+											</div>
+										{% else %}
+											{% comment %} {% if "https" in message.text or "http" in message.text %} {% endcomment %}
+												{% comment %} {% get_link_from_message message.text as link %} {% endcomment %}
+												{% comment %} <a href="{{link}}" style="font-size: inherit;color: blue;border: initial;padding: initial;font-family: inherit;" class="mb-0 kkl">{{message.text}}</a> {% endcomment %}
+											{% comment %} {% else %} {% endcomment %}
+												<pre style="font-size: inherit;color: inherit;border: initial;padding: initial;font-family: inherit;" class="mb-0 kkl">{{message.text}}</pre>
+											{% comment %} {% endif %} {% endcomment %}
+										{% endif %}
+									</div>
+									<div style="">
+										
+									</div>
+								</div>
+							</div>
+						</div>
+						{% else %}
+						<!-- Reciver Section -->
+						<div class="message-container">
+							<div class="message-received-container">
+								<div class="receiver-bubble">
+									<span class="avatar">
+                        					<span class="avatar-wrap">
+											<img src="https://ui-avatars.com/api/?name={{message.sender|title}}&background=5b73e8&color=FFF">
+										</span>
+									</span>
+								</div>
+								
+								<div class="message message-received">
+									<div class="d-flex align-items-center mb-1">
+										<strong class="received-name mr-2">{{message.sender.first_name}} <span class="ml-1"></span></strong>
+										<span class="" style="color: #708485;">{{message.date_created}}</span>
+									</div>
+									{% if "media" in message.text and message.file_id%}
+									<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+										<path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
+										<path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+									  </svg> &#160;&#160;<a href="/chats/document-view/{{message.file_id}}" target="__BLANK__" style="color:blue;" class="mb-0">{{message.text |slice:"17:" }}</a>
+									{% else %}
+										{% comment %} <p class="mb-0">{{message.text}}</p> {% endcomment %}
+										{% comment %} {% if "https" in message.text or "http" in message.text %} {% endcomment %}
+												{% comment %} {% get_link_from_message message.text as link %} {% endcomment %}
+												{% comment %} <a href="{{link}}" style="font-size: inherit;color: blue;border: initial;padding: initial;font-family: inherit;" class="mb-0 kkl">{{message.text}}</a> {% endcomment %}
+											{% comment %} {% else %} {% endcomment %}
+												<pre style="font-size: inherit;color: inherit;border: initial;padding: initial;font-family: inherit;" class="mb-0 kkl">{{message.text}}</pre>
+											{% comment %} {% endif %} {% endcomment %}
+									{% endif %}
+								</div>
+							</div>
+						</div>
+						{% endif %}
+						{% endfor %}
+					</div>
+
+					<div class="p-3">
+						<div class="input-container type-chat">
+							<label for="fileSend" style="cursor: pointer;">
+								<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
+								<path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>
+								</svg>
+							</label>
+							<input type="file" id="fileSend" style="display:none;" multiple>
+							<textarea class="form-control pl-0" id="send-message" rows="1" placeholder="Type your message..." style="margin-left: 15px;resize: none;"></textarea>
+							
+							<div id="send-btn-parent">
+								<button id="send-button" class="btn btn-primary">Send</button>
+							</div>
+
+							{% comment %} <div id="send-btn-parent">
+								<button class="btn btn-primary" onclick="sendMessage()">Send</button>
+							</div> {% endcomment %}
+						</div>
+					</div>
+				</div>
+				
+				{% else %}
+				<div class="white-box p-0 h-100 chat-subsection">
+					<div class="text-center d-flex flex-column justify-content-center align-items-center h-100">
+						<img src="{% static 'chatter/images/chat-message.jpg' %}" alt="chat">
+						<p class="mt-3">Please select chat to view messages.</p>
+					</div>
+					
+				</div>
+				{% endif %}
+			</div>
+
+			
+		</div>
+
+	<!--AI==========================================================
+		These JS files load after the page has loaded.
+		1) searchuser.js: fetches a list of users from the server
+		2) chat-window.js: contains websocket functions for this
+			chat page.
+	===========================================================AI-->
+	</div>
+</div>
+<script>
+	var room_id = '{{room_uuid_json}}';
+	var get_room_url = '{#% url "django_chatter:get_messages" uuid=room_uuid_json %#}';
+	var get_room_url = '{{ url("django_chatter:get_messages", args=[room_uuid_json] %}';
+	var username = '{{user.username}}';
+</script>
+<script src = "{% static 'chatter/js/dateFormatter.js' %}"></script>
+<script src = "{% static 'chatter/js/websocketHelpers.js' %}"></script>
+<script src = "{% static 'chatter/js/chatSocket.js' %}"></script>
+<script src = "{% static 'chatter/js/alertSocket.js' %}"></script>
+<script src = "{% static 'chatter/js/chatWindow.js' %}"></script>
+<script src = "{% static 'chatter/js/fetchMessages.js' %}"></script>
+
+
+<!--Share Now Modal -->
+<div class="modal fade" id="share-now-modal" tabindex="-1" aria-labelledby="offer-apply-nowLabel" aria-hidden="true" style="margin-left: 10%;margin-top: 3%;">
+    <div class="modal-dialog form-modal">
+        <div class="modal-content" id="modalHeight" style="width: 450px;height: 500px;"	>
+            <div class="form-modal__wrapper">
+                <div class="form-modal__wrapper--form" style="margin-top: 0px;">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&#x2715;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="msg_forword_body"style="height:400px; overflow-y: auto;padding: 0px 10px 0px 10px;">
+                        
+                    </div>
+					<p style="font-size: 11px;color: red;padding: 0;margin: 2px;margin-left: 10px;margin-left: 15px;margin-top: 5px;" id="errorSelectMsg"></p>
+					<div style="display: flex;justify-content: flex-end;">
+						<button onclick="forword_message()" id="forwordBtn" type="button" class="btn btn-primary btn-sm pull-right" style="border: 0px;padding: 5px 20px 5px 20px;margin-top: 10px;margin-right: 15px;">Forward &nbsp;&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+							<path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+						  </svg></button>
+					</div>
+				</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+	function sendMessage(){
+		//alert("hiii")
+
+		var message = $("#send-message").val()
+		//alert(message)
+
+		var data = new FormData();
+		data.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+		data.append("uuid", '{{uuid}}');
+		//alert("{{uuid}}")
+		//return false;
+		data.append("emails", '{{room_name}}');
+		data.append("message", message);
+
+		$.ajax({
+			type: 'POST',
+			url: '/chats/chat_message_send',
+			data: data,
+			contentType: false,
+			processData: false,
+			success: function (data) {
+				location.reload(true);
+			},
+			error: function (data) {
+				alert("Internal Server Error", "error");
+			},
+		});
+	}
+
+	function openShareNowModal(id){
+		//alert(id)
+		jQuery.noConflict();
+		
+		$.ajax({
+			type: 'POST',
+			url: '/chats/load-all-active-chat-message-forword',
+			data: {"message_id":id,"batch_obj":"{{batch_obj.id}}"},
+			//contentType: false,
+			//processData: false,
+			//mimeType: "multipart/form-data",
+			success: function (data) {
+				//location.reload(true);
+				$("#msg_forword_body").html(data)
+			},
+			error: function (data) {
+				alert("Internal Server Error", "error");
+			},
+		});
+
+		jQuery('#share-now-modal').modal('show');
+	}
+</script>
+
+<script>
+	$(document).ready(function(){
+		//alert(typeof('{{room_name}}'))
+		$("#fileSend").on('change',function(){
+			var data = new FormData();
+			//data.append("file", $("input[id^='fileSend']")[0].files[0]);
+			
+			var cont = 1
+			for( var i = 0, len = document.getElementById('fileSend').files.length; i < len; i++ ){
+				data.append( "file" + i, document.getElementById('fileSend').files[i] );
+				cont=cont+1
+			}
+
+			data.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+			data.append("uuid", '{{uuid}}');
+			//alert("{{uuid}}")
+			//return false;
+			data.append("emails", '{{room_name}}');
+			data.append("cont",cont)
+			//console.log($("input[id^='fileSend']")[0].files[0]);
+
+			//console.log(this.files[0].type);
+			//var fileType = this.files[0].type
+			//var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+			//if ($.inArray(fileType, validImageTypes) < 0) {
+			//    alert("Please Select JPG or PNG image.", "error");
+			//    return false;
+			//}
+
+			$.ajax({
+				type: 'POST',
+				url: '/chats/chat_file_send',
+				data: data,
+				contentType: false,
+				processData: false,
+				mimeType: "multipart/form-data",
+				success: function (data) {
+					location.reload(true);
+				},
+				error: function (data) {
+					alert("Internal Server Error", "error");
+				},
+			});
+		});
+
+		//const url = new URL(window.location.href);
+  		//url.searchParams.set('reloadTime', Date.now().toString());
+  		//window.location.href = url.toString();
+
+		  
+	});
+</script>
+
+
+<script>
+	(function()
+		  {
+			if( window.localStorage )
+			{
+			  if( !localStorage.getItem('firstLoad') )
+			  {
+				localStorage['firstLoad'] = true;
+				//window.location.reload();
+
+				const url = new URL(window.location.href);
+  				url.searchParams.set('reloadTime', Date.now().toString());
+  				window.location.href = url.toString();
+			  }  
+			  else
+				localStorage.removeItem('firstLoad');
+			}
+		  })();	
+</script>
+
+
+<script>
+	function getCheckedValues() {
+		return Array.from(document.querySelectorAll('input[type="checkbox"]'))
+		.filter((checkbox) => checkbox.checked)
+		.map((checkbox) => checkbox.value);
+	}
+
+
+    function forword_message(){
+		var checked_batch = getCheckedValues();
+		//alert(checked_batch)
+		//alert(typeof(checked_batch))
+		var message_id = $("#message_id").val()
+		
+		var ss = JSON.stringify(checked_batch);
+		//alert(ss)
+		
+		if (checked_batch.length>0){
+			$("#forwordBtn").text("Forwarding...")
+			$("#forwordBtn").prop('disabled', true);
+			$.ajax({
+				type: 'POST',
+				url: '/chats/chat-message-forword',
+				data: {'checked_batch':ss,'message_id':message_id},
+				//contentType: false,
+				//processData: false,
+				//mimeType: "multipart/form-data",
+				success: function (data) {
+					location.reload(true);
+					//alert("sucess")
+				},
+				error: function (data) {
+					alert("Internal Server Error", "error");
+				},
+			});	
+		}else{
+			$("#modalHeight").css("height","525");
+			$("#errorSelectMsg").html('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16"><path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg> Please select at least one batch to forward.')
+		}
+    }
+</script>
+{% endblock  %}

@@ -1,0 +1,341 @@
+/*!
+ * Bootstrap v4.5.2 (https://getbootstrap.com/)
+ * Copyright 2011-2020 The Bootstrap Authors
+ * Copyright 2011-2020 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ */
+
+
+@import "functions";
+@import "variables";
+@import "mixins";
+@import "custom";
+@import "root";
+@import "reboot";
+@import "type";
+@import "images";
+@import "code";
+@import "grid";
+@import "forms";
+@import "buttons";
+@import "transitions";
+@import "dropdown";
+@import "button-group";
+@import "input-group";
+@import "custom-forms";
+@import "nav";
+@import "navbar";
+@import "list-group";
+@import "close";
+@import "modal";
+@import "spinners";
+@import "utilities";
+@import "print";
+@import "extend";
+
+// Components
+@import 'components/animatio-input';
+@import 'components/navbar';
+@import 'components/search-bar';
+@import 'components/login-modal';
+@import 'components/error';
+@import 'components/push-down';
+@import 'components/scrollToTop';
+@import 'components/promo-banner';
+
+//pages 
+@import 'pages/lp';
+
+//layout
+@import 'layout/font-icons';
+@import 'layout/footer';
+
+//vendor
+@import 'vendor/slick';
+
+section h2 {
+    font-size: $h4-font-size;
+
+    &::after {
+        content: none;
+    }
+
+    @include media-breakpoint-up(lg) { 
+        font-size: 1.6rem;
+    }
+}
+
+.banner-inner {
+    background-image: url(#{$path}/lp/banner.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: auto;
+    position: relative;
+    
+
+    @include media-breakpoint-up(lg) { 
+        padding-left: 0;
+        padding-right: 0;
+        height: 546px;
+    }
+
+    &--content {
+        padding-left: 15px;
+        padding-right: 15px;
+        height: 100%;
+
+        @include media-breakpoint-up(lg) { 
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+
+    &--left-pan {
+        padding-right: 15px;
+
+        @include media-breakpoint-up(lg) { 
+            padding-right: 100px;
+        }
+
+        h1 {
+            font-size: $h3-font-size;
+            color: $white;
+
+            @include media-breakpoint-up(lg) { 
+                font-size: $h1-font-size;
+            }
+        }
+
+        p {
+            color: rgba($white, 1);
+            font-size: $font-size-xs;
+
+            @include media-breakpoint-up(lg) { 
+                font-size: $font-size-base;
+            }
+        }
+    }
+
+    &--right-pan {
+        position: relative;
+        z-index: 1;
+        right: 20px;
+    }
+
+    .navbar {
+        background: -moz-linear-gradient(top,  rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
+        background: -webkit-linear-gradient(top,  rgba(0,0,0,0.6) 0%,rgba(0,0,0,0) 100%);
+        background: linear-gradient(to bottom,  rgba(0,0,0,0.6) 0%,rgba(0,0,0,0) 100%);
+    }
+}
+
+
+.info-bar {
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba($black, .15);
+    background-color: $white;
+    padding: 20px 15px;
+    margin-top: 30px;
+    position: relative;
+
+    @include media-breakpoint-up(lg) { 
+        margin-top: -40px;
+    }
+
+
+    ul {
+        display: flex;
+        align-items: center;
+        margin: 0;
+        flex-wrap: wrap;
+
+        @include media-breakpoint-up(md) { 
+            flex-wrap: nowrap;
+        }
+
+        li {
+            flex: 0 0 50%;
+            font-size: $font-size-xs;
+            color: $gray-medium;
+            padding: 5px 10px;
+
+            @include media-breakpoint-up(md) { 
+                flex: 1;
+            }
+
+            strong {
+                display: block;
+                color: $gray-darker;
+                font-size: $h5-font-size ;
+            }
+        }
+    }
+}
+
+.syllabus-bg {
+    background-image: url(#{$path}/lp/syllabus-bg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 40px 0;
+    color: $white;
+}
+
+.syllabus {
+    &.enroll-form::after {
+        background-image: none;
+        display: none;
+    }
+
+    @include media-breakpoint-up(md) { 
+        &.enroll-form::after {
+            background-image: url(#{$path}/lp/syllabus-img.png);
+            display: block;
+        }
+    }
+
+    .modal-title{
+        font-size: $h4-font-size;
+        color: $secondary;
+    }
+
+    &.enroll-form .animation-input:focus ~ label, 
+    &.enroll-form .has-content .animation-input ~ label {
+        background-image: none;
+        background-color: $white;
+    }
+   
+}
+
+.programe-logo {
+    .white-box {
+        padding: 15px;
+        text-align: center;
+        margin: 10px 0;
+
+        img {
+            display: inline-block;
+        }
+    }
+    
+}
+
+.instructors {
+    &--pic {
+        @include size(90px, 90px);
+        display: inline-block;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+}
+
+
+
+.program-fee {
+    .payfee {
+        li {
+            &:not(:last-child) {
+                margin-bottom: 20px;
+            }
+        }
+    }
+
+    &--features {
+        background-color: rgba($primary, .8);
+        color: $white;
+
+        h3 {
+            font-size: $h3-font-size;
+            color: $white;
+        }
+
+        .list--tick li::before {
+            color: $white;
+        }
+    }
+}
+
+.footer--copyright {
+    font-size: $font-size-xs;
+    
+}
+
+.secondary-menu.fixed-header {
+    display: none;
+
+    @include media-breakpoint-up(md) { 
+        display: block;
+    }
+
+    &.fixed-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 9;
+    }
+}
+
+.contact-form-sticky {
+    position: fixed;
+    right: 30px;
+    bottom: 20px;
+    width: 42px;
+    height: 42px;
+    display: block;
+    text-align: center;
+    line-height: 42px;
+
+    img {
+        width: 24px;
+    }
+}
+
+#btnScrollTop {
+    bottom: 70px;
+}
+
+.prog-tools {
+    position: relative;
+
+    .slick-arrow {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        
+
+        &.slick-prev{
+            margin-left: -35px;
+            bottom: -10px;
+        }
+        
+        &.slick-next{
+            margin-right: -35px;
+            bottom: -12px;
+        }
+    }
+}
+
+.sticky-box {
+    box-shadow: 0 0 10px 0 rgba($black, .2);
+    background-color: $white;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    z-index: 9;
+    height: 51px;
+
+    a {
+        flex: 0 0 50%;
+        padding: 15px 10px;
+        text-align: center;
+
+        &.enroll {
+            color: $white;
+            font-weight: $headings-font-weight;
+        }
+    }
+}
+

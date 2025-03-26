@@ -1,0 +1,194 @@
+<?php
+	$minimumAmount = 500;
+	$orderNumber = date("Ymd").rand();
+	$working_key='67053E30D6AB739794';
+
+	$payOnlineResponses = '/opt/ap2v/website/payOnlineResponses/'.$orderNumber;
+
+	//error_reporting(0);
+
+	function encrypt($plainText,$key)
+	{
+		$secretKey = hextobin(md5($key));
+		$initVector = pack("C*", 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f);
+	  	$openMode = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '','cbc', '');
+	  	$blockSize = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, 'cbc');
+		$plainPad = pkcs5_pad($plainText, $blockSize);
+	  	if (mcrypt_generic_init($openMode, $secretKey, $initVector) != -1) 
+		{
+		      $encryptedText = mcrypt_generic($openMode, $plainPad);
+	      	      mcrypt_generic_deinit($openMode);
+		      			
+		} 
+		return bin2hex($encryptedText);
+	}
+
+	function decrypt($encryptedText,$key)
+	{
+		$secretKey = hextobin(md5($key));
+		$initVector = pack("C*", 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f);
+		$encryptedText=hextobin($encryptedText);
+	  	$openMode = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '','cbc', '');
+		mcrypt_generic_init($openMode, $secretKey, $initVector);
+		$decryptedText = mdecrypt_generic($openMode, $encryptedText);
+		$decryptedText = rtrim($decryptedText, "\0");
+	 	mcrypt_generic_deinit($openMode);
+		return $decryptedText;
+		
+	}
+	//*********** Padding Function *********************
+
+	 function pkcs5_pad ($plainText, $blockSize)
+	{
+	    $pad = $blockSize - (strlen($plainText) % $blockSize);
+	    return $plainText . str_repeat(chr($pad), $pad);
+	}
+
+	//********** Hexadecimal to Binary function for php 4.0 version ********
+
+	function hextobin($hexString) 
+   	 { 
+        	$length = strlen($hexString); 
+        	$binString="";   
+        	$count=0; 
+        	while($count<$length) 
+        	{       
+        	    $subString =substr($hexString,$count,2);           
+        	    $packedString = pack("H*",$subString); 
+        	    if ($count==0)
+		    {
+				$binString=$packedString;
+		    } 
+        	    
+		    else 
+		    {
+				$binString.=$packedString;
+		    } 
+        	    
+		    $count+=2; 
+        	} 
+  	        return $binString; 
+	}
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Pay Fees Online - AP2V Solutions</title>
+    <meta name="description" content="You can pay your course fee online. For any assistance, you may call us on +91 124 4364210 or send us an email to info@ap2v.com"/>
+
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  </head>
+  <body>
+   <div class="container">
+	<div class="row text-center" style="margin-top: 80px; margin-bottom: 30px;">
+		<img align="center" src="https://www.ap2v.com/wp-content/uploads/2017/04/AP2V_Logo.png"/>
+	</div>
+        <div class="row centered-form">
+        <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
+        	<div class="panel panel-default">
+        		<div class="panel-heading">
+			    		<h3 class="panel-title">Pay Fees Online - AP2V Solutions</h3>
+			 			</div>
+			 			<div class="panel-body">
+
+					<?php if (count($_POST) == 10 and array_key_exists('amount', $_POST) and (int)$_POST['amount'] >= $minimumAmount): ?>		
+						<?php
+							//error_reporting(0);
+
+        						$merchant_data='';
+							$access_code='AVSE69EC99CN00ESNC';
+
+							foreach ($_POST as $key => $value){
+								$merchant_data.=$key.'='.urlencode($value).'&';
+							}
+
+							$encrypted_data=encrypt($merchant_data,$working_key); // Method for encrypting the data.
+						?>
+						<div class="row text-center">
+							<p><i class="fa fa-spinner fa-2x" aria-hidden="true"></i> Redirecting to Payment Gateway...</p>
+						</div>
+						<form method="post" name="redirect" action="https://secure.ccavenue.com/transaction/transaction.do?command=initiateTransaction">
+							<input type=hidden name=encRequest value="<?php echo $encrypted_data; ?>">
+							<input type=hidden name=access_code value="<?php echo $access_code; ?>">
+						</form>
+
+						<script language='javascript'>document.redirect.submit();</script>
+					<?php elseif (count($_POST) == 2 && array_key_exists('encResp', $_POST)): ?>
+						<?php 
+							$encResponse = $_POST['encResp'];
+							$response = decrypt($encResponse,$working_key);
+
+							$data = array();
+							$decryptValues = explode('&', $response);
+
+							// save response to file
+							file_put_contents($payOnlineResponses, $response);
+							
+							foreach ($decryptValues as $field) {
+								$keyValue = explode('=',$field);
+				
+								$data[$keyValue[0]] = $keyValue[1];
+							}
+
+							$orderId = $data['order_id'];
+							$billingName = $data['billing_name'];
+						?>
+						
+							<?php if ($data['order_status'] == 'Success'): ?>
+								<div class="row text-center">
+									<p><i class="fa fa-check fa-2x" aria-hidden="true" style="color:#2ecc71;"></i> Payment sucessfull</p>				
+									<p>Hi <?php echo $billingName; ?>, Your order <strong>#<?php echo $orderId; ?></strong> has been placed sucessfully. Kindly send the screenshot to <a href="mailto:info@ap2v.com">info@ap2v.com</a></p>
+								</div>
+							<?php else: ?>
+								<div class="row text-center">
+									<p><i class="fa fa-times fa-2x" aria-hidden="true" style="color:#e74c3c;"></i> Payment was not sucessfull</p>				
+									<p>Hi <?php echo $billingName; ?>, There is an error in processing order <strong>#<?php echo $orderId; ?></strong> . Kindly try again or contact us on +91 9958583685 or email us on <a href="mailto:info@ap2v.com">info@ap2v.com</a></p>
+								</div>
+							<?php endif; ?>
+					<?php else: ?>
+			    		<form method="POST" name="customerData">
+						<input type="hidden" name="merchant_id" id="merchant_id" value="129069">
+						<input type="hidden" name="order_id" id="order_id" value="<?php echo $orderNumber; ?>">
+						<input type="hidden" name="currency" id="currency" value="INR">
+						<input type="hidden" name="redirect_url" id="redirect_url" value="http://www.ap2v.com/payonline/">
+						<input type="hidden" name="cancel_url" id="cancel_url" value="http://www.ap2v.com/payonline/">
+						<input type="hidden" name="language" id="language" value="EN">
+
+						<div class="form-group">
+                                                        <input type="number" name="amount" id="amount" class="form-control input-sm" min="<?php echo $minimumAmount; ?>" placeholder="Amount (INR)">
+                                                </div>
+
+						<div class="form-group">
+                                                        <input type="text" name="billing_name" id="billing_name" class="form-control input-sm" placeholder="Full Name" required>
+                                                </div>
+
+						<div class="form-group">
+                                                        <input type="text" name="billing_email" id="billing_email" class="form-control input-sm" placeholder="Email Address" required>
+                                                </div>
+
+						<div class="form-group">
+                                                        <input type="text" name="billing_tel" id="billing_tel" class="form-control input-sm" placeholder="Contact Number" required>
+                                                </div>
+					
+			    			<input type="submit" value="Pay Online" class="btn btn-info btn-block">
+			    		</form>
+
+					<?php endif;?>
+			    	</div>
+	    		</div>
+    		</div>
+    	</div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,826 @@
+{% load compress %}
+<style>
+    .password_policy_class{
+        margin:0;
+        text-align: left;
+        font-size: 9px;
+    }
+    li.monkul {
+    display: none;
+}
+    @media screen and (max-width: 768px) {
+        li.monkul {
+    display: block;
+}
+        .login-modal__left-pan.move-right-disappear #left-panel-sign-up {
+    transform: translateX(-234px); 
+}
+}
+    
+</style>
+
+<!-- Modal -->
+<div class="modal login-modal fade" id="exampleModal1" tabindex="-1"
+    aria-labelledby="exampleModa1lLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <i class="icon-close text-dark"></i>
+            </button>
+            <div class="modal-body">
+                <div class="login-modal__wrap " style="height: 475px;">
+                    <div class="login-modal__left-pan" style="width:100% ;">
+                        <!--  Sign in -->
+                        <div id="left-panel-sign" class="d-flex flex-column justify-content-center loginSection">
+                            <h2 class="mb-2 text-secondary">Sign in to your account</h2>
+                            <p class="font-size-xs text-gray-medium">Welcome back! Login with your data that you entered during registration.</p>
+                            {% comment %} <button class="google-login rounded d-flex align-items-center">
+                                 <a href="{% url 'social:begin' 'google-oauth2' %}">Sign in with google</a> 
+                                <a href="#">Sign in with google</a>
+                            </button> {% endcomment %}
+
+                            <!-- <p class="text-gray-light mt-4">Login via Email</p> -->
+                            <!-- <div class="or" style="height: 1px;background-color: #e0e0e0;width: 100%;text-align: center;position: relative;margin: 30px 0;">
+                                <span style="background-color: #fff;padding: 0 10px;display: inline-block;position: relative;top: -10px;color: #999db3;font-size: 0.75rem;">Login via Email</span>
+                            </div> -->
+                            {% comment %} <form action="/classroom/login" method="POST" class="w-100"> {% endcomment %}
+                                {% comment %} {% csrf_token %}  {% endcomment %}
+                                <ul class="w-100 mb-0">
+                                    <li class="form-group">
+                                        <div class="input-effect ">
+                                            <input type="email" name="email" id="ldemail" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name">
+                                            <label>Email</label>
+                                        </div>
+                                    </li>
+                                    <li class="form-group" style="margin-bottom: 0;">
+                                        <div class="input-effect ">
+                                            <input type="password" name="password" id="ldpass" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name">
+                                            <label>Password</label>
+                                        </div>
+                                    </li>
+                                    <span id="loginDEMessage" style="font-size: 12px; margin-bottom: 0px;margin-top: 10px;">Login Email and Password case-senstive</span>
+                                    <p style="font-size: 12px; margin-top:10px;"><span>Please Note:</span> By Continuing signing in, you agree to AP2V <a href="https://www.ap2v.com/terms-and-conditions/" target="__BLANK__" >Terms & Conditions</a> and  <a href="https://www.ap2v.com/privacy-policy/" target="__BLANK__">Privacy Policy</a>.</p> 
+                                    <li><button style="margin-top: 15px;" type="button" onclick="attemptLoginDesktop1()" id="loginDBtnl1" class="btn btn-primary rounded-60 w-100">Sign in</button></li>
+                                    <li class="form-group my-4 font-size-xs text-center mb-0"><a href="javascript:void(0)" onclick="displayResetPasswordScreen()" class="text-gray-medium text-underline">Forget Password?</a></li>
+                                    <li class="form-group my-4 font-size-xs text-center mb-0 monkul"><a href="#" class="text-gray-medium text-underline" id="sign-up1">Sign up</a></li>
+
+                                </ul>
+                            {% comment %} </form> {% endcomment %}
+                        </div><!-- // Sign in -->
+
+
+                        <script>
+                            function attemptLoginDesktop1(){
+                                var userLogin = $("#ldemail").val()
+                                var userPass = $("#ldpass").val()
+                                
+                                
+                                if(userLogin && userPass){
+                                    //alert(userLogin)
+                                    //alert(userPass)
+                                    $("#loginDBtnl1").text("Please Wait...")
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/classroom/attemptuserLogin/",
+                                        data: {"email":userLogin,"password":userPass,"csrfmiddlewaretoken": "{{ csrf_token }}"},
+                                        success: function (data) {
+                                            //alert('success')
+                                            var type = sessionStorage.getItem("type")
+                                            //alert(type)
+                                            if(sessionStorage.getItem("type") === null){
+                                                console.log("Item does not exist in localstoarge");
+                                                if(data['status'] == 200){
+                                                    $("#loginDBtnl1").text("Login Success... Redirecting")
+                                                    //window.location.assign()
+                                                    window.location.href="/classroom"
+                                                }
+                                                else{
+                                                    $("#loginDEMessage").text(data['message'])
+                                                    $("#loginDEMessage").css('color', 'red');
+                                                    $("#loginDBtnl1").text("Login")
+                                                    return false;
+                                                }
+                                            }
+                                            else{
+                                               console.log("Item exists in localstorage");
+                                               addToCourse(type)
+                                            
+                                                if(data['status'] == 200){
+                                                    $("#loginDBtnl1").text("Login Success... Redirecting")
+                                                    //window.location.assign()
+                                                    window.location.href="/recording_sessions/checkout"
+                                                }
+                                                else{
+                                                    $("#loginDEMessage").text(data['message'])
+                                                    $("#loginDEMessage").css('color', 'red');
+                                                    $("#loginDBtnl1").text("Login")
+                                                    return false;
+                                                }
+                                            
+                                            }
+                                            
+                                        },
+                                        error: function (data) {
+                                            alert("Internal Server Error!!!");
+                                        },
+                                    }); 
+                                }
+                            }
+                        </script>
+                        
+
+
+                        <!--  Forget password -->
+                        <div class="forget-password" id="resetSection">
+                            <h2 class="mb-2 text-secondary">Forget Passsword</h2>
+                            <p class="font-size-xs text-gray-medium">Enter email address associated with your account and we'll send you a link to reset your password</p>
+                                {% csrf_token %} 
+                                <ul class="w-100 mb-0">
+                                    <li class="form-group">
+                                        <div class="input-effect ">
+                                            <input type="email" name="email" id="resetEmail" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name">
+                                            <label>Email address</label>
+                                        </div>
+                                    </li>
+                                    <p id="resetMessage"></p>
+                                    <li id="resetButton"><button type="submit" onclick="genratePasswordToken()" class="btn btn-primary rounded-60 w-100">Reset my password</button></li>
+                                    <li style="margin-left: 110px;" id="resetWaiting"><div class="spinner-grow text-success"></div></li>
+                                </ul>
+                        </div><!--  Forget password -->
+
+
+
+                        <div id="left-panel-sign-up"
+                            class="d-flex flex-column justify-content-center align-items-center text-center py-5">
+                            <h2 class="mb-3 text-secondary">Create Account</h2>
+                            {% comment %} <button class="google-login rounded d-flex align-items-center">
+                                <a href="#">Sign in with google</a>
+                            </button> {% endcomment %}
+
+                            <p class="text-gray-light mt-4">Use your email for registration:
+                            </p>
+                            {% comment %} <form action="/classroom/signup" method="POST" autocomplete="off"> {% endcomment %}
+                                {% comment %} {% csrf_token %} {% endcomment %}
+                                <ul class="w-100">
+                                    <li class="form-group error">
+                                        <div class="input-effect ">
+                                            <input autocomplete="off" type="text" id="name" name="fullname" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name">
+                                            <label>Full name</label>
+                                            <p class="error--mgs" id="name1_error">Please enter name</p>
+                                        </div>
+                                    </li>
+
+                                    <li class="form-group error">
+                                        <div class="input-effect ">
+                                            <input autocomplete="off"  type="email" id="email" name="email" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name">
+                                            <label>Your email</label>
+                                            <p class="error--mgs" id="email1_error">Please enter email</p>
+                                        </div>
+                                    </li>
+                                    <li class="form-group error">
+                                        <div class="input-effect ">
+                                            <input autocomplete="off"  type="password" id="password" name="password" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name">
+                                            <label>Password</label>
+                                            <p class="error--mgs" id="password1_error">Please enter password</p>
+                                        </div>
+                                    </li>
+
+                                    <p class="password_policy_class" id="passwordPLength">Must be grater 6 characters as long.</p>
+                                    <p class="password_policy_class" id="passwordPChar">Can contain any letters a to z or A to Z.</p>
+                                    <p class="password_policy_class" id="passwordPSChar">Can contain some special characters eg(@,#,$,%,&,*,%).</p>
+                                    <p class="password_policy_class" id="passwordPNumber">Can contain any numbers from 0 to 9.</p>
+                                    <span id="password_policy_result" hidden></span>
+                                    
+                                    
+
+                                    <p id="error_message"></p>
+                                    <li><button class="btn btn-primary rounded-60 px-5" id="createBtnStnd" onclick="createUser()" style="margin-top: 5px;">Sign Up</button></li>
+                                    <li class="spinner-grow text-danger" id="createBtnStndSpiner"></li>
+                                </ul>
+                            {% comment %} </form> {% endcomment %}
+                        </div><!-- // Sign up -->
+                    </div><!-- // Left panel -->
+
+                    <div id="right-panel" class="login-modal__right-pan bg-gradient-primary">
+                        <div id="sigin-up-content"
+                            class="login-modal__right-pan--content h-100 d-flex flex-column justify-content-center align-items-center text-center px-4">
+                            <h2>Hello, Friend</h2>
+                            <p>Enter your personal details and start journey with us</p>
+                            <a href="#" class="btn btn-outline-white rounded-60 px-4"
+                                id="sign-up">Sign up</a>
+                        </div>
+
+                        <div id="sigin-in-content"
+                            class="login-modal__right-pan--content h-100 d-flex flex-column justify-content-center align-items-center text-center px-4">
+                            <h2>Welcome Back</h2>
+                            <p>To keep connected with us please login with your personal info
+                            </p>
+                            <a href="#" class="btn btn-outline-white rounded-60 px-4"
+                                id="sign-in">Sign in </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- // Modal -->
+
+
+{% comment %} -------------------------Jquery for singup from desktop view--------------------------------------------------- {% endcomment %}
+{% comment %} {% compress js %} {% endcomment %}
+<script>
+    $("#name1_error").hide();
+    $("#email1_error").hide();
+    $("#password1_error").hide();
+
+    $("#error_message").hide();
+    $("#createBtnStndSpiner").hide();
+    var status_code = 0
+
+    function createUser(){
+        $("#error_message").hide();
+        var name = $("#name").val() 
+        var email = $("#email").val() 
+        var password = $("#password").val()
+        //alert(status_code)
+
+        if(name.length < 1 ){
+            $("#name1_error").show();
+            return;
+        }
+
+        if(email.length < 1){
+            $("#email1_error").show();
+            return;
+        }
+        if(password.length < 1){
+            $("#password1_error").show();
+            return;
+        }
+        $("#createBtnStnd").hide();
+        $("#createBtnStndSpiner").show();
+        $("#error_message").show();
+        $("#error_message").text("Please wait, We are validatig information...");
+        
+        if(name && email && password){
+            data = {"name":name,"email":email,"password":password}
+            $.ajax({
+                type: "POST",
+                url: "/user/create_user/",
+                data: data,
+                success: function (data) {
+                    var code = data['code']
+                    if(code == 401){
+                        $("#error_message").show();
+                        $("#error_message").text(data['message']);
+                        $("#createBtnStnd").show();
+                        $("#createBtnStndSpiner").hide();
+                        return false;
+                    }
+                    if(code == 200){
+                        $("#error_message").show();
+                        $("#error_message").text(data['message']);
+                        status_code = 200
+                        $("#createBtnStnd").show();
+                        $("#createBtnStndSpiner").hide();
+                        return false;
+                    }
+                    if(code == 201){
+                        location.reload();
+                        return false;
+                    }
+                },
+                error: function (data) {
+                    alert("Internal Server Error!!!");
+                    $("#createBtnStnd").show();
+                    $("#createBtnStndSpiner").hide();
+                },
+            }); 
+        }
+    }
+</script>
+
+<script>
+    $("#resetSection").hide()
+    function displayResetPasswordScreen(){
+        document.getElementById('left-panel-sign').style.setProperty('display', 'none');
+        $("#resetSection").show()
+    }
+</script>
+
+<script>
+    $("#resetWaiting").hide()
+    function genratePasswordToken(){
+        var email = $("#resetEmail").val()
+        if(email){
+
+            $("#resetWaiting").show()
+            $("#resetButton").hide()
+            $.ajax({
+                type: "POST",
+                url: "/user/genrate_reset_user_password_token",
+                data: {"email":email,"csrfmiddlewaretoken": "{{ csrf_token }}"},
+                success: function (data) {
+                    //alert(data['status'])
+                    var status = data['status']
+                    //alert("success")
+                    $("#resetMessage").text(data['message'])
+                    $("#resetWaiting").hide()
+                    $("#resetButton").show()
+                    return false;
+                },
+                error: function (data) {
+                    alert("Internal Server Error!!!");
+                    $("#resetWaiting").hide()
+                    $("#resetButton").show()
+                },
+            });
+        }
+    }
+</script>
+{% comment %} {% endcompress js %} {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+<!-- Mobile Login -->
+<div class="mobile-modal" id="mobile-login">
+    <div class="mobile-modal__header">
+        <div class="btn-back" id="back-btn">
+            <i class="icon-arrow-point-to-right"></i>
+        </div>
+        <h2>Sign in to your account</h2>
+    </div>
+
+    <div id="loginSec" class="mobile-modal__content mt-3">
+        <p class="font-size-md font-weight-semi-bold mb-2">Sign in to your account</p>
+        <p class="text-center mb-4">Welcome back! Login with your data that you entered during registration.</p>
+        {% comment %} <form action="/classroom/login" method="POST" class="w-100"> {% endcomment %}
+            {% comment %} {% csrf_token %} {% endcomment %}
+            <ul class="w-100">
+                <li class="form-group">
+                    <div class="input-effect ">
+                        <input type="email" name="email" id="lemail" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name">
+                        <label>Email</label>
+                    </div>
+                </li>
+                <li class="form-group">
+                    <div class="input-effect ">
+                        <input type="password" name="password" id="lpass" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name">
+                        <label>Password</label>
+                    </div>
+                </li>
+                <li class="form-group text-gray-medium" style="font-size: 12px;"><p id="loginEMessage">Email and Password are case sensitive...</p></li>
+                <li class="form-group"><a href="javascript:void(0)" class="text-gray-medium text-underline" onclick="showForget()">Forget Password</a></li>
+                <li><button type="submit" onclick="attemptLogin()" class="btn btn-lg btn-primary rounded-60 w-100" id="loginBtnl">Login</button></li>
+                
+            </ul>
+        {% comment %} </form> {% endcomment %}
+        {% comment %} <div class="or"><span>Login via Email</span></div>
+        <button class="google-login rounded d-flex align-items-center">
+            <a href="#">Sign in with google</a>
+        </button> {% endcomment %}
+        <div class="text-center mt-4">Don't have an account? <a href="javascript:void(0)" id="mobile-signup">Sign up</a></div>
+    </div>
+
+    <div id="forgetSec" class="mobile-modal__content mt-3">
+        <p class="font-size-md font-weight-semi-bold mb-2">Forget Password</p>
+        <p class="text-center mb-4">We will send a password reset link on your email.</p>
+            <ul class="w-100">
+                <li class="form-group">
+                    <div class="input-effect ">
+                        <input type="email" name="email" id="remail" class="form-control animation-input border-top-left-radius-0" placeholder aria-label="name" aria-describedby="name">
+                        <label>Email</label>
+                    </div>
+                </li>
+                <li class="form-group text-gray-medium" style="font-size: 12px;"><p id="resetEMessage">Please enter registered email.</p></li>
+                <li><button type="submit" onclick="resetUserPass()" class="btn btn-lg btn-primary rounded-60 w-100" id="resetBtnl">Validate</button></li>
+            </ul>
+        <div class="text-center mt-4"> <a href="javascript:void(0)" id="" onclick="showLogin()">Login</a></div>
+    </div>
+</div><!-- // Mobile Login -->
+
+
+{% comment %} {% compress js %} {% endcomment %}
+<script>
+    function showLogin(){
+        $("#forgetSec").hide();
+        $("#loginSec").show();
+    }
+
+    function showForget(){
+        $("#loginSec").hide();
+        $("#forgetSec").show();
+    }
+
+    function resetUserPass(){
+        var resetemail = $("#remail").val()
+        if(resetemail){
+            $("#resetBtnl").text("Please Wait...")
+            $.ajax({
+                type: "POST",
+                url: "/user/genrate_reset_user_password_token",
+                data: {"email":resetemail,"csrfmiddlewaretoken": "{{ csrf_token }}"},
+                success: function (data){
+                    if(data['status'] == 200){
+                        $("#resetBtnl").text("Validate")
+                        $("#resetEMessage").text(data['message'])
+                        return false;
+                    }
+                    else{
+                        $("#resetBtnl").text("Validate")
+                        $("#resetEMessage").text(data['message'])
+                        $("#resetEMessage").css('color', 'red');
+                        return false;
+                    }
+                },
+                error: function (data) {
+                    alert("Internal Server Error!!!");
+                },
+            }); 
+        }
+    }
+</script>
+{% comment %} {% endcompress js %} {% endcomment %}
+
+
+
+<!-- Mobile Registration -->
+<div class="mobile-modal" id="mobile-registration">
+    <div class="mobile-modal__header">
+        <div class="btn-back" id="back-btn2">
+            <i class="icon-arrow-point-to-right"></i>
+        </div>
+        <h2>Create Account</h2>
+    </div>
+
+    <div class="mobile-modal__content mt-3">
+        <p class="font-size-md font-weight-semi-bold mb-2">Create Account</p>
+        <p class="text-center mb-4">Use your email for registration.</p>
+        {% comment %} <form action="/classroom/login" method="POST" class="w-100"> {% endcomment %}
+            <ul class="w-100">
+                <li class="form-group error">
+                    <div class="input-effect ">
+                        <input type="text"
+                            class="form-control animation-input border-top-left-radius-0" id="nameM"
+                            placeholder aria-label="name"
+                            aria-describedby="name">
+                        <label>Full name</label>
+                        <p class="error--mgs" id="name1_errorM">Please enter name</p>
+                    </div>
+                </li>
+
+                <li class="form-group error">
+                    <div class="input-effect ">
+                        <input type="email"
+                            class="form-control animation-input border-top-left-radius-0" id="emailM"
+                            placeholder aria-label="name"
+                            aria-describedby="name">
+                        <label>Your email</label>
+                        <p class="error--mgs" id="email1_errorM">Please enter email</p>
+                    </div>
+                </li>
+                <li class="form-group error">
+                    <div class="input-effect ">
+                        <input type="password"
+                            class="form-control animation-input border-top-left-radius-0" id="passwordM"
+                            placeholder aria-label="name"
+                            aria-describedby="name">
+                        <label>Password</label>
+                        <p class="error--mgs" id="password1_errorM">Please enter password</p>
+                    </div>
+                </li>
+
+                <p class="password_policy_class" id="passwordPLengthM">Must be grater 6 characters as long.</p>
+                <p class="password_policy_class" id="passwordPCharM">Can contain any letters a to z or A to Z.</p>
+                <p class="password_policy_class" id="passwordPSCharM">Can contain some special characters eg(@,#,$,%,&,*,%).</p>
+                <p class="password_policy_class" id="passwordPNumberM">Can contain any numbers from 0 to 9.</p>
+
+                <p id="error_messageM"></p>
+                <li><button class="btn btn-lg btn-primary rounded-60 px-5 w-100" id="createBtnStndM" onclick="createUserMobile()">Sign Up</button></li>
+                <li class="spinner-grow text-danger" id="createBtnStndSpinerM"></li>
+            </ul>
+        {% comment %} </form> {% endcomment %}
+        {% comment %} <div class="or"><span>or use your email for registration</span></div>
+        <button class="google-login rounded d-flex align-items-center">
+            <a href="#">Sign in with google</a>
+        </button> {% endcomment %}
+        <div class="text-center mt-4">Already on Ap2v.com <a href="javascript:void(0)" id="mobile-signin">Sign in</a></div>
+    </div>
+</div><!-- // Mobile Login -->
+
+{% comment %} {% compress js %} {% endcomment %}
+<script>
+    $("#name1_errorM").hide();
+    $("#email1_errorM").hide();
+    $("#password1_errorM").hide();
+
+    $("#error_messageM").hide();
+    $("#createBtnStndSpinerM").hide();
+    var status_code = 0
+
+    function createUserMobile(){
+        $("#error_messageM").hide();
+        var name = $("#nameM").val() 
+        var email = $("#emailM").val() 
+        var password = $("#passwordM").val()
+        //alert(status_code)
+
+        if(name.length < 1 ){
+            $("#name1_errorM").show();
+            return;
+        }
+
+        if(email.length < 1){
+            $("#email1_errorM").show();
+            return;
+        }
+        if(password.length < 1){
+            $("#password1_errorM").show();
+            return;
+        }
+
+        $("#createBtnStndM").hide();
+        $("#createBtnStndSpinerM").show();
+        $("#error_messageM").show();
+        $("#error_messageM").text("Please wait, We are validatig information...");
+        
+        if(name && email && password){
+            data = {"name":name,"email":email,"password":password}
+            $.ajax({
+                type: "POST",
+                url: "/user/create_user/",
+                data: data,
+                success: function (data) {
+                    var code = data['code']
+                    if(code == 401){
+                        $("#error_messageM").show();
+                        $("#error_messageM").text(data['message']);
+                        $("#createBtnStndM").show();
+                        $("#createBtnStndSpinerM").hide();
+                        return false;
+                    }
+                    if(code == 200){
+                        $("#error_messageM").show();
+                        $("#error_messageM").text(data['message']);
+                        status_code = 200
+                        $("#createBtnStndM").show();
+                        $("#createBtnStndSpinerM").hide();
+                        return false;
+                    }
+                    if(code == 201){
+                        location.reload();
+                        return false;
+                    }
+                },
+                error: function (data) {
+                    alert("Internal Server Error!!!");
+                    $("#createBtnStndM").show();
+                    $("#createBtnStndSpinerM").hide();
+                },
+            }); 
+        }
+    }
+</script>
+
+<script>
+    $('#createBtnStnd').hide()
+    //$(document).ready(function(){
+        //$('#password').keyup(function(){ 
+        $('#password').on("input propertychange", function() {
+            var value = $('#password').val()
+            //alert(value);
+            $('#password_policy_result').html(checkStrength($('#password').val())) 
+        })
+
+        function checkStrength(password){ 
+            //initial strength 
+            var strength = 0 
+            
+            //if the password length is less than 6, return message. 
+            if (password.length < 6) { 
+                $('#result').removeClass() 
+                $('#result').addClass('short')
+                $('#passwordPLength').css('color', '#535b62'); 
+                //return 'Too short' 
+                
+            }
+            
+            
+            //length is ok, lets continue. 
+            //if length is 8 characters or more, increase strength value 
+            if (password.length > 5){
+                strength += 1
+                $('#passwordPLength').css('color', 'green');
+            }
+            else{
+                $('#passwordPLength').css('color', '#535b62');
+            }  
+            
+            //if password contains both lower and uppercase characters, increase strength value 
+            if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)){
+                $('#passwordPChar').css('color', 'green');
+                strength += 1
+            }  
+            else{
+                $('#passwordPChar').css('color', '#535b62');
+            }
+            
+            //if it has numbers and characters, increase strength value 
+            if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/)){
+                $('#passwordPNumber').css('color', 'green');
+                strength += 1
+            }
+            else{
+                $('#passwordPNumber').css('color', '#535b62');
+            }  
+            
+            //if it has one special character, increase strength value 
+            if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/)){
+                $('#passwordPSChar').css('color', 'green');
+                strength += 1
+            }
+            else{
+                $('#passwordPSChar').css('color', '#535b62');
+            }  
+                        
+            //now we have calculated strength value, we can return messages 
+            
+            //if value is less than 2 
+            //alert(strength)
+            if (strength < 2 ) { 
+                $('#result').removeClass() 
+                $('#result').addClass('weak') 
+                $('#createBtnStnd').hide()
+                return 'Weak' 
+            } 
+            else if (strength == 2 ) { 
+                $('#result').removeClass() 
+                $('#result').addClass('good') 
+                //$('#createBtnStnd').show()
+                return 'Good' 
+            } 
+            else { 
+                $('#result').removeClass() 
+                $('#result').addClass('strong') 
+                $('#createBtnStnd').show()
+                return 'Strong' 
+            } 
+        } 
+    //});
+</script>
+
+<script>
+    $('#createBtnStndM').hide()
+    //$(document).ready(function(){
+        //$('#password').keyup(function(){ 
+        $('#passwordM').on("input propertychange", function() {
+            var value = $('#passwordM').val()
+            //alert(value);
+            $('#password_policy_result').html(checkStrengthM($('#passwordM').val())) 
+        })
+
+        function checkStrengthM(password){ 
+            //initial strength 
+            var strength = 0 
+            
+            //if the password length is less than 6, return message. 
+            if (password.length < 6) { 
+                //$('#result').removeClass() 
+                //$('#result').addClass('short')
+                $('#passwordPLengthM').css('color', '#535b62'); 
+                //return 'Too short' 
+                
+            }
+            
+            
+            //length is ok, lets continue. 
+            //if length is 8 characters or more, increase strength value 
+            if (password.length > 5){
+                strength += 1
+                $('#passwordPLengthM').css('color', 'green');
+            }
+            else{
+                $('#passwordPLengthM').css('color', '#535b62');
+            }  
+            
+            //if password contains both lower and uppercase characters, increase strength value 
+            if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)){
+                $('#passwordPCharM').css('color', 'green');
+                strength += 1
+            }  
+            else{
+                $('#passwordPCharM').css('color', '#535b62');
+            }
+            
+            //if it has numbers and characters, increase strength value 
+            if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/)){
+                $('#passwordPNumberM').css('color', 'green');
+                strength += 1
+            }
+            else{
+                $('#passwordPNumberM').css('color', '#535b62');
+            }  
+            
+            //if it has one special character, increase strength value 
+            if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/)){
+                $('#passwordPSCharM').css('color', 'green');
+                strength += 1
+            }
+            else{
+                $('#passwordPSCharM').css('color', '#535b62');
+            }  
+                        
+            //now we have calculated strength value, we can return messages 
+            
+            //if value is less than 2 
+            //alert(strength)
+            if (strength < 2 ) { 
+                //$('#result').removeClass() 
+                //$('#result').addClass('weak') 
+                $('#createBtnStndM').hide()
+                return 'Weak' 
+            } 
+            else if (strength == 2 ) { 
+                //$('#result').removeClass() 
+                //$('#result').addClass('good') 
+                //$('#createBtnStnd').show()
+                return 'Good' 
+            } 
+            else { 
+                //$('#result').removeClass() 
+                //$('#result').addClass('strong') 
+                $('#createBtnStndM').show()
+                return 'Strong' 
+            } 
+        } 
+    //});
+</script>
+
+
+<script>
+    function attemptLogin(){
+        var userLogin = $("#lemail").val()
+        var userPass = $("#lpass").val()
+
+        
+        if(userLogin && userPass){
+            //alert(userLogin)
+            //alert(userPass)
+            $("#loginBtnl").text("Please Wait...")
+            $.ajax({
+                type: "POST",
+                url: "/classroom/attemptuserLogin/",
+                data: {"email":userLogin,"password":userPass,"csrfmiddlewaretoken": "{{ csrf_token }}"},
+                success: function (data) {
+                    //alert('success')
+                    var type = sessionStorage.getItem("type")
+                                            //alert(type)
+                                            if(sessionStorage.getItem("type") === null){
+                                                console.log("Item does not exist in localstoarge");
+                                                if(data['status'] == 200){
+                                                    $("#loginDBtnl1").text("Login Success... Redirecting")
+                                                    //window.location.assign()
+                                                    window.location.href="/classroom"
+                                                }
+                                                else{
+                                                    $("#loginDEMessage").text(data['message'])
+                                                    $("#loginDEMessage").css('color', 'red');
+                                                    $("#loginDBtnl1").text("Login")
+                                                    return false;
+                                                }
+                                            }
+                                            else{
+                                               console.log("Item exists in localstorage");
+                                               addToCourse(type)
+                                            
+                                                if(data['status'] == 200){
+                                                    $("#loginDBtnl1").text("Login Success... Redirecting")
+                                                    //window.location.assign()
+                                                    window.location.href="/recording_sessions/checkout"
+                                                }
+                                                else{
+                                                    $("#loginDEMessage").text(data['message'])
+                                                    $("#loginDEMessage").css('color', 'red');
+                                                    $("#loginDBtnl1").text("Login")
+                                                    return false;
+                                                }
+                                            
+                                            }
+                },
+                error: function (data) {
+                    alert("Internal Server Error!!!");
+                },
+            }); 
+        }
+    }
+</script>
+
+{% comment %} {% endcompress js %} {% endcomment %}

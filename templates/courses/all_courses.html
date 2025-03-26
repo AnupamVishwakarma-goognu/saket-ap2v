@@ -1,0 +1,303 @@
+ {% include 'courses/course_subpage.html' %}
+ {% load static %}
+ {% block section_content %}
+    <section>
+      <div class="container">
+        <div class="row">
+
+          <div class="pull-left filter filter-collapse in">
+              <h2 class="mob-head">Filter</h2>
+              <div class="fliter-items">
+                <p class="c3 fs-13">Functional area</p>
+                <div class="content mCustomScrollbar">
+                  <ul>
+                    <li>
+                        <input type="checkbox" id="test1">
+                        <label for="test1">Opration</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="test2">
+                        <label for="test2">Finance</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="test3">
+                        <label for="test3">Sales</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="test4">
+                        <label for="test4">Marketing</label>
+                    </li>
+
+
+                    <li>
+                        <input type="checkbox" id="test5">
+                        <label for="test5">Human recourses</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="test6">
+                        <label for="test6">Opration</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="test7">
+                        <label for="test7">Finance</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="test8">
+                        <label for="test8">Sales</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="test9">
+                        <label for="test9">Maketing</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="test10">
+                        <label for="test10">Human recourses</label>
+                    </li>
+
+                  </ul>
+                </div>
+              </div><!-- Functional area ends here -->
+
+              <div class="fliter-items">
+                <p class="c3 fs-13">Price</p>
+                <input id="ex2" type="text" class="span2" value="" data-slider-min="10" data-slider-max="1000" data-slider-step="5" data-slider-value="[250,450]"/>
+                <p class="c3 fs-12 mt-5">Rs. 500 to 50000</p>
+              </div><!-- Price ends here -->
+
+              <div class="fliter-items">
+                <p class="c3 fs-13">Course Level</p>
+                <div class="content mCustomScrollbar">
+                  <ul>
+                    <li>
+                        <input type="checkbox" id="test11">
+                        <label for="test11">Beginner</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="test12">
+                        <label for="test12">Intermediate</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="test13">
+                        <label for="test13">Advanced</label>
+                    </li>
+                  </ul>
+                </div>
+              </div><!-- Course Level ends here -->
+
+              <div class="fliter-items">
+                <p class="c3 fs-13">Review</p>
+                <div class="rating-wrap">
+                  <ul>
+                    <li>
+                        <input type="checkbox" id="test14">
+                        <label for="test14">
+                          <div class="rating inline-block ml-0">
+                            <sup class="fill-star"></sup>
+                            <sup class="unfill-star"></sup>
+                            <sup class="unfill-star"></sup>
+                            <sup class="unfill-star"></sup>
+                            <sup class="unfill-star"></sup>
+                          </div>
+                        </label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="test15">
+                        <label for="test15">
+                          <div class="rating inline-block ml-0">
+                            <sup class="fill-star"></sup>
+                            <sup class="fill-star"></sup>
+                            <sup class="unfill-star"></sup>
+                            <sup class="unfill-star"></sup>
+                            <sup class="unfill-star"></sup>
+                          </div>
+                        </label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="test16">
+                        <label for="test16">
+                          <div class="rating inline-block ml-0">
+                            <sup class="fill-star"></sup>
+                            <sup class="fill-star"></sup>
+                            <sup class="fill-star"></sup>
+                            <sup class="unfill-star"></sup>
+                            <sup class="unfill-star"></sup>
+                          </div>
+                        </label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="test17">
+                        <label for="test17">
+                          <div class="rating inline-block ml-0">
+                            <sup class="fill-star"></sup>
+                            <sup class="fill-star"></sup>
+                            <sup class="fill-star"></sup>
+                            <sup class="fill-star"></sup>
+                            <sup class="unfill-star"></sup>
+                          </div>
+                        </label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="test18">
+                        <label for="test18">
+                          <div class="rating inline-block ml-0">
+                            <sup class="fill-star"></sup>
+                            <sup class="fill-star"></sup>
+                            <sup class="fill-star"></sup>
+                            <sup class="fill-star"></sup>
+                            <sup class="fill-star"></sup>
+                          </div>
+                        </label>
+                    </li>
+
+                  </ul>
+                </div>
+              </div><!-- Review ends here -->
+
+              <div class="fliter-items">
+                <p class="c3 fs-13">Certification</p>
+                <div class="content mCustomScrollbar">
+                  <ul>
+                    <li>
+                        <input type="checkbox" id="test19">
+                        <label for="test19">Required</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="test20">
+                        <label for="test20">Not Required</label>
+                    </li>
+                  </ul>
+                </div>
+              </div><!-- Certification ends here -->
+
+              <div class="fliter-items">
+                <p class="c3 fs-13">Duration</p>
+                <div class="content mCustomScrollbar">
+                  <ul>
+                    <li>
+                        <input type="checkbox" id="test21">
+                        <label for="test21">3 months</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="test22">
+                        <label for="test22">6 months</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="test23">
+                        <label for="test23">12 months</label>
+                    </li>
+                  </ul>
+                </div>
+              </div><!-- Duration ends here -->
+
+              <div class="fliter-items">
+                <p class="c3 fs-13">Study mode</p>
+                <div class="content mCustomScrollbar">
+                  <ul>
+                    <li>
+                        <input type="checkbox" id="test24">
+                        <label for="test24">Online</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="test25">
+                        <label for="test25">Classroom</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="test26">
+                        <label for="test26">Blended</label>
+                    </li>
+                  </ul>
+                </div>
+              </div><!-- Duration ends here -->
+          </div><!-- Left pan ends here -->
+
+          <div class="pull-left right-pan">
+            <!-- starts of article -->
+            <article>
+		{% comment %}
+              <p>As an Authorized partner of Red hat and Star certifications, AP2V have huge portfolio of training
+curriculum prescribed by Red Hat and Star. The courses we offers are designed to build the skills needed to enhance the challenge of any job.</p>
+	      {% endcomment %}
+              <hr>
+              <div class="row">
+                <div class="col-xs-3 visible-xs">
+                  <button data-toggle="collapse-fil" fil-target=".filter-collapse" fil-target-3=".side-collapse-container" type="button" class="icon-filter"></button>
+                </div>
+                <div class="col-sm-12">
+                  <div class="pull-right fs-14 c6 text-right">
+                    Sort by
+                    <span class="inline-block ml-10">
+                      <select>
+                        <option>Relevence</option>
+                        <option>Lorem ipsum dolor</option>
+                        <option>Pellentesque</option>
+                        <option>Praesent feugiat</option>
+                      </select>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="clearfix"></div>
+                      <!-- product-items starts here -->
+              <div class="product-items mt-20">
+            {% for crs in courses %}
+                <div class="white-box p-15 mt-30">
+                  <!--<span class="ribbon"></span>-->
+                  <div class="product-img pull-left hidden-sm hidden-xs">
+
+			  <a href="/{{crs.slug}}"><img class="img-responsive" src="/media/{{crs.photo}}" alt="{{crs.name}}"></a>
+                  </div><!-- /. product-img -->
+
+                  <div class="product-descripsion pull-left">
+                    <h2 class="media-heading"> <a href="/{{crs.slug}}">{{crs.name}}</a></h2>
+                    <div class="rating inline-block ml-0 fs-12 mb-5">
+                      <sup class="fill-star"></sup>
+
+
+                      <strong> {{crs.rating}} </strong>/5  |
+		     {{  crs.category_name.all|join:" &bull; " }}
+                    </div>
+                    <p class="c6 fs-13 mb-5">{{crs.description |striptags|truncatechars:"250"}}</p>
+                      <div class="tag-wrap">
+
+                      {% for tag in crs.tags.all %}
+                        <a href="#"> {{ tag.name}} </a>
+                      {% endfor %}
+                      </div>
+		      {% comment %}
+                      <p class="mb-0 price rel mt-5"><strong>Rs. {{crs.price}} </strong><span>Rs.15000/-</span></p>
+		      {% endcomment %}
+                  </div><!-- /. product-descripsion -->
+
+                  <div class="clearfix"></div>
+                </div><!-- White Box ends here -->
+
+            {% endfor %}
+              </div><!-- product-items ends here -->
+
+            </article><!-- end of article -->
+          </div><!-- right-pan ends here  -->
+
+        </div>
+      </div><!-- /.container -->
+    </section><!-- /.section -->
+{% include 'home/footer.html' %}
+ {% endblock %}

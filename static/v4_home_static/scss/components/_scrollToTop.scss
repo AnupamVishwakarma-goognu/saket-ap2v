@@ -1,0 +1,46 @@
+#btnScrollTop {
+    @include size(0, 0);
+    display: inline-block;
+    background-color: $primary;
+    text-align: center;
+    border-radius: 4px;
+    position: fixed;
+    bottom: 50px;
+    right: 30px;
+    box-shadow: 0 0 10px rgba($black, .15);
+    // transition: background-color .3s, 
+    // opacity .5s, visibility .5s;
+    transition: all .2s ease-in-out;
+    z-index: 1000;
+
+    &.top-visible {
+        @include size(42px, 42px);
+        display: block;
+
+        &::after {
+            opacity: 1;
+        }
+    }
+
+    &:hover {
+        cursor: pointer;
+        background-color: darken($primary, 10%);
+    }
+
+    &:active {
+        background-color: $gray-medium;
+    }
+
+    &::after {
+        content: '\e915';
+        font-family: 'icomoon' !important;
+        color: $white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1) rotate(272deg);
+        opacity: 0;
+        background-repeat: no-repeat;
+    }
+  }
+  

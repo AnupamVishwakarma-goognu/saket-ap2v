@@ -1,0 +1,33 @@
+.callNow-modal {
+    .close {
+        text-align: right;
+        padding: 15px;
+        
+    }
+
+    .modal-body {
+        text-align: center;
+
+        img {
+            display: inline-block;
+        }
+    }
+
+    &--img {
+        width: 10%;
+        margin: 0 auto 40px;
+    }
+
+    &--heading {
+        font-size: $h2-font-size;
+        font-weight: bold;
+        margin-bottom: 40px;
+    }
+
+    &--phone {
+        color: $primary;
+        margin-bottom: 5px;
+        color: $gray-dark;
+        font-size: $font-size-md;
+    }
+}

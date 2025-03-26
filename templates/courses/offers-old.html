@@ -1,0 +1,72 @@
+{% extends 'home/sub_pages_base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% block section_content %}
+
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="pull-left left-pan">
+            <!-- starts of article -->
+            <article>
+		   {% comment %}
+              <p>Dummy OpenStack Administration III (CL310) course provides extensive hands-on training for experienced system administrators in how to use the distributed storage features of Red Hat Ceph Storage and the networking capabilities of OpenStack® Neutron. Students will set up a Ceph environment.</p>
+	      	   {% endcomment %}
+
+              <!-- White Box Starts here -->
+	      {% for offer in offers %}
+	      {% with offer.courses.all|get_offer_courses_object as course_price %}
+              <div class="white-box p-15 mt-30">
+                <h2 class="fs-24">{{offer.title}}</h2>
+                <ul class="offers-list">
+			{% comment %}
+			<span style="display:none;">{{ offer.courses.all | get_offer_courses_object }}</span>
+			{% endcomment %}
+		  {% for course in offer.courses.all %}
+                  <li>
+			  <a href="/courses/{{ course.slug }}"><img src="/media/{{ course.photo }}" alt="{{ course.name }}" class="img-responsive"></a>
+                    <div class="content-box white-box p-15">
+			<h2 class="mb-5"><a href="/courses/{{ course.slug }}">{{ course.name }}</a></h2>
+                      <div class="tag-wrap mb-0 fs-14 c9">
+                  {% for tag in course.tags.all %}
+                        <span>{{tag.name}}</span>
+                  {% endfor %}
+                      <div class="fs-14 c6">
+                        <div class="rating inline-block ml-0">
+                        <sup class="fill-star"></sup><strong>{{course.rating}}</strong>/5
+                      </div> | Development
+                      </div>
+                    </div>
+		    <p class="mb-0 price"><strong>Rs.{{ course.price }}</strong></p>
+                  </li>
+		  {% endfor %}
+                </ul>
+                <div class="clearfix"></div>  
+                <p class="c6 fs-14 mt-20">{{offer.description}}</p>
+
+                <div class="tag-wrap mb-0 fs-14 c9">
+
+		  {% for tag in offer.id|get_tags_by_event_id %}
+
+                  <span>{{ tag }}</span>
+		  {% endfor %}
+                </div><!-- Tag Wrap Ends here -->
+		<p class="mb-0 offer-price"><strong>Rs.{{offer.price}}</strong><span style="color: grey; text-decoration: line-through;">{{ course_price }}</span><span> {{ course_price |discount_in_price:offer.price }}%<span></p>
+              <div class="clearfix"></div>  
+              </div><!-- White Box Ends here -->
+	      {% endwith %}
+	      {% endfor %}
+              <!-- White Box Starts here -->
+              <!-- White Box Ends here -->
+              
+
+              <p class="text-center mb-0 mt-30"><img src= "{% static 'images/loader.gif' %}"></p>
+                          </article><!-- end of article -->
+          </div><!-- /.col -->
+          {% include 'home/sub_pages_sidebar.html' %}
+        </div>
+      </div><!-- /.container -->
+    </section><!-- /.section -->
+    {% include 'home/footer.html' %}
+    {% endblock %}
+   

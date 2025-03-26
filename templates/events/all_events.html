@@ -1,0 +1,112 @@
+{% extends 'home/sub_pages_base.html' %}
+{% load static %}
+{% block section_content %}
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="pull-left left-pan">
+            <!-- starts of article -->
+            <article>
+              <p>{{header_text}}</p>
+
+              <!-- event-filters starts here -->
+              <div class="event-filters text-right">
+                <a class="fs-14 c6" role="button" data-toggle="collapse" href="#collapse-filters">Filters<span class="icon-filter inline-block"></span></a>
+
+                <div class="collapse mb-20" id="collapse-filters">
+                  <div class="row">
+                    <div class="col-sm-3 col-xs-6">
+                      <select>
+                        <option>by course</option>
+                        <option>Lorem ipsum</option>
+                        <option>Maecenas</option>
+                        <option>Nunc vestibulum</option>
+                        <option>Etiam semper</option>
+                      </select>
+                    </div>
+
+                    <div class="col-sm-3 col-xs-6">
+                      <select>
+                        <option>latest</option>
+                        <option>Lorem ipsum</option>
+                        <option>Maecenas</option>
+                        <option>Nunc vestibulum</option>
+                        <option>Etiam semper</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- event-filters ends here -->
+              {% for event in events %}
+              <!-- white-box starts here -->
+              <div class="white-box p-30 event-list-bg">
+                <div class="media mb-30">
+                  <div class="media-left hidden-xs">
+                    <a href="#">
+                      <img class="radius-4" width='130' height="130" src="/media/{{event.image}}" alt="...">
+                    </a>
+                  </div><!-- /. media left -->
+                  <div class="media-body">
+                    <h2><a href="#">{{event.name}}</a></h2>
+                    <p class="mb-0">{{event.date}}-{{event.start_time}} to {{event.end_time}}-Gurgaon 
+                      <span class="c9 spacer">|</span>
+                      <a href="#"><span class="icon-programe mr-5"></span>{{event.categories}}</a></p>
+                  </div><!-- /. media body -->
+                </div><!-- /. media -->
+
+                <p>{{event.description|striptags|truncatechars:"250"}}</p>
+
+                <div class="tag-wrap mb-0 fs-14 c9">
+                  Tags
+             {% for tag in event.tags.all %}
+                  <span>{{tag.name}}</span>
+                  {% endfor %}
+              </div><!-- tag-wrap ends here -->
+
+                <div class="row mt-20">
+                  <div class="col-sm-5">
+                    <h3>Venue</h3>
+                    <ul class="venue">
+                      <li>
+                        <span class="icon-location"></span>
+                        {{event.venue.name}}
+                      </li>
+
+                      <li>
+                        <span class="icon-phone"></span>
+                        Phone:<br />{{event.contact_number}} ({{event.contact_name}})
+			<br/ >{{event.venue.phone}}
+                      </li>
+
+                      <li>
+                        <span class="icon-mail"></span>
+                        Email:<br />{{event.contact_email}} ({{event.contact_name}})
+                      </li>
+
+                      <li>
+                        <a href="{{event.venue.website}}">{{event.venue.website}}</a>
+                      </li>
+                    </ul><!-- /.UL -->
+                  </div><!-- /.col -->
+
+                  <div class="col-sm-7 text-right">
+                    <p class="mt-30 mb-0"><img src="{{event.venue.location}}" alt="..."></p>
+                  </div><!-- /.col -->
+                </div><!-- /.ROW -->
+              </div><!-- white-box ends here -->
+              {% endfor %}
+
+
+	      <p class="text-center mb-0 mt-30"><img src="{% static 'images/loader.gif' %}"></p>
+
+            </article><!-- end of article -->
+          </div><!-- /.col -->
+
+	 <aside class="pull-left hidden-xs hidden-sm">
+              {% include 'home/sub_pages_sidebar.html'%}
+          </aside><!-- RHS ends here -->
+        </div>
+      </div><!-- /.container -->
+    </section><!-- /.section -->
+    {% include 'home/footer.html' %}
+{% endblock %}

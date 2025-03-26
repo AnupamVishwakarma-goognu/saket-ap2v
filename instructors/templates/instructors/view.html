@@ -1,0 +1,137 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="wrapper">
+        {% include 'website/sidebar.html' %}
+        {% include 'website/header.html' %}
+        <div class="main-panel">
+            <!-- Navbar -->
+            
+            <!-- End Navbar -->
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form id="update_instructor" class="form-horizontal" action="{% url 'InstructorupdateView' instructor.id %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="card ">
+                                        <div class="card-header ">
+                                            <h4 class="card-title">Instructor Details</h4>
+                                        </div>
+                                        <div class="card-body ">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>FullName</label>
+                                                    <input class="form-control" value="{{ instructor.full_name }}" type="text" name="fullname" placeholder="enter your full_name" autofocus required />
+                                                </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Email</label>
+                                                    <input class="form-control" value="{{ instructor.email }}" type="email" name="email" placeholder="enter email" />
+                                                </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Mobile</label>
+                                                    <input class="form-control" type="text" value="{{ instructor.mobile }}" name="mobile" placeholder="enter your mobile number" />
+                                                </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Courses</label>
+                                                <select class="selectpicker" name="course" multiple size="7">
+                                                  {% for course in all_courses %}
+                                                    <option value="{{ course.id }}" {% if course.status == True %} selected='true' {% endif %}>{{ course.name }}</option>
+                                                  {% endfor %}
+                                                </select>
+                                                </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Days_Of_Week</label>
+                                                     <select class="selectpicker" name="days_of_week" multiple>
+                                                            {% for days_of_week in days_of_week_all %}
+                                                              <option value="{{ days_of_week.1 }}" {% if days_of_week.1 in working_days %} selected="true" {% endif %}>{{ days_of_week.1 }}</option>
+                                                            {% endfor %}
+                                                     </select>
+                                                </div>
+                                                </div>
+                                                <!-- <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Added_on</label>
+                                                    <input type="text" class="form-control datetime-input" value="{{ instructor.added_on }}" name="added_on" required="true" />
+                                                </div>
+                                                </div> -->
+                                            </div>
+                                        </div>
+
+                                        <label class="ml-3">Instructor User Id: {{instructor.blue_jeans_user_id}}</label>
+                                        <label class="ml-3">Instructor Passcode: {{instructor.blue_jeans_passcode}}</label>
+                                        <hr>
+                                        <!--<div>
+                                            <p class="ml-3">Zoom User Email : {{instructor.zoom_email}}</p>
+                                            {% comment %} <p style  class="ml-3">Zoom User Password : {{instructor.zoom_password}}</p><br> {% endcomment %}
+                                            {% if not instructor.zoom_email %}
+                                            <a href="/instructors/genrate_zoom_user/{{instructor.id}}" type="submit" class="btn btn-info float-left" value="Reset form">Genrate Zoom User</a><br><br>
+                                            <a href="/instructors/use_comman_zoom_user/{{instructor.id}}" type="submit" class="btn btn-info float-left" value="Reset form">Use Comman Zoom User</a>
+                                            {% endif %}
+                                        <div> -->
+
+                                        
+
+                                        <div class="card-footer text-center">
+                                            <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+                                            {% if instructor.active  %}
+                                                <button type="submit" class="btn btn-info float-right" value="Reset form">update</button>
+                                            {% else %}
+                                                <button id="activate_btn" onclick="mark_active_inst('{{instructor.id}}')" style="background-color:#d83232db;" type="submit" class="btn btn-info float-left">Mark Active</button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% include 'website/footer.html' %}
+        </div>
+    </div>
+
+    <script>
+        function mark_active_inst(id){
+            //alert(id)
+            if(id){
+                $("#activate_btn").text("Activating, Please Wait.... 1-2 Minute")
+                $("#activate_btn").prop("disabled",true)
+                $("#activate_btn").css("cursor","not-allowed")
+                $.ajax({
+                    url : "/instructors/mark-active-inst?inst_id="+id,
+                    method : "GET",
+                    data : {},
+                    success:function(data) {
+                        //alert("success")
+                        $("#activate_btn").prop("disabled",false)
+                        $("#activate_btn").css("cursor","pointer")
+                        $("#activate_btn").text("Activated successfully.")
+                        location.reload();      
+                    },
+                    error:function(data){
+                        $("#activate_btn").prop("disabled",false)
+                        $("#activate_btn").css("cursor","pointer")
+                        $("#activate_btn").text("Mark Active.")
+                       alert("server error...")
+                       location.reload();     
+                    }
+                })
+            }
+        }
+    </script>
+{% endblock content %}

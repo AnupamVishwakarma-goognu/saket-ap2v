@@ -1,0 +1,217 @@
+{% load compress %}
+<div class="white-box p-4 mt-4">
+    <h3>Request more information</h3>
+    <form>
+        <ul class="w-100 mb-0">
+            <li class="form-group">
+                <div class="input-effect ">
+                    <input type="text" id="name_c1" name="name" class="form-control animation-input border-top-left-radius-0" required placeholder/>
+                    <label>Full name</label>
+                </div>
+            </li>
+            <li class="form-group">
+                <div class="input-effect ">
+                    <input type="email" id="email_c1" name="email_address" class="form-control animation-input border-top-left-radius-0" required placeholder/>
+                    <label>Email Address</label>
+                </div>
+            </li>
+
+            <li class="form-group d-flex" id="side_b01">
+                {% comment %} <input type="text" style="width: 50px;" class="form-control" placeholder="+91" value="+91"/> {% endcomment %}
+                <input type="text" id="phone4" class="form-control" style="width: 0px;border: none;padding-left: 79px;outline: none;">
+                <div class="input-effect flex-fill ml-3">
+                    <input type="text" maxlength="10" id="mobile_c1" name="mobile_number" class="form-control animation-input border-top-left-radius-0" required placeholder />
+                    <label>Phone No.</label>
+                </div>
+            </li>
+
+            <li class="form-group">
+                Enquiry for:
+                <div class="custom-control custom-radio custom-control-inline" style="margin-left: 10px;">
+                    <input type="radio" checked id="myself" name="inquery" class="custom-control-input" required>
+                    <label class="custom-control-label" for="myself">Myself</label>
+                </div>
+
+                <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="company" name="inquery" class="custom-control-input" required>
+                <label class="custom-control-label" for="company">Company</label>
+                </div>
+            </li>
+
+            <li class="form-group">
+                <div class="input-effect ">
+                    <textarea id="message_c1" name="text_message" class="form-control animation-input border-top-left-radius-0" rows="3" required></textarea>
+                    <label>Write Message</label>
+                </div>
+            </li>
+
+            <!-- <label style="margin: 0;font-size: 10px;margin-left: 5px;">Suitable Date Time</label>
+            <li id="datetime2c" class="form-group">
+                <div class="input-effect">
+                    <input type="datetime-local" id="datetime2cl" class="form-control animation-input border-top-left-radius-0"
+                        placeholder aria-label="datetime" aria-describedby="name">
+                    
+                    <p class="error--mgs">Please enter email</p>
+                </div>
+            </li> -->
+
+            <li class="custom-control custom-checkbox mb-3">
+                <input id="custom_check_c1" type="checkbox" class="custom-control-input" required>
+                <label class="custom-control-label font-size-xs" for="custom_check_c1">By providing your contact details, you agree to our <a href="https://www.ap2v.com/terms-and-conditions/" target="__BLANK__" >Terms & Conditions</a> and  <a href="https://www.ap2v.com/privacy-policy/" target="__BLANK__">Privacy Policy</a></label>
+            </li>
+
+            <!-- Java script Code to get the Page source Imformation that send in enquiry email -->
+                <input type="text" name="url_page_name" id="url2" hidden>
+                    <script type="text/javascript">
+                        //let a2url = 
+                        //console.log(a2url)
+                        document.getElementById("url2").value = window.location.href;
+                    </script>
+            <!-- End javascript Code here -->
+
+            <p id="success_message4"> </p>
+            <input type="text" name="page_ms2" hidden id="page_ms3">
+            <li><button onclick="submitEnquiry1()" id="subbtnReqForm" type="button" class="btn btn-outline-primary rounded-60 px-4">Submit</button></li>
+        </ul>
+    </form>
+</div>
+
+<script>
+    var input = document.querySelector("#phone4");
+    window.intlTelInput(input, {
+        separateDialCode: true,
+        excludeCountries: ["pk", "il","ba","cf","cd","pm","do","gp","st"],
+        preferredCountries: ["{{mylip}}"]
+    });
+</script>
+
+{% comment %} {% compress js %} {% endcomment %}
+    <script>
+        function submitEnquiry1(){
+            var name = document.getElementById("name_c1").value;
+            var page_ms3 = document.getElementById("page_ms3").value;
+            var email = document.getElementById("email_c1").value;
+            var mobile_number = document.getElementById("mobile_c1").value;
+            var message = document.getElementById("message_c1").value;
+            //var datetime = document.getElementById("datetime2cl").value;
+            var checked = document.getElementById("custom_check_c1").checked
+            var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            var ip = "0.0.0.0"
+            var loc = window.location.href
+
+            if(name.trim().length == 0){
+                $("#error_name_01").addClass("error");
+                document.getElementById("name_c1").focus();
+                return false;
+            }
+            if(email.trim().length == 0){
+                $("#error_email_01").addClass("error");
+                document.getElementById("email_c1").focus();
+                return false;
+            }
+            try {
+                var con_code = $("#side_b01").find('.iti__selected-flag').attr("title");	
+                con_code = con_code.split(":");
+                con_code = con_code[1].trim();
+            }
+            catch(err) {
+                con_code = "N/A"
+            }    
+            if(mobile_number.trim().length == 0){
+                $("#error_mobile_01").addClass("error");
+                document.getElementById("mobile_c1").focus();
+                return false;
+            }
+            if(message.trim().length == 0){
+                $("#error_message_01").addClass("error");
+                document.getElementById("message_c1").focus();
+                return false;
+            }
+            if(mobile_number.trim().length < 10){
+                $("#error_mobile_01").addClass("error");
+                document.getElementById("mobile_c1").focus();
+                return false;
+            }
+    
+            if(!$.isNumeric(mobile_number)){
+                $("#error_mobile_01").addClass("error");
+                document.getElementById("mobile_c1").focus();
+                return false;
+            }
+
+
+            if(document.getElementById("custom_check_c1").checked == false){
+                document.getElementById("success_message4").innerHTML = "Please agree T&C and Privacy Policy."
+                document.getElementById("custom_check_c1").focus();
+                return false;
+            }
+
+            if(email.match(mailformat)){
+                mydata = {
+                    reference: "ap2v.com",
+                    name: name,
+                    con_code:con_code,
+                    mobile:mobile_number,
+                    email:email,
+                    comments: document.getElementById("source_ip").value,
+                    source_ip: document.getElementById("source_ip").value,
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    message:"Student message: "+message,
+                    page_ms2:page_ms3,
+                    //datetime:datetime
+                }
+
+                $("#subbtnReqForm").prop("disabled", true);
+                // add spinner to button
+                $("#subbtnReqForm").html(
+                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submiting...'
+                );
+
+                $.ajax({
+                    url : "/create_enquiry",
+                    method : "POST",
+                    data : mydata,
+                    success:function(data) {
+                        if (data.code == 1){
+                            document.getElementById("success_message4").innerHTML = "Your query has been submitted successfully."
+                            $("#error_name_01").removeClass("error");   
+                            $("#error_email_01").removeClass("error");  
+                            $("#error_mobile_01").removeClass("error"); 
+                            $("#error_message_01").removeClass("error");
+
+                            document.getElementById("name_c1").value="";
+                            document.getElementById("email_c1").value="";
+                            document.getElementById("mobile_c1").value="";
+                            document.getElementById("message_c1").value=""; 
+                            $('#custom_check_c1').attr('checked', false);  
+                            $("#subbtnReqForm").prop("disabled", false);
+                            // add spinner to button
+                            $("#subbtnReqForm").html(
+                                '<span class="" aria-hidden="true"></span> Submit'
+                            );
+                        }
+                        else{
+                            document.getElementById("success_message4").innerHTML = "Something went wrong."
+                            $("#subbtnReqForm").prop("disabled", false);
+                            // add spinner to button
+                            $("#subbtnReqForm").html(
+                                '<span class="" aria-hidden="true"></span> Submit'
+                            );
+                        }           
+                    },
+                    error:function(data){
+                        document.getElementById("success_message4").innerHTML = "Something went wrong."
+                        $("#subbtnReqForm").prop("disabled", false);
+                        // add spinner to button
+                        $("#subbtnReqForm").html(
+                            '<span class="" aria-hidden="true"></span> Submit'
+                        );
+                    }
+                })
+            }
+            else{
+                document.getElementById("email_c1").focus();
+            }
+        }
+    </script>
+{% comment %} {% endcompress js %} {% endcomment %}

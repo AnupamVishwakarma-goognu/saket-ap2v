@@ -1,0 +1,239 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+{% load ap2v_course_tag %}
+
+{% block title %} AP2V {% endblock %}
+
+{% block css %}
+    <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/dashboard.css' %}" type="text/css" />
+{% endblock css %}
+
+{% block content %}
+
+    <div class="main-wrap">
+        <!-- <?php include 'inc/push-down.php'; ?> -->
+        {% include 'v4_home/sub_pages/push-down.html' %}
+        <!-- <?php include 'inc/navigation.php'; ?> -->
+        {% include 'v4_home/sub_pages/navigation.html' %}
+
+        <div class="banner-inner dashboard-banner">
+            <div class="container">
+                <div class="row banner-inner--content flex-column">
+                    <div class="d-flex">
+                        <div class="banner-inner--right-pan d-none d-xl-block">
+                            <img src="{% static 'v4_home_static/images/dashboard/dashboard.png' %}" alt="Devops Training">
+                        </div>
+
+                        <div class="banner-inner--left-pan d-flex flex-column justify-content-center ml-5">
+                            <h1 class="text-secondary font-size-18">Welcome back!</h1>
+                            <p class="text-gray-lightest mb-0">Here’s wishing you a happy learning today!</p>
+                        </div>
+
+
+                    </div><!-- slick-slide d-flex-->
+                </div><!-- // row -->
+            </div>
+        </div><!-- // Banner -->
+
+        <div class="container mt-3">
+            <div class="dashboard">
+                <div class="dashboard__leftPan">
+                    <div class="accordion" id="dashboard">
+                        {% for i in enroll_data %}
+                            {% comment %} {% if i.batch %} {% endcomment %}
+                                {% comment %} {% get_batch_details i.batch.id as batch_obj %} {% endcomment %}
+                                <div class="white-box mb-4">
+                                    <div class="card-header" id="course-{{forloop.counter}}">
+                                        <div class="dashboard__leftPan--course collapsed" data-toggle="collapse" data-target="#course{{forloop.counter}}"
+                                            aria-expanded="true" aria-controls="course{{forloop.counter}}">
+                                            <a href="#" class="live-classes">
+                                                <i class="icon-video-player"></i>
+                                                Join Live Classes
+                                            </a>
+                                            <div class="cursor-pointer">
+                                                <p class="mb-0">Course Name: <strong>{{i.courses.name}}</strong> </p>
+                                                <p class="mb-0">Batch ID: <span class="text-gray-dark">{{i.batch_name}}</span></p>
+                                                <p>Time: <span class="text-gray-dark">{{i.start_date_time|date:'h:iA' }}. {% get_week_days batch_obj.days_of_week as week %} ({{week}})</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                            <div id="courseOne" class="dashboard__leftPan--content collapse show"
+                                aria-labelledby="course-1" data-parent="#dashboard">
+                                <ul class="dashboard__leftPan--list">
+                                    <li class="recording active">
+                                        <a href="/classroom/">Class recording</a>
+                                    </li>
+                                    <li class="courses-material">
+                                        <a href="/classroom/course-materials">Courses material</a>
+                                    </li>
+                                    <li class="course-curriculum">
+                                        <a href="/classroom/curriculum">Course curriculum</a>
+                                    </li>
+                                    <li class="feedback">
+                                        <a href="/classroom/feedback">Give your feedback</a>
+                                    </li>
+                                    <li class="chat-room">
+                                        <a href="/chat/">Chat Room</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div><!-- // Course 1-->
+
+                    
+
+                        <div class="dashboard__leftPan--certificate">
+                            <div class="content">
+                                <p class="mb-2">You earn an industry trusted course certificate once you complete the
+                                    course</p>
+                                <a href="#" data-toggle="modal" data-target="#courseCertificate"
+                                    class="font-weight-bold">Preview Certificate</a>
+                            </div>
+                            <span>
+                                <img src="{% static 'v4_home_static/images/dashboard/certificate.svg' %}" alt="certificate">
+                            </span>
+                            <!-- Modal -->
+                            <div class="modal fade" id="courseCertificate" tabindex="-1"
+                                aria-labelledby="courseCertificateLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&#x2715;</span>
+                                        </button>
+
+                                        <div class="modal-body mt-4">
+                                             <img src="{% static '/v4_home_static/images/certificate.jpg' %}" class="img-fluid" alt="certificate_2">
+
+                                            <p class="certificate-note mt-3 mb-0">
+                                                <i> <img src="{%  static 'v4_home_static/static/images/dashboard/idea-yellow.svg' %}"
+                                                        class="img-fluid" alt="certificate"> </i>
+                                                We take your personal information from My Profile page. Click here if
+                                                you wish to make any changes.
+                                                In case of any query kindly Contact us
+                                            </p>
+                                        </div>
+                                        <div class="modal-footer certificate-footer pr-0">
+                                            <p>You will be able to download the certificate once the project is
+                                                verified.</p>
+                                            <button class="btn btn-link font-size-xs font-weight-bold disabled"> <i
+                                                    class="download-icon"> <img
+                                                        src="{% static 'v4_home_static/static/images/dashboard/download.svg' %}" class="img-fluid"
+                                                        alt="certificate"> </i>
+                                                Download</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div><!-- // Certificate -->
+                    </div>
+                </div><!-- // Left panel -->
+
+                <div class="dashboard__rightPan">
+                    <h2>Python Django Training and Certification</h2>
+                <p class="font-size-xs">Manish Kumar | 25 lectures   -   03:30:45 | Batch timing: 23:00</p>
+
+                <div class="dashboard__rightPan--tableWrap">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="thead-light text-uppercase">
+                                <tr>
+                                    <th scope="col">Class</th>
+                                    <th scope="col">Recorded on</th>
+                                    <th scope="col">Length</th>
+                                    <th scope="col" class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Class 1</th>
+                                    <td>Apr 03, 2021</td>
+                                    <td>4:59pm,54 mins</td>
+                                    <td align="center"><a href="#"> <i class="icon-video-player"></i> </a></td>
+                                </tr>
+                    
+                                <tr>
+                                    <th scope="row">Class 2</th>
+                                    <td>Apr 03, 2021</td>
+                                    <td>4:59pm,54 mins</td>
+                                    <td align="center"><a href="#"> <i class="icon-video-player"></i> </a></td>
+                                </tr>
+                    
+                                <tr>
+                                    <th scope="row">Class 3</th>
+                                    <td>Apr 03, 2021</td>
+                                    <td>4:59pm,54 mins</td>
+                                    <td align="center"><a href="#"> <i class="icon-video-player"></i> </a></td>
+                                </tr>
+                    
+                                <tr>
+                                    <th scope="row">Class 4</th>
+                                    <td>Apr 03, 2021</td>
+                                    <td>4:59pm,54 mins</td>
+                                    <td align="center"><a href="#"> <i class="icon-video-player"></i> </a></td>
+                                </tr>
+                    
+                                <tr>
+                                    <th scope="row">Class 5</th>
+                                    <td>Apr 03, 2021</td>
+                                    <td>4:59pm,54 mins</td>
+                                    <td align="center"><a href="#"> <i class="icon-video-player"></i> </a></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Class 1</th>
+                                    <td>Apr 03, 2021</td>
+                                    <td>4:59pm,54 mins</td>
+                                    <td align="center"><a href="#"> <i class="icon-video-player"></i> </a></td>
+                                </tr>
+                    
+                                <tr>
+                                    <th scope="row">Class 2</th>
+                                    <td>Apr 03, 2021</td>
+                                    <td>4:59pm,54 mins</td>
+                                    <td align="center"><a href="#"> <i class="icon-video-player"></i> </a></td>
+                                </tr>
+                    
+                                <tr>
+                                    <th scope="row">Class 3</th>
+                                    <td>Apr 03, 2021</td>
+                                    <td>4:59pm,54 mins</td>
+                                    <td align="center"><a href="#"> <i class="icon-video-player"></i> </a></td>
+                                </tr>
+                    
+                                <tr>
+                                    <th scope="row">Class 4</th>
+                                    <td>Apr 03, 2021</td>
+                                    <td>4:59pm,54 mins</td>
+                                    <td align="center"><a href="#"> <i class="icon-video-player"></i> </a></td>
+                                </tr>
+                    
+                                <tr>
+                                    <th scope="row">Class 5</th>
+                                    <td>Apr 03, 2021</td>
+                                    <td>4:59pm,54 mins</td>
+                                    <td align="center"><a href="#"> <i class="icon-video-player"></i> </a></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Class 4</th>
+                                    <td>Apr 03, 2021</td>
+                                    <td>4:59pm,54 mins</td>
+                                    <td align="center"><a href="#"> <i class="icon-video-player"></i> </a></td>
+                                </tr>
+                    
+                                <tr>
+                                    <th scope="row">Class 5</th>
+                                    <td>Apr 03, 2021</td>
+                                    <td>4:59pm,54 mins</td>
+                                    <td align="center"><a href="#"> <i class="icon-video-player"></i> </a></td>
+                                </tr>
+                    
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                </div><!-- // Right panel -->
+
+            </div><!-- // Dashboard -->
+        </div><!-- // Container -->
+{% endblock content %}

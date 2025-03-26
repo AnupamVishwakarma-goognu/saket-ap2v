@@ -1,0 +1,47 @@
+    {% for i in student_queryset %}    
+        <li class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="name_{{ loop.index }}" name="select_student" value="{{i.email}}">
+            <label class="custom-control-label" for="name_{{loop.index}}">
+                <span class="d-block">{{i.name}}</span>
+                <p class="font-size-xs text-gray-light font-size-xxs mb-0">{{i.email}}</p>
+            </label>
+        </li>
+    {% endfor %}
+    
+<script>
+$('input[name="select_student"]').change(function () {
+		if (this.checked) {
+			var i = $(this).val()
+			//alert(i);
+            if ($.inArray(i, stu_email) > -1){
+                showToast("already added")
+            }
+            else{
+                stu_email.push(i)
+                //$('#student_list_s').append('<span id="add_here"> '+i+'<a href="#">Remove</a> </span>');
+                $("#student_list_s").empty();
+                $.each(stu_email, function(index, value){
+                    $('#student_list_s').append('<span id="add_here"> '+value+'<a href="#" onclick="return removeStudent('+index+')"><i class="icon-delete"></i></a> </span>');
+                })  
+            }
+			//alert(stu_email)
+			$.each(stu_email, function(index, value){
+            })
+		}
+	});
+
+function removeStudent(id = 0) {
+    //alert(id)
+    //delete stu_email[id]
+    var remove_email = stu_email[id]
+    $('input:checkbox[value="'+remove_email+'"]').prop('checked', false);
+    stu_email.splice(id, 1);
+    
+    $("#student_list_s").empty();
+        $.each(stu_email, function(index, value){
+            $('#student_list_s').append('<span id="add_here"> '+value+'<a href="#" onclick="return removeStudent('+index+')"><i class="icon-delete"></i></a> </span>');
+    })  
+    //alert(stu_email)
+    
+  }
+</script>

@@ -1,0 +1,54 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="wrapper">
+         {% include 'website/sidebar.html' %}
+         {% include 'website/header.html' %}
+        <div class="main-panel">
+            <!-- Navbar -->
+             
+            <!-- End Navbar -->
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form id="AddCourses" class="form-horizontal" action="{% url 'exams' %}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <h4 class="card-title mt-0">ADD EXAM</h4>
+                                    <div class="card ">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                  <div class="form-group">
+                                                      <label>Name</label>
+                                                      <input class="form-control" type="text" name="exam_name" placeholder="enter exam name" autofocus required />
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Course</label>
+                                                        <select name="course" id="course" onselect="success()" class="selectpicker" multiple size="7" required>
+                                                            <option value="">Please select</option>
+                                                            {% for data in course %}
+                                                            <option value="{{ data.id }}">{{ data.name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                        <div class="card-footer">
+                                          <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+                                          <button type="submit" class="btn btn-primary" onclick="CourseAddFunction()" value="Reset form">Add Exam</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             {% include 'website/footer.html' %}
+        </div>
+    </div>
+{% endblock content %}

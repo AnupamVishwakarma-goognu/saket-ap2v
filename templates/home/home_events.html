@@ -1,0 +1,31 @@
+{% load static %}
+<section class="container-fluid event-bg">
+      <div class="row">
+        <div class="container">
+          <div class="row">
+            <div class="text-center">
+              <h2 class="inline-block">Recent Events</h2>
+              <p class="home-para mb-30">Want to know when is the next batch for Linux going to start or to check the exam date. Check our event page and keep yourself updated about what is new in AP2V.</p>
+            </div><!-- /.Text center & main heading -->
+
+            <!-- slider starts here -->
+            <div class="event-slider">
+              {% for event in events %}
+              <div class="col-sm-4">
+                <div class="white-box">
+                  <img src="{% static "images/events.jpg" %}" class="img-responsive">
+                  <div class="content-box">
+                    <h2 class="mb-0"><a href="#">{{event.name}}</a></h2>
+                    <p class="fs-18 c3">{{event.date}}  -  {{event.start_time}} to {{event.end_time}}  -  {{event.venue.city}}</p>
+                    <p>{{event.description|striptags|truncatechars:"200"|safe}}.</p>
+                    <a href="#" class="btn btn-default">View details</a>
+                  </div><!-- /.content box -->
+                </div><!-- /.White box -->
+              </div><!-- /.col-sm-4 -->
+              {% endfor %}
+            </div><!-- slider Ends here -->
+            <p class="mb-0 text-center mt-30"><a href="/events/">View all events</a></p>
+          </div><!-- /.Row -->
+        </div><!-- /.container -->
+      </div><!-- /.Row -->
+    </section><!-- Events starts here -->

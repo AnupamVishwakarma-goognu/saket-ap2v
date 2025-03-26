@@ -1,0 +1,32 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load compress %}
+{% load static %}
+{% load ap2v_course_tag %}
+{% load custom_tags %}
+{% block title %} AP2V {% endblock %}
+{% block css %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add to cart</title>
+    <!--                                                                                                                                                                                                                                                                                                                          CSS only -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+   
+{% endblock css %}
+{% block content %}
+    {% include 'v4_home/sub_pages/push-down.html' %}
+    {% include 'v4_home/sub_pages/navigation.html' %}
+<style>
+    .emp-cart-text{
+        margin: 100px 15px;
+        text-align: center;
+    }
+</style>
+    <div class="emp-cart-text">
+        <h3>
+           <span style="color: red;">Oops! Your AP2V Cart is empty</span> 
+        </h3>
+        <p style="color: rgb(17, 185, 236);">Looks like you haven't added anything to your cart yet</p>
+    </div>
+
+{% endblock content %}

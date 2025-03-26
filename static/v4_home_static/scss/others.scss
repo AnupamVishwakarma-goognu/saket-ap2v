@@ -1,0 +1,52 @@
+@import "functions";
+@import "variables";
+@import "mixins";
+@import "custom";
+@import "extend";
+@import "utilities";
+
+//pages
+@import 'pages/others';
+@import 'pages/testimonial';
+@import 'pages/offer';
+@import 'pages/events';
+@import 'pages/refer-earn';
+
+@import 'components/call-us';
+@import 'components/tagging';
+@import 'components/resetpassword';
+
+// Layout 
+@import 'layout/secondary-menu';
+
+@import 'vendor/simplelightbox';
+
+
+
+.gallery  {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -7px;
+
+    a {
+        @include size(179px, 127px);
+        padding: 7px;
+        display: block;
+
+        @include media-breakpoint-up(xl) {
+            @include size(277px, 200px);
+        }
+    }
+
+    .img-thumbnail {
+        @include size(100%, 100%);
+    }
+}
+
+.refer-earn {
+    background-color: #e1e9ff;
+
+    &::after {
+        content: none;
+    }
+}

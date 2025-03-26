@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+  {% load static %}
+  {% load custom_tags %}
+  {% load compress %}
+
+<head>
+  <meta charset="utf-8">
+  <title>AP2V Classroom</title>
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <link href="/node_modules/video.js/dist/video-js.css" rel="stylesheet">
+  <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/chat.css' %}" type="text/css" />
+  <link media="all" rel="stylesheet" href="/static/v4_home_static/css/bootstrap.css" type="text/css" />
+  <script src="/static/v4_home_static/jquery213min.js"></script>
+
+    <style>
+
+.vido-plyr {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+div#accordionExample .accordion-item {
+    border-radius: 0;
+}
+button.accordion-button.spas {
+    padding: 14px 35px;
+    display: flex;
+    justify-content: space-evenly;
+}
+#bisonl {
+    width: 72%;
+    margin: 0 auto;
+}
+    video#maat-player {
+      width: 100%;
+    }
+
+    .vid-left-sidebar {
+    width: 25%;
+    max-height: 91vh;
+    position: relative;
+    padding-bottom: 39px;
+}
+.certt {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+div#myFunc {
+    height: 100%;
+    overflow-y: auto;
+}
+.certt button {
+    width: 100%;
+    border: none;
+    color: white;
+    padding: 7px;
+    background-color: #4baac6;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    border: 1px solid #4baac6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.certt button svg {
+    margin: 0 10px;
+}
+.certt button:hover { 
+    color: #4baac6;
+     background-color: #ffffff;
+     transition-duration: 1s;
+  }
+    .accordion-button:focus {
+      box-shadow: none;
+    }
+    button.accordion-button.spas.collapsed {
+    color: #9fa3a4;
+   
+    position: relative;
+    background-color: #fbf8f3;
+}
+.accordion-button:not(.collapsed) {
+     color: #9fa3a4;
+     background-color: #fbf8f3;
+}
+
+ul.video-listu {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+}
+ul.video-listu a {
+    text-decoration: none;
+    color: #50596c;
+    display: block;
+    background-color: #f8f9fa;
+    text-align: center;
+    padding: 10px;
+    text-transform: capitalize;
+}
+ 
+div#myFunc .accordion-body {
+    padding: 0;
+}
+    ul.video-listu a:active {
+      color: white;
+    }
+ 
+button.spec-togl svg {
+    background-color: white;
+}
+li.spas svg {
+    margin-right: 5px;
+}
+    
+    .icons-btns {
+      display: flex;
+      /* justify-content: space-between; */
+      align-items: center;
+    }
+
+    button.spec-togl {
+      padding: 0;
+      border: none;
+    }
+
+    .lr-btn button {
+      padding: 6px 16px;
+      margin: 12px;
+      border-color: #ff6984;
+      background-color: #ffbdc9;
+      color: rgb(0, 0, 0);
+      margin-top: 0;
+      margin-right: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .lr-btn button:hover {
+      background-color: #ff6984;
+      color: white;
+    }
+
+    .lr-btn {
+      display: flex;
+    }
+
+    .lr-btn button span {
+      padding: 0 10px;
+      font-weight: 700;
+    }
+
+    .spas span {
+      margin-left: 20px;
+    }
+    span.bitaaa{
+      font-size: 10px;
+      margin: 10px;
+      color: black;
+    }
+    a.active-vids {
+    background-color: #e5e5e5 !important;
+    color: #50596c !important;
+}
+a.active-vids svg:nth-child(2) {
+    display: INLINE-block !IMPORTANT;
+}
+a.active-vids svg {
+    display: none;
+}
+.accordion-button::after {
+  display: none;
+}
+button.accordion-button.spas svg.right-down {
+    position: absolute;
+    left: 9px;
+    transform: rotate(90deg);
+    transition-duration: 1s;
+}
+button.accordion-button.spas.collapsed svg.right-down { 
+    transform: rotate(0deg);
+    transition-duration: 1s;
+
+}
+  </style>
+</head>
+
+<body>
+  
+    
+  <div class="vido-plyr" id="shock">
+    <!-- {{url}}
+    {{meeting}} -->
+     <!-- {% if meeting in url %}
+      color is red 
+    {% endif %} -->
+
+    {% comment %} {% if request.user.is_authenticated %} {% endcomment %}
+      <!-- *************************left******************************** -->
+   
+    <!-- *************************RIGHT******************************** -->
+    <div class="vid-right-sidebar" id="bisonl">
+      <div class="icons-btns">
+        <button onclick="myFunc1()" class="spec-togl">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" class="bi bi-aspect-ratio-fill"
+            viewBox="0 0 16 16">
+            <path
+              d="M0 12.5v-9A1.5 1.5 0 0 1 1.5 2h13A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 12.5zM2.5 4a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 1 0V5h2.5a.5.5 0 0 0 0-1h-3zm11 8a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-1 0V11h-2.5a.5.5 0 0 0 0 1h3z" />
+          </svg>
+        </button>
+        {% comment %} {% if request.user.is_authenticated %} {% endcomment %}
+          {% comment %} <h3 style="padding-left: 20px;">{{batch_name}} - ({{batch_id}})</h3> {% endcomment %}
+        {% comment %} {% endif %} {% endcomment %}
+        <div style="width: 100%;text-align: center;">
+          <h3>{{video_link.course_name.name}}</h3>
+        </div>
+      </div>
+      <video id="maat-player" class="video-js vjs-default-skin scoy" controls autoplay>
+         <source
+          src="{{url}}">
+        Your browser does not support HTML5 video,Please use Chrome Browser with latest version.
+      </video>
+    </div>
+  </div>
+  <style>
+    @media screen and (max-width: 992px) {
+      .vido-plyr {
+        flex-direction: column-reverse;
+      }
+
+      #bisonl {
+        width: 100%;
+      }
+
+      button.spec-togl {
+        display: none;
+      }
+
+      .icons-btns {
+     justify-content: flex-end;
+    }
+
+      .vid-left-sidebar {
+        width: 80%;
+        font-size: 30px;
+        margin: 0 auto;
+      }
+
+ 
+      .vid-left-sidebar svg {
+        width: 30px;
+        height: 30px;
+      }
+
+      button.accordion-button.spas {
+        border: 1px solid #ff09369c;
+        margin-top: 20px;
+      }
+
+      li.spas {
+         margin: 0 auto;
+      }
+      .chat-header .navbar-brand {
+    margin: 0;
+    width: 100px;
+    height: 48px;
+    padding-right: 147px;
+}
+      .chat-header .back-to-class i { 
+    font-size: 20px;
+}
+.spas span { 
+    font-size: 30px !important;
+}
+a.back-to-class {
+    font-size: 28px;
+}
+      .lr-btn button {
+        margin: 20px;
+        font-size: 25px;
+        letter-spacing: 3px;
+      }
+
+      .lr-btn svg {
+        width: 25px;
+        height: 23px;
+      }
+    }
+  </style>
+  <script>
+    function myFunc1() {
+      var x = document.getElementById("myFunc1");
+      var y = document.getElementById("shock");
+      var z = document.getElementById("bisonl");
+      if (x.style.display === "none") {
+        x.style.display = "block";
+        y.style.display = "flex";
+        z.style.width = "70%";
+      } else {
+        x.style.display = "none";
+        y.style.display = "block";
+        z.style.width = "96%";
+
+      }
+    }
+  </script>
+  <script src="/node_modules/video.js/dist/video.js"></script>
+  <script src="/dist/videojs-contrib-hls.js"></script>
+  <script>
+    (function (window, videojs) {
+      var player = window.player = videojs('maat-player');
+      var audioTrackList = player.audioTracks();
+      var audioTrackSelect = document.getElementById("enabled-audio-track");
+      // watch for a change on the select element
+      // then change the enabled audio track
+      // only one can be enabled at a time, but video.js will
+      // handle that for us, all we need to do is enable the new
+      // track
+      audioTrackSelect.addEventListener('change', function () {
+        var track = audioTrackList[this.selectedIndex];
+        console.log('User switched to track ' + track.label);
+        track.enabled = true;
+      });
+
+      // watch for changes that will be triggered by any change
+      // to enabled on any audio track. Manually or through the
+      // select element
+      audioTrackList.on('change', function () {
+        for (var i = 0; i < audioTrackList.length; i++) {
+          var track = audioTrackList[i];
+          if (track.enabled) {
+            console.log('A new ' + track.label + ' has been enabled!');
+          }
+        }
+      });
+
+      // will be fired twice in this example
+      audioTrackList.on('addtrack', function () {
+        console.log('a track has been added to the audio track list');
+      });
+
+      // will not be fired at all unless you call
+      // audioTrackList.removeTrack(trackObj)
+      // we typically will not need to do this unless we have to load
+      // another video for some reason
+      audioTrackList.on('removetrack', function () {
+        console.log('a track has been removed from the audio track list');
+      });
+
+      // getting all the possible audio tracks from the track list
+      // get all of thier properties
+      // add each track to the select on the page
+      // this is all filled out by HLS when it parses the m3u8
+      player.on('loadeddata', function () {
+        console.log('There are ' + audioTrackList.length + ' audio tracks');
+        for (var i = 0; i < audioTrackList.length; i++) {
+          var track = audioTrackList[i];
+          var option = document.createElement("option");
+          option.text = track.label;
+          if (track.enabled) {
+            option.selected = true;
+          }
+          audioTrackSelect.add(option, i);
+          console.log('Track ' + (i + 1));
+          ['label', 'enabled', 'language', 'id', 'kind'].forEach(function (prop) {
+            console.log("  " + prop + ": " + track[prop]);
+          });
+        }
+      });
+    }(window, window.videojs));
+  </script>
+ 
+  
+
+</body>
+
+</html>

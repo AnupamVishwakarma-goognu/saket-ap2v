@@ -1,0 +1,30 @@
+.product-box {
+    border: 1px solid transparent;
+    transition: all 0.5s ease;
+    width: 100%;
+
+    &:hover {
+        box-shadow: 0 0 10px 3px rgba($black, .15);
+        border-color: #dbe4ec;
+    }
+
+    .icon-star-fill {
+        color: $yellow;
+    }
+}
+
+.product-list {
+    
+    &--item {
+        padding: 12px;
+
+        img {
+            width: 108px;
+        }
+    }
+}
+
+.bg-gray {
+    background-color: $gray-f6;
+}
+

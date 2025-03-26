@@ -1,0 +1,242 @@
+<!-- Modal -->
+{% load static %}
+{% load custom_tags %}
+
+<div class="modal fade cities" id="cities" tabindex="-1" aria-labelledby="citiesLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header cities__header">
+        Top Cites
+        <button type="button" class="close-round" data-dismiss="modal" aria-label="Close">
+          <i class="icon-close"></i>
+        </button>
+      </div><!-- // Header -->
+
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            {% for city in all_city %}
+              {% get_city_course city.id as city_course %}
+              {% if city_course %}
+                <div class="col-12 col-md-3 cities__box">
+                  <div class="cities__box__heading d-flex align-items-center">
+                    <span class="cities__box__heading--img rounded-circle mr-3">
+                      <img src="/media/{{city.image}}" loading="lazy" alt="{{city.name}}">
+                    </span>
+                    <strong>{{city.name}}</strong>
+                  </div><!-- // heading -->
+
+                  <ul class="cities__box--content mt-3">
+                    {% for j in city_course %}
+                      <li><a href="/{{j.slugs}}">{{j.name}}</a></li>
+                    {% endfor %}
+                      {% comment %} <li><a href="#">Proin a est rutrum, imperdiet</a></li>
+                      <li><a href="#">Sed consectetur ligula ac mauris</a></li>
+                      <li><a href="#">Morbi volutpat felis eu lectus</a></li> {% endcomment %}
+                  </ul>
+                </div><!-- col -->
+              {% endif %}
+            {% endfor %}
+
+
+
+
+            {% comment %} {% for city in all_city %}
+                
+                    {% get_city_course city.id as city_course %}
+                        {% if city_course %}
+                            <div class="white-box px-4 mb-4">
+                                <h3>{{city.name}}</h3>
+                                <ul class="row">
+                                    {% for j in city_course %}
+                                        <li><a style="font-size:13px" href="/{{j.slugs}}" class="col-12 col-md-4">{{j.name}}</a></li>
+                                    {% endfor %}
+                                </ul>
+                                </div>
+                        {% endif %}
+                
+            {% endfor %} {% endcomment %}
+
+            {% comment %} <div class="col-12 col-md-3 cities__box">
+              <div class="cities__box__heading d-flex align-items-center">
+                <span class="cities__box__heading--img rounded-circle mr-3">
+                  <img src={% static "v4_home_static/images/delhi.jpg" %} alt="delhi">
+                </span>
+                <strong>Delhi</strong>
+              </div><!-- // heading -->
+
+              <ul class="cities__box--content mt-3">
+                <li><a href="#">Lorem ipsum dolor</a></li>
+                <li><a href="#">Proin a est rutrum, imperdiet</a></li>
+                <li><a href="#">Sed consectetur ligula ac mauris</a></li>
+                <li><a href="#">Morbi volutpat felis eu lectus</a></li>
+              </ul>
+            </div><!-- col -->
+
+            <div class="col-12 col-md-3 cities__box">
+              <div class="cities__box__heading d-flex align-items-center">
+                <span class="cities__box__heading--img rounded-circle mr-3">
+                  <img src={% static "v4_home_static/images/noidia.jpg" %} alt="noida">
+                </span>
+                <strong>Noida</strong>
+              </div><!-- // heading -->
+
+              <ul class="cities__box--content mt-3">
+                <li><a href="#">Lorem ipsum dolor</a></li>
+                <li><a href="#">Proin a est rutrum, imperdiet</a></li>
+                <li><a href="#">Sed consectetur ligula ac mauris</a></li>
+                <li><a href="#">Morbi volutpat felis eu lectus</a></li>
+              </ul>
+            </div><!-- col -->
+
+            <div class="col-12 col-md-3 cities__box">
+              <div class="cities__box__heading d-flex align-items-center">
+                <span class="cities__box__heading--img rounded-circle mr-3">
+                  <img src={% static "v4_home_static/images/pune.jpg" %} alt="pune">
+                </span>
+                <strong>Pune</strong>
+              </div><!-- // heading -->
+
+              <ul class="cities__box--content mt-3">
+                <li><a href="#">Lorem ipsum dolor</a></li>
+                <li><a href="#">Proin a est rutrum, imperdiet</a></li>
+                <li><a href="#">Sed consectetur ligula ac mauris</a></li>
+                <li><a href="#">Morbi volutpat felis eu lectus</a></li>
+              </ul>
+            </div><!-- col -->
+
+            <div class="col-12 col-md-3 cities__box">
+              <div class="cities__box__heading d-flex align-items-center">
+                <span class="cities__box__heading--img rounded-circle mr-3">
+                  <img src={% static "v4_home_static/images/bangalore.jpg" %} alt="banglore">
+                </span>
+                <strong>Bangalore</strong>
+              </div><!-- // heading -->
+
+              <ul class="cities__box--content mt-3">
+                <li><a href="#">Lorem ipsum dolor</a></li>
+                <li><a href="#">Proin a est rutrum, imperdiet</a></li>
+                <li><a href="#">Sed consectetur ligula ac mauris</a></li>
+                <li><a href="#">Morbi volutpat felis eu lectus</a></li>
+              </ul>
+            </div><!-- col -->
+
+            <div class="col-12 col-md-3 cities__box">
+              <div class="cities__box__heading d-flex align-items-center">
+                <span class="cities__box__heading--img rounded-circle mr-3">
+                  <img src={% static "v4_home_static/images/hyderabad.jpg" %} alt="hyderabad">
+                </span>
+                <strong>Hyderabad</strong>
+              </div><!-- // heading -->
+
+              <ul class="cities__box--content mt-3">
+                <li><a href="#">Lorem ipsum dolor</a></li>
+                <li><a href="#">Proin a est rutrum, imperdiet</a></li>
+                <li><a href="#">Sed consectetur ligula ac mauris</a></li>
+                <li><a href="#">Morbi volutpat felis eu lectus</a></li>
+              </ul>
+            </div><!-- col -->
+
+            <div class="col-12 col-md-3 cities__box">
+              <div class="cities__box__heading d-flex align-items-center">
+                <span class="cities__box__heading--img rounded-circle mr-3">
+                  <img src={% static "v4_home_static/images/lucknow.jpg" %} alt="lucknow">
+                </span>
+                <strong>Lucknow</strong>
+              </div><!-- // heading -->
+
+              <ul class="cities__box--content mt-3">
+                <li><a href="#">Lorem ipsum dolor</a></li>
+                <li><a href="#">Proin a est rutrum, imperdiet</a></li>
+                <li><a href="#">Sed consectetur ligula ac mauris</a></li>
+                <li><a href="#">Morbi volutpat felis eu lectus</a></li>
+              </ul>
+            </div><!-- col -->
+
+            <div class="col-12 col-md-3 cities__box">
+              <div class="cities__box__heading d-flex align-items-center">
+                <span class="cities__box__heading--img rounded-circle mr-3">
+                  <img src={% static "v4_home_static/images/vijaywada.jpg" %} alt="vijaywada">
+                </span>
+                <strong>Vijayawada</strong>
+              </div><!-- // heading -->
+
+              <ul class="cities__box--content mt-3">
+                <li><a href="#">Lorem ipsum dolor</a></li>
+                <li><a href="#">Proin a est rutrum, imperdiet</a></li>
+                <li><a href="#">Sed consectetur ligula ac mauris</a></li>
+                <li><a href="#">Morbi volutpat felis eu lectus</a></li>
+              </ul>
+            </div><!-- col -->
+
+            <div class="col-12 col-md-3 cities__box">
+              <div class="cities__box__heading d-flex align-items-center">
+                <span class="cities__box__heading--img rounded-circle mr-3">
+                  <img src={% static "v4_home_static/images/kolkata.jpg" %} alt="kolkata">
+                </span>
+                <strong>Kolkata</strong>
+              </div><!-- // heading -->
+
+              <ul class="cities__box--content mt-3">
+                <li><a href="#">Lorem ipsum dolor</a></li>
+                <li><a href="#">Proin a est rutrum, imperdiet</a></li>
+                <li><a href="#">Sed consectetur ligula ac mauris</a></li>
+                <li><a href="#">Morbi volutpat felis eu lectus</a></li>
+              </ul>
+            </div><!-- col -->
+
+            <div class="col-12 col-md-3 cities__box">
+              <div class="cities__box__heading d-flex align-items-center">
+                <span class="cities__box__heading--img rounded-circle mr-3">
+                  <img src={% static "v4_home_static/images/chennai.jpg" %} alt="chennai">
+                </span>
+                <strong>Chennai</strong>
+              </div><!-- // heading -->
+
+              <ul class="cities__box--content mt-3">
+                <li><a href="#">Lorem ipsum dolor</a></li>
+                <li><a href="#">Proin a est rutrum, imperdiet</a></li>
+                <li><a href="#">Sed consectetur ligula ac mauris</a></li>
+                <li><a href="#">Morbi volutpat felis eu lectus</a></li>
+              </ul>
+            </div><!-- col -->
+
+            <div class="col-12 col-md-3 cities__box">
+              <div class="cities__box__heading d-flex align-items-center">
+                <span class="cities__box__heading--img rounded-circle mr-3">
+                  <img src={% static "v4_home_static/images/jaipur.jpg" %} alt="jaipur">
+                </span>
+                <strong>Jaipur</strong>
+              </div><!-- // heading -->
+
+              <ul class="cities__box--content mt-3">
+                <li><a href="#">Lorem ipsum dolor</a></li>
+                <li><a href="#">Proin a est rutrum, imperdiet</a></li>
+                <li><a href="#">Sed consectetur ligula ac mauris</a></li>
+                <li><a href="#">Morbi volutpat felis eu lectus</a></li>
+              </ul>
+            </div><!-- col -->
+
+            <div class="col-12 col-md-3 cities__box">
+              <div class="cities__box__heading d-flex align-items-center">
+                <span class="cities__box__heading--img rounded-circle mr-3">
+                  <img src={% static "v4_home_static/images/ahmedabad.jpg" %} alt="ahemdabad">
+                </span>
+                <strong>Ahmedabad</strong>
+              </div><!-- // heading -->
+
+              <ul class="cities__box--content mt-3">
+                <li><a href="#">Lorem ipsum dolor</a></li>
+                <li><a href="#">Proin a est rutrum, imperdiet</a></li>
+                <li><a href="#">Sed consectetur ligula ac mauris</a></li>
+                <li><a href="#">Morbi volutpat felis eu lectus</a></li>
+              </ul>
+            </div><!-- col --> {% endcomment %}
+
+          </div><!-- // Row-->
+        </div><!-- // Container -->
+      </div>
+    </div>
+  </div>
+</div>

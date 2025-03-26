@@ -1,0 +1,328 @@
+{% load static %}
+{% load custom_tags %}
+<div class="full-page-search">
+        <div class="full-page-search__body">
+
+            <div class="full-page-search__body__header">
+                <span id="close-search" class="close-round">
+                    <i class="icon-close"></i>
+                </span>
+
+                <div class="container">
+                    <div class="full-page-search__content" >
+                        <form action="/search" method="GET">
+                            <div class="search-panel">
+                                <div class="search-panel__left">
+                                    <div class="search-panel__input">
+                                        <i class="icon-pencil font-size-md"></i>
+                                        <input type="text" id="search-keyword" name="string" placeholder="Enter Course, Category or Keyword " />
+                                    </div>
+                                </div>
+                                <button type="submit" class="search-panel__button">
+                                    <i class="icon-search-effect font-size-26 text-white"></i>
+                                </button>
+                            </div><!-- search Panel -->
+                        </form>
+        
+                        <div class="suggestor" id="search_suggestor">
+                            
+                        </div>
+                    </div><!-- // Search content -->
+
+                    <ul class="nav nav-tabs " id="myTab" role="tablist">
+
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="trending-tab" data-toggle="tab" href="#trending" role="tab" aria-controls="trending"
+                                aria-selected="true">Trending Courses</a>
+                        </li>
+
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="master-tab" data-toggle="tab" href="#master" role="tab" aria-controls="master"
+                                aria-selected="false">Featured Courses</a>
+                        </li>
+
+                        {% for i in category_search_show %}
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="{{i.slug}}-tab" data-toggle="tab" href="#{{i.slug}}" role="tab" aria-controls="{{i.slug}}"
+                                    aria-selected="false">{{i.name}}</a>
+                            </li>
+                        {% endfor %}
+
+                        {% comment %} <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="devops-tab" data-toggle="tab" href="#devops" role="tab" aria-controls="devops"
+                                aria-selected="false">DevOps</a>
+                        </li>
+
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="cloudComputing-tab" data-toggle="tab" href="#cloudComputing" role="tab" aria-controls="cloudComputing"
+                                aria-selected="false">Cloud</a>
+                        </li>
+
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="data-tab" data-toggle="tab" href="#data" role="tab" aria-controls="data"
+                                aria-selected="false">Data Science</a>
+                        </li>
+
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="bigData-tab" data-toggle="tab" href="#bigData" role="tab" aria-controls="bigData"
+                                aria-selected="false">Big Data</a>
+                        </li> {% endcomment %}
+                    </ul>
+
+
+                </div><!-- // container -->
+            </div><!-- Header-->
+
+            <div class="container">
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="trending" role="tabpanel" aria-labelledby="trending-tab">
+                        <div class="recent-search col-10">
+                            {% comment %} <div class="recent-search__heading">
+                                <strong class="recent-search__heading--title">Recent searched</strong>
+                                <span class="recent-search__heading--link">Clear all</span>
+                            </div> {% endcomment %}
+        
+                            <ul>
+                                {% for i in trending_courses %}
+                                    <li>
+                                        <a href="/{{i.slug}}">
+                                            <span>{{i.name}}</span>{% if i.trending %} <span class="tag">Trending</span>{% endif %} {% if i.featured %} <span class="tag">Featured</span>{% endif %}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <a href="/courses/" class="know-more">View all courses</a>
+                        </div>
+                    </div><!-- Trending Courses-->
+                    
+                    <div class="tab-pane fade show" id="master" role="tabpanel" aria-labelledby="master-tab">
+                        <div class="recent-search col-10">
+                            {% comment %} <div class="recent-search__heading">
+                                <strong class="recent-search__heading--title">Masters Program</strong>
+                                <span class="recent-search__heading--link">Clear all</span>
+                            </div> {% endcomment %}
+        
+                            <ul>
+                                {% for j in feature_course %}
+                                    <li>
+                                        <a href="/{{j.slug}}">
+                                            <span>{{j.name}}</span>{% if j.trending %} <span class="tag">Trending</span>{% endif %}{% if j.featured %} <span class="tag">Featured</span>{% endif %}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <a href="/courses/" class="know-more">View all courses</a>
+                        </div>
+                    </div><!-- master Courses-->
+                    
+                    {% for i in category_search_show %}
+                        <div class="tab-pane fade show" id="{{i.slug}}" role="tabpanel" aria-labelledby="{{i.slug}}-tab">
+                            <div class="recent-search col-10">
+                                {% comment %} <div class="recent-search__heading">
+                                    <strong class="recent-search__heading--title">Devops</strong>
+                                    <span class="recent-search__heading--link">Clear all</span>
+                                </div> {% endcomment %}
+            
+                                <ul>
+                                    {% get_category_course i.slug as all_course %}
+                                    {% for crs in all_course %}
+                                        <li>
+                                            <a href="#">
+                                                <span>{{crs.name}}</span>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                                <a href="/courses/" class="know-more">View all courses</a>
+                            </div>
+                        </div><!-- devops Courses-->
+                    {% endfor %}
+                    
+                    
+
+                    {% comment %} <div class="tab-pane fade show" id="cloudComputing" role="tabpanel" aria-labelledby="cloudComputing-tab">
+                        <div class="recent-search col-10">
+                            <div class="recent-search__heading">
+                                <strong class="recent-search__heading--title">Cloud</strong>
+                                <span class="recent-search__heading--link">Clear all</span>
+                            </div>
+        
+                            <ul>
+                                <li>
+                                    <a href="#">
+                                        <span>Post Graduate Certification Program in Cybersecurity</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>Post Graduate Certification Program in Big Data Engineering</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>Post Graduate Certification Program in Artificial Intelligence and Machine Learning</span> <span class="tag">New</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>Post Graduate Certification Program in Data Science</span> <span class="tag">New</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>DevOps Certification Training</span> <span class="tag">New</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>Python Certification Training for Data Science</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>Big Data Hadoop Certification Training</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>Cloud Architect Masters Program</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <a href="/courses/" class="know-more">View all courses</a>
+                        </div>
+                    </div><!-- Cloud Courses-->
+
+                    <div class="tab-pane fade show" id="data" role="tabpanel" aria-labelledby="data-tab">
+                        <div class="recent-search col-10">
+                            <div class="recent-search__heading">
+                                <strong class="recent-search__heading--title">Data Science</strong>
+                                <span class="recent-search__heading--link">Clear all</span>
+                            </div>
+        
+                            <ul>
+                                <li>
+                                    <a href="#">
+                                        <span>Post Graduate Certification Program in Cybersecurity</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>Post Graduate Certification Program in Big Data Engineering</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>Post Graduate Certification Program in Artificial Intelligence and Machine Learning</span> <span class="tag">New</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>Post Graduate Certification Program in Data Science</span> <span class="tag">New</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>DevOps Certification Training</span> <span class="tag">New</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>Python Certification Training for Data Science</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>Big Data Hadoop Certification Training</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>Cloud Architect Masters Program</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <a href="/courses/" class="know-more">View all courses</a>
+                        </div>
+                    </div><!-- Datat Courses-->
+
+                    <div class="tab-pane fade show" id="bigData" role="tabpanel" aria-labelledby="bigData-tab">
+                        <div class="recent-search col-10">
+                            <div class="recent-search__heading">
+                                <strong class="recent-search__heading--title">Bid Data</strong>
+                                <span class="recent-search__heading--link">Clear all</span>
+                            </div>
+        
+                            <ul>
+                                <li>
+                                    <a href="#">
+                                        <span>Post Graduate Certification Program in Cybersecurity</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>Post Graduate Certification Program in Big Data Engineering</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>Post Graduate Certification Program in Artificial Intelligence and Machine Learning</span> <span class="tag">New</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>Post Graduate Certification Program in Data Science</span> <span class="tag">New</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>DevOps Certification Training</span> <span class="tag">New</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>Python Certification Training for Data Science</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>Big Data Hadoop Certification Training</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>Cloud Architect Masters Program</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <a href="/courses/" class="know-more">View all courses</a>
+                        </div>
+                    </div><!-- BigData Courses--> {% endcomment %}
+                    
+                    
+
+                </div><!-- // tab content -->
+            </div><!-- // container -->
+        </div>
+    </div>
+
+    <script>
+        $('input[name=string]').on("input propertychange", function() {
+            var string = $(this).val(); 
+
+            $.ajax({
+                url: '/find?string='+string,
+                data: {},
+                type: 'POST',
+                success: function(data) {
+                    //console.log(data)
+                    //$('#search_suggestor').append('<li><a href="#">In mattis ex a nisl auctor egestas</a></li>')
+                    //document.getElementById("search_suggestor").append = data
+                    $("#search_suggestor").html(data)
+                },
+                error: function() {
+                    alert("Internal Server Error!!!");
+                },
+            });
+        });
+    </script>

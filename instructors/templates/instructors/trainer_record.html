@@ -1,0 +1,159 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% load custom_tags %}
+
+{% block content %}
+<div class="wrapper">
+  {% include 'website/sidebar.html' %}
+  {% include 'website/header.html' %}
+  <div class="main-panel">
+
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <h4 class="card-title mt-0">Trainer Target Record</h4>
+            <div class="card data-tables">
+              <div class="card-header">
+                <div class="row align-items-center justify-content-between">
+                  <form style="margin-bottom: 0px;">
+                    <div class="d-flex follow-up--filter">
+                      {% comment %} <div class="float-right col-md-4 pr-3 pr-md-0">
+                        <input type="search" class="form-control" onkeypress="search_filter(event);" id="filters_search"
+                          value="{% if request.GET.n %}{{request.GET.n}}{% endif %}" placeholder="search...">
+                      </div> {% endcomment %}
+                      {% comment %} <div class="float-right col-md-1 pr-3 pr-md-0 d-flex align-items-center justify-content-center">
+                        <i class="fa fa-refresh text-info"
+                          onclick="window.location.href=`${window.location.pathname}`"></i>
+                      </div> {% endcomment %}
+
+                      {% comment %} <div class="row"> {% endcomment %}
+                      
+                        <div class="form-group col-md-4">
+                          <label for="name">Instructor</label>
+                          <select class="form-control" name="instructor">
+                            <option value="" >Instructors (All)</option>
+                            {% for i in inst_obj %}
+                              <option value="{{i.id}}" {% if i.id == inst_id %} selected {% endif %}>{{i.name}}</option>
+                            {% endfor %}
+                          </select>
+                          
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label for="name">Enrollments From: {{start_date}}</label>
+                          <input type="date" name="start_date" class="form-control" value="{{start_date|date:"Y-m-d"}}">
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label for="name">Enrollments To : {{end_date}}</label>
+                          <input type="date" name="end_date" class="form-control" value="{{end_date|date:"Y-m-d"}}">
+                        </div>
+                        <button type="submit" class="btn btn-secondary btn-fill" style="height: 40px;margin-top: 23px;margin-left: 15px;padding-left: 30px;padding-right: 30px;">Search</button>
+                      
+                      {% comment %} <div> {% endcomment %}
+                    </div>
+                  </form>
+
+                  <div class="col-md-3">
+                    {% comment %} {% include 'activity/filters_activity.html'%} {% endcomment %}
+                  </div>
+                </div>
+
+                <div>
+                  <p style="font-size: 10px;color: red;margin-left: 20px;margin-bottom: 0px;">1. If select enrollment from date then please also select to date.</p>
+                  <p style="font-size: 10px;color: red;margin-left: 20px;margin-bottom: 0px;">2. By default start date is first of current month and last date is today</p>
+                  <p style="font-size: 10px;color: red;margin-left: 20px;margin-bottom: 0px;">3. Collection is calculated on the basic of batch start date. Example: A batch id 101 is created in month X and start in month Y then the collection will be count in month Y not in X month</p>
+                </div>
+
+              </div>
+              <div class="card-body table-striped table-no-bordered table-hover dataTable dtr-inline table-full-width">
+                <div class="table-responsive">
+                  <table id="datatables" class="table" cellspacing="0" width="100%"
+                    style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        {% comment %} <th>Target</th> {% endcomment %}
+                        <th>Target Amount</th>
+                        <th>GST Amount 18%</th>
+                        <th>After GST</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for i in inst_list %}
+                      {% get_gst_amount_of_fee i.fee as fee_list%}
+                        <tr>
+                          <td>{{ forloop.counter }}</td>
+                          <td>{{ i.name}}</td>
+                         <td>{{ i.fee }}</td> 
+                          <!-- <td>{% if  fee_list.0 %} {{ fee_list.0 }} {% else %} -- {% endif %}</td> -->
+                          <!-- <td>{% if  fee_list.1 %} {{ fee_list.1 }} {% else %} -- {% endif %}</td> -->
+                          <!-- <td>{% if  fee_list.2 %} {{ fee_list.2 }} {% else %} -- {% endif %}</td> -->
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {% comment %} <div class="row mx-1">
+                <div class="col-sm-12 col-md-5 font-size-base"><span class="mt-2 d-block">Showing {{ feedback_obj.start_index }} - {{ feedback_obj.end_index }} of {{ feedback_obj.paginator.count }}</span></div>
+                <div class="col-sm-12 col-md-7">
+                  <div class="dataTables_paginate paging_simple_numbers" id="datatables_paginate">
+                      <ul class="pagination">
+                        {% if feedback_obj.has_previous %}
+                          <li class="paginate_button page-item previous" id="datatables_previous">
+                            <a aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" href="?page=1" tabindex="-1">FIRST</a>
+                          </li>
+                          <li class="paginate_button page-item previous" id="datatables_previous">
+                            <a href="?page={{ feedback_obj.previous_page_number }}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                          </li>
+                          {% else %}
+                          <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                          <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">FIRST</a>
+                          </li>
+                          <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                          <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                          </li>
+                          {% endif %}
+
+                          {% for i in feedback_obj.paginator.page_range %}
+                              {% if feedback_obj.number == i %}
+                                  <li class="paginate_button page-item active">
+                                  <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                </li>
+                              {% elif i > feedback_obj.number|add:'-4' and i < feedback_obj.number|add:'4' %}
+                                  <li class="paginate_button page-item">
+                                  <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                </li>
+                              {% endif %}
+                          {% endfor %}
+
+                          {% if feedback_obj.has_next %}
+                            <li class="paginate_button page-item next" id="datatables_next">
+                              <a href="?page={{ feedback_obj.next_page_number }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                            </li>
+                            <li class="paginate_button page-item next" id="datatables_next">
+                              <a href="{% if feedback_obj.has_next %} ?page={{ feedback_obj.paginator.num_pages }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link" {% endif %}>LAST</a>
+                            </li>
+                          {% else %}
+                            <li class="paginate_button page-item next disabled" id="datatables_next">
+                              <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                            </li>
+                            <li class="paginate_button page-item next disabled" id="datatables_next">
+                              <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">LAST</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </div> {% endcomment %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% include 'website/footer.html' %}
+  </div>
+</div>
+{% endblock content %}

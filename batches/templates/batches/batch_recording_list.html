@@ -1,0 +1,111 @@
+{% comment %} {% if recording %}
+  <p style="text-align: center;">Recording Available for this Batch</p>
+  <table class="table table-sm">
+  <thead>
+    <tr style="background-color: aliceblue;">
+      <th scope="col">#</th>
+      <th scope="col">Recorded on</th>
+      <th scope="col">Url</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in recording %}
+        <tr>
+          <th scope="row">{{forloop.counter}}</th>
+          <td>{{i.recorded_on | date:"d/M/Y - g:i A"}}</td>
+          <td> <input style="width: 218px;border: transparent;" id="demo_{{forloop.counter}}" readonly type="text" value="{{base_url}}/classroom/recording/{{i.composite_id}}/{{i.user}}"> </td>
+          <td style="color:blue" onclick="copyDemoInfo('{{forloop.counter}}')" id="copy_{{forloop.counter}}"><i style="font-size:15px" class="fa">&#xf0c5;</i> Copy batch info</td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% else %}
+  <p style="text-align: center;">No Recording Available for this Batch</p>
+{% endif %}
+
+
+<script>
+
+  function copyDemoInfo(id){
+    var copyText03 = document.getElementById("demo_"+id)
+    copyText03.select();
+    document.execCommand("Copy");
+    $("#stu_join").text("")
+    $("#inst_join").text("")
+    $("#copy_"+id).text("Info copied");
+    $("#copy_"+id).css("color","green");
+  }
+</script> {% endcomment %}
+{% if recording %}
+  {% load custom_tags %}
+  <table class="table table-sm">
+      <thead class="thead-light">
+          <tr>
+              <th scope="col">Class</th>
+              <th scope="col">Recorded on</th>
+              <th scope="col">URL</th>
+              <th scope="col" class="text-center">Link</th>
+              <th scope="col" class="text-center">Marked</th>
+          </tr>
+      </thead>
+      {% for i,j in recording.items %}
+          {% with forloop.counter as outer_counter %}
+              {% for m in j %}
+                  {% get_class_details m as batch_data %}
+                  <tbody class="classTable">
+                      {% comment %} {% if forloop.counter == 1 %} {% endcomment %}
+                          
+                      {% comment %} {% else %} {% endcomment %}
+                          <tr class="classTable--subcata">
+                              <td style="text-align:end;">{{outer_counter}}.{{forloop.counter}}</td>
+                              <td>{{batch_data.0}}</td>
+                              {% comment %} {% if batch_data.1 == '0' %}
+                                  <td>Play it </td>
+                              {% else %}
+                                  <td>{{batch_data.1}} mins</td>
+                              {% endif %} {% endcomment %}
+                              <td> <input style="width: 218px;border: transparent;" id="demo_{{outer_counter}}_{{forloop.counter}}" readonly type="text" value="{{base_url}}/classroom/class_recording/{{batch_data.2}}"> </td>
+                              {% comment %} <td align="center"><a href="/classroom/classplay/{{batch_data.2}}" target="__BLANK__"> <i class="icon-video-player"></i>link</a></td> {% endcomment %}
+                              <td style="color:blue" onclick="copyDemoInfo('{{outer_counter}}_{{forloop.counter}}')" id="copy_{{outer_counter}}_{{forloop.counter}}"><i style="font-size:15px" class="fa">&#xf0c5;</i> Copy batch info</td>
+                              {% get_marked_link_batch batch_data.2 as marked_link %}
+                              <td style="color:blue" onclick="mark_recording('{{outer_counter}}_{{forloop.counter}}')" id=""> <input {% if marked_link %} checked disabled{% endif %} id="inp_{{outer_counter}}_{{forloop.counter}}" type="checkbox"> </td>
+                          </tr> 
+                      {% comment %} {% endif %} {% endcomment %}
+                  </tbody>
+              {% endfor %}
+          {% endwith %}
+      {% endfor %}
+  </table>
+{% else %}
+  <p style="text-align: center;">No Recording Available for this Batch</p>
+{% endif %}
+<script>
+  function copyDemoInfo(id){
+    //alert(id)
+    var copyText03 = document.getElementById("demo_"+id)
+    copyText03.select();
+    document.execCommand("Copy");
+    $("#stu_join").text("")
+    $("#inst_join").text("")
+    $("#copy_"+id).text("Info copied");
+    $("#copy_"+id).css("color","green");
+  }
+
+  function mark_recording(id){
+    //alert(id)
+    var reco_link = document.getElementById("demo_"+id).value;
+    $.ajax({
+            url: '/batches/mark_recording',
+            data: {"reco_link":reco_link,"csrfmiddlewaretoken": "{{ csrf_token }}","type":1},
+            type: 'POST',
+            success: function(data) {
+                //alert("success")
+            },
+            error: function() {
+                alert("Internal Server Error!!!");
+            },
+        });
+  }
+</script>

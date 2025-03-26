@@ -1,0 +1,115 @@
+{% extends 'home/sub_pages_base.html'  %}
+{% load static %}
+{% block section_content %}
+
+    <!-- blog body starts here -->
+    <section>
+      <div class="container">
+        <div class="row">
+          <!-- left pan starts here -->
+          <div class="pull-left left-pan blog-body">
+            <div class="white-box P-10 mb-30">
+              <div class="row">
+                <div class="col-sm-8">
+                  <div class="form-inline">
+                    <div class="form-group">
+                      <label class="c6">Filter by</label>
+                      <select>
+                        <option>Select</option>
+                        <option>Lorem ipsum dolor</option>
+                        <option>Nunc bibendum</option>
+                        <option>Etiam tempus</option>
+                        <option>Donec non</option>
+                      </select><!-- /. select -->
+
+                      <select>
+                        <option>Select</option>
+                        <option>Lorem ipsum dolor</option>
+                        <option>Nunc bibendum</option>
+                        <option>Etiam tempus</option>
+                        <option>Donec non</option>
+                      </select><!-- /. select -->
+                    </div><!-- /. form group -->
+                  </div><!-- /. form inline -->
+                </div><!-- /. col-->
+
+                <div class="col-sm-4">
+                  <div class="form-inline drml">
+                    <div class="form-group">
+                      <label class="c6">Sort by</label>
+                      <select>
+                        <option>Latest</option>
+                        <option>Lorem ipsum dolor</option>
+                        <option>Nunc bibendum</option>
+                        <option>Etiam tempus</option>
+                        <option>Donec non</option>
+                      </select><!-- /. select -->
+                    </div><!-- /. form group -->
+                  </div><!-- /. form inline -->
+                </div><!-- /. col-->
+              </div><!-- /. row -->
+            </div><!-- /. white-box -->
+
+	    {% for blog in blogs %}
+            <div class="white-box p-15">
+              <div class="media">
+                <div class="media-left hidden-xs">
+                  <a href="blog-detail.html">
+                    <img class="media-object radius-4" width="180" height="162"; src="/media/{{ blog.image}}" alt="...">
+                  </a>
+                </div><!-- /.Media Left-->
+                <div class="media-body">
+                  <h4 class="media-heading fs-24 c3"><a href="/blog/{{blog.slug}}">{{blog.title}}</a></h4>
+                  
+                  <div class="blog-author fs-12">
+                    <span>By {{blog.author}} on {{blog.published_on}}</span>
+		    {% comment %}
+                    <div class="view-forward">
+                      <figure class="icon-forward"></figure> 43 
+                      <figure class="icon-view ml-10"></figure> 21
+                    </div>
+		    {% endcomment %}
+                  </div><!-- /.Blog Author -->
+
+                  <p class="mb-0 fs-14">{{blog.content|striptags|truncatechars:"250"|safe}}</p>
+
+                  <div class="tag-wrap mb-0">
+		    {% for tag in blog.tags.all %}
+            	    <span>{{ tag.name }}</span>
+                    {% endfor %}
+                  </div>
+                </div><!-- /.Media Body-->
+              </div><!-- /.Media -->
+            </div><!-- /.White Box -->
+	    {% endfor %}
+
+            <!-- pagination starts here -->
+            <div class="text-center">
+              <ul class="pagination">
+                <li>
+                  <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li>
+                  <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </div><!-- pagination starts here -->
+          </div><!-- left pan ends here -->
+          {% include 'home/sub_pages_sidebar.html' %}
+
+         
+        </div>
+      </div><!-- /. container -->
+    </section><!-- blog body ends here -->
+
+    {% include 'home/footer.html' %}
+{% endblock %}

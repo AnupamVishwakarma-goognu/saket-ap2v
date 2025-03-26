@@ -1,0 +1,131 @@
+{% load static %}
+{% load compress %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre&display=swap" rel="stylesheet">
+<!--     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" crossorigin="anonymous"> -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script> 
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+    <title>Certificate</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+    {% compress js %}
+        <script>
+            $(document).ready(function(){
+                $(document).keydown(function(event){
+                    if(event.keyCode==123){
+                        return false;
+                    }
+                    else if (event.ctrlKey && event.shiftKey && event.keyCode==73){        
+                            return false;
+                    }
+                });
+
+                $(document).on("contextmenu",function(e){        
+                    e.preventDefault();
+                });
+            });
+        </script>
+    {% endcompress %}
+</head>
+<body style="margin: 0;padding: 0;box-sizing: border-box;margin-top: 10px;margin-bottom: 10px; ">
+    <div>
+    <div class="col-md-12 text-right mb-3">
+        <button class="btn btn-primary" hidden id="download" style="background-color: #e92347;color: white;padding: 5px;border: 0px;border-radius: 6px;margin: 2px;"> Download Certificate</button>
+    </div>
+    
+    <div id="content" class="main-wrap" style="width: 1050px;height: 720px;background-repeat: no-repeat;display: block;margin: 0 auto;color: #657a86;font-family: 'Times New Roman', Times, serif; background-color: #333335;">
+        <div class="certificate-top" style="width: 1050px;height: 53px;display: block;">
+            <img src="{% static 'certificate_image/certificate_top.jpg'%}" alt="line">
+        </div>
+
+        <div class="certificate-body" style="display: flex;">
+            <div class="certificate-body--left" style="width: 29px;height: 614px;display: block;">
+                <img src="{% static 'certificate_image/certificate_vLeft.jpg'%}" alt="line">
+            </div>
+            <div class="certificate-body--content" style="width: 993px;height: 614px;display: block;background-color: #ffffff;">
+
+                <div class="certificate-header" style="text-align: center;padding-top: 60px;">
+                    <span class="ap2v-logo" style="display: inline-block;margin-bottom: 15px;"> <img src="{% static 'certificate_image/ap2v-logo.png'%} " alt="line" style="width: 75%;"> </span>
+                    <span class="certificate-header-text" style="display: block;">
+                        <img src="{% static 'certificate_image/header.jpeg'%}" alt="line" style="width: 50%;">
+                    </span>
+                    <p class="congratulation" style="color: #657a86;font-size: 18px;padding-top: 50px;">Congratulations !</p>
+                    <p class="student-name" style="font-family: 'Abhaya Libre', serif;font-size: 40px;color: #df4a4b;font-weight: 700;display: inline-block;padding-bottom: 20px;">{{stu_data.enroll.enquiry_course_id.enquiry_id.full_name}}</p>
+                    <p>You have successfully completed our training program on</p>
+                    <p class="course-name" style="font-size: 22px;font-family: 'Abhaya Libre', serif;color: #000;font-weight: bold;padding-top: 5px;">{{course_name}}</p>
+                </div>
+
+                <div class="certificate-footer" style="display: flex;align-items: center;justify-content: space-between;padding: 130px 60px 0 60px;">
+                    <div class="footer-left">
+                        <div class="date" style="padding-bottom: 10px;"><span>Date:</span> <input type="text" value="{{complete_date|date:'d-m-Y'}}" class="enter-date" style="border: none;border-bottom: 2px solid #666;padding: 5px 0;color: #657a86;font-size: 16px;font-family: 'Times New Roman', Times, serif;"></div>
+                        <div class="certificate-code"> Certificate Code: #{{certificate_code}}</div>
+                        <br>
+                
+                    </div>
+                    <div class="footer-right" style="text-align: center;">
+                        <div class="singature"></div>
+                        <img src="{% static 'certificate_image/s2.png'%}" alt="line" style="height:50px;width:150px;">
+                        <p>Ashutosh Taiwal</p>
+                        <p>CEO</p>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="certificate-body--right" style="width: 28px;height: 614px;display: block;">
+                <img src="{% static 'certificate_image/certificate_vRight.jpg'%}" alt="line">
+            </div>
+        </div>
+
+        <div class="certificate-top" style="width: 1050px;height: 53px;display: block;">
+            <img src="{% static 'certificate_image/certificate_bottom.jpg'%}" alt="line">
+        </div>
+    </div>
+    </div>
+    <p class="certificate-note mt-3 mb-0">
+        {% comment %} Note: We take your personal information from My Profile page. Click here if you wish to make any changes. In case of any query kindly Contact us {% endcomment %}
+    </p>
+    <div id="editor"></div>
+</body>
+
+{% compress js %}
+<script>
+    function closeWindow() {
+        window.open('','_parent','');
+        window.close();
+    }
+
+    window.onload = function () {
+        document.getElementById("download")
+        .addEventListener("click", () => {
+            const invoice = this.document.getElementById("content");
+            console.log(content);
+            console.log(window);
+            var opt = {
+                margin: 0.3,
+                filename: '{{course_name}}_{{certificate_code}}.pdf',
+                image: { type: 'jpeg', quality: 1 },
+                html2canvas: { scale: 1 },
+                jsPDF: { unit: 'in', format: 'A4', orientation: 'landscape' }
+            };
+            var d = html2pdf().from(content).set(opt).save();
+        })
+        document.getElementById('download').click();     
+    }
+</script>
+{% endcompress %}
+</html>

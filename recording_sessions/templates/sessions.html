@@ -1,0 +1,105 @@
+__str__ returned non-string (type NoneType)
+{% extends 'website/base.html' %}
+{% load static %}
+{% block content %}
+<div class="wrapper">
+  {% include 'website/sidebar.html' %}
+  {% include 'website/header.html' %}
+
+  <div class="main-panel">
+    <!-- Navbar -->
+
+    <!-- End Navbar -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <form id="new_batches_form" class="form-horizontal" enctype="multipart/form-data"
+                action="{% url 'recordingVideo' %}" method="POST">
+                {% csrf_token %}
+                <h4 class="card-title mt-0">Recording Session</h4>
+                <div class="card ">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label>Course</label>
+                          <select id="courseselect" name="rcourse" class="selectpicker" 
+                            required="true">
+                            {% for data in course %}
+                            <option value=""></option>
+                            <option value="{{ data.id }}">{{ data.name }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label> Title </label>
+                          <!-- <input type="text" id="session_duration" name="session_duration" class="form-control"  required> -->
+                          <div>
+                            <input type="text" id="txt"  name="title" placeholder="Give some title" style="width: 100%; height: 40px;border-width: 5px;font-weight: 400; padding: 8px 16px;border: 1px solid #88888852;border-radius: 5px; font-size: 15px;">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label> Videos </label>
+                          <!-- <input type="text" id="session_duration" name="session_duration" class="form-control"  required> -->
+                          <div>
+                            <input type="file" id="myFile" multiple size="10" name="vfilename">
+                          </div>
+                        </div>
+                      </div>
+                      <button type="submit" class="btn btn-primary ml-3 submit" onclick="recordingsession()" value="Reset Form">Submit</button>
+                    </div>
+
+
+
+                  </div>
+
+                </div>
+
+                
+            </div>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% include 'website/footer.html' %}
+</div>
+</div>
+
+
+<!-- <script>
+  alert('ok')
+  function recordingsession(){
+    var selectCourse = $('#courseselect').val();
+    alert(selectCourse)
+    var videoFile = $('#myFile');
+    
+    alert(videoFile)
+    $('.submit').prop('disabled', true)  
+    
+    $.ajax({
+            url: '/recording_sessions/recordingVideo?selectCourse='+selectCourse+'&videoFile='+videoFile,
+            data: {},
+            type: 'POST',
+            success: function(data){
+              alert('success')    
+            },
+            error: function() {
+                alert("Internal Server Error!!!");
+            },
+          });
+  }
+</script> -->
+
+
+
+ 
+{% endblock content %}

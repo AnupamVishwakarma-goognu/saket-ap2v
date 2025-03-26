@@ -1,0 +1,526 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% load i18n %}
+{% block content %}
+  
+    <div class="wrapper">
+        {% include 'website/sidebar.html' %}
+        {% include 'website/header.html' %}
+        <div class="main-panel">
+        
+          <div class="content">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row" style="display: flex;justify-content: space-between;">
+                    <div style="display: flex;">
+                    <h4 class="card-title mt-0 text-uppercase">Enquiries | </h4> 
+                    <a href="javascript:void(0)" onclick="openEnqAddModal()" style="margin-left: 10px;margin-top: 4px;" > <i class="fa fa-user-plus" aria-hidden="true"></i> Add Enquiry </a>
+                    </div>
+                    <div>
+                      {% if request.user.is_superuser%}
+                        <a href="/enquiries/download_pdf" target="__BLANK__" class="btn btn-secondary btn-simple" style="background-color: cadetblue;"> <i class="bi bi-file-pdf"></i>Download PDF</a>
+                        <a href="/enquiries/download_excel" class="btn btn-secondary btn-simple ml-3" style="background-color: cadetblue;">Download CSV</a>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="card data-tables">
+                    <div class="card-header">
+                      <div class="row align-items-center justify-content-between">
+                        <div class="d-flex follow-up--filter">
+			                    {% comment %}
+                          <div class="col-md-4 pr-0">
+                            <select class="selectpicker mb-1" id="filters" name="filters">
+                              <option value="name" {% if request.GET.type == 'name' %} selected='true' {% endif %}>Name</option>
+                              <option value="email" {% if request.GET.type == 'email' %} selected='true' {% endif %}>Email</option>
+                              <option value="number" {% if request.GET.type == 'number' %} selected='true' {% endif %}>Number</option>
+                              <option value="branch" {% if request.GET.type == 'branch' %} selected='true' {% endif %}>Branch</option>
+                              <!-- <option value="course" {% if request.GET.type == 'course' %} selected='true' {% endif %}>Course</option> -->
+                            </select>
+                            <!-- <input type="search" class="form-control" onkeypress="search_filter(event);" id="filters_search" value="{% if request.GET.n %}{{request.GET.n}}{% endif %}" placeholder="search..."> -->
+                          </div>
+			                    {% endcomment %}
+
+                          <div class="col-md-3 pr-0">
+		                        <input type="search" class="form-control" onkeypress="search_filter(event);" id="filters_search"
+			                            value="{% if request.GET.n %}{{request.GET.n}}{% endif %}" placeholder="search...">
+			                      {% comment %}
+                              <select class="selectpicker" id="interest_filter" name="interest_filter" onchange="interest_filter();">
+                                <option selected disabled>Select Interest Level</option>
+                                {% for i in EnquiryLevelChoices %}
+                                  <option value="{{ i.0 }}" {% if request.GET.interest == i.0 %}  {% endif %}>{{ i.1 }}</option>
+                                {% endfor %}
+                              </select>
+			                      {% endcomment %}
+                          </div>
+
+                          <div class="col-md-1 d-flex align-items-center justify-content-center">
+                            <i class="fa fa-refresh text-info" onclick="window.location.href=`${window.location.pathname}`"></i>
+                          </div>
+                        {% comment %} <a href="/enquiries/list?show=enrolled"> &nbsp;Enrolled&nbsp;&nbsp;&nbsp;</a>
+                        <a href="/enquiries/list?show=discard">&nbsp;&nbsp;&nbsp;Discard&nbsp;&nbsp;&nbsp;</a>
+                        <a href="/enquiries/list">&nbsp;&nbsp;&nbsp;No Status</a> {% endcomment %}
+                        </div>
+
+                        
+                        
+                        
+                        <div class="col-md-2">
+                          {% include 'enquiries/filters_enquiries.html'%}
+                        </div>
+                      </div><!-- // row -->
+                      
+
+                      
+                      <!-- <div class="float-right col-md-2"> -->
+                        <!-- <select class="selectpicker" id="filters" name="filters">
+                          <option value="name" {% if request.GET.type == 'name' %} selected='true' {% endif %}>Name</option>
+                          <option value="email" {% if request.GET.type == 'email' %} selected='true' {% endif %}>Email</option>
+                          <option value="number" {% if request.GET.type == 'number' %} selected='true' {% endif %}>Number</option>
+                        </select> -->
+                      <!-- </div> -->
+                      <!-- <input class="form-control" onkeyup="search_filter_function(this);" type="text" name="search_filter" placeholder="Search..."> -->
+                      
+                    </div>
+                    
+                    <div class="card-body table-striped table-no-bordered table-hover dataTable dtr-inline  table-full-width">
+                      <div class="table-responsive">
+                        <table   class="table" cellspacing="0" width="100%">
+                          <thead >
+                            <tr>
+                              <th class="sorting_desc">Id</th>
+                              <th class="sorting_desc" style="word-break: break-all;">Name</th>
+                              <th class="sorting_desc" style="word-break: break-all;">Email</th>
+                              <th class="sorting_desc" style="word-break: break-all;">Phone</th>
+                              <th class="sorting_desc">Course</th>
+                              <th class="sorting_desc">Upcoming Comment</th>
+                              <th class="sorting_desc">Reference</th>
+                              <th class="sorting_desc">Added By</th>
+                              <th class="sorting_desc">Date</th>
+                              <th class="sorting_desc">Calling Date Time</th>
+                              <th></th>
+                              <th>Response</th>
+                            </tr>
+                          </thead>
+                            <tbody>
+                              {% for enquirie in object_list %}
+                              {% comment %} {% enquiries_filter enquirie.id as result %} {% endcomment %}
+                              {% comment %} {% if result == "yes" %} {% endcomment %}
+                                {% followup_response enquirie.id as response_result %}
+                                  {% if response_result %}
+                                    <tr>
+                                        <td onclick="window.location='/enquiries/view/{{ enquirie.id }}'">{{ enquirie.id }} </td>
+                                        <td onclick="window.location='/enquiries/view/{{ enquirie.id }}'"><span {% if enquirie.junk %}  {% else %} {% if enquirie.attended %} class="attended" title="Attended" {% else %} class="unattended" title="Unattended"{% endif %} {% endif %}></span> {% if enquirie.junk %} <i class="fas fa-times-circle"></i> {% endif %} {{ enquirie.full_name }}</td>
+                                        <td onclick="window.location='/enquiries/view/{{ enquirie.id }}'">{{ enquirie.email }}</td>
+                                        <td onclick="window.location='/enquiries/view/{{ enquirie.id }}'">{{ enquirie.mobile }}</td>
+                                        <td onclick="window.location='/enquiries/view/{{ enquirie.id }}'" title="{{ enquirie.courses }}">{{ enquirie.courses }}</td>
+                                        <td onclick="window.location='/enquiries/view/{{ enquirie.id }}'">{{ enquirie.latest_comment }}</td>
+                                        <td onclick="window.location='/enquiries/view/{{ enquirie.id }}'">{{ enquirie.reference }}</td>
+                                        <td onclick="window.location='/enquiries/view/{{ enquirie.id }}'">{%if enquirie.assigned_by %}{{ enquirie.assigned_by.name }}{%else%}-{%endif%}</td>
+                                        <td onclick="window.location='/enquiries/view/{{ enquirie.id }}'" title="{{ enquirie.added_on }}">{{ enquirie.added_on | date:"d/M/Y - g:i A"}}</td>
+                                        {% split_time_date enquirie.calling_datetime as datet %}
+                                        <td onclick="window.location='/enquiries/view/{{ enquirie.id }}'"> {% if enquirie.calling_datetime %} {{ datet }} {% else %} -- {% endif %}</td>
+                                        <td align="center">
+                                          <div class="dropdown" >
+                                            <button class="" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" style="border: none !important; background: transparent !important;" aria-expanded="false">
+                                              <div style="width: 10px;height: 22px;background-image: radial-gradient(circle, black 2px, transparent 2px);background-size: 108% 33.33%;"></div>
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                              <a class="dropdown-item" href="#" onclick="openShareModal('{{enquirie.id}}')">Share Introduction on Email</a>
+                                              <a class="dropdown-item" href="#" onclick="OpenSendCoures(this, '{% url 'CoursesContentSendView' enquirie.id %}',2)">Share Course Details on SMS</a>
+                                              <a class="dropdown-item" href="#" onclick="OpendAccountDetailsSend(this, '{% url 'accountdetailsendview' enquirie.id %}',1)">Share Account on Email</a>
+                                              <a class="dropdown-item" href="#" onclick="OpendAccountDetailsSend(this, '{% url 'accountdetailsendview' enquirie.id %}',2)">Share Account on SMS</a>
+                                              <a class="dropdown-item" href="#" {% if enquirie.discard %} onclick="undiscard_enquiry(event, '{% url 'DiscardEnquiryView' enquirie.id %}');" {%else%} onclick="discard_enquiry(event, '{% url 'DiscardEnquiryView' enquirie.id %}');"  {%endif%}>{% if enquirie.discard %}Un-Discard{%else%}Discard{%endif%}</a>
+                                              <a class="dropdown-item" href="#" {% if enquirie.junk %} onclick="markasreal('{{enquirie.id}}')"{% else %} onclick="markasjunk('{{enquirie.id}}')" {% endif %}>{% if enquirie.junk %}Mark as Real{% else %} Mark as Junk {% endif %}</a>
+                                              
+                                            </div>
+                                          </div>
+                                        </td>
+                                        <td align="center">{{ response_result }}</td>
+                                    </tr>
+                                  {% else %}
+                                  <tr style="background-color: red;">
+                                    <td onclick="window.location='/enquiries/view/{{ enquirie.id }}'">{{ enquirie.id }}</td>
+                                    <td onclick="window.location='/enquiries/view/{{ enquirie.id }}'"><span {% if enquirie.junk %}  {% else %} {% if enquirie.attended %} class="attended" title="Attended" {% else %} class="unattended" title="Unattended"{% endif %} {% endif %}></span> {% if enquirie.junk %} <i class="fas fa-times-circle"></i> {% endif %} {{ enquirie.full_name }}</td>
+                                    <td onclick="window.location='/enquiries/view/{{ enquirie.id }}'">{{ enquirie.email }}</td>
+                                    <td onclick="window.location='/enquiries/view/{{ enquirie.id }}'">{{ enquirie.mobile }}</td>
+                                    <td onclick="window.location='/enquiries/view/{{ enquirie.id }}'" title="{{ enquirie.courses }}">{{ enquirie.courses }}</td>
+                                    <td onclick="window.location='/enquiries/view/{{ enquirie.id }}'">{{ enquirie.latest_comment }}</td>
+                                    <td onclick="window.location='/enquiries/view/{{ enquirie.id }}'">{{ enquirie.reference }}</td>
+                                    <td onclick="window.location='/enquiries/view/{{ enquirie.id }}'">{%if enquirie.assigned_by %}{{ enquirie.assigned_by.name }}{%else%}-{%endif%}</td>
+                                    <td onclick="window.location='/enquiries/view/{{ enquirie.id }}'" title="{{ enquirie.added_on }}">{{ enquirie.added_on | date:"d/M/Y - g:i A"}}</td>
+                                    {% split_time_date enquirie.calling_datetime as datet %}
+                                    <td onclick="window.location='/enquiries/view/{{ enquirie.id }}'"> {% if enquirie.calling_datetime %} {{ datet }} {% else %} -- {% endif %}</td>
+                                    <td align="center">
+                                      <div class="dropdown" >
+                                        <button class="" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" style="border: none !important; background: transparent !important;" aria-expanded="false">
+                                          <div style="width: 10px;height: 22px;background-image: radial-gradient(circle, black 2px, transparent 2px);background-size: 108% 33.33%;"></div>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                          <a class="dropdown-item" href="#" onclick="openShareModal('{{enquirie.id}}')">Share Introduction on Email</a>
+                                          <a class="dropdown-item" href="#" onclick="OpenSendCoures(this, '{% url 'CoursesContentSendView' enquirie.id %}',2)">Share Course Details on SMS</a>
+                                          <a class="dropdown-item" href="#" onclick="OpendAccountDetailsSend(this, '{% url 'accountdetailsendview' enquirie.id %}',1)">Share Account on Email</a>
+                                          <a class="dropdown-item" href="#" onclick="OpendAccountDetailsSend(this, '{% url 'accountdetailsendview' enquirie.id %}',2)">Share Account on SMS</a>
+                                          <a class="dropdown-item" href="#" {% if enquirie.discard %} onclick="undiscard_enquiry(event, '{% url 'DiscardEnquiryView' enquirie.id %}');" {%else%} onclick="discard_enquiry(event, '{% url 'DiscardEnquiryView' enquirie.id %}');"  {%endif%}>{% if enquirie.discard %}Un-Discard{%else%}Discard{%endif%}</a>
+                                          <a class="dropdown-item" href="#" {% if enquirie.junk %} onclick="markasreal('{{enquirie.id}}')"{% else %} onclick="markasjunk('{{enquirie.id}}')" {% endif %}>{% if enquirie.junk %}Mark as Real{% else %} Mark as Junk {% endif %}</a>
+                                          
+                                        </div>
+                                      </div>
+                                    </td>
+                                </tr>
+                                  {% endif %}
+                              {% comment %} {% endif %} {% endcomment %}
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="invisible" id="DevCoursesSend">
+                      <select id="CoursesSend" name="CoursesSend"  class="">
+                        {% for course_loop in courses %}
+                          <option value="{{ course_loop.id }}">{{ course_loop.name }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="row mx-1">
+			                <div class="col-sm-12 col-md-5 font-size-base"><span class="mt-2 d-block">Showing {{ page_obj.start_index }} - {{ page_obj.end_index }} of {{ page_obj.paginator.count }}</span></div>
+                      <div class="col-sm-12 col-md-7">
+                        <div class="dataTables_paginate paging_simple_numbers" id="datatables_paginate">
+                           <ul class="pagination">
+                             {% if page_obj.has_previous %}
+                             <li class="paginate_button page-item previous" id="datatables_previous">
+        	                    <a href="?{{ page_obj.previous_page_number.querystring }}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                             </li>
+                             {% else %}
+                             <li class="paginate_button page-item previous disabled" id="datatables_previous">
+        	                    <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                             </li>
+                             {% endif %}
+                             {% for i in page_obj.pages %}
+                                {% if i %}
+                                  {% ifequal i page_obj.number %}
+                                    <li class="paginate_button page-item active">
+                                      <a href="?{{ i.querystring }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                    </li>
+                                  {% else %}
+                                    <li class="paginate_button page-item">
+                                     <a href="?{{ i.querystring }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                    </li>
+                                  {% endifequal %}
+                                {% else %}
+                                  <li class="paginate_button page-item" id="nopage">
+                                    <a href="javaScript:void(0)" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" style="pointer-events: none;">...</a>
+                                  </li>
+                                {% endif %}
+                             {% endfor %}
+                             {% if page_obj.has_next %}
+                               <li class="paginate_button page-item next" id="datatables_next">
+          	                    <a href="?{{ page_obj.next_page_number.querystring }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                               </li>
+                             {% else %}
+                               <li class="paginate_button page-item next disabled" id="datatables_next">
+                                <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                               </li>
+                             {% endif %}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% include 'website/footer.html' %}
+        </div>
+      </div>
+
+
+
+  <!--Add Enq Modal -->
+    <div class="modal fade" id="addEnquiry" tabindex="-1" role="dialog" aria-labelledby="addEnquiryLabel" style="display: none;">
+      <div class="modal-dialog modal-lg" role="document" style="width: 800px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title mt-0" id="myModalLabel">Add Enquiry</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <form id="enquiryFormModal" action="#">
+              <div class="modal-body" style="padding-top: 0px;">
+
+                <div class="row" style="margin-bottom: 5px;">
+                  <div class="col-md-12">
+                    <div class="">
+                        <label style="margin-bottom: 0px;">Course*</label>
+                        <select id="select-state" placeholder="Select Course/Type to Choose" multiple required="true">
+                          <option value="">Please select</option>  
+                            {% for data in courses %}
+                              <option value="{{ data.id }}">{{ data.name }} {% if data.typee == 1 %} (Course) {% elif data.typee == 2 %} (Exam) {% elif data.typee == 3 %} (Book)  {% else %} (**TND){% endif %}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="row" style="margin-bottom: 5px; margin-top:15px;">
+                  <div class="col-md-6">
+                    <div class="">
+                        <label style="margin-bottom: 0px;">Mode*</label>
+                        <select class="selectpicker"id="mode" name="reference" required="true">
+                          <option value="">Please select</option>
+                            {% for i in references %}
+                              <option value="{{ i.1 }}">{{ i.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="">
+                        <label style="margin-bottom: 0px;">Full Name*</label>
+                        <input type="text" class="form-control" id="name" name="full_name" placeholder="Full Name" required="true" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row" style="margin-bottom: 5px;">
+                  <div class="col-md-6">
+                    <div class="">
+                        <label style="margin-bottom: 0px;">Email*</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" required="true" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="">
+                        <label style="margin-bottom: 0px;">Mobile*</label>
+                        <input type="number" class="form-control" id="mobile" name="mobile" placeholder="Mobile" required="true" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row" style="margin-bottom: 5px;">
+                  <div class="col-md-6">
+                    <div class="">
+                        <label style="margin-bottom: 0px;">Designation</label>
+                        <select class="selectpicker" id="designation" name="designation" >
+                          <option value="student">Student</option>
+                          <option value="working">Working</option>
+                        </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="">
+                        <label style="margin-bottom: 0px;">Batch Preference</label>
+                        <select name="select_days" id="batch_preference" class="selectpicker" multiple="multiple" >
+                          <option value="">Please select</option>  
+                          <option value="Monday">Monday</option>
+                          <option value="Tuesday">Tuesday</option>
+                          <option value="Wednesday">Wednesday</option>
+                          <option value="Thursday">Thursday</option>
+                          <option value="Friday">Friday</option>
+                          <option value="Saturday">Saturday</option>
+                          <option value="Sunday">Sunday</option>
+                        </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row" style="margin-bottom: 5px;">
+                  <div class="col-md-6">
+                    <div class="">
+                        <label style="margin-bottom: 0px;">Batch Preference Time</label>
+                        <input type="time" id="batch_time" class="form-control " name="batch_time">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="">
+                        <label style="margin-bottom: 0px;">Interested for Batch</label>
+                        <select class="selectpicker" id="interest_for_batch" name="interest_for_batch" >
+                          <option value="1">Yes</option>
+                          <option value="0">No</option>
+                        </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row" style="margin-bottom: 5px;">
+                  <div class="col-md-6">
+                    <div class="">
+                        <label style="margin-bottom: 0px;">Alternative Email</label>
+                        <input type="email" id="alt_email" class="form-control " name="alt_email">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="">
+                        <label style="margin-bottom: 0px;">Alternative Mobile</label>
+                        <input type="number" id="alt_mobile" class="form-control " name="alt_mobile">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row" style="margin-top: 30px;justify-content: flex-end;">
+                  <button type="submit" id="enqSubmitMo" class="btn btn-primary">Add Enquiries</button>
+                </div>
+
+              </div>
+            </div>        
+          </form>
+        </div>
+      </div>
+    </div>
+
+  <!--Send Email Modal -->
+  <div class="modal fade" id="sendIntroductionEmailModal" tabindex="-1" role="dialog" aria-labelledby="sendIntroductionEmailModalLabel" style="display: none;">
+    <div class="modal-dialog modal-lg" role="document" style="width: 400px;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title mt-0" id="myModalLabel">Send Introduction Email</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <form id="">
+          {% csrf_token %}
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-12">
+                    <p style="font-size: 13px;">You are login with <b>{{request.user.email}}</b></p>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control datetimepicker" name="email_password" id="email_password" placeholder="Email Password" required="true" />
+                        <input type="text" hidden id="enquirieid" placeholder="Email Password" required="true" />
+                    </div>
+                    <p style="font-size: 13px;">This email sending using above email, Please Enter email Password</p>
+                </div>
+                <a href="javascript:void(0)" id="sendEm" onclick="sendIntroEmailEnq()" class="btn btn-secondary btn-simple" style="width: 100%;margin: 0px 100px;"> <i class="bi bi-file-pdf"></i>Send</a>
+            </div>
+          </div>        
+        </form>
+      </div>
+    </div>
+  </div>
+
+      <script>
+        function markasjunk(enq_id){
+          $.ajax({
+            type: "GET",
+            url: "/enquiries/mark-as-junk?enq_id="+enq_id,
+            data: {},
+            success: function (data) {
+                location.reload();
+            },
+            error: function (data) {
+                alert("Internal Server Error!!!");
+            },
+          });
+        }
+
+        function markasreal(enq_id){
+          $.ajax({
+            type: "GET",
+            url: "/enquiries/mark-as-real?enq_id="+enq_id,
+            data: {},
+            success: function (data) {
+                location.reload();
+            },
+            error: function (data) {
+                alert("Internal Server Error!!!");
+            },
+        });
+      }
+
+
+      function openEnqAddModal(){
+        $('#addEnquiry').modal('show'); 
+      }
+
+      function openShareModal(enquirieID){
+        $("#enquirieid").val(enquirieID);
+        $("#sendIntroductionEmailModal").modal('show');
+      }
+
+      function sendIntroEmailEnq(){
+        var enq_id = $("#enquirieid").val();
+        var email_password = $("#email_password").val();
+        if(email_password.length<=0){
+          alert("Please enter email password,")
+          return false;
+        }
+
+        $("#sendEm").text("Sending...");
+        $.ajax({
+          type: "POST",
+          url: "/enquiries/send-introduction-email",
+          data: {"enq_id":enq_id,"email_p":email_password,"csrfmiddlewaretoken": "{{ csrf_token }}"},
+          success: function (data) {
+              //location.reload();
+              $("#sendEm").text("Send");
+              alert("Email Send Successfully.")
+              
+          },
+          error: function (data) {
+            $("#sendEm").text("Send");  
+            alert("Error!!!,  Password may be Incorrect Or may be Less Secure is desabled.");
+              
+          },
+        });
+      }
+    </script>
+    <script>
+      $(document).ready(function () {
+      $('#select-state').selectize({
+          sortField: 'text'
+      });
+      });
+    </script>
+
+    <script>
+      $( "#enquiryFormModal" ).submit(function( event ) {
+        //alert( "Handler for .submit() called." );
+
+        course = $("#select-state").val();
+        mode = $("#mode").val();
+        name = $("#name").val();
+        email = $("#email").val();
+        mobile = $("#mobile").val();
+        designation = $("#designation").val();
+        batch_preference = $("#batch_preference").val();
+        batch_time = $("#batch_time").val();
+        interest_for_batch = $("#interest_for_batch").val();
+        alt_email = $("#alt_email").val();
+        alt_mobile = $("#alt_mobile").val();
+
+        my_data={
+          "course":String(course),
+          "mode":mode,
+          "name":name,
+          "email":email,
+          "mobile":mobile,
+          "designation":designation,
+          "batch_preference":String(batch_preference),
+          "batch_time": batch_time,
+          "interest_for_batch":interest_for_batch,
+          "alt_email":alt_email,
+          "alt_mobile":alt_mobile,
+        }
+
+        $("#enqSubmitMo").text('Submiting...Please Wait.');
+        $( "#enqSubmitMo" ).prop( "disabled", true );
+        $.ajax({
+          type: "GET",
+          url: "/enquiries/add_enquiry_modal",
+          data: my_data,
+          success: function (data) {
+              $( "#enqSubmitMo" ).prop( "disabled", false );
+              location.reload();
+              //alert("Equiry Added.")
+          },
+          error: function (data) {
+            alert("Error...!!!");
+            $( "#enqSubmitMo" ).prop( "disabled", false );
+          },
+        });
+
+
+        event.preventDefault();
+      });
+    </script>
+      {% endblock content %}

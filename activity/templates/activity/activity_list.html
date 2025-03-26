@@ -1,0 +1,124 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block content %}
+<div class="wrapper">
+  {% include 'website/sidebar.html' %}
+  {% include 'website/header.html' %}
+  <div class="main-panel">
+
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <h4 class="card-title mt-0">Activities</h4>
+            <div class="card data-tables">
+              <div class="card-header">
+                <div class="row align-items-center justify-content-between">
+                  <div class="d-flex follow-up--filter">
+                    <div class="float-right col-md-4 pr-3 pr-md-0">
+                      <input type="search" class="form-control" onkeypress="search_filter(event);" id="filters_search"
+                        value="{% if request.GET.n %}{{request.GET.n}}{% endif %}" placeholder="search...">
+                    </div>
+                    <div class="float-right col-md-1 pr-3 pr-md-0 d-flex align-items-center justify-content-center">
+                      <i class="fa fa-refresh text-info"
+                        onclick="window.location.href=`${window.location.pathname}`"></i>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    {% include 'activity/filters_activity.html'%}
+                  </div>
+                </div>
+
+              </div>
+              <div class="card-body table-striped table-no-bordered table-hover dataTable dtr-inline table-full-width">
+                <div class="table-responsive">
+                  <table id="datatables" class="table" cellspacing="0" width="100%"
+                    style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Action</th>
+                        <th>Action Detail</th>
+                        {% comment %} <th>Ref Type Id</th> {% endcomment %}
+                        <th>Add/Mod on</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for i in activity_queryset %}
+                      <tr {% if i.a_url %}onclick="window.location='{{ i.a_url }}'" {% endif %}>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ i.user.name }}</td>
+                        <td>{{ i.type }}</td>
+                        <td>{{ i.action_details }}</td>
+                        {% comment %} <td>{{ i.ref_id }}</td> {% endcomment %}
+                        <td>{{ i.add_on }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="row mx-1">
+                <div class="col-sm-12 col-md-5 font-size-base"><span class="mt-2 d-block">Showing {{ activity_queryset.start_index }} - {{ activity_queryset.end_index }} of {{ activity_queryset.paginator.count }}</span></div>
+                <div class="col-sm-12 col-md-7">
+                  <div class="dataTables_paginate paging_simple_numbers" id="datatables_paginate">
+                      <ul class="pagination">
+                        {% if activity_queryset.has_previous %}
+                          <li class="paginate_button page-item previous" id="datatables_previous">
+                            <a aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" href="?page=1" tabindex="-1">FIRST</a>
+                          </li>
+                          <li class="paginate_button page-item previous" id="datatables_previous">
+                            <a href="?page={{ activity_queryset.previous_page_number }}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                          </li>
+                          {% else %}
+                          <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                          <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">FIRST</a>
+                          </li>
+                          <li class="paginate_button page-item previous disabled" id="datatables_previous">
+                          <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                          </li>
+                          {% endif %}
+
+                          {% for i in activity_queryset.paginator.page_range %}
+                              {% if activity_queryset.number == i %}
+                                  <li class="paginate_button page-item active">
+                                  <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                </li>
+                              {% elif i > activity_queryset.number|add:'-4' and i < activity_queryset.number|add:'4' %}
+                                  <li class="paginate_button page-item">
+                                  <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                </li>
+                              {% endif %}
+                          {% endfor %}
+
+                          {% if activity_queryset.has_next %}
+                            <li class="paginate_button page-item next" id="datatables_next">
+                              <a href="?page={{ activity_queryset.next_page_number }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                            </li>
+                            <li class="paginate_button page-item next" id="datatables_next">
+                              <a href="{% if activity_queryset.has_next %} ?page={{ activity_queryset.paginator.num_pages }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link" {% endif %}">LAST</a>
+                            </li>
+                          {% else %}
+                            <li class="paginate_button page-item next disabled" id="datatables_next">
+                              <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                            </li>
+                            <li class="paginate_button page-item next disabled" id="datatables_next">
+                              <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">LAST</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% include 'website/footer.html' %}
+  </div>
+</div>
+{% endblock content %}

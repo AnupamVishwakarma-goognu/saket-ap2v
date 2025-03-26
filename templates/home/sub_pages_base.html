@@ -1,0 +1,231 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  {% include 'home/header.html' %}
+  <body class="fixed-navigation">
+
+  <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NBG7NXZ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
+    <!-- main banner and menu container starts here  -->
+    <div class="container-fluid side-collapse-container">
+      <div class="row">
+        <!-- header Satrts here -->
+        <header class="rel">
+          <!-- navbar Starts here -->
+	  {% include 'home/navigation.html' %}
+
+          <!-- home banner starts here -->
+          <div class="bannerSm-wrap">
+
+          <!-- inner banner starts here -->
+          <div class="inner-banner">
+            <div class="banner-content">
+            <div class="container">
+              <div class="row">
+
+                <ol class="breadcrumb mb-5">
+                  {% for i,j in breadcrumb.items %}
+                  <li class="active"><a href="{{ j }}">{{ i }}</a></li>
+                  {% endfor %}
+                  <li class="active">{{ breadcrumb_title }}</li>
+                </ol><!-- /.breadcrumb -->
+                <div class="inner-banner-wrap">
+                  <div class="inner-content">
+		              <h1>{{ breadcrumb_title }}</h1>
+                </div>
+                  <div class="pull-right call-to-action hidden-xs hidden-sm">
+                    <a href="#" data-toggle="modal" data-target="#rac-call"><span class="icon-phone" ></span>{{configration.mobile}}</a>
+                    <a href="#" data-toggle="modal" data-target="#rac-down"><span class="icon-mail"></span>Enroll Now</a>
+                  </div>
+                  <div class="clearfix"></div>
+                </div><!-- /.inner-banner-content -->
+
+              </div><!-- /.row -->
+            </div><!-- /.container -->
+            </div>
+          </div><!-- inner banner ends here -->
+
+          <div class="inner-overlay">
+            <img src="{% static 'images/event-main.jpg' %}" class="img-responsive">
+          </div><!-- inner overlay ends here -->
+
+          </div><!-- home banner ends here -->
+        </header><!-- header ends here -->
+      </div><!-- row ends here -->
+      <div class="mask"></div>
+    </div><!-- main banner and menu container ends here  -->
+
+    {% block section_content %}
+    {% endblock %}
+
+
+
+    <!-- Sticky Bottom -->
+    <!-- <div class="sticky-action visible-xs visible-sm"> -->
+      <!-- <a href="#" class="icon-phoneBig"></a> -->
+      <!-- <a href="#" class="icon-mailBig" data-toggle="modal" data-target="#rac"></a> -->
+    <!-- </div> -->
+    <!-- /. Sticky Bottom -->
+    <!-- Sticky Bottom -->
+     <div class="sticky-action">
+      <a href="tel:+918306996216" class="btn-lg btn-default" data-toggle="modal" data-target="#rac-call">Talk to Expert</a>
+      <a href="#" class="btn-lg btn-default" data-toggle="modal" data-target="#rac">Drop us your enquiry</a>
+    </div>    
+    <!-- /. Sticky Bottom -->
+    <div class="sticky-action-mobile">
+      <a href="tel:+918306996216" class="btn-lg btn-default" data-toggle="modal" data-target="#rac-call">Talk to Expert</a>
+    </div>
+    <!-- Sticky Bottom -->
+   
+    <!-- /. Sticky Bottom -->
+
+
+    <!-- Modal -->
+
+                                                    <!-- Modal for rac-call -->
+                                                    <div class="modal fade" id="rac-call" role="dialog">
+                                                      <div class="modal-content-call">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                        <div class="form-wrap-call">
+                                                          <form method="post" action="{% url 'contact-popup-enquiry-call' %}" id="contact_popup_form">
+                                                            {% csrf_token %}
+                                                            <ul>
+                                                              <li class="form-group">
+                                                                <input type="number" name="mobile_number" class="form-control"  placeholder="Mobile Number*" required>
+                                                              </li>
+
+                                                              <li class="form-group">
+                                                                <button type="submit" class="btn-lg btn-default">Submit</button>
+                                                              </li>
+                                                            </ul>
+                                                          </form>
+                                                        </div><!-- /. Form wrap -->
+                                                      </div>
+                                                    </div>
+                                                  </div> <!-- /. Modal for rac-call -->
+
+
+                            <!-- Modal for rac-down -->
+                            <div class="modal fade" id="rac-down" role="dialog">
+                              <div class="modal-content-call">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <div class="form-wrap-call">
+                                  <form method="post" action="{% url 'contact-popup-enquiry-down' %}" id="contact_popup_form">
+                                    {% csrf_token %}
+                                    <ul>
+                                      <li class="form-group">
+                                        <input type="email" name="email_address" class="form-control" placeholder="e.g. example@gmail.com*" required>
+                                      </li>
+
+                                      <li class="form-group">
+                                        <input type="number" name="mobile_number" class="form-control"  placeholder="Mobile Number*" required>
+                                      </li>
+
+                                      <input type="text" name="url_page_name" id="url7" value="url7" hidden>
+                                      <script type="text/javascript">
+                                          let ur7 = window.location.href;
+                                          console.log(ur7)
+                                          document.getElementById("url17").value = ur7
+                                      </script>
+
+                                      <li class="form-group">
+                                        <button type="submit" class="btn-lg btn-default">Submit</button>
+                                      </li>
+                                    </ul>
+                                  </form>
+                                </div><!-- /. Form wrap -->
+                              </div>
+                            </div>
+                          </div> <!-- /. Modal for rac-down -->
+                          <!-- Modal for rac -->
+                          <div class="modal fade" id="rac" role="dialog">
+                            <div class="modal-content-call">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <div class="form-wrap-call">
+                      	    <form method="post" action="{% url 'contact-popup-enquiry' %}" id="contact_popup_form">
+                      	      {% csrf_token %}
+                                  <ul>
+                                    <li class="form-group">
+                                       <input type="text" name="firstname" class="form-control" placeholder="Name*" required>
+                                    </li>
+
+                                    <li class="form-group">
+                                       <input type="email" name="email_address" class="form-control" placeholder="e.g. example@gmail.com*" required>
+                                    </li>
+
+                                    <li class="form-group">
+                      		      <input type="number" name="mobile_number" class="form-control"  placeholder="Mobile Number*" required>
+                                    </li>
+
+                                    <li class="form-group">
+                                       <textarea class="form-control" name="text_message" rows="3" placeholder="Type your query here*" required> </textarea>
+                                    </li>
+                      	      <!-- <li class="form-group">
+                                            <img src="/captcha?rand={{ number }}" alt="Captcha" id="captchaimg" class="img-responsive">
+                                    </li>
+                                    <li class="form-group">
+                                            <input type="text" name="captcha_code" id="captcha_code" class="form-control" placeholder="Captcha" required>
+                                    </li> -->
+                                    <!-- <li class="form-group">
+                                            <a href="javascript:void(0);" onClick="refresh_captcha();">Refresh Captcha</a>
+                                    </li> -->
+                                    <li class="form-group">
+                                       <button type="submit" class="btn-lg btn-default">Submit</button>
+                                    </li>
+                                  </ul>
+                      	    </form>
+                                </div><!-- /. Form wrap -->
+                              </div>
+                            </div>
+                          </div><!-- /. Modal for rac-->
+
+    <!-- Modal for rac-call -->
+    <div class="modal fade" id="rac-call" role="dialog">
+      <div class="modal-content-call">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div class="form-wrap-call">
+          <form method="post" action="{% url 'contact-popup-enquiry' %}" id="contact_popup_form">
+            {% csrf_token %}
+            <ul>
+              <li class="form-group">
+                <input type="text" name="firstname" class="form-control" placeholder="Name*" required>
+              </li>
+
+              <li class="form-group">
+                <input type="email" name="email_address" class="form-control" placeholder="e.g. example@gmail.com*" required>
+              </li>
+
+              <li class="form-group">
+                <input type="number" name="mobile_number" class="form-control"  placeholder="Mobile Number*" required>
+              </li>
+              <!-- {% comment %}
+              <li class="form-group">
+                <select>
+                  <option>Select Course</option>
+                  <option>Red Hat Certified Architect</option>
+                  <option>Red Hat Traning </option>
+                  <option>Apache – HTTP Server</option>
+                  <option>RH254 – Red Hat System Administration III</option>
+                </select>
+              </li>
+              {% endcomment %} -->
+              <li class="form-group">
+                <textarea class="form-control" name="text_message" rows="3" placeholder="Type your query here*" required> </textarea>
+              </li>
+
+              <li class="form-group">
+                <button type="submit" class="btn-lg btn-default">Submit</button>
+              </li>
+            </ul>
+          </form>
+        </div><!-- /. Form wrap -->
+      </div>
+    </div>
+  </div> <!-- /. Modal for rac-call -->
+
+
+  </body>
+</html>

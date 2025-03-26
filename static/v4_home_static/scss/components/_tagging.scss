@@ -1,0 +1,51 @@
+.tagging {
+    &--item {
+        border-radius: 3px;
+        border: 1px solid $border;
+        font-size: 0.625rem;
+        color: $gray-light;
+        padding: 2px 5px;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+}
+
+.yellow-tag {
+    font-size: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 2px 5px;
+    background-color: $yellow-light;
+    color: $primary;
+    border-radius: 3px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+    &:not(:last-child) {
+        margin-right: 10px;
+    }
+
+    &.max-w-90 {
+        max-width: 90%;
+    }
+}
+
+.tagging-round {
+    margin: 0 -3px;
+
+    &--item {
+        border-radius: 30px;
+        border: 1px solid rgba($border, .2);
+        background-color: $blue-light;
+        font-size: $font-size-sm;
+        color: $gray-medium;
+        padding: 3px 15px 5px 15px;
+        display: inline-block;
+        margin: 5px;
+    }
+}
+
+.tagging-sm {
+    
+}

@@ -1,0 +1,40 @@
+.arrow-on-right {
+    button {
+        &::before {
+            content: '\e915';
+            font-family: 'icomoon' !important;
+            position: absolute;
+            right: 20px;
+            transition: all .2s ease-in-out;
+            transform: rotate(270deg);
+            font-size: 10px;
+            color: $gray-light;
+        }
+
+        &.collapsed {
+            &::before {
+                transform: rotate(90deg); 
+            }
+        }
+
+        &:focus {
+            outline: 0;
+            box-shadow: none;
+        }
+    }
+}
+
+.light-blue {
+    .card {
+      background-color: $white;
+      border: 1px solid $border-light;
+      padding: 15px;
+      border-radius: 4px;
+      position: relative;
+
+      button {
+          font-weight: 600;
+      }
+    }
+  }
+  

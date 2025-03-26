@@ -1,0 +1,61 @@
+{% extends 'website/base.html' %}
+{% block title %}Anquira Login Form{% endblock %}
+{% load static %}
+{% block login %}
+<div class="content">
+    <div class="container card-login">
+        <div class="row">
+            <div class="col-5">
+                <div class="d-flex align-items-center justify-content-center h-100">
+                    <form class="form" method="post" action="{% url 'user' %}">
+                        {% csrf_token %}
+                        <div><img src="{% static 'assets/img/anquiralogo.png' %}" alt="" class="img-fluid"></div>
+
+                        <ul class="mt-5">
+                            <li class="form-group">
+                                <label>Email address</label>
+                                <input type="email" name="email" placeholder="Enter email" class="form-control">
+                            </li>
+                            <li class="form-group">
+                                <label>Password</label>
+                                <input type="password" name="password" placeholder="Password" class="form-control">
+                            </li>
+                            <!-- <li class="form-group">
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" value="" checked>
+                                        <span class="form-check-sign"></span>
+                                        Subscribe to newsletter
+                                    </label>
+                                </div>
+                            </li> -->
+
+                            <li class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <input type="hidden" name="next" value="{{ request.GET.next }}">
+                                    <button type="submit" class="btn btn-primary btn-wd">Login</button>
+                                </div>
+
+                                <!-- <div class="form-check mb-0">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" value="" checked>
+                                        <span class="form-check-sign"></span>
+                                        Remember me
+                                    </label>
+                                </div> -->
+                            </li>
+
+                            <li>
+                                
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+            <div class="col-7 pr-0">
+                <img src="{% static 'assets/img/login-image.jpg' %}" alt="" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock login %}

@@ -1,0 +1,150 @@
+{% load static %}
+<!--AI==========================================================
+	This template displays the chat room list in every page
+	that inherits in. The rooms_list variable is universal
+	as it is created by chat/context_processors.py file.
+===========================================================AI-->
+
+
+<!--AI==========================================================
+	The following div describes the Search bar to search
+	for users as well as the name of the chatroom.
+	===========================================================AI-->
+
+	
+	<div class="chatroom__leftPan--header">
+		<div class="header-wrap">
+			<h1 class="mb-0">Chats</h1>
+			<link media="all" rel="stylesheet" href="/static/v4_home_static/css/external2_chat.css" type="text/css" />
+			
+			
+			<!-- partial:index.partial.html -->
+			<select style="width: 150px;" id="selectChatFilter">
+				{% comment %} <option value="">Please Select</option> {% endcomment %}
+				<option selected>Active Batch</option>
+				<option >Completed</option>
+			</select>
+			<!-- partial -->
+
+
+			{% comment %} <button class="btn btn-link icon-wrap" data-toggle="modal" data-target="#group-chat">
+				<img src="{% static 'v4_home_static/images/add-group.svg' %}" alt="chat" class="filter-gray">
+			</button> {% endcomment %}
+		</div>
+		<!-- <div class="chatroom__leftPan--search">
+			<form class="search-form" action="{% url 'django_chatter:get_chat_url' %}" method="post">
+				<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+				<input id="searchbar" class="form-control" placeholder="Search name"></input>
+				<button type="submit" name="button" class="select-chat-button">Go</button>
+			</form>
+		</div> -->
+	</div>
+
+<!--AI==========================================================
+	The following block represents the list of chatrooms at the left
+===========================================================AI-->
+<div id= "loadchatpanal" class="chatroom-list ">
+
+
+	
+</div>
+
+<script>
+	var get_user_url = '{% url "django_chatter:users_list" %}';
+	var get_chat_url = '{% url "django_chatter:get_chat_url" %}';
+	var chatter_index = '{% url "django_chatter:index" %}';
+</script>
+<script src = "{% static 'chatter/js/searchUser.js' %}"></script>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
+
+<script>
+var stu_email = [];
+$(document).ready(function(){
+	
+	loadChatPanal()
+	function loadChatPanal() {
+		//alert("----------")
+		$.ajax({
+		type: "POST",
+		url: "/chat/loadchatpanal",
+		success: function (data) {
+			$('#loadchatpanal').html(data)
+		},
+		error: function (data) {
+			alert("Internal Server Error");
+		},
+		});
+	}
+
+
+    $('#searh-user').keyup(function(){
+        var search_string = $("#searh-user").val();
+		$("#add_student_email").empty();
+		//alert(search_string)
+		data = {'search_string':search_string}
+		$.ajax({
+			type: "GET",
+			url: 'demo',{% comment %}"{% url 'getChatSearchStudent' %}",{% endcomment %}
+			data: data,
+			success: function (data) {
+				 $('#add_student_email').html(data)
+			},
+			error: function (data) {
+				//showToast("Internal Server Error");
+			},
+		});
+    });
+
+	$('#btn').click(function() {
+        //alert(stu_email);
+		$.ajax({
+		type: "POST",
+		url: "/chats/create_room_api",
+		data: {"list":stu_email},
+		success: function (data) {
+			window.location.replace(data.url);
+		},
+		error: function (data) {
+			showToast("Internal Server Error");
+		},
+		});
+    });
+});
+</script>
+
+<script>
+	$( "#selectChatFilter" ).on("change",function(){
+		var chat_type = $(this).val()
+		 if(chat_type =="Completed" ){
+			//alert(chat_type)
+			$.ajax({
+				type: "POST",
+				data:{"batch_filter":"completed"},
+				url: "/chat/loadchatpanal",
+				success: function (data) {
+					$('#loadchatpanal').html(data)
+				},
+				error: function (data) {
+					alert("Internal Server Error");
+				},
+			});
+			//alert("end")
+		 }
+		 if(chat_type =="Active Batch" ){
+			//alert(chat_type)
+			$.ajax({
+				type: "POST",
+				url: "/chat/loadchatpanal",
+				success: function (data) {
+					$('#loadchatpanal').html(data)
+				},
+				error: function (data) {
+					alert("Internal Server Error");
+				},
+			});
+		 }
+	})
+</script>

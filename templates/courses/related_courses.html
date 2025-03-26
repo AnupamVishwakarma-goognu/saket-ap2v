@@ -1,0 +1,27 @@
+{% load static %}
+<div class="certificate">
+          
+            {% for rel_course in course_details.related_courses.all %}
+              <div class="col-sm-3">
+                <div class="white-box">
+			<a href="/{{rel_course.slug}}"><img src="/media/{{rel_course.photo}}" class="img-responsive"></a>
+                  <div class="content-box">
+                    <h2 class="mb-5"><a href="/{{rel_course.slug}}">{{ rel_course.name}}</a></h2>
+                      <div class="rating inline-block ml-0">
+                        <sup class="fill-star"></sup><strong>{{rel_course.rating}}</strong>/5
+                      </div> | {{  rel_course.category_name.all|join:" &bull; " }}
+                      <div class="tag-wrap">
+                      {% for tag in rel_course.tags.all %}
+                        <span>{{ tag.name}}</span>
+                      {% endfor %}
+                        
+                      </div><!-- /.tag wrap -->
+		      {% comment %}
+                      <p class="mb-0 price"><strong>Rs. {{rel_course.price}}</strong><span>Rs.15000/-</span></p>
+		      {% endcomment %}
+                  </div><!-- /.Content box -->
+                </div><!-- /. White box -->
+              </div><!-- /.Col -->
+            {% endfor %}
+          
+</div>

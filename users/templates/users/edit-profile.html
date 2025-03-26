@@ -1,0 +1,107 @@
+{% extends "website/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="wrapper">
+        {% include 'website/sidebar.html' %}
+        {% include 'website/header.html' %}
+        <div class="main-panel">
+            <!-- Navbar -->
+            
+
+            <!-- End Navbar -->
+            
+            <div class="content" style="margin:0; padding:0px">
+              <div class="container-fluid">
+                  <div class="section-image" data-image="{% static 'assets/img/bg5.jpg' %}" >
+                      <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
+                      <div class="container">
+                          <div class="row mt-4">
+                              <div class="col-md-12 col-sm-12">
+                                  <form class="form" method="post" >
+                                      {% csrf_token %}
+                                      <div class="card ">
+                                          <div class="card-header my-2">
+                                                <h4 class="card-title">Edit Profile</h4>
+                                                <h6 class="">{{user.email}}</h6>
+                                                {%if profile_message%}
+                                                {%if status%}
+                                                <span class="text-success">{{profile_message}}</span>
+                                                {%else%}
+                                                <span class="text-danger">{{profile_message}}</span>
+                                                {%endif%}
+                                                {%endif%}
+
+                                              </div>
+                                          <div class="card-body">
+                                              <div class="row">
+                                                <div class="col-md-6 pr-2 mt-3">
+                                                  <label>Full Name</label>
+                                                  <input type="text" name="name" class="form-control" placeholder="Name" value="{{user.name}}">
+                                                </div>
+                                                <div class="col-md-6 pr-2 mt-3">
+                                                  <label>Mobile</label>
+                                                  <input type="text" name="mobile" class="form-control" placeholder="Mobile" value="{{user.mobile}}">
+                                                </div>
+                                              </div>
+
+                                          <button type="submit" id="sbtbtn" class="btn btn-primary mt-5 float-right w3-button w3-black" >Save</button>
+                                          </div>
+                                      </div>
+                                  </form>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+                <div class="container-fluid">
+                    <div class="section-image" data-image="{% static 'assets/img/bg5.jpg' %}" >
+                        <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
+                        <div class="container">
+                            <div class="row mt-4">
+                                <div class="col-md-12 col-sm-12">
+                                    <form class="form" method="post" >
+                                        {% csrf_token %}
+                                        <div class="card ">
+                                            <div class="card-header my-2">
+                                                  <h4 class="card-title">Change Password</h4>
+                                                  {%if message%}
+                                                  {%if status%}
+                                                  <span class="text-success">{{message}}</span>
+                                                  {%else%}
+                                                  <span class="text-danger">{{message}}</span>
+                                                  {%endif%}
+                                                  {%endif%}
+
+                                                </div>
+                                            <div class="card-body">
+                                              <div class="row">
+                                                <div class="col-md-6 pr-2 mt-3">
+                                                  <label>Existing Password</label>
+                                                  <input type="password" name="existing_password" class="form-control" placeholder="Existing Password" required>
+                                                </div>
+                                              </div>
+                                                <div class="row">
+                                                  <div class="col-md-6 pr-2 mt-3">
+                                                    <label>New Password</label>
+                                                    <input type="password" minlength="6" name="new_password" class="form-control" placeholder="New Password" required>
+                                                  </div>
+                                                  <div class="col-md-6 pr-2 mt-3">
+                                                    <label>Reconfirm New Password</label>
+                                                    <input type="text" minlength="6" name="new_password2" class="form-control" placeholder="Confirm New Password" required>
+                                                  </div>
+                                                </div>
+
+                                            <button type="submit" id="sbtbtn" class="btn btn-primary mt-5 float-right w3-button w3-black" >Save</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         {% include 'website/footer.html' %}
+        </div>
+    </div>
+{% endblock content %}

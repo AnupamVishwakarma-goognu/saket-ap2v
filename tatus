@@ -1,0 +1,468 @@
+[1mdiff --git a/static/v4_home_static/css/interview_question_details.css b/static/v4_home_static/css/interview_question_details.css[m
+[1mdeleted file mode 100644[m
+[1mindex e69de29b..00000000[m
+[1mdiff --git a/static/v4_home_static/css/interview_question_details_css.css b/static/v4_home_static/css/interview_question_details_css.css[m
+[1mindex b1f731ae..20fb6556 100644[m
+[1m--- a/static/v4_home_static/css/interview_question_details_css.css[m
+[1m+++ b/static/v4_home_static/css/interview_question_details_css.css[m
+[36m@@ -93,14 +93,12 @@[m
+ [m
+ .panel-body p {[m
+     margin-bottom: 15px;[m
+[31m-    font-family: 'Radio Canada', sans-serif;[m
+[31m-     letter-spacing: .5px;[m
+[32m+[m[32m      letter-spacing: .5px;[m
+     line-height: 20px;[m
+     color: black;[m
+ }[m
+ .discrription p {[m
+[31m-    font-family: 'Radio Canada', sans-serif;[m
+[31m-     letter-spacing: .5px;[m
+[32m+[m[32m      letter-spacing: .5px;[m
+     line-height: 20px;[m
+     color: black;[m
+ }[m
+[36m@@ -189,8 +187,7 @@[m [mbutton.content-discription {[m
+     background-color: #e9234730;[m
+     border: 1px solid #e92347;[m
+     border-radius: 7px;[m
+[31m-    font-family: 'Radio Canada', sans-serif;[m
+[31m-    font-weight: 500;[m
+[32m+[m[32m     font-weight: 500;[m
+     letter-spacing: .5px;[m
+     line-height: 20px;[m
+     color: black;[m
+[1mdiff --git a/templates/blogs/interview_question_details.html b/templates/blogs/interview_question_details.html[m
+[1mindex 56c44b41..b2d624c9 100644[m
+[1m--- a/templates/blogs/interview_question_details.html[m
+[1m+++ b/templates/blogs/interview_question_details.html[m
+[36m@@ -12,9 +12,7 @@[m
+ {% endcompress css %}[m
+ {% comment %}[m
+ <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/blog.css' %}" type="text/css" /> {% endcomment %}[m
+[31m-<link rel="preconnect" href="https://fonts.googleapis.com">[m
+[31m-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>[m
+[31m-<link href="https://fonts.googleapis.com/css2?family=Radio+Canada:wght@500&display=swap" rel="stylesheet">[m
+[32m+[m[41m [m
+ <script type="application/ld+json">[m
+         {[m
+         "@context": "https://schema.org",[m
+[1mdiff --git a/templates/blogs/interview_question_listing.html b/templates/blogs/interview_question_listing.html[m
+[1mindex 4aca3862..1788b595 100644[m
+[1m--- a/templates/blogs/interview_question_listing.html[m
+[1m+++ b/templates/blogs/interview_question_listing.html[m
+[36m@@ -6,12 +6,14 @@[m
+ {% block title %} AP2V {% endblock %}[m
+ [m
+ {% block css %}[m
+[31m-    {% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/blog.css' %}" type="text/css" /> {% endcomment %}[m
+[31m-    {% compress css %}[m
+[31m-        <link media="all" rel="stylesheet" href="/static/v4_home_static/css/blog.css" type="text/css" />[m
+[31m-    {% endcompress css %}[m
+[32m+[m[32m{% comment %}[m
+[32m+[m[32m<link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/blog.css' %}" type="text/css" /> {% endcomment %}[m
+[32m+[m[32m{% compress css %}[m
+[32m+[m[32m<link media="all" rel="stylesheet" href="/static/v4_home_static/css/blog.css" type="text/css" />[m
+[32m+[m[32m<link media="all" rel="stylesheet" href="/static/v4_home_static/css/interview_question.css" type="text/css" />[m
+[32m+[m[32m{% endcompress css %}[m
+ [m
+[31m-    <script type="application/ld+json">[m
+[32m+[m[32m<script type="application/ld+json">[m
+         {[m
+         "@context": "https://schema.org",[m
+         "@type": "BreadcrumbList",[m
+[36m@@ -33,44 +35,363 @@[m
+             }][m
+         }[m
+     </script>[m
+[31m-    <style>[m
+[31m-        #jkj ol {[m
+[31m-            list-style-type: auto; [m
+[31m-            padding-left: 40px;[m
+[31m-        }[m
+[32m+[m[32m<style>[m
+[32m+[m[32m    #jkj ol {[m
+[32m+[m[32m        list-style-type: auto;[m
+[32m+[m[32m        padding-left: 40px;[m
+[32m+[m[32m    }[m
+ [m
+[31m-        #jkj ul {[m
+[31m-            list-style-type: auto; [m
+[31m-            padding-left: 40px;[m
+[31m-        }[m
+[31m-    </style>[m
+[32m+[m[32m    #jkj ul {[m
+[32m+[m[32m        list-style-type: auto;[m
+[32m+[m[32m        padding-left: 40px;[m
+[32m+[m[32m    }[m
+[32m+[m[32m</style>[m
+ {% endblock css %}[m
+ [m
+ {% block content %}[m
+[31m-    <div class="main-wrap">[m
+[31m-        <!-- push-down -->[m
+[31m-        {% include 'v4_home/sub_pages/push-down.html' %}[m
+[32m+[m[32m<div class="main-wrap">[m
+[32m+[m[32m    <!-- push-down -->[m
+[32m+[m[32m    {% include 'v4_home/sub_pages/push-down.html' %}[m
+[32m+[m
+[32m+[m[32m    <!-- navigation -->[m
+[32m+[m[32m    {% include 'v4_home/sub_pages/navigation.html' %}[m
+[32m+[m
+[32m+[m
+[32m+[m
+[32m+[m
+[32m+[m[32m    <!-- **************************************** Details *******************************-->[m
+[32m+[m[32m    <div class="main-part-question">[m
+[32m+[m[32m        <div class="interview-inspection">[m
+[32m+[m[32m            <img src="/static/v4_home_static/images/interview-banner1.png" alt="" class="corner-img">[m
+[32m+[m[32m            <div class="interview-heading">[m
+[32m+[m[32m                <h2>Interview Question</h2>[m
+[32m+[m[32m                <h1>Interview Questionlor sit amet.</h1>[m
+[32m+[m[32m                <p>Interview Questiont amet consectetur adipisicing elit. Dolorem commodi illo minus voluptas quas.[m
+[32m+[m[32m                    Inventore!</p>[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m            <div class="top-interview-question">[m
+[32m+[m
+[32m+[m[32m            </div>[m
+[32m+[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <section class="container">[m
+[32m+[m[32m            <h2 class="align-items-start">Top Interview Questions</h2>[m
+[32m+[m[32m            <div class="mycards">[m
+[32m+[m[32m                <a href="">[m
+[32m+[m[32m                    <div class="flip-card">[m
+[32m+[m[32m                        <div class="flip-card-inner">[m
+[32m+[m[32m                            <div class="flip-card-front">[m
+[32m+[m[32m                                <h2>CSS</h2>[m
+[32m+[m[32m                                <p>ANode js Interview Questions</p>[m
+[32m+[m[32m                                <span>We love that guy</span>[m
+[32m+[m[32m                            </div>[m
+[32m+[m[41m                [m
+[32m+[m[32m                <div class="flip-card-back">[m
+[32m+[m[32m                    <h5><i>Key Points</i></h5>[m
+[32m+[m[32m                    <ul>[m
+[32m+[m[32m                        <li>4.7 Rating</li>[m
+[32m+[m[32m                        <li>20 Question(s)</li>[m
+[32m+[m[32m                        <li> 23 Mins of Read</li>[m
+[32m+[m[32m                        <li> 6614 Reader(s)</li>[m
+[32m+[m[32m                    </ul>[m
+[32m+[m[32m                    <button>Read More</button>[m
+[32m+[m[32m                </div>[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m    </div>[m
+[32m+[m[32m    </a><a href="">[m
+[32m+[m[32m        <div class="flip-card">[m
+[32m+[m[32m            <div class="flip-card-inner">[m
+[32m+[m[32m                <div class="flip-card-front">[m
+[32m+[m[32m                    <h2>HTML</h2>[m
+[32m+[m[32m                    <p>Node js Interview Questions</p>[m
+[32m+[m[32m                    <span>We love that guy</span>[m
+[32m+[m[32m                </div>[m
+[32m+[m[32m                <div class="flip-card-back">[m
+[32m+[m[32m                    <h5><i>Key Points</i></h5>[m
+[32m+[m[32m                    <ul>[m
+[32m+[m[32m                        <li>4.7 Rating</li>[m
+[32m+[m[32m                        <li>20 Question(s)</li>[m
+[32m+[m[32m                        <li> 23 Mins of Read</li>[m
+[32m+[m[32m                        <li> 6614 Reader(s)</li>[m
+[32m+[m[32m                    </ul>[m
+[32m+[m[32m                    <button>Read More</button>[m
+[32m+[m[32m                </div>[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m    </a><a href="">[m
+[32m+[m[32m        <div class="flip-card">[m
+[32m+[m[32m            <div class="flip-card-inner">[m
+[32m+[m[32m                <div class="flip-card-front">[m
+[32m+[m[32m                    <h2>  Java Script</h2>[m
+[32m+[m[32m                    <p>Express Interview Questions</p>[m
+[32m+[m[32m                    <span>We love that guy</span>[m
+[32m+[m[32m                </div>[m
+[32m+[m[32m                 <div class="flip-card-back">[m
+[32m+[m[32m                    <h5><i>Key Points</i></h5>[m
+[32m+[m[32m                    <ul>[m
+[32m+[m[32m                        <li>4.7 Rating</li>[m
+[32m+[m[32m                        <li>20 Question(s)</li>[m
+[32m+[m[32m                        <li> 23 Mins of Read</li>[m
+[32m+[m[32m                        <li> 6614 Reader(s)</li>[m
+[32m+[m[32m                    </ul>[m
+[32m+[m[32m                    <button>Read More</button>[m
+[32m+[m[32m                </div>[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m    </a><a href="">[m
+[32m+[m[32m        <div class="flip-card">[m
+[32m+[m[32m            <div class="flip-card-inner">[m
+[32m+[m[32m                <div class="flip-card-front">[m
+[32m+[m[32m                    <h2>  Django</h2>[m
+[32m+[m[32m                    <p>Express Interview Questions</p>[m
+[32m+[m[32m                    <span>We love that guy</span>[m
+[32m+[m[32m                </div>[m
+[32m+[m[32m                 <div class="flip-card-back">[m
+[32m+[m[32m                    <h5><i>Key Points</i></h5>[m
+[32m+[m[32m                    <ul>[m
+[32m+[m[32m                        <li>4.7 Rating</li>[m
+[32m+[m[32m                        <li>20 Question(s)</li>[m
+[32m+[m[32m                        <li> 23 Mins of Read</li>[m
+[32m+[m[32m                        <li> 6614 Reader(s)</li>[m
+[32m+[m[32m                    </ul>[m
+[32m+[m[32m                    <button>Read More</button>[m
+[32m+[m[32m                </div>[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m    </a><a href="">[m
+[32m+[m[32m        <div class="flip-card">[m
+[32m+[m[32m            <div class="flip-card-inner">[m
+[32m+[m[32m                <div class="flip-card-front">[m
+[32m+[m[32m                    <h2>  Angular</h2>[m
+[32m+[m[32m                    <p>Node js Interview Questions</p>[m
+[32m+[m[32m                    <span>We love that guy</span>[m
+[32m+[m[32m                </div>[m
+[32m+[m[32m                 <div class="flip-card-back">[m
+[32m+[m[32m                    <h5><i>Key Points</i></h5>[m
+[32m+[m[32m                    <ul>[m
+[32m+[m[32m                        <li>4.7 Rating</li>[m
+[32m+[m[32m                        <li>20 Question(s)</li>[m
+[32m+[m[32m                        <li> 23 Mins of Read</li>[m
+[32m+[m[32m                        <li> 6614 Reader(s)</li>[m
+[32m+[m[32m                    </ul>[m
+[32m+[m[32m                    <button>Read More</button>[m
+[32m+[m[32m                </div>[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m    </a><a href="">[m
+[32m+[m[32m        <div class="flip-card">[m
+[32m+[m[32m            <div class="flip-card-inner">[m
+[32m+[m[32m                <div class="flip-card-front">[m
+[32m+[m[32m                    <h2>  React Js</h2>[m
+[32m+[m[32m                    <p>Node js Interview Questions</p>[m
+[32m+[m[32m                    <span>We love that guy</span>[m
+[32m+[m[32m                </div>[m
+[32m+[m[32m                 <div class="flip-card-back">[m
+[32m+[m[32m                    <h5><i>Key Points</i></h5>[m
+[32m+[m[32m                    <ul>[m
+[32m+[m[32m                        <li>4.7 Rating</li>[m
+[32m+[m[32m                        <li>20 Question(s)</li>[m
+[32m+[m[32m                        <li> 23 Mins of Read</li>[m
+[32m+[m[32m                        <li> 6614 Reader(s)</li>[m
+[32m+[m[32m                    </ul>[m
+[32m+[m[32m                    <button>Read More</button>[m
+[32m+[m[32m                </div>[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m    </a>[m
+[32m+[m[32m</div>[m
+ [m
+[31m-        <!-- navigation -->[m
+[31m-        {% include 'v4_home/sub_pages/navigation.html' %}[m
+ [m
+[31m-        [m
+[32m+[m[32m</section>[m
+[32m+[m[32m<section class="container">[m
+[32m+[m[32m    <h2 class="align-items-start">Related Categories</h2>[m
+[32m+[m[32m    <div class="catog">[m
+[32m+[m[32m        <div class="catog-box">[m
+[32m+[m[32m            <h3>Lorem ipsum dolor sit.</h3>[m
+[32m+[m[32m            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, dolore?</p>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <div class="catog-box">[m
+[32m+[m[32m            <h3>Lorem ipsum dolor sit.</h3>[m
+[32m+[m[32m            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, dolore?</p>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <div class="catog-box">[m
+[32m+[m[32m            <h3>Lorem ipsum dolor sit.</h3>[m
+[32m+[m[32m            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, dolore?</p>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <div class="catog-box">[m
+[32m+[m[32m            <h3>Lorem ipsum dolor sit.</h3>[m
+[32m+[m[32m            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, dolore?</p>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <div class="catog-box">[m
+[32m+[m[32m            <h3>Lorem ipsum dolor sit.</h3>[m
+[32m+[m[32m            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, dolore?</p>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <div class="catog-box">[m
+[32m+[m[32m            <h3>Lorem ipsum dolor sit.</h3>[m
+[32m+[m[32m            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, dolore?</p>[m
+[32m+[m[32m        </div>[m
+ [m
+[32m+[m[32m    </div>[m
+[32m+[m[32m</section>[m
+[32m+[m[32m<section class="container">[m
+[32m+[m[32m    <h2 class="align-items-start">Interview Questions</h2>[m
+ [m
+[31m-        <!-- **************************************** Details *******************************-->[m
+[31m-        sfmlsdmfv[m
+[31m-        dv;ldxv[m
+[31m-        dbdflgb[m
+[31m-        dbdflgbdfgb[m
+[31m-        df[m
+[32m+[m[32m</section>[m
+[32m+[m[32m<div class="container coschum">[m
+[32m+[m[32m    <div class="row">[m
+[32m+[m[32m        <div class="col-md-4 col-sm-4">[m
+[32m+[m[32m            <h2 class="section-heading">Web Development</h2>[m
+[32m+[m[32m            <div class="courses">[m
+[32m+[m[32m                <a href="#" class="courses-content"> <span> Top Web Developer Interview Questions Interview[m
+[32m+[m[32m                        Questions[m
+[32m+[m[32m                        And Answers</span> </a>[m
+[32m+[m[32m                <a href="#" class="courses-content"> <span> Top Python Flask Interview Questions and Answers[m
+[32m+[m[32m                        Interview[m
+[32m+[m[32m                        Questions And Answers</span> </a>[m
+[32m+[m[32m                <a href="#" class="courses-content"> <span> Top Vue.js Interview Questions Interview Questions[m
+[32m+[m[32m                        And Answers</span> </a>[m
+[32m+[m[32m                <a href="https://www.knowledgehut.com/interview-questions/perl" class="courses-content"> <span>[m
+[32m+[m[32m                        Top Perl Interview Questions Interview Questions And Answers</span> </a>[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <div class="col-md-4 col-sm-4">[m
+[32m+[m[32m            <h2 class="section-heading">Web Development</h2>[m
+[32m+[m[32m            <div class="courses">[m
+[32m+[m[32m                <a href="#" class="courses-content"> <span> Top Web Developer Interview Questions Interview[m
+[32m+[m[32m                        Questions[m
+[32m+[m[32m                        And Answers</span> </a>[m
+[32m+[m[32m                <a href="#" class="courses-content"> <span> Top Python Flask Interview Questions and Answers[m
+[32m+[m[32m                        Interview[m
+[32m+[m[32m                        Questions And Answers</span> </a>[m
+[32m+[m[32m                <a href="#" class="courses-content"> <span> Top Vue.js Interview Questions Interview Questions[m
+[32m+[m[32m                        And Answers</span> </a>[m
+[32m+[m[32m                <a href="https://www.knowledgehut.com/interview-questions/perl" class="courses-content"> <span>[m
+[32m+[m[32m                        Top Perl Interview Questions Interview Questions And Answers</span> </a>[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <div class="col-md-4 col-sm-4">[m
+[32m+[m[32m            <h2 class="section-heading">Web Development</h2>[m
+[32m+[m[32m            <div class="courses">[m
+[32m+[m[32m                <a href="#" class="courses-content"> <span> Top Web Developer Interview Questions Interview[m
+[32m+[m[32m                        Questions[m
+[32m+[m[32m                        And Answers</span> </a>[m
+[32m+[m[32m                <a href="#" class="courses-content"> <span> Top Python Flask Interview Questions and Answers[m
+[32m+[m[32m                        Interview[m
+[32m+[m[32m                        Questions And Answers</span> </a>[m
+[32m+[m[32m                <a href="#" class="courses-content"> <span> Top Vue.js Interview Questions Interview Questions[m
+[32m+[m[32m                        And Answers</span> </a>[m
+[32m+[m[32m                <a href="https://www.knowledgehut.com/interview-questions/perl" class="courses-content"> <span>[m
+[32m+[m[32m                        Top Perl Interview Questions Interview Questions And Answers</span> </a>[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <div class="col-md-4 col-sm-4">[m
+[32m+[m[32m            <h2 class="section-heading">Web Development</h2>[m
+[32m+[m[32m            <div class="courses">[m
+[32m+[m[32m                <a href="#" class="courses-content"> <span> Top Web Developer Interview Questions Interview[m
+[32m+[m[32m                        Questions[m
+[32m+[m[32m                        And Answers</span> </a>[m
+[32m+[m[32m                <a href="#" class="courses-content"> <span> Top Python Flask Interview Questions and Answers[m
+[32m+[m[32m                        Interview[m
+[32m+[m[32m                        Questions And Answers</span> </a>[m
+[32m+[m[32m                <a href="#" class="courses-content"> <span> Top Vue.js Interview Questions Interview Questions[m
+[32m+[m[32m                        And Answers</span> </a>[m
+[32m+[m[32m                <a href="https://www.knowledgehut.com/interview-questions/perl" class="courses-content"> <span>[m
+[32m+[m[32m                        Top Perl Interview Questions Interview Questions And Answers</span> </a>[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <div class="col-md-4 col-sm-4">[m
+[32m+[m[32m            <h2 class="section-heading">Web Development</h2>[m
+[32m+[m[32m            <div class="courses">[m
+[32m+[m[32m                <a href="#" class="courses-content"> <span> Top Web Developer Interview Questions Interview[m
+[32m+[m[32m                        Questions[m
+[32m+[m[32m                        And Answers</span> </a>[m
+[32m+[m[32m                <a href="#" class="courses-content"> <span> Top Python Flask Interview Questions and Answers[m
+[32m+[m[32m                        Interview[m
+[32m+[m[32m                        Questions And Answers</span> </a>[m
+[32m+[m[32m                <a href="#" class="courses-content"> <span> Top Vue.js Interview Questions Interview Questions[m
+[32m+[m[32m                        And Answers</span> </a>[m
+[32m+[m[32m                <a href="https://www.knowledgehut.com/interview-questions/perl" class="courses-content"> <span>[m
+[32m+[m[32m                        Top Perl Interview Questions Interview Questions And Answers</span> </a>[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <div class="col-md-4 col-sm-4">[m
+[32m+[m[32m            <h2 class="section-heading">IT Service Management</h2>[m
+[32m+[m[32m            <div class="courses"> <a href="#" class="courses-content"> <span> Top ITIL (Role Based) Interview[m
+[32m+[m[32m                        Questions And Answers</span>[m
+[32m+[m[32m                </a> </div>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <div class="col-md-4 col-sm-4">[m
+[32m+[m[32m            <h2 class="section-heading">Cloud Computing</h2>[m
+[32m+[m[32m            <div class="courses"> <a href="#" class="courses-content"> <span> Top Cloud Computing Interview[m
+[32m+[m[32m                        Questions And Answers</span>[m
+[32m+[m[32m                </a> </div>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <div class="col-md-4 col-sm-4">[m
+[32m+[m[32m            <h2 class="section-heading">Big Data</h2>[m
+[32m+[m[32m            <div class="courses"> <a href="#" class="courses-content"> <span> Top Big Data Interview Questions[m
+[32m+[m[32m                        And Answers</span> </a> <a href="#" class="courses-content">[m
+[32m+[m[32m                    <span> Top Hadoop Interview Questions And Answers</span> </a> <a href="#" class="courses-content">[m
+[32m+[m[32m                    <span> Top Spark Interview Questions And Answers</span> </a> <a href="#" class="courses-content">[m
+[32m+[m[32m                    <span> Top Kafka Interview Questions And Answers</span> </a> <a href="#" class="courses-content">[m
+[32m+[m[32m                    <span> Top MongoDB Interview Questions And Answers</span> </a> </div>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <div class="col-md-4 col-sm-4">[m
+[32m+[m[32m            <h2 class="section-heading">Big Data</h2>[m
+[32m+[m[32m            <div class="courses"> <a href="#" class="courses-content"> <span> Top Big Data Interview Questions[m
+[32m+[m[32m                        And Answers</span> </a> <a href="#" class="courses-content">[m
+[32m+[m[32m                    <span> Top Hadoop Interview Questions And Answers</span> </a> <a href="#" class="courses-content">[m
+[32m+[m[32m                    <span> Top Spark Interview Questions And Answers</span> </a> <a href="#" class="courses-content">[m
+[32m+[m[32m                    <span> Top Kafka Interview Questions And Answers</span> </a> <a href="#" class="courses-content">[m
+[32m+[m[32m                    <span> Top MongoDB Interview Questions And Answers</span> </a> </div>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <div class="col-md-4 col-sm-4">[m
+[32m+[m[32m            <h2 class="section-heading">Big Data</h2>[m
+[32m+[m[32m            <div class="courses"> <a href="#" class="courses-content"> <span> Top Big Data Interview Questions[m
+[32m+[m[32m                        And Answers</span> </a> <a href="#" class="courses-content">[m
+[32m+[m[32m                    <span> Top Hadoop Interview Questions And Answers</span> </a> <a href="#" class="courses-content">[m
+[32m+[m[32m                    <span> Top Spark Interview Questions And Answers</span> </a> <a href="#" class="courses-content">[m
+[32m+[m[32m                    <span> Top Kafka Interview Questions And Answers</span> </a> <a href="#" class="courses-content">[m
+[32m+[m[32m                    <span> Top MongoDB Interview Questions And Answers</span> </a> </div>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <div class="col-md-4 col-sm-4">[m
+[32m+[m[32m            <h2 class="section-heading">BI and Visualization</h2>[m
+[32m+[m[32m            <div class="courses"> <a href="#" class="courses-content"> <span> Top Power BI Interview Questions[m
+[32m+[m[32m                        And Answers</span> </a> <a href="#" class="courses-content"> <span> Top Data[m
+[32m+[m[32m                        Visualization in R Interview Questions And[m
+[32m+[m[32m                        Answers</span> </a> <a href="#" class="courses-content"> <span> Top Tableau Interview[m
+[32m+[m[32m                        Questions And Answers</span> </a>[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <div class="col-md-4 col-sm-4">[m
+[32m+[m[32m            <h2 class="section-heading">Database</h2>[m
+[32m+[m[32m            <div class="courses"> <a href="#" class="courses-content"> <span> Top SQL Server Interview Questions[m
+[32m+[m[32m                        And Answers</span> </a>[m
+[32m+[m[32m                <a href="#" class="courses-content">[m
+[32m+[m[32m                    <span> Top PL/SQL Interview Questions And Answers</span> </a> <a href="#" class="courses-content">[m
+[32m+[m[32m                    <span> Top MySQL Interview Questions And Answers</span> </a> <a href="#" class="courses-content">[m
+[32m+[m[32m                    <span>[m
+[32m+[m[32m                        Top DB2 Interview Questions And Answers</span> </a>[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <div class="col-md-4 col-sm-4">[m
+[32m+[m[32m            <h2 class="section-heading">Software Testing</h2>[m
+[32m+[m[32m            <div class="courses"> <a href="#" class="courses-content"> <span> Top Selenium Interview Questions[m
+[32m+[m[32m                        And Answers</span> </a>[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <div class="col-md-4 col-sm-4">[m
+[32m+[m[32m            <h2 class="section-heading">Business Management</h2>[m
+[32m+[m[32m            <div class="courses"> <a href="#" class="courses-content"> <span> Top SAS Interview Questions And[m
+[32m+[m[32m                        Answers</span> </a> </div>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m    </div>[m
+[32m+[m[32m</div>[m
+[32m+[m[32m</div>[m
+ [m
+[31m-        <br>[m
+[31m-        <br>[m
+[31m-        <a href="/interview-questions/what-are-the-prerequisites-for-devops-training"> **Interview question Details page** </a> [m
+[32m+[m[32m<!-- **************************************** Details *******************************-->[m
+ [m
+[31m-        <br>[m
+ [m
+[31m-        {% for i in question_answer_title_obj %}[m
+[31m-            <a href="/interview-questions/{{i.slug}}"> {{i.title}} </a> <br>[m
+[31m-        {% endfor %}[m
+[31m-{% endblock content %}[m
+[32m+[m[32m{% for i in question_answer_title_obj %}[m
+[32m+[m[32m<a href="/interview-questions/{{i.slug}}"> {{i.title}} </a> <br>[m
+[32m+[m[32m{% endfor %}[m
+[32m+[m[32m{% endblock content %}[m
+\ No newline at end of file[m

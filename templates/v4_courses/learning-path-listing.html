@@ -1,0 +1,291 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+{% load compress %}
+{% block title %} AP2V {% endblock %}
+{% load custom_tags %}
+
+{% block css %}
+    {% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/listing.css' %}" type="text/css" /> {% endcomment %}
+    {% compress css %}
+        <link media="all" rel="stylesheet" href="/static/v4_home_static/css/listing.css" type="text/css" />
+    {% endcompress %}
+
+    {% comment %} <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.ap2v.com/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Learning Paths",
+            "item": "https://www.ap2v.com/learning-path/"
+        }]
+        }
+    </script> {% endcomment %}
+
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{% for i in breadcrumb %}{
+            "@type": "ListItem",
+            "position": {{ forloop.counter }},
+            "name": "{{i.name}}",
+            "item": "https://www.ap2v.com{{i.path}}"
+            }{% if not forloop.last %},{% endif %}
+        {% endfor %}]
+        }
+    </script>
+{% endblock css %}
+
+{% block content %}
+
+    <div class="main-wrap">
+    {% include 'v4_home/sub_pages/push-down.html' %}
+    {% include 'v4_home/sub_pages/navigation.html' %}
+
+        <!-- Banner -->
+        <div class="banner-inner">
+            <div class="container">
+                <div class="row banner-inner--content flex-column">
+                    {% include 'v4/breadcrumb.html' %}<!-- // breadcrumb -->
+                    <div class="d-flex">
+                        <div class="banner-inner--left-pan d-flex flex-column justify-content-center">
+                            <h1 class="text-secondary">IT Courses Online {% if city_lp %}in {{city_lp}} {% endif %}</h1>
+                           
+                            {% comment %} <p class="font-weight-bold mb-1">Maecenas interdum dolor in felis porta, posuere</p> {% endcomment %}
+                            <p>Industry experts teach you the knowledge and skills to start your career.Find your path. Start your journey.</p>
+                        </div>
+
+                        <div class="banner-inner--right-pan d-none d-xl-block">
+                            <img src="{% static 'v4_home_static/images/listing/listing-banner.png' %}" alt="banner_image" loading="lazy">
+                        </div>
+                    </div><!-- slick-slide d-flex-->
+                </div><!-- // row -->
+            </div>
+        </div><!-- // Banner -->
+
+
+        <div class="bg-white shadow-sm py-2 filter d-none d-md-block">
+            <div class="container d-flex justify-content-between align-items-center">
+
+                <ul class="filter__list">
+                    <li><strong>Filter Paths by::</strong></li>
+                    <li class="filter--applied">
+                        <select class="form-control">
+                            <option>Functional area</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </li>
+                    <li>
+                        <select class="form-control">
+                            <option>By Price</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </li>
+                    <li class="filter--applied">
+                        <select class="form-control">
+                            <option>Study mode</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </li>
+
+                </ul>
+                <a href="#" class="font-weight-bold">Reset Filter</a>
+            </div>
+        </div><!-- // Secondary Menu -->
+
+        <div class="container">
+            <div class="applied-filter mt-3 d-none d-md-block">
+                <div class="d-flex align-items-center">
+                    <ul class="applied-filter__lists mb-0">
+                        <li><span class="applied-filter--wrap">Human recourses <span class="icon-close text-grey-light ml-1"></span></span></li>
+                        <li><span class="applied-filter--wrap">5000 - 50,0000 <span class="icon-close text-grey-light ml-1"></span></span></li>
+
+                        <li><span class="applied-filter--wrap">Classroom <span class="icon-close text-grey-light ml-1"></span></span></li>
+                    </ul>
+                    <a href="#" class="font-italic">Clear Filter</a>
+                </div>
+            </div><!-- // applied-filter -->
+
+            <div class="listing mt-0 mt-md-5">
+                <div class="listing__leftPanel">
+                    <ul>
+
+                    {% for i in listing_path_queryset %}
+                        <li class="listing__box ">
+                            <span class="listing__box--img bg">
+
+                                {% if city_lp %}
+                                    <img src="/media/{{i.parent_learning_path.small_svg_image_for_home}}" alt="{{i.heading}}" loading="lazy">
+                                {% else %}
+                                    <img src="/media/{{i.small_svg_image_for_home}}" alt="{{i.heading}}" loading="lazy">
+                                {% endif %}
+                            </span>
+
+                            <div class="listing__box__content flex-fill pl-0 pl-md-4">
+                                <div class="d-flex align-items-center justify-content-between w-100 mb-1">
+                                    <div class="d-flex align-items-center">
+                                        <h2 class="mb-0"><a href="/learning-path/{{i.slug}}">{{i.heading}}</a></h2>
+                                        <span class="yellow-tag ml-2">Development</span>
+                                    </div>
+                                    <a href="#" class="learning-path-highlighter font-weight-bold d-none d-md-block"><i class="icon-learning-path"></i> </a>
+                                </div>
+
+                                <div class="listing__box__content__price my-2">
+                                    <strong class="realPrice">&#x20B9;17,995</strong>
+                                    <span class="px-2 text-gray-light">&#x20B9;19,995</span>
+                                    <span class="noCourses">No. of courses: 05</span>
+                                </div>
+                                <p class="font-size-xs mb-0">{{i.description | safe |striptags|truncatechars:"250"  }} <a href="/learning-path/{{i.slug}}" class="know-more">View Learning path</a></p>
+                                <div class="tagging mt-2">
+                                    <span class="tagging--item">DEVELOPMENT</span>
+                                    {% comment %} <span class="tagging--item">Python</span> {% endcomment %}
+                                    <span class="tagging--item">LANGUAGE</span>
+                                </div>
+                            </div>
+                        </li><!-- // Product Box -->
+                    {% endfor %}
+                    </ul>
+                    <!-- <div class="text-center mt-4">
+                        <a href="#" class="btn btn-sm  btn-outline-secondary rounded-60 pl-2 pr-4 py-0"> <img src={% static "v4_home_static/images/spinner-40.svg " %} alt="lerningpath"> Load more</a>
+                    </div> -->
+                </div>
+
+
+                <div class="listing__rightPanel d-none d-md-block">
+                    <div id="sidebar" style="position: sticky;">
+
+                        {% include 'v4_home/sub_pages/call-us.html' %}
+                        {% include 'v4_home/sub_pages/request-form.html' %}
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- // container -->
+
+
+        <section class="container">
+            <h2 class="align-items-start">Trending Learning Paths</h2>
+            <div class="owl-carousel copysame" id="carosule33">
+                {% for i in trending_learning_path %}
+                    <div class="tc-list" style="position: relative;">
+                        <a href="/learning-path/{{i.slug}}"> 
+                            <div class="course-trend">
+                                {% get_dyna_color i.slug as dynamic_color %}
+                                <div class="course-trend-upper three" style="background: linear-gradient(45deg, {{dynamic_color.0}}, {{dynamic_color.1}})">
+                                    <div class="course-trend-upper-img">
+                                        <img loading="lazy" class="d-inline-block" src= "/media/{{i.small_svg_image_for_home}}"   alt="{{i.heading}}" width="52" height="52">
+                                    </div><span>{{i.heading|truncatechars:"42"}}</span>
+                                </div>
+                                <div class="course-trend-lower">
+                                    {% comment %} <p><span class="yellow-tag d-inline-block max-w-90" style="margin-top: 10px;margin-bottom: -12px;">{{ i.category_name.all|join:" &bull; " }}</span></p> {% endcomment %}
+                                    <span>{{i.heading|truncatechars:"42"}}</span>
+                                    {% comment %} <div class="trending-course-review"><i>Reviews</i>
+                                        <div class="trending-course-review-star">
+                                            <div class="star">
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <strong>{{ i.rating }}</strong>
+                                        <span class="font-size-xxs ml-1">({{ i.review_count }})</span>
+                                            </div> 
+                                        </div>
+                                    </div> {% endcomment %}
+                                    <p>{{i.description |safe |striptags|truncatechars:"100"}}</p>
+                                </div>
+                           
+                            </div>
+                        </a>
+                    </div>
+                    <!-- // product-box -->
+                {% endfor %}
+                </div>
+        </section><!-- // Related Category Courses1234 -->
+
+
+        <section class="bg-gray">
+            <div class="container">
+                <h2 class="align-items-start">Trending Courses</h2>
+                <div class="owl-carousel copysame" id="carosule32">
+                    {% for i in trending_courses %}
+                    
+                    <div class="tc-list" style="position: relative;">
+                             <div class="course-trend">
+                                {% get_dyna_color i.slug as dynamic_color %}
+                                <div class="course-trend-upper three" style="background: linear-gradient(45deg, {{dynamic_color.0}}, {{dynamic_color.1}})">
+                                    <div class="course-trend-upper-img">
+                                        <img loading="lazy" class="d-inline-block" src= "/media/{{i.course_icon}} "   alt="{{i.name}}" width="52" height="52">
+                                    </div><span>{{i.name|truncatechars:"42"}}</span>
+                                </div>
+                                <div class="course-trend-lower">
+                                    <p><span class="yellow-tag d-inline-block max-w-90" style="margin-top: 10px;margin-bottom: -12px;">{{ i.category_name.all|join:" &bull; " }}</span></p>
+                                    <span>{{i.name|truncatechars:"42"}}</span>
+                                    <div class="trending-course-review"><i>Reviews</i>
+                                        <div class="trending-course-review-star">
+                                            <div class="star">
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <span class="icon-star-fill mx-1"></span>
+                                                <strong>{{ i.rating }}</strong>
+                                        <span class="font-size-xxs ml-1">({{ i.review_count }})</span>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="overlay1"><i>Key Features</i><span class="listlearn">What will I learn?</span>
+                                    <ul>
+                                        <li>{{i.duration}} Hours of Learning</li>
+                                        <li>2 Hours of Assignments</li>
+                                        <li>100% Job Assistance</li>
+                                    </ul>
+                                    <a  href="/{{i.slug}}"><button>View Details</button></a>
+                                </div>
+                            </div>
+                     </div>
+                    <!-- // li -->
+                {% endfor %}
+                </div>
+            </div><!-- // container -->
+        </section><!-- // Trending Courses -->
+        <script>
+            $('.copysame').owlCarousel({
+        margin: 10,
+        loop: true,
+        autoplay: true,
+        autoplayHoverPause: true,
+        responsive: {
+        0: {
+          items: 1,
+          nav: false,
+        },
+        700: {
+          items: 2,
+          nav: false,
+        },
+        1000: {
+          items: 4,
+          nav: false,
+        },
+        },
+        })
+        </script> 
+{% endblock content %}

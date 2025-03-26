@@ -1,0 +1,130 @@
+{% load static %}
+{% load compress %}
+<div class="listing__rightPanel d-none d-md-block">
+    <!-- <div class="white-box blog-rightPanel mb-4">
+        <h3>Popular posts</h3>
+        <ul class="blog-rightPanel__popupar-posts mt-4">
+            {% for i in popular_blog %}
+                <li>
+                    <span class="blog-rightPanel__popupar-posts--img">
+                        <img src="/media/{{i.image}}" alt="post">
+                    </span>
+                    <div class="blog-rightPanel__popupar-posts--content">
+                        <a href="/blog/{{i.slug}}"><h4>{{i.title}}</h4></a>
+                        <p class="mb-0 font-size-xs">{{i.views}} Views</p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div> -->
+    <!-- // Popular posts-->
+    
+    
+    <!-- <div class="white-box blog-rightPanel mb-4">
+        <h3>Popular Categories</h3>
+        <ul class="blog-rightPanel__popupar-cata mt-2">
+            {% for i in category_popular %}
+                <li>
+                    <div class="cata-wrapper">
+                        <div class="blog-rightPanel__popupar-cata--content">
+                            <div class="content-wrapper">
+                                <a href="/category/{{i.slug}}" class="cata-link">{{i.name}}</a>
+                                {% comment %} <p class="cata-count mb-0 text-white mt-2">10 posts</p> {% endcomment %}
+                            </div>
+                        </div>
+                        <img src="{% static 'v4_home_static/images/blog/cata-3.png' %}" class="img-fluid" alt="{{i.name}}">
+                    </div>
+                </li>
+            {% endfor %}
+            
+            {% comment %} <li>
+                <div class="cata-wrapper">
+                    <div class="blog-rightPanel__popupar-cata--content">
+                        <div class="content-wrapper">
+                            <a href="#" class="cata-link">Python</a>
+                            <p class="cata-count mb-0 text-white mt-2">10 posts</p>
+                        </div>
+                    </div>
+                    <img src="{% static 'v4_home_static/images/blog/cata-2.png' %}" class="img-fluid" alt="course">
+                </div>
+            </li>
+            
+            <li>
+                <div class="cata-wrapper">
+                    <div class="blog-rightPanel__popupar-cata--content">
+                        <div class="content-wrapper">
+                            <a href="#" class="cata-link">Python</a>
+                            <p class="cata-count mb-0 text-white mt-2">10 posts</p>
+                        </div>
+                    </div>
+                    <img src="{% static 'v4_home_static/images/blog/cata-3.png' %}" class="img-fluid" alt="course">
+                </div>
+            </li>
+
+            <li>
+                <div class="cata-wrapper">
+                    <div class="blog-rightPanel__popupar-cata--content">
+                        <div class="content-wrapper">
+                            <a href="#" class="cata-link">Python</a>
+                            <p class="cata-count mb-0 text-white mt-2">10 posts</p>
+                        </div>
+                    </div>
+                    <img src="{% static 'v4_home_static/images/blog/cata-4.png' %}" class="img-fluid" alt="course">
+                </div>
+            </li> {% endcomment %}
+        </ul>
+    </div> -->
+    <!-- // Popular CATEGORIES-->
+    
+    <div class="white-box blog-rightPanel newsL">
+        <h3>NEWSLETTER</h3>
+        <p>Submit to our newsletter to receive exclusive stories delivered to you inbox!</p>
+
+        <form style="max-width:500px; width:100%;">
+            <div class="input-effect form-group">
+                <input type="email" name="email" id="email_news" class="form-control animation-input border-top-left-radius-0" placeholder="" aria-label="name" aria-describedby="name">
+                <label>Email</label>
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                <small id="message" class="" style="color: green;"></small>
+                <small id="error" class="" style="color: red;"></small>
+            </div>
+            <button onclick="subscribeNewsLatter()" type="button" class="btn btn-primary px-3">Sign up</button>
+            <div class="abolum">
+                <img src="{% static 'v4_home_static/images/whatWeOffer.png' %}" class="img-fluid" alt="course">
+            </div>
+        </form>
+    </div><!-- // NEWSLETTER -->
+</div>
+
+{% comment %} {% compress js %} {% endcomment %}
+    <script>
+        function subscribeNewsLatter(){
+            email = $("#email_news").val()
+            var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            if(email.match(mailformat)){
+                $.ajax({
+                    url : "/blog/subscribenewslatter?email="+email,
+                    method : "GET",
+                    data : {},
+                    success:function(data) {       
+                        $("#message").show()
+                        $("#message").text(data['messages'])
+                        $("#error").hide()
+
+                    },
+                    error:function(data){
+                        //document.getElementById("success_message").innerHTML = "Something went wrong."
+                        $("#error").show()
+                        $("#error").text(data['messages'])
+                        $("#message").hide()
+                    }
+                });
+            }
+            else{
+                $("#error").show()
+                $("#error").text("Please enter valid email")
+                $("#message").hide()
+            }
+        };
+    </script>
+{% comment %} {% endcompress js %} {% endcomment %}

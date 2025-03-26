@@ -1,0 +1,21 @@
+.recent-articles {
+    .white-box {
+        padding: 0;
+        overflow: hidden;
+    }
+
+    &--content {
+        padding: 15px;
+
+        h3 {
+            border-bottom: 1px solid $border-light;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+    }
+
+    &--thumbImg {
+        @include size(100%, 200px);
+        overflow: hidden;
+    }
+}

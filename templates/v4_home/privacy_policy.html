@@ -1,0 +1,110 @@
+{% extends 'v4_home/sub_pages/base.html' %}
+{% load static %}
+{% load ap2v_course_tag %}
+{% load compress %}
+{% block title %} AP2V {% endblock %}
+{% block css %}
+{% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/others.css' %}" type="text/css" /> {% endcomment %}
+    {% compress css %}
+        {% comment %} <link media="all" rel="stylesheet" href="{% static 'v4_home_static/css/others.css' %}" type="text/css" /> {% endcomment %}
+        <link media="all" rel="stylesheet" href="/static/v4_home_static/css/others.css" type="text/css" />
+    {% endcompress %}
+
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.ap2v.com/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Privacy Policy",
+            "item": "https://www.ap2v.com/privacy-policy/"
+        }]
+        }
+    </script>
+{% endblock css %}
+{% block content %}
+    <div class="main-wrap">
+    {% include 'v4_home/sub_pages/push-down.html' %}
+    {% include 'v4_home/sub_pages/navigation.html' %}
+
+        <!-- Banner -->
+        <div class="banner-inner">
+            <div class="container">
+                <div class="row banner-inner--content flex-column">
+                    {% include 'v4/breadcrumb.html' %}<!-- // breadcrumb -->
+                    <div class="d-flex">
+                        <div class="banner-inner--left-pan d-flex flex-column justify-content-center">
+                        <h1 class="text-secondary">Privacy Policy</h1>
+                        </div>
+                        <div class="banner-inner--right-pan d-none d-xl-block" style="right: 0;">
+                          <img src="{% static 'v4_home_static/images/privacy.png'%}" loading="lazy" alt="term condition">
+                        </div>
+                    </div><!-- slick-slide d-flex-->
+                </div><!-- // row -->
+            </div>
+        </div><!-- // Banner -->
+
+
+        <div class="spacer mt-0"></div><!-- // Spacer -->
+
+        <section class="container pt-4">
+            <div class="row">
+                <div class="col-12 tnc">
+                    <p>At AP2V, we value your trust and confidence. We believe that we earn your trust and confidence when we continually bring you exceptional products or courses and services and consistently do so in a private and secure manner. We created this Privacy Policy to inform you of our commitment to you, our customer.</p>
+
+                    <p>This Privacy Policy applies to information collected by <b>[AP2V Solutions Pvt. Ltd.]</b> . (“ap2v,” “company”, “we”, “our”, or “us”) in connection with the <a href="https://www.ap2v.com/"><b>[www.ap2v.com]</b></a>.This includes information collected online through our website, information that may be collected through third party platforms (e.g., social media, social networks,and sweepstakes and giveaways conducted through third party websites and applications), mobile applications, sweepstakes and giveaways managed and/or administered by <b>[AP2V Solutions Pvt. Ltd.]</b>, direct marketing campaigns conducted by <b>[AP2V Solutions Pvt. Ltd.]</b> or a partner organization selling or offering the product or courses of <b>[AP2V Solutions Pvt. Ltd.]</b>,as well as the potential for any offline communications (collectively, hereinafter referred to as <b>“ap2v courses”</b>).</p>
+
+                    <p>This Privacy Policy explains what information may be collected through the <b> ap2v courses </b>, how any information that is collected may be used and/or shared with other third-party companies or organizations, the steps we take to safeguard your information, and how you may access and control your information in relation to our marketing and sales communications, and any business activities. By using the <b> ap2v courses </b>, you agree to the collection, use, and disclosure of your information as described in this Privacy Policy. If you do not agree, we ask that you do not use the <b> <a href="https://www.ap2v.com/"><b>https://www.ap2v.com/</b></a> website or the ap2v product and courses.</b></p>
+
+                    <h3>INFORMATION COLLECTION</h3>
+                    <p>Information You Provide to Us</p>
+                    <p>When you engaged for the ap2v courses, we may ask you to provide certain personal information during the admission or registration process. For example, on the <a href="https://www.ap2v.com/"><b>https://www.ap2v.com/</b></a> website, Customers areasked to provide personal information including a name, telephone number, e-mail address, mailing address, education background detail, Academic detail or information and working experices if needed for the particular course. We may ask for similar information when you enter into a sweepstakes, giveaway, or other promotion; when you request customer support; or, when you otherwise communicate with us</p>
+
+                    <p>We (or our marketing partner, or other business partners or affiliates) may collect information about you, including personal information, such as name, e-mail address, telephone number, mailing address, date of birth (for the purpose of verifying age in sweepstakes or giveaways (or to ensure you are older than thirteen (13) years of age for US User and  old than Sixteen (16) years of age for EU user and old than Eighteen (18) years for Indian User), gender, and certain other demographic information. The under age as defined by the law of respective country, the assent or consent of parents or legal guardian is required.</p>
+
+                    <p>When contacting our Customer Advocacy department, we may inform you that the conversation is being recorded for quality assurance purposes or other disclosed purpose, and we may collect and retain this information for the above purposes.</p>
+
+                    <p>Information You Provide When You Make a registration for the particular product or courses offered by ap2v.com</p>
+
+                    <p>In the ordinary course of business, ap2v does not have access to any of the customer information you have provided to education councillor or mentor or administration of <b>[AP2V Solutions Pvt. Ltd.]</b>, As such, certain personal information may be transferred by the team of <b>[AP2V Solutions Pvt. Ltd.]</b> to team of <b>[Principle Company name offered the courses]</b> in an effort to better serve you, to facilitate communication, and to resolve any questions you may have about the courses or products of ap2v. There are similar instances when your personal information could be obtained by ap2v customer care representative when working to assist you in resolving a question about your courses, and then this information may in-turn be provided to the internal team of <b>[AP2V Solutions Pvt. Ltd.]</b> as well as <b>[Principle Company name offered the courses].</b></p>
+
+                    <p>Third Party Service Providers. We may use third party services, companies, organizations, applications, and other affiliated entities to supportthe <a href="https://www.ap2v.com/"><b>https://www.ap2v.com/</b></a> website, to enable, manage, facilitate, advertise, and administer sweepstakes and giveaways sponsored by ap2v, and to support or enhance ap2v offered courses and products. Some of these third parties may utilize technologies that include, but are not limited to, cookies, pixel tags, log files, and/or other technologies, to enable the receiving of, and the collection and storage of, information on our behalf.</p>
+                
+                    <h3> Information Received from Third Parties</h3>
+                    <p>We may receive information about you from certain trusted third-party vendors, affiliates, contracted companies, or other sources. For example, this may include information from publicly-available sources that may also include personal information such as your demographic information and other similar information. We may also receive information about you from our partner companies or associates and from third-party service providers.</p>
+
+                    <p>We may use this information to assist us in maintaining the accuracy of the information that we collect, to provide a more personalized experience, to inform you of products or courses and other offers that you may be interested in, to provide a metric to measure quality, and for other business purposes.</p>
+
+                    <h4>Third-Party Providers of Services.</h4>
+
+                    <p>We may share your personal information or data with third-party service providers engaged by ap2v. These third partiesmay provide ap2v with certain business functions, and certain professional and/or technical support functions. This may include, but may not be limited to: companies providing certain integrated technologies in the products; technology licensors or licensees; service providers that may host information or provide
+                        Certain technological capabilities; payment processors (if applicable); data analysis; customer care team and principle company offered or design the product or courses available with [AP2V Solutions Pvt. Ltd.] and set-up; and, sponsors or other organizations that participate in, sponsor, or administer promotions including sweepstakes and giveaways.
+                    </p>
+
+                    <p>Additional Third Parties. Your personal information and data may also be shared with companies, organizations, and/or others not referred to above in connection with marketing, promotions, and product offers. It is also possible that at the time of your submittal of personal information, we may identify additional parties that may receive some or all of your information if you provide the consent for such sharing of information.</p>
+
+                    <p>Sweepstakes, Giveaways, and Other Promotions. If you choose to enter into a sweepstakes, giveaway, or other promotion, it is possible that we may provide or share your information with third parties that <b> [AP2V Solutions Pvt. Ltd.]</b> partners with to conduct marketing activities or that <b>[AP2V Solutions Pvt. Ltd.]</b> engages in a sponsorship with; with third parties that administer such sweepstakes, giveaway, or other promotion; and, share your name and/or social media identity with the public if you are a winner of a prize or as required by law.</p>
+
+                    <h3>Mergers, Acquisitions, Business Combinations, and other Legal. </h3>
+
+                    <p>If we are acquired by another company, or we acquire another company, your information</p>
+
+                    <p>May be shared with the acquiring company or the newly-formed company. In addition, if any bankruptcy proceeding is brought against us, any information held by the company could be sold or transferred to one or more third parties</p>
+
+                    <h3>Legal Disclosures; Safety.</h3>
+                    
+                    <p><b>[AP2V Solutions Pvt. Ltd.]</b> may disclose your personal information and data to one or more third parties to remain in compliance with a legal obligation,such as in a lawsuit or similar legal proceeding; if a federal, state, or local law requires such disclosure; if an investigation has been undertaken by a governmental agency; or, in the ordinary course of business to protect our rights, property, or safety of third parties or the public.</p>
+
+                    <p>Aggregate Non-Personal Information and Data. We may share with certain third parties what is commonly referred to as aggregate information, or sometimes referred to as anonymous information, of a non-personal nature, with third parties for the purpose of marketing or data analytics. No personally identifying information is disclosed in this instance.</p>
+                </div>
+            </div>
+
+        </section><!-- // Overview -->
+    {% comment %} {% include 'v4_home/sub_pages/modals.html' %} {% endcomment %}
+{% endblock content %}

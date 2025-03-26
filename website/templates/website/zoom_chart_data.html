@@ -1,0 +1,101 @@
+<div class="modal-header">
+    <h4 class="modal-title mt-0" id="myModalLabel">{{type}} Graph</h4>
+    <div>
+      <div style="margin-bottom: -46px;display: flex;justify-content: flex-end;">
+          <form id="seoundGraphData">
+          {% csrf_token %}
+          <input type="date" value="{{date_from}}" id="zfrom" name="from" required style="font-size: 13px;height: 24px;">
+          <input type="date" value="{{date_to}}" id="zto" name="to" required style="font-size: 13px;height: 24px;margin-left: 10px;">
+          <button type="submit" id="" name="" class="btn btn-primary" style="margin-left: 10px;margin-right: 35px;padding: 0px 20px;height: 27px;font-size: 13px;margin-top: 4px;;">Filter</button>
+          </form>
+      </div>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+</div>
+<form id="">
+{% csrf_token %}
+    <div class="modal-body" id="reZoom_chart_data" >
+        <div class="col-lg-12" style="background: white;">
+            <div style="display: flex;justify-content: flex-end;">
+                {% comment %} <a href="javascript:void(0)"  onclick="zoomChart()"><i class="fa fa-arrows-alt" aria-hidden="true" style="margin-top: 10px;"></i></a> {% endcomment %}
+            </div>
+            <div class="chart-container" style="height: 430px;background: white;">
+                <canvas id="bar-chartcanvas2"></canvas>
+            </div>
+        </div>
+    </div>        
+</form> 
+
+
+<script>
+    $(document).ready(function () {
+
+      var ctx = $("#bar-chartcanvas2");
+
+      var data = {
+        labels : [{% for i in list_date %}'{{i}}',{% endfor %}],
+        datasets : [
+          {
+            label : "{{type}}",
+            data : [{% for j in list_count %}{{j}},{% endfor %}],
+            backgroundColor :
+              "rgba(255, 181, 72, 0.5)",
+
+            borderColor :
+              "rgba(10, 20, 30, 1)",
+
+            borderWidth : 0.6
+          },
+        ]
+      };
+
+      var options = {
+        maintainAspectRatio: false,
+        title : {
+          display : true,
+          position : "top",
+          text : "{{type}} - Last {{delta_d}} days.",
+          fontSize : 14,
+          fontColor : "#111"
+        },
+        legend : {
+          display : true,
+          position : "bottom"
+        },
+        scales : {
+          yAxes : [{
+            ticks : {
+              min : 0
+            }
+          }]
+        },
+      };
+
+      var chart = new Chart( ctx, {
+        type : "line",
+        data : data,
+        options : options
+      });
+
+    });
+</script>
+
+<script>
+    $( "#seoundGraphData" ).submit(function( event ) {
+        var zfrom = $("#zfrom").val()
+        var zto = $("#zto").val()
+        var type = '{{type}}'
+        $.ajax({
+            type: "GET",
+            url: "/dashboard/get_zoom_chart_data",
+            data: {"zfrom":zfrom,"zto":zto,"type":type},
+            success: function (data) {
+                $('#reZoom_chart_data').html(data)
+            },
+            error: function (data) {
+                alert("Internal Server Error!!!");
+            },
+        });
+        event.preventDefault();
+    });
+</script>

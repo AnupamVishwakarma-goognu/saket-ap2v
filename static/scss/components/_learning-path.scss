@@ -1,0 +1,36 @@
+.learning-path {
+    &--box {
+        width: 100%;
+        position: relative;
+        padding: 20px 20px 30px;
+
+        &::before {
+            content: '';
+            @include size (45px, 3px);
+            background-color: $primary;
+            position: absolute;
+            top: 0;
+            left: 20px;
+        }
+
+        img {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+        }
+    }
+
+    &__lists {
+        display: flex;
+        flex-wrap: wrap;
+
+        li {
+            padding: 15px;
+            width: 100%;
+
+            @include media-breakpoint-up(lg) { 
+                width: 50%;
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Mobile</th>
+        <th>Added on</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for i in enq_obj %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.id}}</td>
+                <td>{{i.full_name}}</td>
+                <td>{{i.email}}</td>
+                <td>{{i.mobile}}</td>
+                <td>{{i.added_on}}</td>
+                <td><a href="/enquiries/view/{{i.id}}/">View</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+  </table>
