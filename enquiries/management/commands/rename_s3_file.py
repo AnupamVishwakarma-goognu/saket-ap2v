@@ -37,7 +37,7 @@ class Command(BaseCommand):
 
             #---------------------------------rename process start--------------------------------
             ACCESS_KEY = settings.ACCESS_KEY
-            SECRET_KEY = settings.SECRET_KEY
+            SECRET_KEY = settings.AWS_SECRET_KEY
             BUCKETNAME = settings.BUCKETNAME
 
             if int(i.batch) == 1:

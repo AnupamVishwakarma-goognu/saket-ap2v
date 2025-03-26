@@ -276,7 +276,7 @@ def get_recording(request):
     bid = request.POST.get("meeting_id",None)
     batch_obj = Batches.objects.filter(id = bid).first()
     ACCESS_KEY = settings.ACCESS_KEY
-    SECRET_KEY = settings.SECRET_KEY
+    SECRET_KEY = settings.AWS_SECRET_KEY
     BUCKETNAME = settings.BUCKETNAME
 
     bucket = BUCKETNAME
@@ -344,7 +344,7 @@ def get_recording_left_side(request):
         batch_obj = Batches.objects.filter(id = bid).first()
 
         ACCESS_KEY = settings.ACCESS_KEY
-        SECRET_KEY = settings.SECRET_KEY
+        SECRET_KEY = settings.AWS_SECRET_KEY
         BUCKETNAME = settings.BUCKETNAME
 
         bucket = BUCKETNAME
@@ -458,7 +458,7 @@ def class_recording_play(request, class_link):
 
 
         ACCESS_KEY = settings.ACCESS_KEY
-        SECRET_KEY = settings.SECRET_KEY
+        SECRET_KEY = settings.AWS_SECRET_KEY
         BUCKETNAME = settings.BUCKETNAME
 
         expiration=3600
@@ -487,7 +487,7 @@ def class_recording_demo_play(request, class_link):
     class_link = class_link.replace("@",'/')
 
     ACCESS_KEY = settings.ACCESS_KEY
-    SECRET_KEY = settings.SECRET_KEY
+    SECRET_KEY = settings.AWS_SECRET_KEY
     BUCKETNAME = settings.BUCKETNAME
 
     expiration=3600
@@ -747,7 +747,7 @@ def playback(request, class_link):
     class_link = class_link.replace("@",'/')
 
     ACCESS_KEY = settings.ACCESS_KEY
-    SECRET_KEY = settings.SECRET_KEY
+    SECRET_KEY = settings.AWS_SECRET_KEY
     BUCKETNAME = settings.BUCKETNAME
 
     expiration=3600

@@ -72,7 +72,7 @@ def recordingVideo(request):
         date = str(j.date.strftime('%Y%m%d'))
 
     ACCESS_KEY = settings.ACCESS_KEY
-    SECRET_KEY = settings.SECRET_KEY
+    SECRET_KEY = settings.AWS_SECRET_KEY
     BUCKETNAME = settings.BUCKETNAME
 
     

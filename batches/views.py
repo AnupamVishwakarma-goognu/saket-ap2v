@@ -668,7 +668,7 @@ def get_recording_for_anquira(request):
     # recording,total_minute = get_courses_recordings(request,composite_list,batch_obj.instructors.blue_jeans_user_id)
 
     ACCESS_KEY = settings.ACCESS_KEY
-    SECRET_KEY = settings.SECRET_KEY
+    SECRET_KEY = settings.AWS_SECRET_KEY
     BUCKETNAME = settings.BUCKETNAME
 
     bucket = BUCKETNAME
@@ -880,7 +880,7 @@ def get_batch_progress_data(request):
 
 
         ACCESS_KEY = settings.ACCESS_KEY
-        SECRET_KEY = settings.SECRET_KEY
+        SECRET_KEY = settings.AWS_SECRET_KEY
         BUCKETNAME = settings.BUCKETNAME
 
         bucket = BUCKETNAME
