@@ -29,38 +29,16 @@
                     <div class="card-header">
                       <div class="row align-items-center justify-content-between">
                         <div class="d-flex follow-up--filter">
-			                    {% comment %}
-                          <div class="col-md-4 pr-0">
-                            <select class="selectpicker mb-1" id="filters" name="filters">
-                              <option value="name" {% if request.GET.type == 'name' %} selected='true' {% endif %}>Name</option>
-                              <option value="email" {% if request.GET.type == 'email' %} selected='true' {% endif %}>Email</option>
-                              <option value="number" {% if request.GET.type == 'number' %} selected='true' {% endif %}>Number</option>
-                              <option value="branch" {% if request.GET.type == 'branch' %} selected='true' {% endif %}>Branch</option>
-                              <!-- <option value="course" {% if request.GET.type == 'course' %} selected='true' {% endif %}>Course</option> -->
-                            </select>
-                            <!-- <input type="search" class="form-control" onkeypress="search_filter(event);" id="filters_search" value="{% if request.GET.n %}{{request.GET.n}}{% endif %}" placeholder="search..."> -->
-                          </div>
-			                    {% endcomment %}
-
                           <div class="col-md-3 pr-0">
 		                        <input type="search" class="form-control" onkeypress="search_filter(event);" id="filters_search"
 			                            value="{% if request.GET.n %}{{request.GET.n}}{% endif %}" placeholder="search...">
-			                      {% comment %}
-                              <select class="selectpicker" id="interest_filter" name="interest_filter" onchange="interest_filter();">
-                                <option selected disabled>Select Interest Level</option>
-                                {% for i in EnquiryLevelChoices %}
-                                  <option value="{{ i.0 }}" {% if request.GET.interest == i.0 %}  {% endif %}>{{ i.1 }}</option>
-                                {% endfor %}
-                              </select>
-			                      {% endcomment %}
+
                           </div>
 
                           <div class="col-md-1 d-flex align-items-center justify-content-center">
                             <i class="fa fa-refresh text-info" onclick="window.location.href=`${window.location.pathname}`"></i>
                           </div>
-                        {% comment %} <a href="/enquiries/list?show=enrolled"> &nbsp;Enrolled&nbsp;&nbsp;&nbsp;</a>
-                        <a href="/enquiries/list?show=discard">&nbsp;&nbsp;&nbsp;Discard&nbsp;&nbsp;&nbsp;</a>
-                        <a href="/enquiries/list">&nbsp;&nbsp;&nbsp;No Status</a> {% endcomment %}
+
                         </div>
 
                         
@@ -69,18 +47,7 @@
                         <div class="col-md-2">
                           {% include 'enquiries/filters_enquiries.html'%}
                         </div>
-                      </div><!-- // row -->
-                      
-
-                      
-                      <!-- <div class="float-right col-md-2"> -->
-                        <!-- <select class="selectpicker" id="filters" name="filters">
-                          <option value="name" {% if request.GET.type == 'name' %} selected='true' {% endif %}>Name</option>
-                          <option value="email" {% if request.GET.type == 'email' %} selected='true' {% endif %}>Email</option>
-                          <option value="number" {% if request.GET.type == 'number' %} selected='true' {% endif %}>Number</option>
-                        </select> -->
-                      <!-- </div> -->
-                      <!-- <input class="form-control" onkeyup="search_filter_function(this);" type="text" name="search_filter" placeholder="Search..."> -->
+                      </div>
                       
                     </div>
                     
@@ -105,8 +72,6 @@
                           </thead>
                             <tbody>
                               {% for enquirie in object_list %}
-                              {% comment %} {% enquiries_filter enquirie.id as result %} {% endcomment %}
-                              {% comment %} {% if result == "yes" %} {% endcomment %}
                                 {% followup_response enquirie.id as response_result %}
                                   {% if response_result %}
                                     <tr>
@@ -170,7 +135,7 @@
                                     </td>
                                 </tr>
                                   {% endif %}
-                              {% comment %} {% endif %} {% endcomment %}
+                              
                               {% endfor %}
                             </tbody>
                         </table>
@@ -197,9 +162,9 @@
         	                    <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
                              </li>
                              {% endif %}
-                             {% for i in page_obj.pages %}
+                             {% for i in pages %}
                                 {% if i %}
-                                  {% ifequal i page_obj.number %}
+                                  {% if i == number %}
                                     <li class="paginate_button page-item active">
                                       <a href="?{{ i.querystring }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
                                     </li>
@@ -207,14 +172,14 @@
                                     <li class="paginate_button page-item">
                                      <a href="?{{ i.querystring }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
                                     </li>
-                                  {% endifequal %}
+                                  {% endif %}
                                 {% else %}
                                   <li class="paginate_button page-item" id="nopage">
                                     <a href="javaScript:void(0)" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" style="pointer-events: none;">...</a>
                                   </li>
                                 {% endif %}
                              {% endfor %}
-                             {% if page_obj.has_next %}
+                             {% if pages.has_next %}
                                <li class="paginate_button page-item next" id="datatables_next">
           	                    <a href="?{{ page_obj.next_page_number.querystring }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
                                </li>

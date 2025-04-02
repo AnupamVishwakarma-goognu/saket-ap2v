@@ -64,7 +64,6 @@ def showFollowups(request):
     context_data={}
     request_data  = request.GET.copy()
 
-    #if user selected all, then show all the followups
     if request.user.is_superuser or request.GET.get('o','') =='all':
         pass
     else:
@@ -84,18 +83,13 @@ def showFollowups(request):
         end_date='2030-01-01'
     date_str = end_date
     request_data['end_date']=_add_one_day(date_str)
-
-    # default is_complete show disable
     is_completed = False
     if request.GET.get('is_completed'):
         is_completed = True
 
-    # default discard show disable
     discarded = False
     if request.GET.get('discarded'):
         discarded = True
-
-    # print('request_Data',request_data)
     q_courses=request.GET.getlist('course')
     request_data['course'] = ','.join(q_courses)
     context_data['q_courses'] = list(map(int, q_courses))
@@ -111,15 +105,6 @@ def showFollowups(request):
         elif d=="tomorrow":
             request_data['start_date'] = (datetime.today()+ timedelta(days=1)).strftime('%Y-%m-%d')
             request_data['end_date'] = (datetime.today()+ timedelta(days=2)).strftime('%Y-%m-%d')
-    """
-    else:
-        # show pending default
-        request_data['start_date'] = datetime.today().strftime('%Y-%m-%d')
-        request_data['end_date'] = (datetime.today()+ timedelta(days=1)).strftime('%Y-%m-%d')
-    """
-    
-    #print(discarded, is_completed)
-    
     if discarded and is_completed:
         followups = Followups.objects.all().order_by("-next_followup")
     elif discarded and not is_completed:
@@ -135,29 +120,21 @@ def showFollowups(request):
         if o=="my":
             followups = followups.filter(assigned_user=request.user)
 
-    no_status_enquiries=Enquiries.objects.filter(enquirycourses__status=EnquiryCourses.NONE).values_list('id').distinct()
-    # no_status_enquiries=Enquiries.objects.all().values_list('id').distinct()
-    #only show the followups whose enquiries have no status(neither enrolled, nor discarded) courses
-    followups = followups.filter(followupid__in=no_status_enquiries,is_complete=False).order_by('next_followup')
-
+    # no_status_enquiries=Enquiries.objects.filter(enquirycourses__status=EnquiryCourses.NONE).values_list('id').distinct()
+    # followups = followups.filter(followupid__in=no_status_enquiries,is_complete=False).order_by('next_followup')
+    
     followups = FollowupFilter(request_data, queryset=followups).qs
     fid =[]
     for i in followups:
         fi=i.id
         fid.append(fi)
-        
+    print("followups: ",followups)    
     context_data["fid"]= fid
-    # eid = followups.values_list('id', flat=True)
-    # print('popoo '*100)
-    # print(eid)
-    #@@print("query",followups.query)
-    
     page = request.GET.get('page', 1)
     p = Paginator(followups,25, request=request)
     data= p.page(page)
+    # print("data: ",data)
     context_data["Followups"]= data
-    
-
     context_data['references']= ReferenceModeChoices.choice
     context_data['courses'] = Courses.objects.all().order_by('name')
     context_data['locations'] = Enquiries.BRANCH_LOCATION

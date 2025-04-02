@@ -219,71 +219,34 @@ def fees_view(request):
 
 
 
-# @login_required(login_url = '/login/form/')
-# @csrf_protect
-
 @login_required(login_url = '/')
 @custome_check()
 @csrf_protect
 def enrollment(request, enquiryid):
-    # global enrolls
-    # if request.method == 'POST':
-    #     enquiryids = request.POST['enquiryid']
-    #     discussed_fee = request.POST['discuss_fee']
-    #     registration_amount = request.POST['registration_amount']
-    #     payment_method_id = request.POST['payment_method']
-    #     registered_by = request.user
-    #     try:
-    #         enrolls = Enrollments.objects.create(enquiry_course_id_id = enquiryids, discussed_fee=discussed_fee, registration_amount=registration_amount, registered_by= registered_by, payment_method_id = int(payment_method_id))
-    #         EnquiryCoursesData = EnquiryCourses.objects.get(id = enquiryids)
-    #         EnquiryCoursesData.status = EnquiryCourses.ENROLLED
-    #         EnquiryCoursesData.save()
-    #         installmentNumber = Installments.objects.filter(enrollmentid_id = enrolls.id).count()
-    #         Installments.objects.create(enrollmentid_id=enrolls.id, installment_no = installmentNumber + 1, paid_unpaid = True, due_date = dt.today(), installment = registration_amount, payment_method_id = int(payment_method_id))
-    #         #the enquiry is enrolled, discard its enquiry
-    #         courses=EnquiryCourses.objects.filter(pk=enquiryids).last()
-    #         # disable discard on enrollment
-    #         #Enquiries.objects.filter(id=courses.enquiry_id_id).update(discard=True)
-    #         print("updated the enquery")
-
-    #         try:
-    #             log_activity(request,action=choices.Action.add_enrollment, action_detail=choices.ActionDetails.add_enrollment,id=enrolls.id)
-    #         except Exception as e:
-    #             print(e)
-    #         return JsonResponse({"result": True, "id": enrolls.id}, status=200)
-    #     except Exception as e:
-    #         print(e)
-    #         return JsonResponse({"result": False}, status=400)
     ''' Note: enquiryid is not enquiry id --> it is Enquiry_Course_ID'''
 
     if int(enquiryid) == 1001:
         enroll_courses_list = request.POST.getlist("enroll_courses",None)
-        # print("ENROLL COURSE LIST: ", enroll_courses_list)
+        
         if enroll_courses_list:
             enquiries_course = EnquiryCourses.objects.filter(id = int(enroll_courses_list[0])).first()
-            # print("*********YES")
             enquiryid = enroll_courses_list
             enquiryid = (",").join(enquiryid)
         else:
-            # print("*********NO")
             return redirect("/enquiries/list/")
     else:
         enquiries_course = EnquiryCourses.objects.filter(id = enquiryid).first() 
-        # print(enquiries_course)
     
     enroll_courses_name = []
     if enquiryid:
         enqid = enquiryid.split(",")
         for i in enqid:
-            # print(i)
             a = Courses.objects.filter(id = int(i)).first()
             if a:
                 enroll_courses_name.append(a.name)
             else:
                 a = EnquiryCourses.objects.filter(id=int(i)).first()
                 if a:
-                    print("============================================================================")
-                    print(a.courses.is_exam)
                     if a.courses.is_exam:
                         enroll_courses_name.append(a.courses.name+"(Exam)")
                     else:
@@ -373,24 +336,6 @@ def enrollsview(request, enrollment_id):
     }
     return render(request, 'enrolls/enrollsview.html', context_data)
 
-'''Comanted By Neeraj function Replace by just below
-
-# @login_required(login_url = '/')
-# def paidInstallment(request, paid_id):
-#     instalmentdata = Installments.objects.get(id = paid_id)
-#     if request.method == "GET":
-#         installment_payment_method = request.GET['InstallMentPaymentMethod']
-#         try:
-#             instalmentdata.paid_unpaid = True
-#             instalmentdata.payment_method_id = int(installment_payment_method)
-#             instalmentdata.save()
-
-#             return JsonResponse({"result": True}, status=200)
-#         except Exception as e:
-#             print(e)
-#             return JsonResponse({"result": False}, status=400)
-
-'''
 
 @login_required(login_url = '/')
 @custome_check()

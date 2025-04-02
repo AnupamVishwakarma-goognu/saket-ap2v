@@ -19,8 +19,6 @@ urlpatterns = [
 
     path('edz', views.eduzillacomment, name="enquiry"),
     path('', csrf_exempt(views.enquiry), name="enquiry"),
-    # path('followups/list/', views.list_followups, name="list_followups"),
-
     path("download_excel",views.download_excel,name="download_excel"),
     path("download_pdf",views.download_pdf,name="download_pdf"),
     path("get_enquirie_details",views.get_enquirie_details,name="get_enquirie_details"),

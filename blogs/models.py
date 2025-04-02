@@ -71,8 +71,6 @@ class InterviewQuestionTitleDescription(SEOBaseModel):
 	
 	@property
 	def get_total_question(self):
-		# print("***************************")
-		# print(self.id)
 		question_ans_obj = QuestionAnswer.objects.filter(question_title = self.id).count()
 		return question_ans_obj
 	
@@ -84,7 +82,6 @@ class QuestionAnswer(models.Model):
     )
 	date = models.DateField(auto_now_add=True)
 	type = models.CharField(max_length=300, choices = CATEGORY_TYPE, null= True)
-	# blog = models.ForeignKey(Blogs,on_delete=models.DO_NOTHING)
 	question_title = models.ForeignKey(InterviewQuestionTitleDescription,on_delete=models.DO_NOTHING,default=None)
 	index = models.IntegerField(null=True,blank=True, default=0)
 	question = models.TextField(null=False, blank=False)

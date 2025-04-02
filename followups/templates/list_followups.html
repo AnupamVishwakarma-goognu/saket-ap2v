@@ -62,10 +62,6 @@
                                             <td onclick="window.location='/enquiries/view/{{ myFollowData.followupid.id }}'">{{ myFollowData.followupid.full_name }}</td>
                                             <td onclick="window.location='/enquiries/view/{{ myFollowData.followupid.id }}'">{{ myFollowData.followupid.mobile }}</td>
                                             <td onclick="window.location='/enquiries/view/{{ myFollowData.followupid.id }}'">{{ myFollowData.followupid.email }}</td>
-                                            <!--<td onclick="window.location='/enquiries/view/{{ myFollowData.followupid.id }}'">{{ myFollowData.followupid.reference }}</td>-->
-                                            {% comment %} <td onclick="window.location='/enquiries/view/{{ myFollowData.followupid.id }}'">{{ myFollowData.followupid.branch_location|title }}</td> {% endcomment %}
-                                            
-                                            {% comment %} <td onclick="window.location='/enquiries/view/{{ myFollowData.followupid.id }}'">{{ myFollowData.followupid.mode_display }}</td> {% endcomment %}
                                             <td onclick="window.location='/enquiries/view/{{ myFollowData.followupid.id }}'" title="{{ myFollowData.followupid.nostatus_courses }}">{{ myFollowData.followupid.nostatus_courses }}</td>
                                             <td onclick="window.location='/enquiries/view/{{ myFollowData.followupid.id }}'">{{ myFollowData.assigned_user.name }}</td>
 
@@ -103,19 +99,20 @@
                             <div class="col-sm-12 col-md-7">
                               <div class="dataTables_paginate paging_simple_numbers" id="datatables_paginate">
                                 <ul class="pagination">
-                                  {% if Followups.has_previous %}
+                                 {%comment %} {% if Followups.has_previous %}{%endcomment %}
+                                  {% if page_obj.has_previous %}
                                   <li class="paginate_button page-item previous" id="datatables_previous">
                                       <a href="?{% url_replace request 'page' Followups.previous_page_number %}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
                                   </li>
-                                  {% elif Followups.object_list %}
+                                  {% elif pages.object_list %}
                                   <li class="paginate_button page-item previous disabled" id="datatables_previous">
                                       <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
                                   </li>
                                   {% endif %}
                                  
-                                  {% for i in Followups.pages %}
+                                  {% for i in pages %}
                                       {% if i %}
-                                        {% ifequal i Followups.number %}
+                                      {% if i == Followups.number %}
                                           <li class="paginate_button page-item active">
                                             <a href="?{{ i.querystring }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
                                           </li>
@@ -123,14 +120,16 @@
                                           <li class="paginate_button page-item">
                                           <a href="?{{ i.querystring }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
                                           </li>
-                                        {% endifequal %}
+                                        {% endif %}
                                       {% else %}
                                         <li class="paginate_button page-item" id="nopage">
                                           <a href="javaScript:void(0)" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" style="pointer-events: none;">...</a>
                                         </li>
                                       {% endif %}
                                   {% endfor %}
-                                  {% if Followups.has_next %}
+                               {%comment %}   {% if Followups.has_next %}{% endcomment %}
+                                  {% if page_obj.has_next %}
+
                                     <li class="paginate_button page-item next" id="datatables_next">
                                         <a href="?{% url_replace request 'page' Followups.next_page_number %}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
                                     </li>

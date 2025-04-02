@@ -560,25 +560,6 @@ class EnquiryListView(PaginationMixin, ListView):
         company_name = self.request.GET.get('company_name',False)
         designation = self.request.GET.get('designation',False)
         search = self.request.GET.get('search',False)
-
-        
-        # print('name : ',name)
-        # print('mobile : ',mobile)
-        # print('email : ',email)
-        # print('reference : ',reference)
-        # print('course : ',course)
-        # print('owner : ',owner)
-        # print('location : ',location)
-        # print('start_date : ',start_date)
-        # print('end_date : ',end_date)
-        # print('training_mode : ',training_mode)
-        # print('interest_level : ',interest_level)
-        # print('interested_batch : ',interested_batch)
-        # print('discarded : ',discarded)
-        # print('company_name : ',company_name)
-        # print('designation : ',designation)
-        # print('search : ',search)
-
         request=self.request
         if search == "yes":
             request.session['enquiry_filter_data'] = {'name':name,'mobile':mobile,'email':email,'reference':reference,'course':course,'owner':owner,
@@ -587,47 +568,12 @@ class EnquiryListView(PaginationMixin, ListView):
                                                     'enrolled':enrolled}
         else:
             request.session['enquiry_filter_data'] = ""
-        # print(request.session['enquiry_filter_data']['name'])
-        
-            # print()
-       
         unattended = self.request.GET.get('unattended',False)
         if unattended:
             enquiries = Enquiries.objects.filter(attended=0).order_by('-id').distinct()
         else:
             enquiries = Enquiries.objects.all().order_by('-id').distinct()
 
-        # show = request.GET.get("show",None)
-        # list1 = []
-        # if show == "discard":
-        #     for i in enquiries:
-        #         enq_course_obj = EnquiryCourses.objects.filter(enquiry_id = i.id)
-        #         status_list = []
-        #         for j in enq_course_obj:
-        #             status_list.append(int(j.status))
-                
-        #         if 2 not in status_list:
-        #             list1.append(i.id)
-        # elif show == "enrolled":
-        #     for i in enquiries:
-        #         enq_course_obj = EnquiryCourses.objects.filter(enquiry_id = i.id)
-        #         status_list = []
-        #         for j in enq_course_obj:
-        #             status_list.append(int(j.status))
-                
-        #         if 1 not in status_list:
-        #             list1.append(i.id)
-        # else:
-        #     for i in enquiries:
-        #         enq_course_obj = EnquiryCourses.objects.filter(enquiry_id = i.id)
-        #         status_list = []
-        #         for j in enq_course_obj:
-        #             status_list.append(int(j.status))
-                
-        #         if 0 not in status_list:
-        #             list1.append(i.id)
-        # enquiries = enquiries.exclude(id__in = list1)
-        
 
         request_data = self.request.GET.copy()
 
@@ -648,12 +594,9 @@ class EnquiryListView(PaginationMixin, ListView):
         #     enquiries = enquiries.filter(enquirycourses__status=EnquiryCourses.NONE).distinct()
         enquiries = EnquiryFilter(request_data, enquiries).qs
 
-        # print("----------------------------------------------------------------")
-        # print(enquiries)
         return enquiries.order_by('-id')
-
     def get(self,*args,**kwargs):
-        # print("+++++++++++++++++++++++++++++-")
+        print("+++++++++++++++++++++++++++++- In Get method of 599 line no.")
         if self.request.user.is_active:
             if self.request.user.is_authenticated:
                 if self.request.GET.get('download'):
@@ -827,9 +770,6 @@ def addFollowUps(request, followup_id):
     return render(request, 'enquiries/view.html', context_data)
 
 
-# def list_followups(request):
-#     follows = Followups.objects.all()
-#     return render(request, 'enquiries/view.html', {'follows': follows})
 
 class DiscardFollowupsView(View):
     followup_model = Followups
@@ -1139,6 +1079,7 @@ def send_introduction_email(request):
     data = {}
     enq_id = request.POST.get("enq_id",None)
     epassword = request.POST.get("email_p",None)
+    print(f"{enq_id}  {epassword}"*100)
 
     if enq_id and epassword:
         enq_obj = Enquiries.objects.filter(id=enq_id).first()
@@ -1152,7 +1093,7 @@ def send_introduction_email(request):
                 html_content=render_to_string('email_templates/onlinetraning.html', data)
                 text_content=html_content
             
-                settings.EMAIL_HOST_PASSWORD = str(epassword)
+                # settings.EMAIL_HOST_PASSWORD = str(epassword)
 
                 msg = EmailMultiAlternatives('AP2V Academy ', text_content, "AP2V Academy", [email])
                 msg.attach_alternative(html_content, "text/html")

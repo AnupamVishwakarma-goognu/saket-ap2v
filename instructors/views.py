@@ -53,19 +53,19 @@ def instructor(request):
             except Exception as e:
                 print(e)
             
-            blue_jeans_user_id = create_user_instructor(request,full_name,created_instructor.id)
-            pass_code,json_data = activate_user_room(request,blue_jeans_user_id)
+            # blue_jeans_user_id = create_user_instructor(request,full_name,created_instructor.id)
+            # pass_code,json_data = activate_user_room(request,blue_jeans_user_id)
             
-            Instructors.objects.filter(id=created_instructor.id).update(
-                blue_jeans_user_id=blue_jeans_user_id,blue_jeans_passcode=pass_code,user_room_json=json_data
-            )
+            # Instructors.objects.filter(id=created_instructor.id).update(
+            #     blue_jeans_user_id=blue_jeans_user_id,blue_jeans_passcode=pass_code,user_room_json=json_data
+            # )
 
             
             #----- create instructore user account in user table --------
             password_length = 5
             # password = secrets.token_urlsafe(password_length)
-            password = random.randint(10000,99999)
-            print("Password for "+email+": "+str(password))
+            # password = random.randint(10000,99999)
+            # print("Password for "+email+": "+str(password))
             x = User(
                 first_name = full_name,
                 email = email,
@@ -73,13 +73,14 @@ def instructor(request):
                 username = email,
                 user_type = 'instructor',
             )
-            x.set_password(password)
+            x.set_password(str(email)+str(mobile))
             x.save()
 
             for i in courses:
                 created_instructor.courses.add(int(i))
-            return JsonResponse({"result": True,"password":password}, status=200)
+            return JsonResponse({"result": True,"password":str(email)+str(mobile)}, status=200)
         except Exception as e:
+            print("error in instructor views:",e)
             return JsonResponse({"result": False}, status=444)
     context_data = {
         'course': Courses.objects.all().order_by('name'),

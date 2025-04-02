@@ -24,15 +24,34 @@ from anquira_v2.decorators import custome_check
 @custome_check()
 def courses(request):
     if request.method == 'POST':
-        name = request.POST['name']
-        duration = request.POST['duration']
-        url = request.POST['url']
-        price = request.POST['price']
-        course_content = request.FILES.get('course_content')
-        is_exam = request.POST.get("is_exam",False)
-        course_type = request.POST.get("course_type",None)
-        Courses.objects.create(name=name, duration=duration, url=url, price = price, course_content=course_content,is_exam=is_exam,typee=course_type)
+        try:
+            name = request.POST.get('name', '').strip()
+            duration = request.POST.get('duration', '').strip()
+            url = request.POST.get('url', '').strip()
+            price = request.POST.get('price', '').strip()
+            course_content = request.FILES.get('course_content')
+            is_exam = request.POST.get("is_exam", False)
+            course_type = request.POST.get("course_type", None)
+
+            if not name or not duration or not url or not price or not course_type:
+                return JsonResponse({"success": False, "message": "All fields are required!"}, status=400)
+            Courses.objects.create(
+                name=name, 
+                duration=duration, 
+                url=url, 
+                price=price, 
+                course_content=course_content, 
+                is_exam=is_exam, 
+                typee=course_type
+            )
+
+            return JsonResponse({"success": True, "message": "Course added successfully!"})
+
+        except Exception as e:
+            return JsonResponse({"success": False, "message": str(e)}, status=500)
+
     return render(request, 'courses/course_form.html', {})
+
 
 @login_required(login_url="/")
 @custome_check()
@@ -41,7 +60,7 @@ def courseslist(request):
     is_exam = request.GET.get("exam",None)
     print(is_exam)
     if is_exam:
-        courses = Courses.objects.filter(is_exam=True).order_by('name')(active=True)
+        courses = Courses.objects.filter(is_exam=True).order_by('name')
         ctx['exam'] = 'true'
     else:
         courses = Courses.objects.filter(is_exam=False).order_by('name')

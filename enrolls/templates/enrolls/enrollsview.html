@@ -41,7 +41,6 @@
                                         <div class="col-md-6" id="revision_msg">
                                             <div class="form-group" style="margin-top: 22px;">
                                                 <label>You have selected revision type. <br>The default fee is 0 and you cannot add installmenonly only save it.</label>
-                                                
                                             </div>
                                         </div>
                                     </div>
@@ -56,42 +55,8 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Course</label>
-                                                {% comment %} <input class="form-control" type="text" name="enrollcourse" value="{{ enrollments.enquiry_course_id.courses.name }}" > {% endcomment %}
-                                                {% comment %} {% if enrollments.enroll_courses %}
-                                                    <select name="enrollcourse" id="course" onselect="success()" class="selectpicker" required multiple size="10">
-                                                        <option value="">Please select Yes</option>
-                                                        {% with enrollments.enroll_courses|split:"," as batch_dows %}  
-                                                            {% for data in course %}
-                                                                {% with data.id|convt:"," as abc %}
-                                                                    <option value="{{ data.id }}" {% if abc in batch_dows %} selected='true' {% endif %}>{{ data.name }}</option>
-                                                                {% endwith %}
-                                                            {% endfor %}
-                                                        {% endwith %}
-                                                    </select>
-                                                {% else %}
-                                                    <select name="enrollcourse" id="course" onselect="success()" class="selectpicker" required multiple size="10">
-                                                        <option value="">Please select No</option>  
-                                                        {% for data in course %}
-                                                            {% ifequal enquiries_course.courses.id data.id %}
-                                                                <option value="{{ data.id }}" selected >{{ data.name }}</option>
-                                                            {% else %}
-                                                                <option value="{{ data.id }}">{{ data.name }}</option>
-                                                            {% endifequal %}
-                                                        {% endfor %}
-                                                    </select>
-                                                {% endif %} {% endcomment %}
                                                 <input class="form-control" type="text" value="{{enroll_course_name }}" readonly/>
-
                                                 <input hidden type="text" id="course" value="{{enquiryid}}">
-
-                                                {% comment %} <select class="selectpicker" name="days_of_week" multiple size="7">
-                                                <!-- <input type="text" name="days_of_week" class="form-control" value="{{ batches.days_of_week }}"> -->
-                                                {% with batches.days_of_week|split:"," as batch_dows %}
-                                                    {% for dow in dows %}
-                                                    <option value="{{ dow.1 }}" {% if dow.1 in batch_dows %} selected='true' {% endif %}>{{ dow.1 }}</option>
-                                                    {% endfor %}
-                                                {% endwith %}
-                                                </select> {% endcomment %}
                                             </div>
                                         </div>
                                     </div>
@@ -162,13 +127,7 @@
                                             </div>
                                         </div>
                                         
-                                        <!-- <div class="col-md-2" style="max-width: 135px;">
-                                            <div class="form-group" style="text-align: center;">
-                                                <label>Balance</label>
-                                                <input class="form-control" placeholder="Balance" id="balance_fee_sh" value="0" type="number" readonly name="" >
-                                            </div>
-                                        </div> -->
-                                        <div class="col-md-3" style="max-width: 250px;">
+                                         <div class="col-md-3" style="max-width: 250px;">
                                             <div class="form-group" style="text-align: center;">
                                                 <label>Received Amount from <span>{{ enrollments.discussed_fee }}</span></label>
                                                 <input class="form-control" placeholder="Recived Amount" id="recive" {% if enrollments.current_recived_amount %} value="{{enrollments.current_recived_amount}}" {% else %} value="0" {% endif %} type="number"  name="recive" >
@@ -189,7 +148,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <span  id="sum_all_error" style="color: red;font-size: 12px;">Error : Please fill all the amount (Exam+Book+Vandor+AP2V), Balance must be 0 before save the enrollment.</span> -->
                                     <div class="row">
                                         <div class="col-md-6">
                                         </div>
