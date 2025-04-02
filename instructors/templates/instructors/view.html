@@ -44,7 +44,7 @@
                                                 <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Courses</label>
-                                                <select class="selectpicker" name="course" multiple size="7">
+                                                <select class="selectpicker" name="courselist" multiple required>
                                                   {% for course in all_courses %}
                                                     <option value="{{ course.id }}" {% if course.status == True %} selected='true' {% endif %}>{{ course.name }}</option>
                                                   {% endfor %}
@@ -63,26 +63,14 @@
                                                      </select>
                                                 </div>
                                                 </div>
-                                                <!-- <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Added_on</label>
-                                                    <input type="text" class="form-control datetime-input" value="{{ instructor.added_on }}" name="added_on" required="true" />
-                                                </div>
-                                                </div> -->
+                                               
                                             </div>
                                         </div>
 
                                         <label class="ml-3">Instructor User Id: {{instructor.blue_jeans_user_id}}</label>
                                         <label class="ml-3">Instructor Passcode: {{instructor.blue_jeans_passcode}}</label>
                                         <hr>
-                                        <!--<div>
-                                            <p class="ml-3">Zoom User Email : {{instructor.zoom_email}}</p>
-                                            {% comment %} <p style  class="ml-3">Zoom User Password : {{instructor.zoom_password}}</p><br> {% endcomment %}
-                                            {% if not instructor.zoom_email %}
-                                            <a href="/instructors/genrate_zoom_user/{{instructor.id}}" type="submit" class="btn btn-info float-left" value="Reset form">Genrate Zoom User</a><br><br>
-                                            <a href="/instructors/use_comman_zoom_user/{{instructor.id}}" type="submit" class="btn btn-info float-left" value="Reset form">Use Comman Zoom User</a>
-                                            {% endif %}
-                                        <div> -->
+                                       
 
                                         
 

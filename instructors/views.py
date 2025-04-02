@@ -208,22 +208,8 @@ class InstructorupdateView(View):
         )
         if instructor_obj.exists():
             instructor_queryset = Instructors.objects.filter(id=self.kwargs.get('instructor_id')).first()
-            # print(instructor_queryset.blue_jeans_user_id)
-            if not instructor_queryset.user_room_json:
-                blue_jeans_user_id = create_user_instructor(self,self.request.POST.get('fullname'),self.request.POST.get('email'))
-                pass_code,json_data = activate_user_room(self,blue_jeans_user_id)
-                instructor_obj.update(
-                    blue_jeans_user_id=blue_jeans_user_id,
-                    blue_jeans_passcode=pass_code,
-                    user_room_json=json_data
-                )
-            
             if not User.objects.filter(email = self.request.POST.get('email')).exists():
-                #----- create instructore user account in user table while updating --------
                 password_length = 5
-                # password = secrets.token_urlsafe(password_length)
-                password = random.randint(10000,99999)
-                print("Password for "+self.request.POST.get('email')+": "+str(password))
                 x = User(
                     first_name = self.request.POST.get('fullname'),
                     email = self.request.POST.get('email'),
@@ -231,7 +217,7 @@ class InstructorupdateView(View):
                     username = self.request.POST.get('email'),
                     user_type = 'instructor',
                 )
-                x.set_password(password)
+                x.set_password(str(email)+str(mobile))
                 x.save()
 
             instructor_obj.update(
@@ -241,12 +227,15 @@ class InstructorupdateView(View):
                 days_of_week=",".join(self.request.POST.getlist('days_of_week[]')),
             )
 
-            courses = self.request.POST.getlist('course')
+            courses = self.request.POST.getlist('courselist[]')
+            print("courses",courses)
             if courses:
                 instructor_obj_loop = instructor_obj.first()
                 remove_data=instructor_obj_loop.courses.exclude(id__in=list(map(int, courses)))
-                for i in courses:
-                    instructor_obj_loop.courses.add(int(i))
+                instructor_obj_loop.courses.set(courses)
+                
+                # for i in courses:
+                #     instructor_obj_loop.courses.set(courses)
                 for p in remove_data:
                     instructor_obj_loop.courses.remove(p.id)
 

@@ -72,12 +72,7 @@
                       <td onclick="window.location='/courses/view/{{ course.id }}/'">{{ course.url }}</td>
                       <td onclick="window.location='/courses/view/{{ course.id }}/'">{{ course.price }}</td>
 		      <td class="text-center">{% if course.course_content %} <a href="/media/{{ course.course_content }}" target="_blank">View Syllabus</a> {% else %} - {% endif %}</td>
-                      <!--<td class="text-center">
-                        <a href="javascript:void(0);" id="course_delete"
-                          onclick="course_delete_function(event, `{% url 'CoursesDeleteView' course.id %}`);">
-                          <i class="fa fa-trash text-secondary font-size-medium"></i>
-                        </a>
-		      </td>-->
+                      
                     </tr>
                     {% endfor %}
                   </tbody>

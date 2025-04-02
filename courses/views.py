@@ -14,11 +14,6 @@ from .filters import (
 )
 from django.core.paginator import Paginator
 from anquira_v2.decorators import custome_check
-# from courses.models import Courses
-# from .models import (
-#     #EnquiryCourses, InformationSharingTemplate,StudentResponse,EduzillaComments
-#     EnquiryCourses,StudentResponse,EduzillaComments
-# )
 
 @login_required(login_url = '/')
 @custome_check()
@@ -31,9 +26,9 @@ def courses(request):
             price = request.POST.get('price', '').strip()
             course_content = request.FILES.get('course_content')
             is_exam = request.POST.get("is_exam", False)
-            course_type = request.POST.get("course_type", None)
+            # course_type = request.POST.get("course_type", None)
 
-            if not name or not duration or not url or not price or not course_type:
+            if not name or not duration or not url or not price:
                 return JsonResponse({"success": False, "message": "All fields are required!"}, status=400)
             Courses.objects.create(
                 name=name, 
@@ -42,7 +37,7 @@ def courses(request):
                 price=price, 
                 course_content=course_content, 
                 is_exam=is_exam, 
-                typee=course_type
+                # typee=course_type
             )
 
             return JsonResponse({"success": True, "message": "Course added successfully!"})
@@ -86,10 +81,6 @@ def courseView(request, courses_id):
 
 class UpdateCourseView(View):
     redirect_url = "courseslist"
-
-    # @method_decorator(csrf_exempt)
-    # def dispatch(self, request, *args, **kwargs):
-    #     return super(UpdateCourseView, self).dispatch(request, *args, **kwargs)
 
     def post(self, *args, **kwargs):
         course_obj = Courses.objects.filter(
@@ -175,7 +166,7 @@ def examslist(request):
 @custome_check()
 def books(request):
     ctx={}
-    ctx['course'] = Courses.objects.filter(typee = 3).order_by('name')
+    ctx['course'] = Courses.objects.all().order_by('name')
     all_books = Books.objects.all().order_by('-id')
 
     paginator = Paginator(all_books, 10)
@@ -193,13 +184,15 @@ def add_book(request):
     name = request.POST.get("book_name",None)
     cost = request.POST.get("book_cost",None)
     course_list = request.POST.getlist("book_course",None)
+    book_content = request.FILES.get("book_content",None)
     
     course_list = ",".join(course_list)
 
     x = Books(
         name = name,
         cost = cost,
-        course = course_list
+        course = course_list,
+        book_content=book_content
     )
     x.save()
 

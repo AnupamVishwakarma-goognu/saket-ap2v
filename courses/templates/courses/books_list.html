@@ -31,10 +31,8 @@
                                       <i class="fa fa-refresh text-info" onclick="window.location.href=`${window.location.pathname}`"></i>
                                     </div><!-- // col -->
 
-                                  </div><!-- // d-flex -->
-                                  <div class="col-md-3">
-                                    {% comment %} {% include 'batches/filters_batches.html'%} {% endcomment %}
                                   </div>
+                                  
                                 </div><!-- // Row -->
                                 
                               </div>
@@ -48,6 +46,7 @@
                                             <th>Course</th>
                                             <th>Stock</th>
                                             <th>Added on</th>
+                                            <th>See Book</th>
                                             <th></th>
                                         </thead>
                                         <tbody>
@@ -55,13 +54,22 @@
                                             <tr>
                                                 <td>{{ i.id }}</td>
                                                 <td>{{ i.name }}</td>
-                                                <td>{{ i.cost }}</td>
-                                                {% get_book_courses i.course as all_course %}
-                                                <td>{{all_course}}</td>
+                                                <td>{{ i.cost }}</td> 
+                                                <td>
+                                                  {% for crs in course %}
+                                                  {% if crs.id|stringformat:"s" in i.course %}
+                                                  {{ crs.name }}
+                                              {% endif %}
+                                              {% endfor %}
+                                                
+                                                  
+                                                </td>
                                                 <td>{{i.stock}}</td>
                                                 <td>{{ i.added_on }}</td>
+                                                
+                                                <td class="text-center">{% if i.book_content %} <a href="/media/{{ i.book_content }}" target="_blank">View</a> {% else %} - {% endif %}</td>
                                                 <td> <a href="JavaScript:void(0)" onclick="openAddStockModel('{{i.stock}}','{{i.id}}')">Add Stock</a></td>
-                                            </tr>
+                                              </tr>
                                           {% endfor %}
                                         </tbody>
                                     </table>
@@ -140,7 +148,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="/courses/add_book/" method="POST">
+                <form action="/courses/add_book/" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="modal-body">
                         <div class="row">
@@ -162,6 +170,14 @@
                             <div class="form-group col-md-4">
                                 <input type="number" class="form-control" name="book_cost" placeholder="Book Cost" required="true" />
                             </div>
+                            <div class="row">
+                              <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Book Content</label>
+                                    <input class="form-control" type="file" name="book_content" accept="application/pdf" required/>
+                                </div>
+                              </div>
+                         </div>
                         </div>
                         <button type="submit" id="addNewBooks" class="btn btn-primary pull-right px-4" style="border: transparent;background-color: #6361b9;">Add Book</button>
                     </div>

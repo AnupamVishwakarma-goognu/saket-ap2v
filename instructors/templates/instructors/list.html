@@ -66,7 +66,7 @@
                         <th>Days Of Week</th>
                         <th>Added_on</th>
                         <th>Action</th>
-                        {% comment %} <th>Zoom Email</th> {% endcomment %}
+                        
                       </tr>
                     </thead>
                     <tbody>
@@ -92,7 +92,7 @@
                             <i class="fa fa-trash text-secondary font-size-medium"></i>
                           </a>
                         </td>
-                        {% comment %} <td onclick="window.location='/instructors/view/{{ instructors.id }}/'">{{ instructors.zoom_email }} {% endcomment %}
+                        
                         </td>
                       </tr>
                       {% endfor %}
@@ -105,43 +105,7 @@
                 <div class="col-sm-12 col-md-7">
                   <div class="dataTables_paginate paging_simple_numbers" id="datatables_paginate">
                       <ul class="pagination">
-                        {% comment %} {% if instructor.has_previous %}
-                        <li class="paginate_button page-item previous" id="datatables_previous">
-                        <a href="?page={{ instructor.previous_page_number }}" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
-                        </li>
-                        {% else %}
-                        <li class="paginate_button page-item previous disabled" id="datatables_previous">
-                        <a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
-                        </li>
-                        {% endif %}
-
-                        {% for i in instructor.paginator.page_range %}
-                          {% if i %}
-                            {% ifequal i instructor.number %}
-                              <li class="paginate_button page-item active">
-                                <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
-                              </li>
-                            {% else %}
-                              <li class="paginate_button page-item">
-                                <a href="?page={{ i }}" aria-controls="datatables" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
-                              </li>
-                            {% endifequal %}
-                          {% else %}
-                            <li class="paginate_button page-item" id="nopage">
-                              <a href="javaScript:void(0)" aria-controls="datatables" data-dt-idx="0" tabindex="0" class="page-link" style="pointer-events: none;">...</a>
-                            </li>
-                          {% endif %}
-                        {% endfor %}
-
-                        {% if instructor.has_next %}
-                          <li class="paginate_button page-item next" id="datatables_next">
-                          <a href="?page={{ instructor.next_page_number }}" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
-                          </li>
-                        {% else %}
-                          <li class="paginate_button page-item next disabled" id="datatables_next">
-                          <a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
-                          </li>
-                        {% endif %} {% endcomment %}
+                        
 
                         {% if instructor.has_previous %}
                           <li class="paginate_button page-item previous" id="datatables_previous">
