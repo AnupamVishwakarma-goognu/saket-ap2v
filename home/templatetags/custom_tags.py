@@ -694,10 +694,8 @@ import requests
 import json
 @register.simple_tag
 def get_couontry_from_ip(ip):
-    print("9"*200)
     if ip:
         try:
-            # endpoint = f'https://ipinfo.io/{ip}/json'
             endpoint = f'https://ipapi.co/{ip}/json/'
             response = requests.get(endpoint, verify = True)
 

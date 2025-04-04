@@ -53,13 +53,13 @@ def batches(request):
     from datetime import datetime
     if request.method == 'POST':
         bname = "btch-{autogen}".format(autogen = anquira_handlers.get_batch_name())
-        candidate_data = request.POST['candidate'].split(',')  ## list of candidate with str form
+        candidate_data = request.POST['candidate'].split(',')
         if candidate_data[-1]=="":
             candidate_data.pop()
-        candidate_data2 = request.POST['candidate2'].split(',')  ## list of candidate with str form
+        candidate_data2 = request.POST['candidate2'].split(',')
         if candidate_data2[-1]=="":
             candidate_data2.pop()
-
+        print(f"{candidate_data} candidate2: {candidate_data2}")
         candidate_data = candidate_data+candidate_data2
         candidate_data = list(dict.fromkeys(candidate_data))
 
@@ -71,17 +71,19 @@ def batches(request):
         batch_type = request.POST['batch_type']
         language_type = request.POST['language_type']
         courses_id = Courses.objects.get(id = int(request.POST['course'])).id
+        print("Course ID : ",courses_id)
         try:
             complete = request.POST('complete')
         except:
             complete = 'False'
         courses_id_list = ",".join(request.POST.getlist('course'))
-        # courses_id = 139
+        print("Courses ID List : ",courses_id_list)
         duration = Courses.objects.get(id = int(courses_id)).duration
         candidate = ""
         candidate_extend_list = []
         for candidate_details in candidate_data:
             candidate_extend_list.append(Enrollments.objects.get(id = int(candidate_details)).enquiry_course_id.enquiry_id.full_name)
+        print("Candidate Extend List : ",candidate_extend_list)
         candidate = ", ".join(candidate_extend_list)
         end_date_time = request.POST.get('end_date_time')
         end_date_time = datetime.strptime(end_date_time, '%m/%d/%Y %I:%M %p')
@@ -90,8 +92,10 @@ def batches(request):
         end_date_time2 = end_date_time+timedelta(days=100)
 
         attendees_data = []
-        room_emails = []        #use for ap2v Chat
+        room_emails = [] 
+        print("---------Candidate Data 96 :----------- ",candidate_data)
         for i in candidate_data:
+            print("i: ",i)
             attendees_email={}
             enroll_students = Enrollments.objects.get(id = int(i))
             email = enroll_students.enquiry_course_id.enquiry_id.email
@@ -107,39 +111,13 @@ def batches(request):
             moderator_passcode = instructors_obj.blue_jeans_passcode
 
         title = Courses.objects.get(id = int(courses_id_list[0])).name+" Batch"
-        # meeting_id,attendees_passcode = scheduled_meeting(request,title=title,description=title,start=start_date_time,end=end_date_time2,attendees_list=[],user_id = user_id)
-        
-
-        '''add none because now we use zoom and in zoom meeting 
-        genrate instant when trainer click 'join class' button...
-        '''
         meeting_id = '0000000'
         attendees_passcode = True
-
-        #------NOTe : Please enable next 2 line of code for local testing, and comment above 1 line ----------
-        # meeting_id = 160254125
-        # attendees_passcode = 2569
-        # moderator_passcode = 8581
-        #---------Local Testing code end -----------------------------------------
-        
-
-        '''commented due to now not use Blue jeans form 29/05/2022
-        '''
-        # student_meeting_link = "https://bluejeans.com/"+str(meeting_id)+"/"+str(attendees_passcode)+"/webrtc"
-        # instructor_meeting_link = "https://bluejeans.com/"+str(meeting_id)+"/"+str(moderator_passcode)
-
-        # student_meeting_link = genrate_bitly_link(request,student_meeting_link)
-        # instructor_meeting_link = genrate_bitly_link(request,instructor_meeting_link)
-
-        '''add none because now we use zoom and in zoom meeting 
-        genrate instant when trainer click 'join class' button...
-        '''
         student_meeting_link = True
         instructor_meeting_link = True
         
         
         if meeting_id and attendees_passcode and moderator_passcode:
-            # for m in courses_id_list:
             create_batch = Batches.objects.create(batch_name=bname, days_of_week=days_of_week, duration=duration,
                             start_date_time=start_date_time, instructors_id=int(instructors),instructor_blue_jeans_user_id=user_id,
                             session_duration=session_duration, candidates=candidate, complete=complete,
@@ -153,15 +131,15 @@ def batches(request):
             create_batch.courses.set(enrolled_course_id_list)
             
             enrolled_student_id_list = []
+            print("---------Candidate Data 134 :----------- ",candidate_data)
             for i in candidate_data:
                 enroll_students = Enrollments.objects.get(id = int(i))
                 enroll_students.batch = create_batch.id
                 enroll_students.save()
                 enrolled_student_id_list.append(enroll_students.id)
             create_batch.enroll_student.set(enrolled_student_id_list)
-
+            print("enrolled_student_id_list: ",enrolled_student_id_list)
             course_name = Courses.objects.filter(id = int(courses_id_list[0])).first().name
-            # print("/*"*100)
             print("Sending Email.....Batch")
             send_batch_invite_email(request,course_name,start_date_time,student_meeting_link,enrolled_student_id_list)
             
@@ -172,12 +150,10 @@ def batches(request):
 
         room_emails.append(instructors_obj.email)
         data = create_room_api(request,room_emails)
-        print(data['room_id'])
+        print("Room id: ",data['room_id'])
         if data['room_id']:
             Batches.objects.filter(id=create_batch.id).update(
                 chat_room_id = data['room_id'])
-        # if request.session['un_registered_email']:
-            # return HttpResponse("Batch is created but some student doesn't registered in ap2v.com by same email of enquiry email. List is: <br>"+str(request.session['un_registered_email'])+"<br><a href='/batches/list/'>Go To Back</a>")
         return redirect(reverse('batchlist'))
 
     context_data = {

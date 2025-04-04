@@ -47,16 +47,7 @@ def create_chat_room(request,email_addresses):
 @csrf_exempt
 def create_room_api(request,room_emails):
     data = {}
-    # print("----------email_address----------------")
-    # print(room_emails)
-    # email_address = request.GET.getlist('list[]')
-    # print(email_address)
-
-    # add current advisor also in group
-    # email_address.append(request.user.email)
-
     for i in room_emails:
-        # print(i)
         user_obj = User.objects.filter(email = i).first()
         if not user_obj:
             x = User(

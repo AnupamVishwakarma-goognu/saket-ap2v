@@ -339,8 +339,6 @@ def enquiry(request):
 @custome_check()
 def update_enquiry(request, enquiry_update_id):
     if request.method == "POST":
-        # print("----------------------------------------")
-        # print(request.user.id)
         try:
             enq = Enquiries.objects.get(id = enquiry_update_id)
             reference=request.POST.get('reference',False)
@@ -451,21 +449,9 @@ def discardCourse(request, enquiries_id):
         if reason:
             EnquiryCourseData.comment="{}:{}".format(datetime.now().strftime('%Y-%m-%d'),reason)
         EnquiryCourseData.save()
-
-        #no need of this as everything is working on enquries
-        # if not EnquiryCourses.objects.filter(enquiry_id=e_obj, discard=False).count():
-        #     e_obj.discard = True
-        #     e_obj.save()
-
     else:
         EnquiryCourseData.status = EnquiryCourses.NONE
         EnquiryCourseData.save()
-
-        # # undiscard enquiry
-        # if e_obj.discard:
-        #     e_obj.discard = False
-        #     e_obj.save()
-
     return JsonResponse({"result": True}, status=200)
 
 def table_data_filter(request):
@@ -541,8 +527,6 @@ class EnquiryListView(PaginationMixin, ListView):
     course = Courses.objects.all().order_by('name')
 
     def get_queryset(self):
-        # print("------------------------------------")
-        
         name = self.request.GET.get('name',False)
         mobile = self.request.GET.get('mobile',False)
         email = self.request.GET.get('email',False)
@@ -590,13 +574,10 @@ class EnquiryListView(PaginationMixin, ListView):
         if request.GET.get('discarded',False):
             enquiries = enquiries.filter(enquirycourses__status=EnquiryCourses.DISCARDED).distinct()
 
-        # else:
-        #     enquiries = enquiries.filter(enquirycourses__status=EnquiryCourses.NONE).distinct()
         enquiries = EnquiryFilter(request_data, enquiries).qs
 
         return enquiries.order_by('-id')
     def get(self,*args,**kwargs):
-        print("+++++++++++++++++++++++++++++- In Get method of 599 line no.")
         if self.request.user.is_active:
             if self.request.user.is_authenticated:
                 if self.request.GET.get('download'):
@@ -618,7 +599,6 @@ class EnquiryListView(PaginationMixin, ListView):
                 return HttpResponseRedirect("/")
 
     def get_context_data(self, *args, **kwargs):
-        # print("*****************************************")
         context = super().get_context_data(**kwargs)
         context['q_references'] = self.request.GET.getlist('reference')
         context['q_courses'] = list(map(int, self.request.GET.getlist('course')))
@@ -645,10 +625,7 @@ def view(request, enquiries_id):
         return render(request, 'enquiries/enquiry_error.html',ctx)
     enquiry = Enquiries.objects.get(id = enquiries_id)
     EnquireCourseData = EnquiryCourses.objects.filter(enquiry_id_id = enquiries_id)
-    # allselectdata = enquiry.courses.get_queryset()
-    # tomorrow=datetime.now() + timedelta(days=1)
     tomorrow = datetime.combine(datetime.now(), time.max)
-    #@@followups = Followups.objects.filter(followupid=enquiries_id).order_by('-next_followup')
     followups = Followups.objects.filter(followupid=enquiries_id).order_by('-added_on')
     next_followup=Followups.objects.filter(followupid=enquiries_id,next_followup__gte=tomorrow).order_by('next_followup').first()
     pay_link=Order_plan_details.objects.filter(email=enquiry.email)
@@ -660,8 +637,6 @@ def view(request, enquiries_id):
     else:
         yes=False
         amount=0
-        
-   
     context_data = {
         "enquiry": enquiry,
         "working_days": enquiry.batch_days.split(','),
@@ -673,7 +648,6 @@ def view(request, enquiries_id):
         'ReferenceModeChoices': ReferenceModeChoices.choice,
         'TrainingModeChoices': TrainingModeChoices.choice,
         'EnquiryLevelChoices': EnquiryLevelChoices.choice,
-        # 'AssignedByChoices': AssignedByChoices.choice
         'AssignedByUser': CustomUserModel.objects.filter(is_staff=False, exist_employee=True),
         'mindate':datetime.now().strftime( '%Y-%m-%d'),
         'student_responses': StudentResponse.objects.all().order_by('priority'),
@@ -684,8 +658,6 @@ def view(request, enquiries_id):
 
     email = enquiry.email
     mobile = enquiry.mobile
-    # print(mobile)
-    # print("-------")
     if mobile:
         mobile = mobile.strip(" ")
     if email and mobile:
@@ -710,38 +682,29 @@ def view(request, enquiries_id):
 def addFollowUps(request, followup_id):
     follows = Followups.objects.filter(followupid_id = followup_id)
     enquiry = Enquiries.objects.get(id = followup_id)
-
-    # mark the enquiry attended
     if not enquiry.attended:
         enquiry.attended = True
         enquiry.save()
 
     if request.method == 'POST':
         followups_mode = request.POST['followups_mode']
-        # response = request.POST['response']
         next_followup = request.POST['next_followup']
         comment = request.POST['comment']
         source_page = request.POST.get("source_page", False)
-        #update all existing followup as done and create new one
         now= datetime.now()
-        #At the time of new follow up, all existing follow ups will be marked complete
         Followups.objects.filter(followupid_id=enquiry.id).update(is_complete=True)
         Followups.objects.get_or_create(
             followupid_id = enquiry.id,
             followup_mode = followups_mode,
-            # response = response,
             next_followup = next_followup,
             comments = comment,
             assigned_user_id=request.user.id,
             student_response_id=request.POST.get('student_response',None)
         )
-        #update next followup date in enquiry
         enquiry.next_followup=next_followup
         enquiry_course_obj = EnquiryCourses.objects.filter(enquiry_id_id = enquiry.id).last()
-        print("------------------------------------------------------------------------")
-        print(enquiry_course_obj)
         if enquiry_course_obj:
-            if enquiry_course_obj.status == 2:              # 2 for discard
+            if enquiry_course_obj.status == 2:
                 enquiry.assigned_by_id=request.user.id
                 EnquiryCourses.objects.filter(id = enquiry_course_obj.id).update(
                     status = 0
@@ -810,7 +773,6 @@ class DiscardEnquiryView(View):
             id=self.kwargs.get('pk')
         )
         if enquiery_obj.exists():
-            # Followups.objects.filter(followupid=enquiery_obj.last()).update(discard=True)
             enq=enquiery_obj.first()
             if enq and enq.discard:
                 enq.discard_action(new_discard_status=False)
@@ -818,9 +780,6 @@ class DiscardEnquiryView(View):
                 reason=self.request.POST.get('reason','')
                 enq.discard_action(new_discard_status=True,reason=reason)
             response.update(status=1)
-
-            # print("------------------------------------")
-            # print(self.request.user)
         return JsonResponse(response)
 
 """

@@ -31,15 +31,10 @@ class Enrollments(models.Model):
     )
     
     enquiry_course_id = models.ForeignKey(EnquiryCourses, on_delete=models.PROTECT)
-    # batch = models.ForeignKey(Batches, on_delete=models.PROTECT, null=True, blank=True)
-    # email = models.EmailField(null = True)
-    #assigned_batches = models.ForeignKey(Batches, on_delete=models.PROTECT)
     payment_method = models.ForeignKey(PaymentMethod, on_delete=models.PROTECT)
     discussed_fee = models.IntegerField()
     discussed_fee_gst = models.IntegerField(null=True,default=0)
-    # registration_amount = models.IntegerField(help_text="Enter registration amount")
     registered_on = models.DateTimeField(auto_now=True)
-    #registered_by = models.CharField(max_length = 255, null = True) # ForeignKey users
     registered_by = models.ForeignKey('users.CustomUserModel', on_delete=models.SET_NULL, null=True)
     added_on = models.DateTimeField(auto_now_add=True)
     enroll_courses = models.CharField(max_length=255,blank=True,null=True,default=None)

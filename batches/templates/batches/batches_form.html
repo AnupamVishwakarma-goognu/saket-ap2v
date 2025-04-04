@@ -6,10 +6,7 @@
     {% include 'website/header.html' %}
     
       <div class="main-panel">
-        <!-- Navbar -->
-        
-            <!-- End Navbar -->
-            <div class="content">
+             <div class="content">
                 <div class="container-fluid">
                     <div class="container-fluid">
                         <div class="row">
@@ -23,12 +20,6 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>Batch Type</label>
-                                                        {% comment %} <div style="    margin-left: 10px;">
-                                                          <input type="radio" id="regular_batch" value="1" class="" name="batch_type" required="true" />
-                                                          <label for="regular_batch" style="margin-left: 5px;">Regular Batch</label>
-                                                          <input type="radio"  style="margin-left: 20px;" id="backup_batch" value="2" class="" name="batch_type" required="true" />
-                                                          <label for="backup_batch" style="margin-left: 5px;">Backup Batch</label>
-                                                        </div> {% endcomment %}
                                                         <select id="batch_type" name="batch_type" class="selectpicker" required="true">
                                                             <option></option>
                                                             <option value="1">Regular Batch</option>
@@ -55,20 +46,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                           <!-- <div class="row"> -->
-                                                <!-- <div class="col-md-6">
-                                                  <div class="form-group">
-                                                      <label>Duration</label>
-                                                      <input type="text" class="form-control" name="duration" placeholder="enter course duration" required="true" />
-                                                  </div>
-                                                </div> -->
-                                                <!-- <div class="col-md-6 pr-l">
-                                                    <div class="form-group">
-                                                        <label>End Time</label>
-                                                        <input type="text" name="end_time" class="form-control timepicker" placeholder="Time Picker Here">
-                                                    </div>
-                                                </div> -->
-                                           <!-- </div> -->
                                             <div class="row">
                                                 <div class="col-md-6">
                                                   <div class="form-group">
@@ -136,7 +113,6 @@
                                              
                                              <div class="card-footer">
                                              {% include 'batches/modal_batches.html' %}
-                                            <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
                                                 <button type="submit" class="btn btn-primary" onclick="openWaitingModal()" value="Reset Form">Create Batches</button>
                                                 
                                              </div>

@@ -27,9 +27,6 @@ def activity(request):
     ctx['activity_queryset'] = activity_queryset
     return render(request,'activity/activity_list.html',ctx)
 
-# log_activity()
-# log_activity(user = request.user, action = Activity.ACTIONS.add_enquiry, action_ref_id = 10)
-# log_activity(user = request.user, action = Activity.ACTIONS.add_followup, action_ref_id = 110)
 
 def log_activity(request=None, action=None, action_detail=None,id=None):
     if action and action_detail:

@@ -1,14 +1,9 @@
 from django.shortcuts import render,redirect
-from .customcode import authenticate
-from django.contrib.auth import login as auth_login
-# from django.contrib import messages
+from django.contrib.auth import login as auth_login,authenticate
 from django.contrib.auth.decorators import login_required
-# from django.views.decorators.csrf import csrf_protect
 from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
-# from django.contrib.auth.models import User
 from .models import CustomUserModel, UserRegistrationVerification,UserPasswordResetVerification
 from django.contrib.auth import logout as dj_logout
-# from users.models import Users
 from activity.views import log_activity
 from anquira_v2 import choices
 import datetime
@@ -21,7 +16,7 @@ from django.core.mail import EmailMessage
 from communication.views import send_activation_email,send_reset_password_email
 from django.views.decorators.csrf import csrf_exempt
 
-def login(request):
+def llogin(request):
     context = {}
     context['user'] = request.user
     names = CustomUserModel.objects.all()
@@ -45,7 +40,6 @@ def users(request):
         password = request.POST['password']
         check_login = authenticate(username=email, password = password)
         if check_login is not None:
-            # if check_login.is_active and check_login.user_type=="counselor":
             if check_login.is_active:
                 auth_login(request, check_login)
                 try:
@@ -85,21 +79,24 @@ def edit_profile(request):
         existing_password = request.POST.get("existing_password")
         new_password = request.POST.get("new_password")
         new_password2 = request.POST.get("new_password2")
-        name = request.POST.get('name',False)
+        firstname = request.POST.get('firstname',False)
+        lastname = request.POST.get('lastname',False)
         mobile = request.POST.get('mobile',False)
         user = request.user
                    
         
-        if name or mobile:
-            if name:
-                user.first_name=name
-            if mobile:
-                user.mobile=mobile
-            user.save()
-            message=False
-            status,ctx['profile_message'] = True,"Updated successfully."   
+        # if firstname or mobile or lastname:
+        if lastname:
+            user.last_name=lastname
+        if firstname:
+            user.first_name=firstname
+        if mobile:
+            user.mobile=mobile
+        user.save()
+        message=False
+        status,ctx['profile_message'] = True,"Updated successfully."   
 
-        elif existing_password and new_password and new_password2:
+        if existing_password and new_password and new_password2:
             if request.user.check_password(existing_password):
                 if new_password == new_password2:
                     user.set_password(new_password)

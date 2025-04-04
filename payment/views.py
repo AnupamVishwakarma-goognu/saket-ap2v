@@ -50,8 +50,6 @@ def order_receipt(request):
     ctx={}
     if request.method == "POST":
         confirm_data = request.POST
-        print("-----------------------------------------------------")
-        print(confirm_data)
         order_id = confirm_data['razorpay_order_id']
         if confirm_data['razorpay_order_id'] and confirm_data['razorpay_payment_id'] and confirm_data['razorpay_signature']:
             order_details = Order_plan_details.objects.filter(order_id = order_id).first()
@@ -71,11 +69,6 @@ def links_list(request):
     mobile=request.GET.get("mobile", None)
     email=request.GET.get("email", None)
     ctx = {}
-    # print('asaasp'*100)
-    # print(name)
-    # print(mobile)
-    # print(email)
-
     if name:
         payment_obj = Order_plan_details.objects.filter(name=name)
     elif mobile:
@@ -111,8 +104,7 @@ def genrate_payment_link(request):
             order_receipt = "AP2V Course Payment"
             notes = {'user': email}
             payment = client.order.create({"amount":order_amount, "currency":order_currency, "receipt":order_receipt, "notes":notes})
-            print("----------------------------")
-            print(payment)
+            # print(payment)
             ctx['payment'] = payment
             x = Order_plan_details(
                 name = name,
@@ -137,7 +129,6 @@ def get_payment_link(request):
     if id:
         payment_list_obj = Order_plan_details.objects.filter(id=id).first()
         if payment_list_obj:
-            print(payment_list_obj.payment_uuid)
             payment_link = settings.BASE_URL+"/pay/"+str(payment_list_obj.payment_uuid)
             ctx['payment_list_obj']=payment_list_obj
             ctx['payment_link']=payment_link

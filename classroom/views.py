@@ -7,8 +7,8 @@ from learning_paths.models import Learning_Path
 from home.models import Category
 import datetime
 from users.models import CustomUserModel as User
-from users.customcode import authenticate
-from django.contrib.auth import login as auth_login
+# from users.customcode import authenticate
+from django.contrib.auth import login as auth_login,authenticate
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from enrolls.models import Enrollments
@@ -53,7 +53,7 @@ def get_study_materials(request):
         print("POST R<ASNM<DF M")
         batch_id = request.POST.get('batch_id')
         data=""
-        print("BATCH ID:",batch_id)
+        # print("BATCH ID:",batch_id)
 
         if batch_id:
             study_materials = StudyMaterial.objects.filter(batch_id=batch_id)

@@ -63,9 +63,6 @@ def instructor(request):
             
             #----- create instructore user account in user table --------
             password_length = 5
-            # password = secrets.token_urlsafe(password_length)
-            # password = random.randint(10000,99999)
-            # print("Password for "+email+": "+str(password))
             x = User(
                 first_name = full_name,
                 email = email,
@@ -228,14 +225,11 @@ class InstructorupdateView(View):
             )
 
             courses = self.request.POST.getlist('courselist[]')
-            print("courses",courses)
             if courses:
                 instructor_obj_loop = instructor_obj.first()
                 remove_data=instructor_obj_loop.courses.exclude(id__in=list(map(int, courses)))
                 instructor_obj_loop.courses.set(courses)
                 
-                # for i in courses:
-                #     instructor_obj_loop.courses.set(courses)
                 for p in remove_data:
                     instructor_obj_loop.courses.remove(p.id)
 

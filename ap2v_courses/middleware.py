@@ -15,16 +15,8 @@ class CustomCacheMiddleware:
     def __call__(self, request):
         # Check if the request is GET and user is anonymous (not logged in)
         if request.method == 'GET' and not request.user.is_authenticated:
-            # Define cache_key_func based on the URL
-            # if request.path == reverse('course-listing'):
-            # if request.path == reverse('all_courses'):
-                # cache_key_func = custom_cache_key_courses
-            # elif request.path == reverse('course-listing_city'):
-            #     cache_key_func = custom_cache_key_city_courses
             if request.path == reverse('all_coursesCity'):
                 cache_key_func = custom_cache_key_city_courses
-            # elif request.path == reverse('landing-page'):
-            #     cache_key_func = custom_cache_key_landing_page
             else:
                 cache_key_func = None
 

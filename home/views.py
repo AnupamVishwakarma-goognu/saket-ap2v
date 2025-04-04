@@ -124,21 +124,6 @@ def send_enquiry(request):
 
 
 
-# ----------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-# def home(request):
-# 	blogs = Blogs.objects.order_by('-published_on')[:4]
-# 	testimonials = Text.objects.order_by('-date')[:5]
-# 	courses = Courses.objects.all()
-# 	events = Events.objects.order_by('-date')[:5]
-# 	certifications = Certifications.objects.all()
-# 	locations = Locations.objects.all()
-# 	remote_items = RemoteItems.objects.all()
-
-# 	return render(request, 'home/home.html', {'blogs':blogs, 'testimonials':testimonials,'courses':courses,'events':events,'certifications':certifications, "locations": locations, 'remote_items': remote_items})
-
 def about_us(request):
     clients = ['accenture.png', 'authbridge.png', 'collegedekho.png', 'ericsson.png', 'hcl.png', 'ht-media.png', 'ibm.png', 'india-air-force.png', 'innerchef.png', 'knowlarity.png', 'mercury-solutions.png', 'national-university-of-singapore.png', 'nokia.png', 'orange.png', 'paytm.png', 'redhat-academy.png', 'shine.png', 'tata-consultancy-services.png', 'tentaran.jpg', 'university-of-queensland.png', 'upkonnect.png']
     return render(request, 'home/about_us.html', {'clients': clients})
@@ -182,15 +167,6 @@ From ap2v.com""" % (firstname,lastname,email_address,str(mobile),text_message)
         except Exception as e:
             return JsonResponse({"result": e}, status=444)
 
-#def handler404(request, exception, template_name="home/404.html"):
-#    response = render_to_response(template_name)
-#    response.status_code = 404
-#    return response
-
-#def handler500(request, template_name="home/500.html"):
-#    response = render_to_response(template_name)
-#    response.status_code = 500
-#    return response
 
 def handler404(request):
     response = render(request, "home/404.html", {})
@@ -219,7 +195,7 @@ Mobile Number: %s
 Message: %s
 Inquery Page : %s
 For location Gurgaon""" %(firstname,email_address,str(mobile),text_message,enqp)
-        print("Enquiry From Home -> contact_enquiry")
+        # print("Enquiry From Home -> contact_enquiry")
         print(message)
         if "http:" not in text_message and "https:" not in text_message:
             if True:
@@ -251,8 +227,8 @@ Mobile Number: %s
 Message: %s
 Inquery Page : %s
 For location Gurgaon""" %(email_address,str(mobile),text_message,enqp)
-		print("Enquiry From Home -> call_enquiry")
-		print(message)
+		# print("Enquiry From Home -> call_enquiry")
+		# print(message)
 		if True:
 			try:
 				request.session['enquiry_sumited'] = True
@@ -308,10 +284,8 @@ def contact_enquiry_call(request):
 		except:
 			enqp = "Error to get page!!!"
 		message = """Mobile Number: %s
-Inquery Page : %s
-For location Gurgaon""" %(str(mobile),enqp)
-		print("Enquiry From Home -> contact_enquiry_call")
-		print(message)
+            Inquery Page : %s
+            For location Gurgaon""" %(str(mobile),enqp)
 		if True:
 			try:
 				request.session['enquiry_sumited'] = True
@@ -402,7 +376,7 @@ def error_4xx(request,exception=None):
 def error_5xx(request):
     return render(request,'v4_home/error_5xx.html')
 
-# -----function for save add_enquiry----------
+
 def create_enquiry(request):
     if not request.POST._mutable:
         request.POST._mutable = True
@@ -418,23 +392,17 @@ def create_enquiry(request):
 def find(request):
     ctx={}
     string = request.POST.get('string',None)
-    # print(string)
     if string:
-        # print(string)
         course_obj = Courses.objects.filter(Q(name__icontains=string) | Q(description__icontains=string),active_inactive=True)
         ctx['course_obj']=course_obj
-        # print(ctx['course_obj'])
     return render(request,'v4_home/sub_pages/search_result.html',ctx)
 
 def search(request):
     ctx={}
     string = request.GET.get('string',None)
-    print(string)
     if string:
-        # print(string)
         course_obj = Courses.objects.filter(Q(name__icontains=string) | Q(description__icontains=string),active_inactive=True)
         ctx['courses']=course_obj
-
         category_queryset = Category.objects.all()[:8]
         ctx['category_queryset'] = category_queryset
 

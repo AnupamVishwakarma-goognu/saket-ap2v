@@ -31,12 +31,6 @@ def get_tag_class(count):					# to give darker background to tag with more tagge
 	else :
 		return 'tag5'
 
-# def auto_rand_number(request):
-# 	try:
-# 		phone_number = get_number(request)
-# 	except:
-# 		phone_number = '+91 8306996216'
-# 	return {"number": phone_number}
 
 def city_block(request):
     ctx = {'city_block': []}
@@ -70,8 +64,8 @@ def city_block(request):
                 tmp_d['cname'] = course.name
 
                 ctx['city_block'].append(tmp_d)
-                print(ctx['city_block'])
-                print("888888888888")
+                # print(ctx['city_block'])
+                # print("888888888888")
 
     elif url_name == 'learning-path-detail':
         slug = request.resolver_match.kwargs.get('slug')
@@ -137,7 +131,7 @@ def common_divisions(request):
         ip_country = "in"  
     
     ctx['mylip'] = ip_country
-    print("IP country:",ctx['mylip'])
+    # print("IP country:",ctx['mylip'])
     ctx['hiringoo_link'] = settings.HIRINGGO_LINK
 
     return ctx
@@ -457,13 +451,11 @@ def skills(request):
 
     try:
         slug = base_uri.split("/")[-1]
-        skill_obj = SkillsContent.objects.get(uri=base_uri)
-        d['skill']['heading'] = skill_obj.heading
-        d['skill']['disc'] = skill_obj.discription
+        skill_obj = SkillsContent.objects.filter(uri=base_uri)
+        if skill_obj:
+            d['skill']['heading'] = skill_obj.heading
+            d['skill']['disc'] = skill_obj.discription
             
     except Exception as e:
         print(e)
-    print('***'*100)
-    print('d'*100)
-    print(d)
     return d

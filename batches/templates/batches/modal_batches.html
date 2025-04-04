@@ -3,8 +3,7 @@
     Add Student
 </button>
 
-<!-- Modal -->
-{% comment %} <form method="GET"> {% endcomment %}
+
     <div class="modal fade" id="openModal" tabindex="-1" role="dialog" aria-labelledby="openModalLabel"
         style="display: none;">
         <div class="modal-dialog modal-lg" role="document">
@@ -18,7 +17,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="form-group col-md-12">
-                            {% comment %} <label for="description">Description</label> {% endcomment %}
+                            
                             <div style="margin-bottom: 0px;cursor: pointer;display: flex;justify-content: space-between;">
                                 <div>
                                     <input type="checkbox" onclick="findByEnrollment()" id="search_by_enrollment" style="cursor: pointer;" value="checked" > <label for="search_by_enrollment" style="font-size: 13px;margin-left: 8px;color: darkslategray; cursor: pointer;">Search By Enrollment Number</label>
@@ -46,7 +45,7 @@
             </div>
         </div>
     </div>
-{% comment %} </form> {% endcomment %}
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script>
@@ -72,11 +71,6 @@ $(document).ready(function(){
 			url: "/batches/get_filter_student?course="+course,
 			data: data,
 			success: function (data) {
-				 //$('#add_student_email').html(data)
-                 //alert("success")
-                 //alert(data)
-                 //data1 = JSON.stringify(data)
-                 //alert(data1)
                  $('#add_student_email').html(data)
 			},
 			error: function (data) {

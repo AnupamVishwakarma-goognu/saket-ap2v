@@ -1,9 +1,46 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-# from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.models import AbstractUser,UserManager,AbstractBaseUser
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.db import models
+from django.contrib.auth.models import (
+    BaseUserManager, AbstractBaseUser
+)
 from anquira_v2 import choices
 
-class CustomUserModel(AbstractUser):
+class MyUserManager(BaseUserManager):
+    def create_user(self, email, password=None):
+        """
+        Creates and saves a User with the given email, date of
+        birth and password.
+        """
+        if not email:
+            raise ValueError('Users must have an email address')
+
+        user = self.model(
+            email=self.normalize_email(email),
+        )
+
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, password=None):
+        """
+        Creates and saves a superuser with the given email, date of
+        birth and password.
+        """
+        user = self.create_user(
+            email,
+            password=password,
+        )
+        user.is_admin = True
+        user.is_staff = True
+        user.is_superuser = True
+        user.save(using=self._db)
+        return user
+
+
+class CustomUserModel(AbstractBaseUser):
     LOCATION = (
         ("all", "all"),
         ('gurgaon', 'gurgaon'),
@@ -17,16 +54,37 @@ class CustomUserModel(AbstractUser):
         ('partner', 'Partner'),
         ('no_role','No Role')
     )
+    username = models.CharField(max_length=50,unique=True,blank=True,null=True)
+    email = models.CharField(max_length=100,unique=True,blank=True)
     exist_employee = models.BooleanField(default=True)
     mobile = models.CharField(max_length=20,blank=True)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    is_superuser = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
     location = models.CharField(max_length=15,choices=LOCATION,default="ALL")
     user_type = models.CharField(max_length=25,choices=USER_TYPE,default='student')
     is_verified = models.BooleanField(default = True, null=True)
+    objects=MyUserManager()
+    date_joined = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    first_name = models.CharField(max_length=50,blank=True)
+    last_name = models.CharField(max_length=50,blank=True)
+    USERNAME_FIELD = 'email'
     # @property
     # def name(self):
     #     return self.get_full_name()
     def __str__(self):
-        return self.username
+        return self.email
+    
+    def has_perm(self, perm, obj=None):
+        "Does the user have a specific permission?"
+        # Simplest possible answer: Yes, always
+        return True
+
+    def has_module_perms(self, app_label):
+        "Does the user have permissions to view the app `app_label`?"
+        # Simplest possible answer: Yes, always
+        return True    
 
 class CounselorPreferences(models.Model):
     user = models.ForeignKey(CustomUserModel, on_delete=models.SET_NULL, null=True,limit_choices_to={'user_type':'counselor'})
