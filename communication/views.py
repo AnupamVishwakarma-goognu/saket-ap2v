@@ -7,7 +7,7 @@ import json
 import requests
 from django.core.files.storage import default_storage
 from demo.models import DemoSMSTemplate
-from enquiries.models import Enquiries
+from enquiries.models import Enquiries,EnquiryCourses
 from .models import CounselorContactNumber
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.template.loader import render_to_string
@@ -110,7 +110,7 @@ def get_number(request):
         return number.number
     
 def send_demo_invite_email(request,title=None,start_date=None,meeting_link=None,stu_list=None):
-    print("------------Sending Mail-------------------")
+    # print("------------Sending Mail-------------------")
     
     email_list = []
     for i in stu_list:
@@ -132,25 +132,17 @@ def send_demo_invite_email(request,title=None,start_date=None,meeting_link=None,
         data = j
         html_content=render_to_string('email/demo_batch_email.html', data)
         text_content=html_content
-
-        # msg = EmailMultiAlternatives('Demo Invitation', text_content, "AP2V Demo Batch<"+settings.EMAIL_HOST_USER+">", [j['email'],])
-        # msg.attach_alternative(html_content, "text/html")
-        # status=msg.send()
-
-        #----------------------------------------------------------------------------------------------------------------------------------------------
         header1 = 'Demo Invitation'
         header12_line = "AP2V Demo Batch"
 
         send_mail_ses(j['email'],text_content,header1,header12_line)
     return "success"
-
 def send_batch_invite_email(request,title=None,start_date=None,meeting_link=None,stu_list=None):
-    print("------------Sending Mail-------------------")
     
     email_list = []
     for i in stu_list:
         stu_data = {}
-        enq_obj = Enquiries.objects.get(id = int(i))
+        enq_obj =EnquiryCourses.objects.get(id = int(i)).enquiry_id
         if enq_obj.email:
             if enq_obj.full_name:
                 stu_data['name'] = enq_obj.full_name
@@ -168,11 +160,6 @@ def send_batch_invite_email(request,title=None,start_date=None,meeting_link=None
         html_content=render_to_string('email/batch_email.html', data)
         text_content=html_content
 
-        # msg = EmailMultiAlternatives(title+' Batch Invitation', text_content, "AP2V Batch<"+settings.EMAIL_HOST_USER+">", [j['email'],])
-        # msg.attach_alternative(html_content, "text/html")
-        # status=msg.send()
-
-        #----------------------------------------------------------------------------------------------------------------------------------------------
         header1 = title+' Batch Invitation'
         header12_line = "AP2V Batch"
 
@@ -183,12 +170,6 @@ def send_activation_email(request, name=None, link=None,email=None):
     data = {'name':name,'link':link}
     html_content=render_to_string('email/verification_email.html', data)
     text_content=html_content
-
-    # msg = EmailMultiAlternatives('Email Verification', text_content, "AP2V Account Verification<"+settings.EMAIL_HOST_USER+">", [email])
-    # msg.attach_alternative(html_content, "text/html")
-    # status=msg.send()
-
-    #----------------------------------------------------------------------------------------------------------------------------------------------
     header1 = 'Email Verification'
     header12_line = 'AP2V Account Verification'
 
@@ -199,11 +180,6 @@ def send_reset_password_email(request, name=None, link=None,email=None):
     html_content=render_to_string('email/password_reset_email.html', data)
     text_content=html_content
 
-    # msg = EmailMultiAlternatives('Reset Password', text_content, "AP2V Account Verification<"+settings.EMAIL_HOST_USER+">", [email])
-    # msg.attach_alternative(html_content, "text/html")
-    # status=msg.send()
-
-    #----------------------------------------------------------------------------------------------------------------------------------------------
     header1 = 'Reset Password'
     header12_line = 'AP2V Account Verification'
 

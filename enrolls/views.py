@@ -446,9 +446,7 @@ class ViewInstallmentTemplateView(TemplateView):
 
 def update_enrolment(request):
     if request.method == "POST":
-        # print("------------7-------------")
         enrolment_name = request.POST['enquiry_id']
-        # enrollcourse = request.POST['enrollcourse']
         enrollcourse = ",".join(request.POST.getlist('enrollcourse'))
         discuss_fee = request.POST['discuss_fee']
         # registration_amount = request.POST['registration_amount']
@@ -505,7 +503,6 @@ def update_enrolment(request):
 
 def save_enroll_data(request):
     data={}
-    # print("-----------------SAVE ENROLL DATA FUNCTION----------------------------")
     installment = request.GET.get("enrollments",None)
     update_installment = request.GET.get("update_enrollment",None)
     enroll_course_id = request.GET.get("enroll_course_id")
@@ -519,17 +516,8 @@ def save_enroll_data(request):
     current_h = request.GET.get("current_h")
     recive_h = request.GET.get("recive_h")
     other_fee_h = request.GET.get("other_fee_h")
-    # print('pqqqaashish'*100)
-    # print(recive_h)
-    # print('this ecxam',exam_fee_h)
-    # print('this book',book_fee_h)
-    # print('this ap2v share',ap2v_fee_h)
-    # print('this other share',other_fee_h)
-
-    
-    
-    print("--------------------------------123456789---------------------------------------------------------------------")
-    print(enroll_type)
+    print("Enroll Type: ",enroll_type)
+    print("Course: ",courses)
     
 
     enquiry_id = EnquiryCourses.objects.filter(id = enroll_course_id).first()
@@ -542,10 +530,10 @@ def save_enroll_data(request):
     all_enroll_courses = (",").join(courses)
 
     discussed_fee_gst = (int(discussed_fee)*18)/100
-    print(discussed_fee_gst)
+    print("discussed_fee_gst: ",discussed_fee_gst)
 
     for i in courses:
-        print(i)
+        print("I: ",i)
         print(EnquiryCourses.objects.get(id = int(i)))
         if Enrollments.objects.filter(enquiry_course_id = int(i)).exists():
             x = Enrollments.objects.filter(enquiry_course_id = EnquiryCourses.objects.get(id = int(i))).update(
@@ -565,13 +553,13 @@ def save_enroll_data(request):
             )
             x = Enrollments.objects.filter(enquiry_course_id =int(i)).first()
         else:
+            print("----In else----")
             x = Enrollments(
                 discussed_fee = discussed_fee,
                 discussed_fee_gst = discussed_fee_gst,
                 enroll_courses = all_enroll_courses,
                 enquiry_course_id = EnquiryCourses.objects.get(id = int(i)),
                 payment_method_id = 1,
-                # registration_amount = 0,
                 registered_by_id = request.user.id,
                 enroll_type=enroll_type,
                 exam_share=exam_fee_h,
@@ -638,22 +626,24 @@ def save_enroll_data(request):
                     send_email_course = True
             join_course_name = (" and ").join(course_list)
             email = Enrollments.objects.filter(id=x.id).first().enquiry_course_id.enquiry_id.email
+            mobile = Enrollments.objects.filter(id=x.id).first().enquiry_course_id.enquiry_id.mobile
             if email:
                 password=None
                 if not CustomUserModel.objects.filter(email=email).exists():
-                    # print("User Not Found")
                     enroll_obj2 = Enrollments.objects.filter(id=x.id).first()
                     name = enroll_obj2.enquiry_course_id.enquiry_id.full_name
+                    last_name = name.split(" ")
                     password_name = name.split(" ")
                     password_number = enroll_obj2.enquiry_course_id.enquiry_id.mobile
                     if password_number:
                         password_number = password_number[-4:]
                     else:
                         password_number = 3691
-                    password = str(password_name[0])+"@"+str(password_number)
+                    password = str(email)+str(mobile)
                     username_email = email.replace("@",'.')
                     save_user = CustomUserModel.objects.create(
                         first_name = name,
+                        last_name = last_name,
                         username = username_email,
                         email = email.lower(),
                         user_type = 'student',
@@ -661,13 +651,11 @@ def save_enroll_data(request):
                     )
                     save_user.set_password(password)
                     save_user.save()
-                    # print("User created with : ",password)
                 
                 
                 if send_email_course:
                     print("Sending mail...")
                     send_enrollment_email(request,join_course_name,email,password)    
-                # print("Mail Sended") 
 
         except Exception as e:
             print(e)

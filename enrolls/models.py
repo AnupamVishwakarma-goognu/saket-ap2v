@@ -5,14 +5,6 @@ from courses.models import Courses,Books
 from users.models import CustomUserModel, PartnerPreferences
 from django.utils import timezone
 from anquira_v2 import choices
-# class Fees(models.Model):
-#     amount = models.IntegerField()
-#     date = models.DateField()
-#     FEES_PAID_OR_NOT = (
-#         (1, 'paid'),
-#         (0, 'unpaid')
-#     )
-#     status = models.BooleanField(default=False, choices=FEES_PAID_OR_NOT)
 
 class PaymentMethod(models.Model):
     payment_method = models.CharField(max_length=100, help_text="Payment Method")

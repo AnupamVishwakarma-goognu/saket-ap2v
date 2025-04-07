@@ -1,9 +1,8 @@
 from django.shortcuts import render,redirect
-from django.contrib.auth import login as auth_login,authenticate
+from django.contrib.auth import login as auth_login,authenticate,logout as dj_logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
 from .models import CustomUserModel, UserRegistrationVerification,UserPasswordResetVerification
-from django.contrib.auth import logout as dj_logout
 from activity.views import log_activity
 from anquira_v2 import choices
 import datetime
@@ -38,7 +37,10 @@ def users(request):
     if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
+        print("email",email)
+        print("password",password)
         check_login = authenticate(username=email, password = password)
+        print("check_login",check_login)
         if check_login is not None:
             if check_login.is_active:
                 auth_login(request, check_login)
@@ -84,8 +86,6 @@ def edit_profile(request):
         mobile = request.POST.get('mobile',False)
         user = request.user
                    
-        
-        # if firstname or mobile or lastname:
         if lastname:
             user.last_name=lastname
         if firstname:

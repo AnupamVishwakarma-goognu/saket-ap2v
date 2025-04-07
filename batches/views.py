@@ -24,7 +24,7 @@ from django.conf import settings
 from chats.views import create_room_api
 from bluejeans.views import get_recording_compositeContentId,get_courses_recordings
 from communication.views import SendSMS,send_batch_invite_email,send_batch_off_reminder,sending_holiday_email
-from enquiries.models import EnquiryCourses
+from enquiries.models import Enquiries, EnquiryCourses
 import calendar
 from demo.models import Demo
 from users.models import CustomUserModel as User
@@ -46,124 +46,252 @@ from anquira_v2.decorators import custome_check
 from django_chatter.models import Room
 import json
 from bluejeans.zoom import remove_license_to_user,inc_meeting_license_number
+from django.shortcuts import get_object_or_404
+from django.db import transaction
+
+
+# @login_required(login_url = '/')
+# @custome_check()
+# def batches(request):
+#     from datetime import datetime
+#     if request.method == 'POST':
+#         bname = "btch-{autogen}".format(autogen = anquira_handlers.get_batch_name())
+#         candidate_data = request.POST['candidate'].split(',')
+#         if candidate_data[-1]=="":
+#             candidate_data.pop()
+#         candidate_data2 = request.POST['candidate2'].split(',')
+#         if candidate_data2[-1]=="":
+#             candidate_data2.pop()
+#         print(f"{candidate_data} candidate2: {candidate_data2}")
+#         candidate_data = candidate_data+candidate_data2
+#         candidate_data = list(dict.fromkeys(candidate_data))
+
+#         days_of_week = ",".join(request.POST.getlist('days_of_week'))
+#         start_date_time = request.POST['start_date_time']
+#         start_date_time = datetime.strptime(start_date_time, '%m/%d/%Y %I:%M %p')
+#         instructors = request.POST['instructors']
+#         session_duration = request.POST['session_duration']
+#         batch_type = request.POST['batch_type']
+#         language_type = request.POST['language_type']
+#         courses_id = Courses.objects.get(id = int(request.POST['course'])).id
+#         print("Course ID : ",courses_id)
+#         try:
+#             complete = request.POST('complete')
+#         except:
+#             complete = 'False'
+#         courses_id_list = ",".join(request.POST.getlist('course'))
+#         print("Courses ID List : ",courses_id_list)
+#         duration = Courses.objects.get(id = int(courses_id)).duration
+#         candidate = ""
+#         candidate_extend_list = []
+#         for candidate_details in candidate_data:
+#             candidate_extend_list.append(Enrollments.objects.get(id = int(candidate_details)).enquiry_course_id.enquiry_id.full_name)
+#         print("Candidate Extend List : ",candidate_extend_list)
+#         candidate = ", ".join(candidate_extend_list)
+#         end_date_time = request.POST.get('end_date_time')
+#         end_date_time = datetime.strptime(end_date_time, '%m/%d/%Y %I:%M %p')
+#         courses_id_list = courses_id_list.split(",")
+
+#         end_date_time2 = end_date_time+timedelta(days=100)
+
+#         attendees_data = []
+#         room_emails = [] 
+#         print("---------Candidate Data 96 :----------- ",candidate_data)
+#         for i in candidate_data:
+#             print("i: ",i)
+#             attendees_email={}
+#             enroll_students = Enrollments.objects.get(id = int(i))
+#             email = enroll_students.enquiry_course_id.enquiry_id.email
+#             attendees_email['email'] = email
+#             room_emails.append(email)
+#             attendees_data.append(attendees_email)
+
+#         instructors_obj = Instructors.objects.filter(id = instructors).first()
+#         user_id = None
+#         moderator_passcode = settings.MODERATOR_PASSCODE
+#         if instructors_obj.blue_jeans_user_id:
+#             user_id = instructors_obj.blue_jeans_user_id
+#             moderator_passcode = instructors_obj.blue_jeans_passcode
+
+#         title = Courses.objects.get(id = int(courses_id_list[0])).name+" Batch"
+#         meeting_id = '0000000'
+#         attendees_passcode = True
+#         student_meeting_link = True
+#         instructor_meeting_link = True
+        
+        
+#         if meeting_id and attendees_passcode and moderator_passcode:
+#             create_batch = Batches.objects.create(batch_name=bname, days_of_week=days_of_week, duration=duration,
+#                             start_date_time=start_date_time, instructors_id=int(instructors),instructor_blue_jeans_user_id=user_id,
+#                             session_duration=session_duration, candidates=candidate, complete=complete,
+#                             meeting_id = meeting_id,moderator_passcode=moderator_passcode,attendee_passcode=attendees_passcode,
+#                             bitly_link_instructer = instructor_meeting_link,bitly_link_student_mobile=student_meeting_link,end_date_time=end_date_time,batch_type=batch_type,language_type=language_type)
+            
+#             enrolled_course_id_list = []
+#             for m in courses_id_list:
+#                 courses_id=Courses.objects.get(id = int(m)).id
+#                 enrolled_course_id_list.append(courses_id)
+#             create_batch.courses.set(enrolled_course_id_list)
+            
+#             enrolled_student_id_list = []
+#             print("---------Candidate Data 134 :----------- ",candidate_data)
+#             for i in candidate_data:
+#                 enroll_students = Enrollments.objects.get(id = int(i))
+#                 enroll_students.batch = create_batch.id
+#                 enroll_students.save()
+#                 enrolled_student_id_list.append(enroll_students.id)
+#             create_batch.enroll_student.set(enrolled_student_id_list)
+#             print("enrolled_student_id_list: ",enrolled_student_id_list)
+#             course_name = Courses.objects.filter(id = int(courses_id_list[0])).first().name
+#             print("Sending Email.....Batch")
+#             send_batch_invite_email(request,course_name,start_date_time,student_meeting_link,enrolled_student_id_list)
+            
+#             try:
+#                 log_activity(request,action=choices.Action.add_batch, action_detail=choices.ActionDetails.add_batch,id=create_batch.id)
+#             except Exception as e:
+#                 print(e)
+
+#         room_emails.append(instructors_obj.email)
+#         data = create_room_api(request,room_emails)
+#         print("Room id: ",data['room_id'])
+#         if data['room_id']:
+#             Batches.objects.filter(id=create_batch.id).update(
+#                 chat_room_id = data['room_id'])
+#         return redirect(reverse('batchlist'))
+
+#     context_data = {
+#         'instructor': Instructors.objects.filter(active=True),
+#         'enrollment': Enrollments.objects.all(),
+#         'course': Courses.objects.all().order_by('name'),
+#         'mindate':datetime.now().strftime( '%Y-%m-%d')
+#     }
+#     return render(request, 'batches/batches_form.html', context_data)
 
 @login_required(login_url = '/')
 @custome_check()
 def batches(request):
-    from datetime import datetime
+    from datetime import datetime, timedelta
+
     if request.method == 'POST':
-        bname = "btch-{autogen}".format(autogen = anquira_handlers.get_batch_name())
+        bname = "btch-{autogen}".format(autogen=anquira_handlers.get_batch_name())
+
         candidate_data = request.POST['candidate'].split(',')
-        if candidate_data[-1]=="":
+        if candidate_data[-1] == "":
             candidate_data.pop()
         candidate_data2 = request.POST['candidate2'].split(',')
-        if candidate_data2[-1]=="":
+        if candidate_data2[-1] == "":
             candidate_data2.pop()
-        print(f"{candidate_data} candidate2: {candidate_data2}")
-        candidate_data = candidate_data+candidate_data2
-        candidate_data = list(dict.fromkeys(candidate_data))
+
+        candidate_data = list(dict.fromkeys(candidate_data + candidate_data2))  # Remove duplicates
 
         days_of_week = ",".join(request.POST.getlist('days_of_week'))
-        start_date_time = request.POST['start_date_time']
-        start_date_time = datetime.strptime(start_date_time, '%m/%d/%Y %I:%M %p')
+        start_date_time = datetime.strptime(request.POST['start_date_time'], '%m/%d/%Y %I:%M %p')
         instructors = request.POST['instructors']
         session_duration = request.POST['session_duration']
         batch_type = request.POST['batch_type']
         language_type = request.POST['language_type']
-        courses_id = Courses.objects.get(id = int(request.POST['course'])).id
-        print("Course ID : ",courses_id)
+        # print("language_type: ",language_type)
+        # print("batch_type: ",batch_type)
+        # print("session_duration: ",session_duration)
+        # print("instructors: ",instructors)
+        # print("days_of_week: ",days_of_week)
+        # print("start_date_time: ",start_date_time)
+
+        courses_id = Courses.objects.get(id=int(request.POST['course'])).id
+        # print("Course ID : ",courses_id)
+        complete=False
         try:
-            complete = request.POST('complete')
-        except:
+            complete = request.POST['complete']
+        except KeyError:
             complete = 'False'
-        courses_id_list = ",".join(request.POST.getlist('course'))
-        print("Courses ID List : ",courses_id_list)
-        duration = Courses.objects.get(id = int(courses_id)).duration
-        candidate = ""
+
+        duration = Courses.objects.get(id=int(courses_id)).duration
         candidate_extend_list = []
-        for candidate_details in candidate_data:
-            candidate_extend_list.append(Enrollments.objects.get(id = int(candidate_details)).enquiry_course_id.enquiry_id.full_name)
-        print("Candidate Extend List : ",candidate_extend_list)
+
+
+        for candidate_id in candidate_data:
+            enrollment = get_object_or_404(Enrollments, id=int(candidate_id))
+            enquiry = enrollment.enquiry_course_id.enquiry_id 
+            email = enquiry.email
+            mobile = enquiry.mobile
+
+            user, created = User.objects.get_or_create(
+                email=email,
+                defaults={
+                    'first_name': enquiry.full_name.split()[0] if enquiry.full_name else '',
+                    'last_name': ' '.join(enquiry.full_name.split()[1:]) if len(enquiry.full_name.split()) > 1 else '',
+                    'mobile': enquiry.mobile,
+                    'user_type': 'student',
+                    'is_active': True
+                }
+            )
+            user.set_password(str(email)+str(mobile))
+            user.save()
+            if created:
+                print(f"New user created: {user.email}")
+
+            candidate_extend_list.append(enquiry.full_name)
+
         candidate = ", ".join(candidate_extend_list)
-        end_date_time = request.POST.get('end_date_time')
-        end_date_time = datetime.strptime(end_date_time, '%m/%d/%Y %I:%M %p')
-        courses_id_list = courses_id_list.split(",")
 
-        end_date_time2 = end_date_time+timedelta(days=100)
+        end_date_time = datetime.strptime(request.POST.get('end_date_time'), '%m/%d/%Y %I:%M %p')
+        courses_id_list = request.POST.getlist('course')
+        # print("end_date_time: ", end_date_time)
+        # print("courses_id_list: ", courses_id_list)
+        # print("candidate: ",candidate)
+        with transaction.atomic():
+            create_batch = Batches.objects.create(
+                batch_name=bname,
+                days_of_week=days_of_week,
+                duration=duration,
+                start_date_time=start_date_time,
+                instructors_id=int(instructors),
+                session_duration=session_duration,
+                candidates=candidate,
+                complete=complete,
+                meeting_id='0000000',
+                moderator_passcode=settings.MODERATOR_PASSCODE,
+                attendee_passcode=True,
+                bitly_link_instructer=True,
+                bitly_link_student_mobile=True,
+                end_date_time=end_date_time,
+                batch_type=batch_type,
+                language_type=language_type
+            )
 
-        attendees_data = []
-        room_emails = [] 
-        print("---------Candidate Data 96 :----------- ",candidate_data)
-        for i in candidate_data:
-            print("i: ",i)
-            attendees_email={}
-            enroll_students = Enrollments.objects.get(id = int(i))
-            email = enroll_students.enquiry_course_id.enquiry_id.email
-            attendees_email['email'] = email
-            room_emails.append(email)
-            attendees_data.append(attendees_email)
 
-        instructors_obj = Instructors.objects.filter(id = instructors).first()
-        user_id = None
-        moderator_passcode = settings.MODERATOR_PASSCODE
-        if instructors_obj.blue_jeans_user_id:
-            user_id = instructors_obj.blue_jeans_user_id
-            moderator_passcode = instructors_obj.blue_jeans_passcode
+            enrolled_course_ids = [Courses.objects.get(id=int(cid)).id for cid in courses_id_list]
+            create_batch.courses.set(enrolled_course_ids)
 
-        title = Courses.objects.get(id = int(courses_id_list[0])).name+" Batch"
-        meeting_id = '0000000'
-        attendees_passcode = True
-        student_meeting_link = True
-        instructor_meeting_link = True
-        
-        
-        if meeting_id and attendees_passcode and moderator_passcode:
-            create_batch = Batches.objects.create(batch_name=bname, days_of_week=days_of_week, duration=duration,
-                            start_date_time=start_date_time, instructors_id=int(instructors),instructor_blue_jeans_user_id=user_id,
-                            session_duration=session_duration, candidates=candidate, complete=complete,
-                            meeting_id = meeting_id,moderator_passcode=moderator_passcode,attendee_passcode=attendees_passcode,
-                            bitly_link_instructer = instructor_meeting_link,bitly_link_student_mobile=student_meeting_link,end_date_time=end_date_time,batch_type=batch_type,language_type=language_type)
-            
-            enrolled_course_id_list = []
-            for m in courses_id_list:
-                courses_id=Courses.objects.get(id = int(m)).id
-                enrolled_course_id_list.append(courses_id)
-            create_batch.courses.set(enrolled_course_id_list)
-            
-            enrolled_student_id_list = []
-            print("---------Candidate Data 134 :----------- ",candidate_data)
-            for i in candidate_data:
-                enroll_students = Enrollments.objects.get(id = int(i))
-                enroll_students.batch = create_batch.id
-                enroll_students.save()
-                enrolled_student_id_list.append(enroll_students.id)
-            create_batch.enroll_student.set(enrolled_student_id_list)
-            print("enrolled_student_id_list: ",enrolled_student_id_list)
-            course_name = Courses.objects.filter(id = int(courses_id_list[0])).first().name
-            print("Sending Email.....Batch")
-            send_batch_invite_email(request,course_name,start_date_time,student_meeting_link,enrolled_student_id_list)
-            
-            try:
-                log_activity(request,action=choices.Action.add_batch, action_detail=choices.ActionDetails.add_batch,id=create_batch.id)
-            except Exception as e:
-                print(e)
+            enrolled_student_ids = []
+            for candidate_id in candidate_data:
+                enroll_student = Enrollments.objects.get(id=int(candidate_id))
+                enroll_student.batch = create_batch.id
+                enroll_student.save()
+                enrolled_student_ids.append(enroll_student.id)
 
-        room_emails.append(instructors_obj.email)
-        data = create_room_api(request,room_emails)
-        print("Room id: ",data['room_id'])
-        if data['room_id']:
-            Batches.objects.filter(id=create_batch.id).update(
-                chat_room_id = data['room_id'])
+            create_batch.enroll_student.set(enrolled_student_ids)
+
+
+        send_batch_invite_email(request, Courses.objects.get(id=int(courses_id_list[0])).name, start_date_time, True, enrolled_student_ids)
+        log_activity(request, action=choices.Action.add_batch, action_detail=choices.ActionDetails.add_batch, id=create_batch.id)
+
+        room_emails = [enrollment.enquiry_course_id.enquiry_id.email for enrollment in Enrollments.objects.filter(id__in=candidate_data)]
+        room_emails.append(Instructors.objects.get(id=int(instructors)).email)
+        room_data = create_room_api(request, room_emails)
+
+        if room_data.get('room_id'):
+            Batches.objects.filter(id=create_batch.id).update(chat_room_id=room_data['room_id'])
+
         return redirect(reverse('batchlist'))
 
     context_data = {
         'instructor': Instructors.objects.filter(active=True),
         'enrollment': Enrollments.objects.all(),
         'course': Courses.objects.all().order_by('name'),
-        'mindate':datetime.now().strftime( '%Y-%m-%d')
+        'mindate': datetime.now().strftime('%Y-%m-%d')
     }
     return render(request, 'batches/batches_form.html', context_data)
-
 @login_required(login_url = '/')
 @custome_check()
 def batchlist(request):
@@ -214,16 +342,9 @@ def batchView(request, batches_id):
     data = []
     value = ""
     text_value = []
-    # enroll_students = Enrollments.objects.filter(batch_id = batches.id)
-    # for i in enroll_students:
-    #     data_dict = {"text":"{} ({})".format(i.enquiry_course_id.enquiry_id.full_name, i.enquiry_course_id.enquiry_id.mobile),"value":i.id, "enquiry_id": i.enquiry_course_id.enquiry_id.id}
-    #     text_value.append(i.enquiry_course_id.enquiry_id.full_name)
-    #     data.append(data_dict)
-    # value = ", ".join(text_value)
     context_data = {
         'batches': batches,
         'instructors': instructors,
-        # "student_data": data,
         "text_value": value,
         'dows': anquira_handlers.DayOfWeekChoices.choice,
         'course': Courses.objects.all().order_by('name'),
@@ -235,6 +356,8 @@ class BatchupdateView(View):
     redirect_url = "batchlist"
 
     def post(self, request, *args, **kwargs):
+        # print("in post request of batch update "*1000)
+
         candidate_data = request.POST.get('candidate').split(',')
         days_of_week = ",".join(request.POST.getlist('days_of_week'))
         start_date_time = request.POST.get('start_date_time')
@@ -245,7 +368,10 @@ class BatchupdateView(View):
         except:
             complete = 'False'
         courses_obj_id = Courses.objects.filter(id=int(request.POST['course']))
+        print("courses_obj_id: ",courses_obj_id)
+        courses_id=None
         if courses_obj_id.exists():
+            print("yes exists")
             courses_id = courses_obj_id.first().id
         courses_obj_duration = Courses.objects.filter(id=int(courses_id))
         if courses_obj_duration.exists():
@@ -266,10 +392,8 @@ class BatchupdateView(View):
         if batch_obj_instance.exists():
             batch_obj_instance.update(
                 days_of_week=days_of_week,
-                # start_date_time=start_date_time,
                 instructors_id=int(instructors),
                 session_duration=session_duration,
-                # courses_id=courses_id,
                 candidates=candidate,
                 complete=complete
             )
@@ -278,6 +402,26 @@ class BatchupdateView(View):
                     enroll_students = Enrollments.objects.get(id=int(i))
                     enroll_students.batch_id = batch_obj_instance.first().id
                     enroll_students.save()
+                
+                    enquiry = enroll_students.enquiry_course_id.enquiry_id 
+                    email = enquiry.email
+                    mobile = enquiry.mobile
+
+                    user, created = User.objects.get_or_create(
+                        email=email,
+                        defaults={
+                            'first_name': enquiry.full_name.split()[0] if enquiry.full_name else '',
+                            'last_name': ' '.join(enquiry.full_name.split()[1:]) if len(enquiry.full_name.split()) > 1 else '',
+                            'mobile': enquiry.mobile,
+                            'user_type': 'student',
+                            'is_active': True
+                        }
+                    )
+                    user.set_password(str(email)+str(mobile))
+                    user.save()
+                    if created:
+                        print(f"New user created: {user.email}")
+                        send_batch_invite_email(request, Courses.objects.get(id=int(courses_id)).name, batch_obj_instance.first().start_date_time, True, enroll_students.id)    
         response_data = {
             'status': 1,
             'redirect': reverse(self.redirect_url)
@@ -291,25 +435,12 @@ class BatchupdateView(View):
 
 
 def get_filter_student(request):
-    # print("------------------------------------------------------------------------------------------")
     results = []
-    # if "course_id" in request.GET and "query" in request.GET:
-    # course_id = request.GET['course_id']
     s_string = request.GET['search_string']
     course_id= request.GET['course']
     enroll_find = request.GET.get("enroll_find",None)
-    # print(enroll_find)
-    # print(type(enroll_find))
-    # print(course_id)
     if enroll_find =="0":
         if s_string and course_id:
-            ### serach syntax in fastselect api.
-            # results = [
-            # 	{"text": "Afghanistan", "value": "Afghanistan"},
-            # 	{"text": "Albania", "value": "Albania"},
-            # 	{"text": "Algeria", "value": "Algeria"},
-            # 	{"text": "Angola", "value": "Angola"}
-            # ]
             if s_string != "":
                 if s_string[0] in "0123456789":
                     e_objs = Enrollments.objects.filter(enquiry_course_id__enquiry_id__mobile__istartswith = s_string, enquiry_course_id__courses__id = int(course_id))
@@ -323,12 +454,6 @@ def get_filter_student(request):
                         text = "{}). {} ({})".format(e_obj.id,e_obj.enquiry_course_id.enquiry_id.full_name, e_obj.enquiry_course_id.enquiry_id.mobile)
                         value = e_obj.id
                         results.append({"text": text, "value": value})
-        # # else:
-        #     # pass
-        # print(results)
-        # return JsonResponse(results, safe=False)
-        # # else:
-        #     # return JsonResponse(results, safe=False)
     elif enroll_find=='1':
         if s_string and course_id:
             if s_string != "":
@@ -343,54 +468,31 @@ def get_filter_student(request):
 
 def get_course_student(request):
     from datetime import datetime
-    # print("------------------------------------------------------------------------------------------")
     results = []
-    # if "course_id" in request.GET and "query" in request.GET:
-    # course_id = request.GET['course_id']
-    # s_string = request.GET['search_string']
     course_id= request.GET.getlist('course',None)
-    # course_id = course_id.strip("'")
     print(course_id)
-    # print(type(course_id))
     course_id = course_id[0]
     course_id = course_id.split(",")
-    # print(course_id)
-    # print(type(course_id))
     course_list = []
     for i in course_id:
         course_list.append(int(i))
-    # print(course_list)
+
     if course_id:
-        ### serach syntax in fastselect api.
-        # results = [
-        # 	{"text": "Afghanistan", "value": "Afghanistan"},
-        # 	{"text": "Albania", "value": "Albania"},
-        # 	{"text": "Algeria", "value": "Algeria"},
-        # 	{"text": "Angola", "value": "Angola"}
-        # ]
         temp_enroll_list = []
         later_date = datetime.now() - timedelta(days=100)
         later_enroll = Enrollments.objects.filter(added_on__gte = later_date)
-        # print(later_enroll)
-        # print(later_date)
 
         for le in later_enroll:
             enroll_course_data = le.enroll_courses
             enroll_course_data = enroll_course_data.split(",")
-            # print(enroll_course_data)
             for ecd in enroll_course_data:
                 temp_enquiry_course_obj = EnquiryCourses.objects.filter(id=ecd).first()
                 if temp_enquiry_course_obj.courses_id in course_list:
                     temp_enroll_list.append(le.id)
 
-            # temp_enroll_list.extend(temp_enroll_obj)
-        # list(set(temp_enroll_list))
-        # print(temp_enroll_list)
-        # print("-----------------------")
 
 
         if course_list:
-            # e_objs = Enrollments.objects.filter(enquiry_course_id__courses__id__in = course_list).distinct().order_by('-id')
             e_objs = Enrollments.objects.filter(id__in = temp_enroll_list).distinct().order_by('-id')
             for e_obj in e_objs:
                 enroll_course = e_obj.enroll_courses
@@ -408,12 +510,6 @@ def get_course_student(request):
                 text = "{}). {} ({}/{})--{}".format(e_obj.id,e_obj.enquiry_course_id.enquiry_id.full_name, e_obj.enquiry_course_id.enquiry_id.mobile,e_obj.enquiry_course_id.enquiry_id.email,course_list)
                 value = e_obj.id
                 results.append({"text": text, "value": value})
-    # # else:
-    #     # pass
-    # print(results)
-    # return JsonResponse(results, safe=False)
-    # # else:
-    #     # return JsonResponse(results, safe=False)
     return render(request, 'batches/filtered_student.html',{'results':results})
 
 
@@ -429,8 +525,6 @@ def removeStudentFromBatch(request):
     enroll_id = request.GET.get('id',None)
     batch_id = request.GET.get('batch_id',None)
     if enroll_id:
-        # print(enroll_id)
-        # print(batch_id)
         batch_obj = Batches.objects.filter(id=batch_id).first()
         batch_obj.enroll_student.remove(enroll_id)
 
@@ -453,19 +547,19 @@ def removeStudentFromBatch(request):
         return JsonResponse(data)
 
 def update_batch(request):
+    print("in post request of update_batch "*1000)
+
     batch_id = request.POST.get("batch_id",None)
     import datetime
     if batch_id:        
         courses_id_list = request.POST.getlist('course')
-        # print("--------------------------------")
-        # print(courses_id_list)
-        # print(type(courses_id_list))
 
-        candidate_data = request.POST['candidate2'].split(',')  ## list of candidate with str form
+        candidate_data = request.POST['candidate2'].split(',') 
+        
         if candidate_data[-1]=="":
             candidate_data.pop()
         candidate_data = list(dict.fromkeys(candidate_data))
-
+        print("Candidate Data : ",candidate_data)
         days_of_week = ",".join(request.POST.getlist('days_of_week'))
         instructors = request.POST['instructors']
         session_duration = request.POST['session_duration']
@@ -474,7 +568,12 @@ def update_batch(request):
         update_on = datetime.datetime.now()
 
         batch_status = request.POST.get("batch_status",None)
-        print(batch_status)
+        print("batch_status: ",batch_status)
+        print("days_of_week: ",days_of_week)
+        print("instructors: ",instructors)
+        print("session_duration: ",session_duration)
+        print("complete: ",complete)
+        print("batch_type: ",batch_type)
         if not batch_status:
             batch_status = "4"
         
@@ -497,27 +596,37 @@ def update_batch(request):
 
         enroll_course_list = []
         for j in courses_id_list:
-            # print("LIST ITEM :", j)
             enroll_course = Courses.objects.get(id = int(j))
             enroll_course_list.append(enroll_course.id)
         batch_obj.courses.set(enroll_course_list)
         
-        # print(candidate_data)
-        print("-----------------------------kkkkk----------------------------------------------------------------")
         for i in candidate_data:
             enroll_students = Enrollments.objects.get(id = int(i))
             batch_obj.enroll_student.add(enroll_students.id)
-
             student_email = enroll_students.enquiry_course_id.enquiry_id.email
-            # print("Student Email : ",student_email)
-            
-
+            enquiry=Enquiries.objects.get(id=enroll_students.enquiry_course_id.enquiry_id.id)
             user_obj =  User.objects.filter(email= student_email).last()
+            print("enroll_students id: ",enroll_students.id)
             if user_obj:
                 room_id = batch_obj.chat_room_id
-                # print("Room Id  : ", room_id)
                 room_obj = Room.objects.filter(id=room_id).first()
                 room_obj.members.add(user_obj.id)
+            else:
+                user, created = User.objects.get_or_create(
+                        email=student_email,
+                        defaults={
+                            'first_name': enquiry.full_name.split()[0] if enquiry.full_name else '',
+                            'last_name': ' '.join(enquiry.full_name.split()[1:]) if len(enquiry.full_name.split()) > 1 else '',
+                            'mobile': enquiry.mobile,
+                            'user_type': 'student',
+                            'is_active': True
+                        }
+                    )
+                user.set_password(str(enquiry.email)+str(enquiry.mobile))
+                user.save()
+                if created:
+                    print(f"New user created: {user.email}")
+                    send_batch_invite_email(request, Courses.objects.get(id=int(enroll_course_list[0])).name, batch_obj.start_date_time, True, [enroll_students.id])  
 
 
 
@@ -532,9 +641,6 @@ def get_batch_recording(request):
 
         composite_list = get_recording_compositeContentId(request,demo_batch.meeting_id,demo_batch.instructors.blue_jeans_user_id)
         recording,total_minute = get_courses_recordings(request,composite_list,demo_batch.instructors.blue_jeans_user_id)
-        # print(composite_list)
-        # print(recording)
-
         ctx['recording']=recording
         ctx['base_url'] = settings.BASE_URL
     return render(request,"batches/batch_recording_list.html",ctx)
@@ -615,13 +721,8 @@ def batch_calender(request):
     ctx['all_date']=all_date
     ctx['today_date']=today_date
     ctx['today']=datetime.date.today()
-    # print(ctx['all_date'])
-
-    # print("------------------------------------------------------")
     user_instructor_obj = Instructors.objects.all()
     ctx['user_instructor']=user_instructor_obj
-    # print(user_instructor_obj)
-
     ctx['instructore']=None
     if instructore_id:
         ctx['instructore']=instructore_id

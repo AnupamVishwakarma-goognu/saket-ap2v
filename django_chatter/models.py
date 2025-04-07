@@ -29,7 +29,7 @@ class Room(DateTimeModel):
         memberset = self.members.all()
         members_list = []
         for member in memberset:
-            members_list.append(member.username)
+            members_list.append(member.first_name)
 
         return ", ".join(members_list)
 

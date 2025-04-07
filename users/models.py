@@ -10,8 +10,7 @@ from anquira_v2 import choices
 class MyUserManager(BaseUserManager):
     def create_user(self, email, password=None):
         """
-        Creates and saves a User with the given email, date of
-        birth and password.
+        Creates and saves a User with the given email and password.
         """
         if not email:
             raise ValueError('Users must have an email address')
@@ -26,8 +25,7 @@ class MyUserManager(BaseUserManager):
 
     def create_superuser(self, email, password=None):
         """
-        Creates and saves a superuser with the given email, date of
-        birth and password.
+        Creates and saves a superuser with the given email and password.
         """
         user = self.create_user(
             email,
@@ -70,9 +68,6 @@ class CustomUserModel(AbstractBaseUser):
     first_name = models.CharField(max_length=50,blank=True)
     last_name = models.CharField(max_length=50,blank=True)
     USERNAME_FIELD = 'email'
-    # @property
-    # def name(self):
-    #     return self.get_full_name()
     def __str__(self):
         return self.email
     
@@ -82,19 +77,13 @@ class CustomUserModel(AbstractBaseUser):
         return True
 
     def has_module_perms(self, app_label):
-        "Does the user have permissions to view the app `app_label`?"
-        # Simplest possible answer: Yes, always
         return True    
 
 class CounselorPreferences(models.Model):
     user = models.ForeignKey(CustomUserModel, on_delete=models.SET_NULL, null=True,limit_choices_to={'user_type':'counselor'})
     last_assigned = models.BooleanField(default=False)
 
-# class StudentPreferences(models.Model):
-#     user = models.ForeignKey(CustomUserModel, on_delete=models.SET_NULL, null=True)
 
-# class InstructorPreferences(models.Model):
-#     user = models.ForeignKey(CustomUserModel, on_delete=models.SET_NULL, null=True)
 
 class PartnerPreferences(models.Model):
     user = models.ForeignKey(CustomUserModel, on_delete=models.SET_NULL, null=True,limit_choices_to={'user_type':'partner'})

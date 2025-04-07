@@ -101,7 +101,7 @@
                                             </div>
                                         </div>
                                         <script>
-                                          var enquiry__id = {{ enquiry.id }}
+                                          var enquiry__id = '{{ enquiry.id }}'
                                         </script>
                                         <button type="submit" class="btn btn-secondary btn-fill"><i class="fas fa-plus mr-1"></i>Add</button>
                                     </form>
@@ -148,7 +148,7 @@
                                                       <a class="dropdown-item" href="#" onclick="EnquireCourseDataUnDiscard('/enquiries/discard_course/{{ data.id }}/');">Un-Discard</a>
                                                     {%else%}
                                                       {% if data.status != 1 %}
-                                                      {% comment %} <a class="dropdown-item" href="#" onclick="enrollFunction('/enrollments/{{ data.id }}/');">Enroll</a> {% endcomment %}
+                                                      
                                                       <a class="dropdown-item" href="#" onclick="EnquireCourseDataDiscard('/enquiries/discard_course/{{ data.id }}/',true);">Discard</a>
                                                       {%endif%}
                                                       
@@ -221,8 +221,8 @@
                                           <div class="col-md-6 pr-l">
                                               <div class="form-group">
                                               <label for="next_followup" class="col-form-label">Next_FollowUp</label>
-					      <!-- Commented temp -->
-                                              <!--<input id="nextFolloup" type="text"  data-date-min-date="{{mindate}}"  {%if maxdate%}data-date-max-date="{{maxdate}}"{%endif%} class="form-control datetime-input" name="next_followup"  required>-->
+					     
+
                                               <input id="nextFolloup" type="text"  data-date-min-date="{{mindate}}" class="form-control datetime-input" name="next_followup"  required>  
                                               </div>
                                             </div>
@@ -260,8 +260,7 @@
                                       <th data-field="city" data-sortable="true">Added By</th>
                                       <th data-field="city" data-sortable="true">Added On</th>
                                       <th data-field="city" data-sortable="true">Completed</th>
-                                      <!--<th data-field="actions" class="td-actions text-right" data-events="operateEvents"
-                                        data-formatter="operateFormatter">Discard</th>-->
+                                      
                                     </thead>
                                     <tbody>
                                       {% for follow in followups %}
@@ -274,11 +273,7 @@
                                         <td>{%if follow.assigned_user %}{{ follow.assigned_user.name }}{%else %}-{%endif%}</td>
 					<td title="{{ follow.added_on }}">{{ follow.added_on|date:"d-M-Y" }}</td>
 					<td>{% if follow.is_complete %} Yes {% else %} No{% endif %}</td>
-                                        <!--<td>
-                                          <input type="checkbox" class="form-check-input mr-3 float-right"
-                                            onchange="discard_followups(event, '{% url 'DiscardFollowupsView' follow.id %}');" {% if follow.discard %}
-                                            checked {% endif %}>
-					</td>-->
+
                                       </tr>
                                       {% endfor %}
                                     </tbody>
@@ -291,12 +286,10 @@
               </div>
             </div>
 
-
-            <!-- End Navbar -->
             <div class="content" style="margin:0; padding:0;">
               <div class="container-fluid">
                   <div class="section-image" data-image="{% static 'assets/img/bg5.jpg' %}" >
-                      <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
+                   
                       <div class="container">
                           <div class="row mt-4">
                               <div class="col-md-12 col-sm-12">
@@ -310,7 +303,7 @@
                                                       <div class="form-group">
                                                           <label>Reference</label>
                                                           <select name="reference" id="reference" class="selectpicker" placeholder="Reference" required>
-                                                          <!-- <input type="text" value="{{ enquiry.reference }}" name="reference" class="form-control" placeholder="Reference" required autofocus> -->
+                                                          
                                                             {% for i in ReferenceModeChoices %}
                                                               <option value="{{ i.1 }}" {% if i.1 == enquiry.reference %} selected {% endif %}>{{ i.1 }}</option>
                                                             {% endfor %}
@@ -449,16 +442,6 @@
                                               
 
                                               <div class="row">
-                                                {% comment %} <div class="col-md-6">
-                                                  <div class="form-group">
-                                                    <label>Branch</label>
-                                                    <select class="selectpicker"  name="branch_location" required>
-                                                      <option value="">Please select</option>
-                                                      <option value="gurgaon" {%if enquiry.branch_location == 'gurgaon'%}selected{%endif%}>Gurgaon</option>
-                                                      <option value="noida"  {%if enquiry.branch_location == 'noida'%}selected{%endif%}>Noida</option>
-                                                    </select>
-                                                    </div>
-                                                </div> {% endcomment %}
                                                 <div class="col-md-6">
                                                   <div class="form-group">
                                                     <label>Source IP</label></br>
@@ -537,7 +520,6 @@
       if (this.checked) {
           var i = $(this).val()
           if ($.inArray(i, enroll_course_ids) > -1){
-              //alert("already added")
           }
           else{
             enroll_course_ids.push(i)
@@ -545,33 +527,27 @@
             $("#enroll_courses_btn").css('background-color', '#447DF7');
             $("#enroll_courses_btn").css('cursor', 'pointer');
           }
-          //alert(enroll_course_ids)
+
       }
     });
 
     function removeStudent(id = 0) {
-      //alert(id)
-      //delete enroll_course_ids_for_email[id]
       enroll_course_ids.splice(id, 1);
       if(enroll_course_ids.length == 0){
           $('#enroll_courses_btn').prop('disabled', true);
           $("#enroll_courses_btn").css('background-color', '#29ABE2');
           $("#enroll_courses_btn").css('cursor', 'no-drop');
       };
-      //alert(enroll_course_ids)
+
     }
 
     function stickyheaddsadaer(obj,id) {
       if($(obj).is(":checked")){
-        //alert("Yes checked"); //when checked
       }
       else{
-        //alert(id); //when not checked
         id_index = enroll_course_ids.indexOf(id)
-        //alert(id_index)
         removeStudent(id_index)
-        //alert("Yes unchecked"); //when unchecked
-        //alert(enroll_course_ids)
+
       }
       
     }

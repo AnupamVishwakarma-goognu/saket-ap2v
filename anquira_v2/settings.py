@@ -54,19 +54,16 @@ INSTALLED_APPS = [
     'feedback',
     'recording_sessions',
     'ap2v_e_store',
+
 ]
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
-AUTHENTICATION_BACKENDS = (
-    'social_core.backends.google.GoogleOAuth2',
-)
+# AUTHENTICATION_BACKENDS = (
+#     'social_core.backends.google.GoogleOAuth2',
+# )
 
 MIDDLEWARE = [
-    'django.middleware.gzip.GZipMiddleware',
-    'htmlmin.middleware.HtmlMinifyMiddleware',
-    'htmlmin.middleware.MarkRequestMiddleware',
-    'anquira_v2.virtualhostmiddleware.VirtualHostMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -75,6 +72,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
+    'django.middleware.gzip.GZipMiddleware',
+    # 'htmlmin.middleware.HtmlMinifyMiddleware',
+    # 'htmlmin.middleware.MarkRequestMiddleware',
+    'anquira_v2.virtualhostmiddleware.VirtualHostMiddleware',
+
 ]
 
 ROOT_URLCONF = 'anquira_v2.ap2v_urls'
@@ -119,14 +121,11 @@ DATABASES = {
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1013330998823-5ucnm08cu6fhqlhog5vonrn8if9q5fob.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'o3gYzCzFOZ2etBuFlCsU1rIs'
 
-LOGIN_REDIRECT_URL = '/'
+# LOGIN_REDIRECT_URL = '/'
 
-# custom model
 AUTH_USER_MODEL = 'users.CustomUserModel'
 
 
-# Password validation
-# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -315,7 +314,7 @@ BASE_URL="http://127.0.0.1:8001"
 BITLY_ACCESS_TOKEN = "fe4d18da594a83d9a2a733f7924605b636b20d64"
 BITLY_GUID = "Bl84eOEAWSY"
 
-DEFAULT_INSTRUCTOR_EMAIL = "ranasaket19110@gmail.com"
+DEFAULT_INSTRUCTOR_EMAIL = "saket@goognu.com"
 
 REPORT_SENT_TO_EMAILS = ['saket@goognu.com']
 

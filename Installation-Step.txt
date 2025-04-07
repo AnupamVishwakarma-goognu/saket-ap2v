@@ -1,0 +1,30 @@
+Installation step: 
+1. Install python 3.12.2
+2. make virtualenv and install requirements.txt
+
+3. comment line 
+enquiries > views.py:
+	class CoursesContentSendView
+		to 
+	class AccountDetailSendView complete
+	then install
+
+
+4. python manage.py makemigrations activity ap2v_courses ap2v_e_store batches blogs bluejeans chats classroom communication core courses demo enquiries enrolls events feedback followups gallery home instructors landing_page learning_paths payment promotions recording_sessions reporting seo 
+sitemaps django_chatter testimonials users website
+
+
+5. python manage.py migrate
+6. python manage.py createsuperuser
+7. Uncomment step 3.
+8. Add the following data in manage-admin: 
+	1. Add Course
+	2. Add Instructor
+	3. Add Enquiry
+	4. Add PaymentMethod
+	5. Add batch
+	5. Add Student response(for followup)
+
+
+Note: 
+	To Add Student -> First Create an Enquiry -> Enroll -> add to batch

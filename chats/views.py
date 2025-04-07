@@ -59,10 +59,8 @@ def create_room_api(request,room_emails):
             x.save()
     if room_emails:
         room_id = create_chat_room(request,room_emails)
-        # print(room_id)
+        print("Room Id in create_room_api: ",room_id)
         data['room_id'] =room_id
-        # data['url'] = reverse('django_chatter:chatroom', kwargs={'uuid': room_id})
-        #return redirect(reverse('django_chatter:chatroom', kwargs={'uuid': room_id}))
 
     return data
 

@@ -23,8 +23,6 @@ urlpatterns = [
     path('logs/',include('core.urls')),
 
     path('ckeditor',include('ckeditor_uploader.urls')),
-    
-
     path('', include('users.urls')),
     path('recording_sessions/',include('recording_sessions.urls')),
 

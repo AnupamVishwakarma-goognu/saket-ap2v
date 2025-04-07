@@ -52,16 +52,6 @@ def instructor(request):
                 log_activity(request,action=choices.Action.add_instructor, action_detail=choices.ActionDetails.add_instructor,id=created_instructor.id)
             except Exception as e:
                 print(e)
-            
-            # blue_jeans_user_id = create_user_instructor(request,full_name,created_instructor.id)
-            # pass_code,json_data = activate_user_room(request,blue_jeans_user_id)
-            
-            # Instructors.objects.filter(id=created_instructor.id).update(
-            #     blue_jeans_user_id=blue_jeans_user_id,blue_jeans_passcode=pass_code,user_room_json=json_data
-            # )
-
-            
-            #----- create instructore user account in user table --------
             password_length = 5
             x = User(
                 first_name = full_name,
